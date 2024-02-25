@@ -1,0 +1,64 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: home-dashboard
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: homarr-pvc
+  namespace: home-dashboard
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: homarr-service
+  namespace: home-dashboard
+spec:
+  selector:
+    app: homarr
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 7575
+  type: LoadBalancer
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: homarr
+  namespace: home-dashboard
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: homarr
+  template:
+    metadata:
+      labels:
+        app: homarr
+    spec:
+      containers:
+      - name: homarr
+        image: ghcr.io/ajnart/homarr:latest
+        imagePullPolicy: Always
+        resources: {}
+        ports:
+        - containerPort: 7575
+        volumeMounts:
+        - mountPath: /data
+          name: homarr-storage
+      volumes:
+      - name: homarr-storage
+        persistentVolumeClaim:
+          claimName: homarr-pvc
+      priorityClassName: high-priority

@@ -25,6 +25,7 @@ spec:
         - name: pihole
           resources: {}
           image: pihole/pihole:latest
+          imagepullPolicy: Always
           env:
             - name: TZ
               value: "Europe/Dublin"

@@ -24,7 +24,7 @@ spec:
       containers:
         - name: pihole
           resources: {}
-          image: pihole/pihole:latest
+          image: pihole/pihole:2024.02.0
           imagepullPolicy: Always
           env:
             - name: TZ

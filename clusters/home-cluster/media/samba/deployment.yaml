@@ -35,9 +35,9 @@ spec:
           value: "share;/mount;yes;no;no;all;none"
         - name: USER
           valueFrom:
-              secretKeyRef:
-                name: samba-secret
-                key: secret
+            secretKeyRef:
+              name: samba-secret
+              key: secret
         - name: NMBD
           value: "y"
         volumeMounts:

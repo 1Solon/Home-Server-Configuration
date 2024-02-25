@@ -8,6 +8,6 @@ spec:
     app: homarr
   ports:
     - protocol: TCP
-      port: 90
+      port: 80
       targetPort: 7575
   type: LoadBalancer

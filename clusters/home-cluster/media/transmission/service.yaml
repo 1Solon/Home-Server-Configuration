@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: transmission-service
+  namespace: home-samba
+spec:
+  selector:
+    app: transmission
+  type: LoadBalancer
+  ports:
+    - name: webui
+      protocol: TCP
+      port: 9091
+      targetPort: 9091
+    - name: torrent-tcp
+      protocol: TCP
+      port: 51413
+      targetPort: 51413
+    - name: torrent-udp
+      protocol: UDP
+      port: 51413
+      targetPort: 51413

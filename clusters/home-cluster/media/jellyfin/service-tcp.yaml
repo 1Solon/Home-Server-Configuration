@@ -1,0 +1,21 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: jellyfin-tcp
+  namespace: home-samba
+  annotations:
+    metallb.universe.tf/allow-shared-ip: jellyfin
+spec:
+  selector:
+    app: jellyfin
+  ports:
+    - port: 8096
+      targetPort: 8096
+      name: http-tcp
+      protocol: TCP
+    - port: 8920
+      targetPort: 8920
+      name: https-tcp
+  type: LoadBalancer
+  loadBalancerIP: 192.168.1.157
+  sessionAffinity: ClientIP

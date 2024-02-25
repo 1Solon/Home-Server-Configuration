@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: radarr
+  namespace: home-samba
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: radarr
+  template:
+    metadata:
+      labels:
+        app: radarr
+    spec:
+      containers:
+      - name: radarr
+        image: lscr.io/linuxserver/radarr:develop
+        imagePullPolicy: Always
+        resources: {}
+        env:
+        - name: PUID
+          value: "1000"
+        - name: PGID
+          value: "1000"
+        - name: TZ
+          value: "Europe/Dublin"
+        - name: POSTGRES_HOST
+          value: "postgres-service"
+        volumeMounts:
+        - name: samba-config
+          mountPath: /config
+        - name: radarr-downloads
+          mountPath: /downloads
+      volumes:
+      - name: samba-config
+        persistentVolumeClaim:
+          claimName: radarr-config
+      - name: radarr-downloads
+        persistentVolumeClaim:
+          claimName: samba-pvc

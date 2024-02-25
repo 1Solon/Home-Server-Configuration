@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sonarr
+  namespace: home-samba
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sonarr
+  template:
+    metadata:
+      labels:
+        app: sonarr
+    spec:
+      containers:
+      - name: sonarr
+        image: lscr.io/linuxserver/sonarr:develop
+        imagePullPolicy: Always
+        resources: {}
+        env:
+        - name: PUID
+          value: "1000"
+        - name: PGID
+          value: "1000"
+        - name: TZ
+          value: "Europe/Dublin"
+        - name: POSTGRES_HOST
+          value: "postgres-service"
+        volumeMounts:
+        - name: samba-config
+          mountPath: /config
+        - name: sonarr-service
+          mountPath: /downloads
+      volumes:
+      - name: samba-config
+        persistentVolumeClaim:
+          claimName: sonarr-config
+      - name: sonarr-service
+        persistentVolumeClaim:
+          claimName: samba-pvc

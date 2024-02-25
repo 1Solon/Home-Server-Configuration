@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: prowlarr-service
+  namespace: home-samba
+spec:
+  type: LoadBalancer
+  selector:
+    app: prowlarr
+  ports:
+    - protocol: TCP
+      port: 9696
+      targetPort: 9696

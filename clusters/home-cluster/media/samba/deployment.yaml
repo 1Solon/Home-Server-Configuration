@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: samba-server
+  namespace: home-samba
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: samba-server
+  template:
+    metadata:
+      labels:
+        app: samba-server
+    spec:
+      containers:
+      - name: samba
+        image: dperson/samba
+        command: ["/bin/sh"]
+        args: ["-c", "samba.sh -n"]
+        resources: {}
+        ports:
+        - containerPort: 137
+          protocol: UDP
+        - containerPort: 138
+          protocol: UDP
+        - containerPort: 139
+        - containerPort: 445
+        env:
+        - name: USERID
+          value: "1000"
+        - name: GROUPID
+          value: "1000"
+        - name: SHARE
+          value: "share;/mount;yes;no;no;all;none"
+        - name: USER
+          valueFrom:
+              secretKeyRef:
+                name: samba-secret
+                key: secret
+        - name: NMBD
+          value: "y"
+        volumeMounts:
+        - name: samba-storage
+          mountPath: /mount
+      volumes:
+      - name: samba-storage
+        persistentVolumeClaim:
+          claimName: samba-pvc

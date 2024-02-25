@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: notifiarr-service
+  namespace: home-samba
+spec:
+  selector:
+    app: notifiarr
+  ports:
+    - protocol: TCP
+      port: 5454
+      targetPort: 5454
+  type: LoadBalancer

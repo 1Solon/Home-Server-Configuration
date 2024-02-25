@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: prowlarr
+  namespace: home-samba
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: prowlarr
+  template:
+    metadata:
+      labels:
+        app: prowlarr
+    spec:
+      containers:
+      - name: prowlarr
+        image: lscr.io/linuxserver/prowlarr:develop
+        imagePullPolicy: Always
+        resources: {}
+        env:
+        - name: PUID
+          value: "1000"
+        - name: PGID
+          value: "1000"
+        - name: TZ
+          value: "Europe/Dublin"
+        volumeMounts:
+        - name: prowlarr-storage
+          mountPath: /config
+      volumes:
+      - name: prowlarr-storage
+        persistentVolumeClaim:
+          claimName: prowlarr-config

@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jellyseerr-deployment
+  namespace: home-samba
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jellyseerr
+  template:
+    metadata:
+      labels:
+        app: jellyseerr
+    spec:
+      containers:
+        - name: jellyseerr
+          image: fallenbagel/jellyseerr:latest
+          imagePullPolicy: Always
+          resources: {}
+          env:
+            - name: TZ
+              value: Dublin/Europe
+          ports:
+            - containerPort: 5055
+          volumeMounts:
+            - name: appdata
+              mountPath: /app/config
+      volumes:
+        - name: appdata
+          persistentVolumeClaim:
+            claimName: jellyseerr-pvc

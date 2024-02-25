@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: transmission
+  namespace: home-samba
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: transmission
+  template:
+    metadata:
+      labels:
+        app: transmission
+    spec:
+      containers:
+        - name: transmission
+          image: lscr.io/linuxserver/transmission:latest
+          imagePullPolicy: Always
+          resources: {}
+          env:
+            - name: PUID
+              value: "1000"
+            - name: PGID
+              value: "1000"
+            - name: TZ
+              value: "Etc/UTC"
+          ports:
+            - containerPort: 9091
+            - containerPort: 51413
+            - containerPort: 51413
+              protocol: UDP
+          volumeMounts:
+            - name: torrent-config
+              mountPath: /config
+            - name: samba-volume
+              mountPath: /downloads
+              subPath: downloads
+            - name: samba-volume
+              mountPath: /watch
+              subPath: watch
+      volumes:
+        - name: samba-volume
+          persistentVolumeClaim:
+            claimName: samba-pvc
+        - name: torrent-config
+          persistentVolumeClaim:
+            claimName: torrent-config

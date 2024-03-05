@@ -10,17 +10,17 @@ I'm making use of [flux](https://fluxcd.io/) which is a pretty cool tool that al
 
 This server largely runs a bunch of home-media stuff, pihole, torrent and a few other bits and pieces. I'll try to keep this list updated as I add more stuff.
 
-- [Homarr](https://homarr.dev/) [Deployment](./clusters/home-cluster/dashboard/) - A dashboard for my services.
-- [Jellyfin](https://jellyfin.org/) [Deployment](./clusters/home-cluster/media/jellyfin/) - A media server.
-- [Postgres](https://www.postgresql.org/) [Deployment](./clusters/home-cluster/media/postgres/) - A database for my media services, Radarr and Sonarr don't work well natively on clusters.
-- [Jellyseer](https://github.com/Fallenbagel/jellyseerr) [Deployment](./clusters/home-cluster/media/jellyseer/) - A request system for Jellyfin.
-- [Notifarr](https://github.com/Notifiarr) [Deployment](./clusters/home-cluster/media/notifarr/) - A cluster notification system.
-- [Prowlarr](https://prowlarr.com/) [Deployment](./clusters/home-cluster/media/prowlarr/) - A manager for torrent indexers.
-- [Radarr](https://radarr.video/) [Deployment](./clusters/home-cluster/media/radarr/) - A movie request system.
-- [Sonarr](https://sonarr.tv/) [Deployment](./clusters/home-cluster/media/sonarr/) - A TV request system.
-- [Transmission](https://transmissionbt.com/) [Deployment](./clusters/home-cluster/media/transmission/) - A torrent client.
-- [Samba](https://github.com/dperson/samba) [Deployment](./clusters/home-cluster/media/samba/) - A file server.
-- [Pihole](https://pi-hole.net/) [Deployment](./clusters/home-cluster/network/pihole/) - A network wide ad blocker and DNS server.
+- [Homarr](https://homarr.dev/) - A dashboard for my services. - [Deployment](./clusters/home-cluster/dashboard/) 
+- [Jellyfin](https://jellyfin.org/) - A media server. - [Deployment](./clusters/home-cluster/media/jellyfin/)
+- [Postgres](https://www.postgresql.org/)- A database for my media services, Radarr and Sonarr don't work well natively on clusters. - [Deployment](./clusters/home-cluster/media/postgres/)
+- [Jellyseer](https://github.com/Fallenbagel/jellyseerr) - A request system for Jellyfin. - [Deployment](./clusters/home-cluster/media/jellyseer/)
+- [Notifarr](https://github.com/Notifiarr) - A cluster notification system. - [Deployment](./clusters/home-cluster/media/notifarr/)
+- [Prowlarr](https://prowlarr.com/) - A manager for torrent indexers. - [Deployment](./clusters/home-cluster/media/prowlarr/)
+- [Radarr](https://radarr.video/) - A movie request system. - [Deployment](./clusters/home-cluster/media/radarr/)
+- [Sonarr](https://sonarr.tv/) - A TV request system. - [Deployment](./clusters/home-cluster/media/sonarr/)
+- [Transmission](https://transmissionbt.com/) - A torrent client. - [Deployment](./clusters/home-cluster/media/transmission/)
+- [Samba](https://github.com/dperson/samba) - A file server. - [Deployment](./clusters/home-cluster/media/samba/)
+- [Pihole](https://pi-hole.net/) - A network wide ad blocker and DNS server. - [Deployment](./clusters/home-cluster/network/pihole/)
 
 ## What is my cluster made from?
 

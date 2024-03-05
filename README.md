@@ -30,4 +30,4 @@ In it's slots, I'm also running four 16gb [Turing RK1](https://turingpi.com/prod
 
 ## Questions?
 
-If you've any questions, or want to pick my brain about this cluster, feel free to contact me on discord at 1Solon, or open an issue on the GitHub.
+If you've any questions, or want to pick my brain about this cluster, feel free to contact me on discord at [1Solon](https://discordapp.com/users/448210429119037450), or open an issue on the GitHub.

@@ -5,6 +5,7 @@ metadata:
   namespace: home-samba
 spec:
   replicas: 1
+  strategyType: Recreate
   selector:
     matchLabels:
       app: transmission
@@ -15,7 +16,7 @@ spec:
     spec:
       containers:
         - name: transmission
-          image: lscr.io/linuxserver/transmission:latest
+          image: ghcr.io/linuxserver/transmission:arm64v8-4.0.5
           imagePullPolicy: Always
           resources: {}
           env:

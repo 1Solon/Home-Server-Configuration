@@ -5,6 +5,7 @@ metadata:
   namespace: home-dashboard
 spec:
   replicas: 1
+  StrategyType: Recreate
   selector:
     matchLabels:
       app: homarr
@@ -17,8 +18,6 @@ spec:
       - name: homarr
         image: ghcr.io/ajnart/homarr:0.15.0
         imagePullPolicy: Always
-        strategy:
-          type: Recreate
         resources: {}
         ports:
         - containerPort: 7575

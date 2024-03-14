@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: samba
-          image: dperson/samba
+          image: dperson/samba:latest@sha256:4cb487986c024c4b42c7900b03ee5cc051d66ba57ec687c9f393e64a54cac3e3
           command: ["/bin/sh"]
           args: ["-c", "samba.sh -n"]
           resources: {}

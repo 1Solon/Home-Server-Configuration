@@ -4,7 +4,7 @@
   ],
 
   "schedule": "before 9am on the first day of the week",
-  "timezone": "Dublin/Ireland",
+  "timezone": "Europe/Dublin",
   "vulnerabilityAlerts": {
     "labels": ["security"],
     "schedule": "at any time"

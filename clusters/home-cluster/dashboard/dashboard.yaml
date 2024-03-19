@@ -5,12 +5,11 @@ metadata:
   namespace: home-dashboard
 spec:
   replicas: 1
-  StrategyType: Recreate
+  strategy: 
+    type: Recreate
   selector:
     matchLabels:
       app: homarr
-  strategy:
-    type: Recreate
   template:
     metadata:
       labels:

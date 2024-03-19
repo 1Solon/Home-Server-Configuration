@@ -1,24 +1,9 @@
 {
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "config:base"
+    "config:recommended"
   ],
-
-  "schedule": "before 9am on the first day of the week",
-  "timezone": "Europe/Dublin",
-  "vulnerabilityAlerts": {
-    "labels": ["security"],
-    "schedule": "at any time"
-  },
-  "ignoreUnstable": true,
-  "stabilityDays": 7,
-  "packageRules": [
-    {
-      "datasources": ["docker"],
-      "updateTypes": ["major"],
-      "enabled": true
-    }
-  ],
-  "docker": {
-    "pinDigests": true
+  "kubernetes": {
+    "fileMatch": ["\\.yaml$"]
   }
 }

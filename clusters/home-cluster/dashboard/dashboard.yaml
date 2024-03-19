@@ -22,6 +22,10 @@ spec:
         ports:
         - containerPort: 7575
         volumeMounts:
+        - mountPath: /app/data/configs
+          name: homarr-storage
+        - mountPath: /app/public/icons
+          name: homarr-storage
         - mountPath: /data
           name: homarr-storage
       volumes:

@@ -21,3 +21,6 @@ spec:
       usernameFromSecret: true
       passwordKey: password
       existingSecret: ansible-secret
+    postgres:
+      options: 
+        sslmode: "disable"

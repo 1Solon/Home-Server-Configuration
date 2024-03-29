@@ -1,0 +1,9 @@
+apiVersion: source.toolkit.fluxcd.io/v1beta1
+kind: HelmRepository
+namespace: ansible
+metadata:
+  name: cloudhippie-ansible-semaphore
+  namespace: ansible
+spec:
+  interval: 1m
+  url: "https://helm.cloudhippie.de"

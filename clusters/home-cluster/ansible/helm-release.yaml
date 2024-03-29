@@ -14,13 +14,10 @@ spec:
         name: cloudhippie-ansible-semaphore
         namespace: ansible
   values:
-    database:
-      type: postgres
-      host: postgres-service.home-samba.svc.cluster.local
-      port: 5432
-      usernameFromSecret: true
-      passwordKey: password
-      existingSecret: ansible-secret
-    postgres:
-      options: 
-        sslmode: "disable"
+  postgresql:
+    enabled: true
+    auth:
+      password:
+        secretKeyRef:
+          name: ansible-secret
+          key: password

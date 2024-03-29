@@ -1,8 +1,0 @@
-apiVersion: source.toolkit.fluxcd.io/v1beta1
-kind: HelmRepository
-metadata:
-  name: cloudhippie-ansible-semaphore
-  namespace: ansible
-spec:
-  interval: 1m
-  url: "https://cloudhippie.github.io/charts"

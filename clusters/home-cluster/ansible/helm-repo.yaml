@@ -5,4 +5,4 @@ metadata:
   namespace: ansible
 spec:
   interval: 1m
-  url: "https://helm.cloudhippie.de"
+  url: "https://cloudhippie.github.io/charts"

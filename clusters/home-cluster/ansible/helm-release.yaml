@@ -17,4 +17,7 @@ spec:
     postgresql:
       enabled: true
       auth:
-        password: p455w0rd
+        password:
+          secretKeyRef:
+            name: ansible-secret
+            key: password

@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: ansible-service
+  namespace: ansible 
+spec:
+  type: LoadBalancer
+  selector:
+    app: ansible-semaphore 
+  ports:
+    - protocol: TCP
+      port: 80 
+      targetPort: 3000 

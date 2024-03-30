@@ -24,7 +24,7 @@ This server largely runs a bunch of home-media stuff, pihole, torrent and a few 
 
 ## What is my cluster made from?
 
-I'm using a [Turing Pi 2](https://turingpi.com/product/turing-pi-2/) as the main board of my cluster. If you're interested in making a Kubernetes homelab, I'd highly recommend it.
+I'm using a [Turing Pi 2](https://turingpi.com/product/turing-pi-2/) as the main board of my cluster.
 
 In it's slots, I'm also running four 16gb [Turing RK1](https://turingpi.com/product/turing-rk1/)'s.
 

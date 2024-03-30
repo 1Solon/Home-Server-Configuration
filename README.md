@@ -6,6 +6,10 @@ This is a collection of config and deployments for my home kubernetes cluster, t
 
 I'm making use of [flux](https://fluxcd.io/) which is a pretty cool tool that allows you to sync your git repo with your kubernetes cluster. If you have a cluster, and are interested in GitOps, I'd highly recommend checking it out.
 
+## How do I keep my secrets secure?
+
+Flux supports [SOPS](https://github.com/getsops/sops) in particular [AGE](https://github.com/FiloSottile/age), you can encrypt your secrets locally with `age` and then flux will decrypt them when it applies the manifests. It's amazing that it works so well. 
+
 ## What's in here?
 
 This server largely runs a bunch of home-media stuff, pihole, torrent and a few other bits and pieces. I'll try to keep this list updated as I add more stuff.

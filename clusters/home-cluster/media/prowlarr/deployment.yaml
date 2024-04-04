@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: prowlarr
-        image: ghcr.io/linuxserver/prowlarr:develop-1.14.1.4316-ls158
+        image: ghcr.io/linuxserver/prowlarr:develop@ddf490928ed34140e0e82bdee5c5863b3c0c41d22b6214aa14b9c21f1c0ff9b5
         imagePullPolicy: Always
         resources: {}
         env:

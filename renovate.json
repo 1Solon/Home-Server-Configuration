@@ -2,12 +2,5 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": ["config:recommended"],
   "kubernetes": { "fileMatch": ["\\.yaml$"] },
-  "schedule": ["at any time"],
-  "regexManagers": [
-    {
-      "fileMatch": ["^clusters/home-cluster/.*\\.yaml$"],
-      "matchStrings": ["image:\\s+ghcr.io/linuxserver/(?<depName>\\w+):(?<currentValue>\\S+)"],
-      "datasourceTemplate": "docker"
-    }
-  ]
+  "schedule": ["at any time"]
 }

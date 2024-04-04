@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: notifiarr
-          image: golift/notifiarr:0.7.0
+          image: golift/notifiarr:latest@sha256:5978e9c0dbdacfc5ba6db840aac7a21f6ab7a325122970dd19b294ec91032ffa
           imagePullPolicy: Always
           resources: {}
           ports:

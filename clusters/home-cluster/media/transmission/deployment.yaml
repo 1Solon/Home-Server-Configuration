@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: transmission
-          image: ghcr.io/linuxserver/transmission:latest@sha256:961d37559bf12aa0820137a7575419ba450b7211a2318d90cf4a351877f738a5
+          image: ghcr.io/linuxserver/transmission:4.0.4
           imagePullPolicy: Always
           resources: {}
           env:

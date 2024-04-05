@@ -8,7 +8,7 @@
       "description": ["Loose versioning for non-semver packages"],
       "matchDatasources": ["docker"],
       "versioning": "loose",
-      "matchPackagePatterns": ["transmission"]
+      "matchPackagePatterns": [""]
     }
   ]
 }

@@ -2,5 +2,11 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": ["config:recommended"],
   "kubernetes": { "fileMatch": ["\\.yaml$"] },
-  "schedule": ["at any time"]
+  "schedule": ["at any time"],
+  "packageRules": [
+    {
+      "matchDatasources": ["docker"],
+      "versioning": "loose"
+    }
+  ]
 }

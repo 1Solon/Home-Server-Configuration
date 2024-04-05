@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: transmission
-          image: ghcr.io/linuxserver/transmission:4.0.4
+          image: ghcr.io/linuxserver/transmission:2021.11.18
           imagePullPolicy: Always
           resources: {}
           env:

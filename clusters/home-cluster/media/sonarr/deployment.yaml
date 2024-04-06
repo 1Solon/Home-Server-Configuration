@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: sonarr
-        image: ghcr.io/linuxserver/sonarr:develop@sha256:8e6e4b3be32a33a2bbb95bf9df2afc7b5009e996bb18253b5f78b9abe19ccd80
+        image: ghcr.io/linuxserver/sonarr:develop@sha256:df411a544d547566940b1ddc56d01529d219653af4a3b2e35f5b59de66a01d5b
         imagePullPolicy: Always
         resources: {}
         env:

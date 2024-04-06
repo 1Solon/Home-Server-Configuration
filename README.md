@@ -25,6 +25,7 @@ This server largely runs a bunch of home-media stuff, pihole, torrent and a few 
 - [Transmission](https://transmissionbt.com/) - A torrent client.
 - [Samba](https://github.com/dperson/samba) - A file server.
 - [Pihole](https://pi-hole.net/) - A network wide ad blocker and DNS server.
+- [Swaparr](https://github.com/ThijmenGThN/swaparr) - Automatically kills stalled torrents.
 
 ## What is my cluster made from?
 

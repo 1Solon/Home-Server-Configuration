@@ -5,10 +5,17 @@
   "schedule": ["at any time"],
   "prHourlyLimit": 0,
   "prConcurrentLimit": 0,
+  "digest": {
+    "enabled": false
+  },
   "packageRules": [
     {
       "matchDatasources": ["docker"],
       "versioning": "docker"
+    },
+    {
+      "matchPackageNames": ["postgres"],
+      "allowedUpdateTypes": ["minor", "patch"]
     }
   ]
 }

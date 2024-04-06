@@ -6,7 +6,7 @@
   "packageRules": [
     {
       "matchDatasources": ["docker"],
-      "versioning": "loose"
+      "versioning": "docker"
     }
   ]
 }

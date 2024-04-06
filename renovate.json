@@ -5,9 +5,6 @@
   "schedule": ["at any time"],
   "prHourlyLimit": 0,
   "prConcurrentLimit": 0,
-  "digest": {
-    "enabled": false
-  },
   "packageRules": [
     {
       "description": "Docker images usually have miserable naming schemes",

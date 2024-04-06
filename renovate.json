@@ -22,7 +22,7 @@
     },
     {
       "description": "Seemingly, in the past, Jellyfin used a year-month-day tagging scheme. This prevents that",
-      "packageNames": ["jellyfin"],
+      "packagePatterns": ["^ghcr\\.io/linuxserver/jellyfin$"],
       "allowedVersions": "<2000"
     }
   ]

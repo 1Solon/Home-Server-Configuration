@@ -14,8 +14,9 @@
       "versioning": "docker"
     },
     {
-      "matchPackageNames": ["postgres"],
-      "allowedUpdateTypes": ["minor", "patch"]
+      "packageNames": ["postgres"],
+      "updateTypes": ["major"],
+      "enabled": false
     }
   ]
 }

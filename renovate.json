@@ -9,6 +9,10 @@
     {
       "matchDatasources": ["docker"],
       "versioning": "docker"
+    },
+    {
+      "matchPackageNames": ["postgres"],
+      "allowedUpdateTypes": ["minor", "patch"]
     }
   ]
 }

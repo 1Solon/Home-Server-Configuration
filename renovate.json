@@ -3,6 +3,8 @@
   "extends": ["config:recommended"],
   "kubernetes": { "fileMatch": ["\\.yaml$"] },
   "schedule": ["at any time"],
+  "prHourlyLimit": 0,
+  "prConcurrentLimit": 0,
   "packageRules": [
     {
       "matchDatasources": ["docker"],

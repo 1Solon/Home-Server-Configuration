@@ -10,13 +10,20 @@
   },
   "packageRules": [
     {
+      "description": "Docker images usually have miserable naming schemes",
       "matchDatasources": ["docker"],
       "versioning": "docker"
     },
     {
+      "description": "Postgres major updates are disabled, mainly because Starr apps ONLY support 14 :<",
       "packageNames": ["postgres"],
       "updateTypes": ["major"],
       "enabled": false
+    },
+    {
+      "description": "Seemingly, in the past, Jellyfin used a year-month-day tagging scheme. This prevents that",
+      "packageNames": ["jellyfin"],
+      "allowedVersions": "<2000"
     }
   ]
 }

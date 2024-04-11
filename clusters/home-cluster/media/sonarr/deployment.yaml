@@ -14,29 +14,42 @@ spec:
       labels:
         app: sonarr
     spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 65534
+        runAsGroup: 65534
+        fsGroup: 65534
+        fsGroupChangePolicy: OnRootMismatch
       containers:
-      - name: sonarr
-        image: ghcr.io/linuxserver/sonarr:4.0.3-develop
-        imagePullPolicy: Always
-        resources: {}
-        env:
-        - name: PUID
-          value: "1000"
-        - name: PGID
-          value: "1000"
-        - name: TZ
-          value: "Europe/Dublin"
-        - name: POSTGRES_HOST
-          value: "postgres-service"
-        volumeMounts:
-        - name: samba-config
-          mountPath: /config
-        - name: sonarr-service
-          mountPath: /downloads
+        - name: sonarr
+          image: ghcr.io/onedr0p/sonarr-develop:4.0.2
+          imagePullPolicy: Always
+          resources: {}
+          volumeMounts:
+            - name: samba-config
+              mountPath: /config
+            - name: sonarr-service
+              mountPath: /downloads
+          args:
+            - /entrypoint.sh
+            - SONARR__POSTGRES_HOST
+            - "postgres-service.home-samba.svc.cluster.local"
+            - SONARR__POSTGRES_MAIN_DB
+            - "sonarr-main"
+            - SONARR__POSTGRES_LOG_DB
+            - "sonarr-logs"
+            - SONARR__POSTGRES_USER
+            - "qstick"
+            - SONARR__POSTGRES_PASSWORD
+            - "qstick"
+          env:
+            - name: TZ
+              value: "Europe/Dublin"
+
       volumes:
-      - name: samba-config
-        persistentVolumeClaim:
-          claimName: sonarr-config
-      - name: sonarr-service
-        persistentVolumeClaim:
-          claimName: samba-pvc
+        - name: samba-config
+          persistentVolumeClaim:
+            claimName: sonarr-config
+        - name: sonarr-service
+          persistentVolumeClaim:
+            claimName: samba-pvc

@@ -14,21 +14,30 @@ spec:
         app: prowlarr
     spec:
       containers:
-      - name: prowlarr
-        image: ghcr.io/linuxserver/prowlarr:1.15.0-develop
-        imagePullPolicy: Always
-        resources: {}
-        env:
-        - name: PUID
-          value: "1000"
-        - name: PGID
-          value: "1000"
-        - name: TZ
-          value: "Europe/Dublin"
-        volumeMounts:
-        - name: prowlarr-storage
-          mountPath: /config
+        - name: prowlarr
+          image: ghcr.io/linuxserver/prowlarr:1.15.0-develop
+          imagePullPolicy: Always
+          resources: {}
+          failureThreshold: 1
+          initialDelaySeconds: 3600
+          periodSeconds: 60
+          env:
+            - name: PUID
+              value: "1000"
+            - name: PGID
+              value: "1000"
+            - name: TZ
+              value: "Europe/Dublin"
+          volumeMounts:
+            - name: prowlarr-storage
+              mountPath: /config
+      livenessProbe:
+        exec:
+          command:
+            - bin/sh
+            - -c
+            - "end=$(date -u +%s);start=$(stat -c %Z /proc/1 | awk '{print int($1)}'); test $(($end-$start)) -lt 86400"
       volumes:
-      - name: prowlarr-storage
-        persistentVolumeClaim:
-          claimName: prowlarr-config
+        - name: prowlarr-storage
+          persistentVolumeClaim:
+            claimName: prowlarr-config

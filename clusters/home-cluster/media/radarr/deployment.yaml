@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: radarr
-        image: ghcr.io/linuxserver/radarr:5.4.4-develop
+        image: ghcr.io/onedr0p/radarr-develop:5.4.4
         imagePullPolicy: Always
         resources: {}
         env:

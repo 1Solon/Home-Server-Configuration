@@ -13,24 +13,38 @@ spec:
       labels:
         app: prowlarr
     spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
       containers:
         - name: prowlarr
-          image: ghcr.io/linuxserver/prowlarr:1.15.0-develop
+          image: ghcr.io/onedr0p/prowlarr-develop:1.14.3
           imagePullPolicy: Always
           resources: {}
           failureThreshold: 1
           initialDelaySeconds: 3600
           periodSeconds: 60
-          env:
-            - name: PUID
-              value: "1000"
-            - name: PGID
-              value: "1000"
-            - name: TZ
-              value: "Europe/Dublin"
           volumeMounts:
             - name: prowlarr-storage
               mountPath: /config
+          args:
+            - /entrypoint.sh
+            - PROWLARR__POSTGRES_HOST
+            - "postgres-service.home-samba.svc.cluster.local"
+            - PROWLARR__POSTGRES_MAIN_DB
+            - "prowlarr-main"
+            - PROWLARR__POSTGRES_LOG_DB
+            - "prowlarr-logs"
+            - PROWLARR__POSTGRES_USER
+            - "qstick"
+            - PROWLARR__POSTGRES_PASSWORD
+            - "qstick"
+          env:
+            - name: TZ
+              value: "Europe/Dublin"
       livenessProbe:
         exec:
           command:

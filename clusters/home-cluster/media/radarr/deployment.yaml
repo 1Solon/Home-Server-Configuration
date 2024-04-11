@@ -22,7 +22,7 @@ spec:
 
       containers:
         - name: radarr
-          image: ghcr.io/onedr0p/radarr-develop:5.4.4
+          image: ghcr.io/onedr0p/radarr-develop:5.4.5
           imagePullPolicy: Always
           resources: {}
           volumeMounts:

@@ -13,31 +13,40 @@ spec:
       labels:
         app: radarr
     spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 65534
+        runAsGroup: 65534
+        fsGroup: 65534
+        fsGroupChangePolicy: OnRootMismatch
+
       containers:
-      - name: radarr
-        image: ghcr.io/onedr0p/radarr-develop:5.4.4
-        imagePullPolicy: Always
-        resources: {}
-        env:
-        - name: TZ
-          value: "Europe/Dublin"
-        - name: POSTGRES_HOST
-          value: "postgres-service"
-        volumeMounts:
-        - name: samba-config
-          mountPath: /config
-        - name: radarr-downloads
-          mountPath: /downloads
-        securityContext:
-          runAsNonRoot: true
-          runAsUser: 65534
-          runAsGroup: 65534
-          fsGroup: 65534
-          fsGroupChangePolicy: OnRootMismatch
+        - name: radarr
+          image: ghcr.io/onedr0p/radarr-develop:5.4.4
+          imagePullPolicy: Always
+          resources: {}
+          volumeMounts:
+            - name: samba-config
+              mountPath: /config
+            - name: radarr-downloads
+              mountPath: /downloads
+          args:
+            - /entrypoint.sh
+            - RADARR__POSTGRES_HOST
+            - "postgres-service.home-samba.svc.cluster.local"
+            - RADARR__POSTGRES_MAIN_DB
+            - "radarr-main"
+            - RADARR__POSTGRES_LOG_DB
+            - "radarr-logs"
+            - RADARR__POSTGRES_USER
+            - "qstick"
+            - RADARR__POSTGRES_PASSWORD
+            - "qstick"
+
       volumes:
-      - name: samba-config
-        persistentVolumeClaim:
-          claimName: radarr-config
-      - name: radarr-downloads
-        persistentVolumeClaim:
-          claimName: samba-pvc
+        - name: samba-config
+          persistentVolumeClaim:
+            claimName: radarr-config
+        - name: radarr-downloads
+          persistentVolumeClaim:
+            claimName: samba-pvc

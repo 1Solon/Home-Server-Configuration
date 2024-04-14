@@ -48,7 +48,7 @@ spec:
       livenessProbe:
         exec:
           command:
-            - bin/sh
+            - bash
             - -c
             - "end=$(date -u +%s);start=$(stat -c %Z /proc/1 | awk '{print int($1)}'); test $(($end-$start)) -lt 86400"
       volumes:

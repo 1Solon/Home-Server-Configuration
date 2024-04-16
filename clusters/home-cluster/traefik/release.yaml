@@ -14,6 +14,6 @@ spec:
         name: traefik
         namespace: traefik
       interval: 1m
-    valuesFrom:
-      - kind: Secret
-        name: traefik-values
+      valuesFrom:
+        - kind: Secret
+          name: traefik-values

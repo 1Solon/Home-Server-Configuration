@@ -5,15 +5,15 @@ metadata:
   namespace: traefik
 spec:
   interval: 1m
+  releaseName: traefik
   chart:
     spec:
       chart: traefik
       version: "27.0.02"
       sourceRef:
         kind: HelmRepository
-        name: traefik
         namespace: traefik
-      interval: 1m
-      valuesFrom:
-        - kind: Secret
-          name: traefik-values
+        name: traefik
+  valuesFrom:
+    - kind: Secret
+      name: traefik-values

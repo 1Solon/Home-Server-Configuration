@@ -12,9 +12,7 @@ spec:
       version: "27.0.02"
       sourceRef:
         kind: HelmRepository
-        namespace: traefik
         name: traefik
-      interval: 1m
   valuesFrom:
     - kind: ConfigMap
       name: traefik-values

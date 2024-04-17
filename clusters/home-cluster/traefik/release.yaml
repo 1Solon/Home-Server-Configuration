@@ -16,5 +16,5 @@ spec:
         name: traefik
       interval: 1m
   valuesFrom:
-    - kind: Secret
+    - kind: ConfigMap
       name: traefik-values

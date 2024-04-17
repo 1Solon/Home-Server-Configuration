@@ -14,6 +14,7 @@ spec:
         kind: HelmRepository
         namespace: traefik
         name: traefik
+      interval: 1m
   valuesFrom:
     - kind: Secret
       name: traefik-values

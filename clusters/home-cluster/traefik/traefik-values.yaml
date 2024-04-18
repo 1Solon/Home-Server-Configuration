@@ -23,12 +23,9 @@ ports:
     tls:
       enabled: true
 
-dashboard:
-  enable: true
-
 ingressRoute:
   dashboard:
-    enabled: true
+    enabled: false
 
 providers:
   kubernetesCRD:

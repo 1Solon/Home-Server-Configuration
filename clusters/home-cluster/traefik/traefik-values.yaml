@@ -1,10 +1,10 @@
 globalArguments:
-  - "--global.sendAnonymousUsage=true"
-  - "--global.checkNewVersion=true"
+  - "--global.sendanonymoususage=true"
+  - "--global.checknewversion=true"
 
 additionalArguments:
   - "--serversTransport.insecureSkipVerify=true"
-  - "log-level=DEBUG"
+  - "--log.level=INFO"
 
 deployment:
   enabled: true
@@ -18,20 +18,23 @@ ports:
   web:
     redirectTo:
       port: websecure
+      priority: 10
   websecure:
     tls:
       enabled: true
 
 ingressRoute:
   dashboard:
-    enabled: true
+    enabled: false
 
 providers:
   kubernetesCRD:
     enabled: true
     ingressClass: traefik-external
+    allowExternalNameServices: true
   kubernetesIngress:
     enabled: true
+    allowExternalNameServices: true
     publishedService:
       enabled: false
 
@@ -44,6 +47,6 @@ service:
   annotations: {}
   labels: {}
   spec:
-    LoadBalancerIP: "192.168.1.162"
+    loadBalancerIP: 192.168.1.162
   loadBalancerSourceRanges: []
   externalIPs: []

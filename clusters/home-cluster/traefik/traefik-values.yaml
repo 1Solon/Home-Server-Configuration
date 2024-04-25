@@ -1,10 +1,10 @@
 globalArguments:
-  - "--global.sendanonymoususage=true"
-  - "--global.checknewversion=true"
+  - "--global.sendanonymoususage=false"
+  - "--global.checknewversion=false"
 
 additionalArguments:
   - "--serversTransport.insecureSkipVerify=true"
-  - "--log.level=DEBUG"
+  - "--log.level=INFO"
 
 deployment:
   enabled: true
@@ -25,7 +25,7 @@ ports:
 
 ingressRoute:
   dashboard:
-    enabled: true
+    enabled: false
 
 providers:
   kubernetesCRD:

@@ -1,5 +1,5 @@
 globalArguments:
-  - "--global.sendanonymoususage=false"
+  - "--global.sendanonymoususage=true"
   - "--global.checknewversion=false"
 
 additionalArguments:

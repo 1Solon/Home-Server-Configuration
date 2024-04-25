@@ -1,4 +1,4 @@
-apiVersion: traefik.containo.us/v1alpha1#
+apiVersion: traefik.containo.us/v1alpha1
 kind: Middleware
 metadata:
   name: default-headers
@@ -13,4 +13,4 @@ spec:
     stsSeconds: 15552000
     customFrameOptionsValue: SAMEORIGIN
     customRequestHeaders:
-      x-forwarded-proto: https
+      X-Forwarded-Proto: https

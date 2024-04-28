@@ -4,7 +4,7 @@ metadata:
   name: sonarr
   namespace: home-samba
 spec:
-  replicas: 0
+  replicas: 1
   strategy: {}
   selector:
     matchLabels:

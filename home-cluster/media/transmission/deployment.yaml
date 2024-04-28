@@ -4,7 +4,7 @@ metadata:
   name: transmission
   namespace: home-samba
 spec:
-  replicas: 0
+  replicas: 1
   strategyType: Recreate
   selector:
     matchLabels:

@@ -4,7 +4,7 @@ metadata:
   name: radarr
   namespace: home-samba
 spec:
-  replicas: 0
+  replicas: 1
   selector:
     matchLabels:
       app: radarr

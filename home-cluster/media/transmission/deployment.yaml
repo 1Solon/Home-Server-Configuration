@@ -14,6 +14,12 @@ spec:
       labels:
         app: transmission
     spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 65534
+        runAsGroup: 65534
+        fsGroup: 65534
+        fsGroupChangePolicy: OnRootMismatch
       containers:
         - name: transmission
           image: ghcr.io/linuxserver/transmission:4.0.5

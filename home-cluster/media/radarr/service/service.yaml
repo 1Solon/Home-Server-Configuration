@@ -4,10 +4,9 @@ metadata:
   name: radarr-service
   namespace: home-samba
 spec:
-  type: LoadBalancer
   selector:
     app: radarr
   ports:
     - protocol: TCP
-      port: 7878
+      port: 80
       targetPort: 7878

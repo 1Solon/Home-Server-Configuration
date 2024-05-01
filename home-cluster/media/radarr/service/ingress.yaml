@@ -1,0 +1,21 @@
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: radarr
+  namespace: home-samba
+  annotations: 
+    kubernetes.io/ingress.class: traefik-external
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`radarr.local.solonsstuff.com`)
+      kind: Rule
+      services:
+        - name: radarr-service
+          port: 80
+      middlewares:
+        - name: default-headers
+  tls:
+    secretName: local-solonsstuff-com-live-tls

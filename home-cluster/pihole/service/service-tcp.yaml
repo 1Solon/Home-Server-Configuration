@@ -12,7 +12,6 @@ spec:
     app: pihole
   ipFamilyPolicy: PreferDualStack
   ipFamilies:
-    - IPv6
     - IPv4
   ports:
     - protocol: TCP

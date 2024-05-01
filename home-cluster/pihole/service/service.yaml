@@ -6,6 +6,7 @@ metadata:
   annotations:
     metallb.universe.tf/loadBalancerIPs: 192.168.1.153
 spec:
+  type: LoadBalancer
   selector:
     app: pihole
   ports:

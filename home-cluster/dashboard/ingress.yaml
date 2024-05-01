@@ -3,7 +3,7 @@ apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
   name: homarr
-  namespace: default
+  namespace: home-dashboard
   annotations: 
     kubernetes.io/ingress.class: traefik-external
 spec:
@@ -13,12 +13,12 @@ spec:
     - match: Host(`www.homarr.local.solonsstuff.com`)
       kind: Rule
       services:
-        - name: homarr-service.home-dashboard
+        - name: homarr-service
           port: 80
     - match: Host(`homarr.local.solonsstuff.com`)
       kind: Rule
       services:
-        - name: homarr-service.home-dashboard
+        - name: homarr-service
           port: 80
       middlewares:
         - name: default-headers

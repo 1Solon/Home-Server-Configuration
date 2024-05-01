@@ -10,6 +10,10 @@ spec:
   type: LoadBalancer
   selector:
     app: pihole
+  ipFamilyPolicy: PreferDualStack
+  ipFamilies:
+    - IPv6
+    - IPv4
   ports:
     - name: dns-udp
       protocol: UDP

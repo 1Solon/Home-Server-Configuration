@@ -13,7 +13,7 @@ spec:
     - match: Host(`pihole.local.solonsstuff.com`)
       kind: Rule
       services:
-        - name: pihole-service
+        - name: pihole-admin
           port: 80
       middlewares:
         - name: default-headers

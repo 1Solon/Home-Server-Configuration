@@ -4,9 +4,6 @@ kind: Certificate
 metadata:
   name: local-solonsstuff-com
   namespace: default
-  annotations:
-    reflector.v1.k8s.emberstack.com/reflection-allowed: "true"
-    reflector.v1.k8s.emberstack.com/reflection-allowed-namespaces: "home-dashboard"
 spec:
   secretName: local-solonsstuff-com-staging-tls
   issuerRef:
@@ -16,3 +13,7 @@ spec:
   dnsNames:
     - "local.solonsstuff.com"
     - "*.local.solonsstuff.com"
+  secretTemplate:
+    annotations:
+      reflector.v1.k8s.emberstack.com/reflection-allowed: "true"
+      reflector.v1.k8s.emberstack.com/reflection-allowed-namespaces: "home-dashboard"

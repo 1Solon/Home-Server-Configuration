@@ -1,15 +1,15 @@
-apiVersion: helm.toolkit.fluxcd.io/v2beta2
-kind: HelmRelease
-metadata:
-  name: reflector
-  namespace: default
-spec:
-  interval: 1m
-  releaseName: reflector
-  chart:
-    spec:
-      chart: reflector
-      version: "7.1.262"
-      sourceRef:
-        kind: HelmRepository
-        name: reflector
+# apiVersion: helm.toolkit.fluxcd.io/v2beta2
+# kind: HelmRelease
+# metadata:
+#   name: reflector
+#   namespace: default
+# spec:
+#   interval: 1m
+#   releaseName: reflector
+#   chart:
+#     spec:
+#       chart: reflector
+#       version: "7.1.262"
+#       sourceRef:
+#         kind: HelmRepository
+#         name: reflector

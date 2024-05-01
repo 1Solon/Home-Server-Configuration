@@ -1,4 +1,5 @@
-apiVersion: networking.k8s.io/v1
+---
+apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
   name: jellyfin
@@ -12,9 +13,8 @@ spec:
     - match: Host(`jellyfin.local.solonsstuff.com`)
       kind: Rule
       services:
-        name: jellyfin-tcp
-        port:
-          name: http-tcp # < same label as the port in the service tcp file
+        - name: jellyfin-tcp
+          port: 80
       middlewares:
         - name: default-headers
   tls:

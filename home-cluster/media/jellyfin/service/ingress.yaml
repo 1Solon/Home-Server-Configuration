@@ -1,0 +1,21 @@
+apiVersion: networking.k8s.io/v1
+kind: IngressRoute
+metadata:
+  name: jellyfin
+  namespace: home-samba
+  annotations:
+    kubernetes.io/ingress.class: traefik-external
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`jellyfin.local.solonsstuff.com`)
+      kind: Rule
+      services:
+        name: jellyfin-tcp
+        port:
+          name: http-tcp # < same label as the port in the service tcp file
+      middlewares:
+        - name: default-headers
+  tls:
+    secretName: local-solonsstuff-com-live-tls

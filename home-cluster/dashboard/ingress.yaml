@@ -13,12 +13,12 @@ spec:
     - match: Host(`www.homarr.local.solonsstuff.com`)
       kind: Rule
       services:
-        - name: homarr-service.home-dashboard.svc.cluster.local
+        - name: homarr-service.home-dashboard
           port: 80
     - match: Host(`homarr.local.solonsstuff.com`)
       kind: Rule
       services:
-        - name: homarr-service.home-dashboard.svc.cluster.local
+        - name: homarr-service.home-dashboard
           port: 80
       middlewares:
         - name: default-headers

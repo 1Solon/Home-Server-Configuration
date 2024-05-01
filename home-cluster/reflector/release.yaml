@@ -7,7 +7,7 @@ spec:
   releaseName: reflector
   chart:
     spec:
-      chart: cert-manager
+      chart: reflector
       version: "7.1.262"
       sourceRef:
         kind: HelmRepository

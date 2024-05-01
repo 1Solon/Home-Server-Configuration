@@ -9,7 +9,7 @@ spec:
   entryPoints:
     - websecure
   routes:
-    - match: Host(`traefik.home.lan`)
+    - match: Host(`traefik.local.solonsstuff.com`)
       kind: Rule
       middlewares:
         - name: traefik-dashboard-basicauth

@@ -6,11 +6,10 @@ metadata:
 spec:
   selector:
     app: transmission
-  type: LoadBalancer
   ports:
     - name: webui
       protocol: TCP
-      port: 9091
+      port: 80
       targetPort: 9091
     - name: torrent-tcp
       protocol: TCP

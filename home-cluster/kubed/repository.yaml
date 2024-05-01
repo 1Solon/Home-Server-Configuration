@@ -1,0 +1,8 @@
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: HelmRepository
+metadata:
+  name: config-syncer 
+  namespace: kubeops
+spec:
+  interval: 1m
+  url: https://charts.appscode.com/stable/

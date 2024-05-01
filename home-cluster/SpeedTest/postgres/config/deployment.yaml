@@ -27,8 +27,10 @@ spec:
               value: speedtest_tracker
             - name: POSTGRES_USER
               value: speedy
+            - name: PGDATA
+              value: /var/lib/postgresql/data/pgdata
           volumeMounts:
-            - mountPath: /var/lib/postgresql/data
+            - mountPath: /var/lib/postgresql/data/pgdata
               name: postgres
       volumes:
         - name: postgres

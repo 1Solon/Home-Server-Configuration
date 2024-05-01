@@ -15,14 +15,6 @@ spec:
       labels:
         app: pihole
     spec:
-      hostNetwork: true
-      dnsPolicy: "None"
-      dnsConfig:
-        nameservers:
-          - 127.0.0.1
-          - 1.1.1.1
-      nodeSelector:
-        kubernetes.io/dns: "true"
       containers:
         - name: pihole
           resources: {}
@@ -37,17 +29,6 @@ spec:
                   key: WEBPASSWORD
           securityContext:
             privileged: true
-          ports:
-            - containerPort: 53
-              protocol: TCP
-            - containerPort: 53
-              protocol: UDP
-            - containerPort: 67
-              protocol: UDP
-            - containerPort: 80
-              protocol: TCP
-            - containerPort: 443
-              protocol: TCP
           volumeMounts:
             - mountPath: /etc/pihole
               name: pihole-storage

@@ -3,10 +3,21 @@ kind: Service
 metadata:
   name: pihole-service
   namespace: pihole
+  annotations:
+    metallb.universe.tf/loadBalancerIPs: 192.168.1.153
 spec:
   selector:
     app: pihole
   ports:
     - protocol: TCP
+      name: pihole-admin
       port: 80
       targetPort: 80
+    - protocol: TCP
+      name: dns-tcp
+      port: 53
+      targetPort: 53
+    - protocol: UDP
+      name: dns-udp
+      port: 53
+      targetPort: 53

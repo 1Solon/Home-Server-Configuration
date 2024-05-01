@@ -2,8 +2,8 @@
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
-  name: notifiarr
-  namespace: home-samba
+  name: speedtest
+  namespace: speedtest
   annotations:
     kubernetes.io/ingress.class: traefik-external
 spec:

@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: pihole-tcp
+  name: pihole-udp
   namespace: pihole
   annotations:
     metallb.universe.tf/loadBalancerIPs: 192.168.1.153
@@ -10,11 +10,7 @@ spec:
   selector:
     app: pihole
   ports:
-    - protocol: TCP
-      name: pihole-admin
-      port: 80
-      targetPort: 80
-    - protocol: TCP
-      name: dns-tcp
+    - name: dns-udp
+      protocol: UDP
       port: 53
       targetPort: 53

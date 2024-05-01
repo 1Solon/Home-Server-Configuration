@@ -10,17 +10,17 @@ spec:
   entryPoints:
     - websecure
   routes:
-    - match: Host(`www.homarr.home.lan`)
+    - match: Host(`www.homarr.local.solonsstuff.com`)
       kind: Rule
       services:
         - name: homarr-service
           port: 80
-    - match: Host(`homarr.home.lan`)
+    - match: Host(`homarr.local.solonsstuff.com`)
       kind: Rule
       services:
         - name: homarr-service
           port: 80
       middlewares:
         - name: default-headers
-  # tls:
-  #   secretName: local-example-com-tls
+  tls:
+    secretName: local-solonsstuff-com-staging-tls

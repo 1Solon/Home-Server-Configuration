@@ -15,10 +15,6 @@ spec:
     - IPv4
   ports:
     - protocol: TCP
-      name: pihole-admin
-      port: 80
-      targetPort: 80
-    - protocol: TCP
       name: dns-tcp
       port: 53
       targetPort: 53

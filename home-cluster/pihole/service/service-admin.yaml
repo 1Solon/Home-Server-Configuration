@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: pihole-admin
+  namespace: pihole
+spec:
+  selector:
+    app: pihole
+  ports:
+    - protocol: TCP
+      name: pihole-admin
+      port: 80
+      targetPort: 80

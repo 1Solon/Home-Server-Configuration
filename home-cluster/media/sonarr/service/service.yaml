@@ -4,10 +4,9 @@ metadata:
   name: sonarr-service
   namespace: home-samba
 spec:
-  type: LoadBalancer
   selector:
     app: sonarr
   ports:
     - protocol: TCP
-      port: 8989
+      port: 80
       targetPort: 8989

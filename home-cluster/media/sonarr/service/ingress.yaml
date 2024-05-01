@@ -1,0 +1,21 @@
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: sonarr
+  namespace: home-samba
+  annotations: 
+    kubernetes.io/ingress.class: traefik-external
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`sonarr.local.solonsstuff.com`)
+      kind: Rule
+      services:
+        - name: sonarr-service
+          port: 80
+      middlewares:
+        - name: default-headers
+  tls:
+    secretName: local-solonsstuff-com-live-tls

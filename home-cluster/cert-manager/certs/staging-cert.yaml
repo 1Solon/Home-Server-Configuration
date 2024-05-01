@@ -1,0 +1,15 @@
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: local-solonsstuff-com
+  namespace: default
+spec:
+  secretName: local-solonsstuff-com-staging-tls
+  issuerRef:
+    name: letsencrypt-staging
+    kind: ClusterIssuer
+  commonName: "*.local.solonsstuff.com"
+  dnsNames:
+  - "local.solonsstuff.com"
+  - "*.local.solonsstuff.com"

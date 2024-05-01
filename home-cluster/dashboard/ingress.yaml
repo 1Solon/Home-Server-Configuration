@@ -23,4 +23,4 @@ spec:
       middlewares:
         - name: default-headers
   tls:
-    secretName: local-solonsstuff-com-staging-tls
+    secretName: local-solonsstuff-com-live-tls

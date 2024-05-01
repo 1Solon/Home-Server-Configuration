@@ -4,11 +4,11 @@ kind: Certificate
 metadata:
   name: local-solonsstuff-com
   namespace: default
-spec:
   secretTemplate:
     annotations:
       reflector.v1.k8s.emberstack.com/reflection-allowed: "true"
       reflector.v1.k8s.emberstack.com/reflection-allowed-namespaces: "home-dashboard"
+spec:
   secretName: local-solonsstuff-com-staging-tls
   issuerRef:
     name: letsencrypt-staging

@@ -14,7 +14,7 @@ spec:
       labels:
         app: speedtest-tracker
     spec:
-      dnsPolicy: Default
+      dnsPolicy: None
       dnsConfig:
         nameservers:
           - 10.152.183.10
@@ -38,7 +38,7 @@ spec:
             - name: DB_CONNECTION
               value: pgsql
             - name: DB_HOST
-              value: postgres
+              value: 10.43.12.207
             - name: DB_PORT
               value: "5432"
             - name: DB_DATABASE

@@ -26,7 +26,7 @@ spec:
             value: "5"
       containers:
         - name: speedtest-tracker
-          image: ghcr.io/alexjustesen/speedtest-tracker:latest
+          image: lscr.io/linuxserver/speedtest-tracker:latest
           resources: {}
           ports:
             - containerPort: 80

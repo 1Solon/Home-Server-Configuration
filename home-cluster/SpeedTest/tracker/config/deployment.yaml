@@ -14,7 +14,7 @@ spec:
       labels:
         app: speedtest-tracker
     spec:
-      dnsPolicy: None
+      dnsPolicy: Default
       dnsConfig:
         nameservers:
           - 10.152.183.10

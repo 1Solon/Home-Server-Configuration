@@ -20,7 +20,7 @@ spec:
           - 10.152.183.10
           - 8.8.8.8
         searches:
-          - speedtest-tracker.svc.cluster.local
+          - speedtest-tracker.speedtest.svc.cluster.local
         options:
           - name: ndots
             value: "5"

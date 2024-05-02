@@ -47,6 +47,8 @@ spec:
               value: speedy
             - name: DB_PASSWORD
               value: password
+            - name: AUTH
+              value: "false"
 
           volumeMounts:
             - mountPath: /config

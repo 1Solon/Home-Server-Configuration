@@ -4,6 +4,7 @@ metadata:
   name: transmission-service
   namespace: home-media
 spec:
+  type: LoadBalancer
   selector:
     app: transmission
   ports:

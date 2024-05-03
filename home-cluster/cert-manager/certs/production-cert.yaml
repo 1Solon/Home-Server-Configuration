@@ -16,4 +16,4 @@ spec:
   secretTemplate:
     annotations:
       reflector.v1.k8s.emberstack.com/reflection-allowed: "true"
-      reflector.v1.k8s.emberstack.com/reflection-allowed-namespaces: "home-dashboard, home-samba, traefik, pihole, speedtest"
+      reflector.v1.k8s.emberstack.com/reflection-allowed-namespaces: "home-dashboard, home-media, traefik, pihole, speedtest"

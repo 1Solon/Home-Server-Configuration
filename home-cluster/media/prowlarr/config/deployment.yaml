@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: prowlarr
-  namespace: home-samba
+  namespace: home-media
 spec:
   replicas: 1
   selector:
@@ -30,7 +30,7 @@ spec:
         args:
           - /entrypoint.sh
           - PROWLARR__POSTGRES_HOST
-          - "postgres-service.home-samba.svc.cluster.local"
+          - "postgres-service.home-media.svc.cluster.local"
           - PROWLARR__POSTGRES_MAIN_DB
           - "prowlarr-main"
           - PROWLARR__POSTGRES_LOG_DB

@@ -2,7 +2,7 @@ kind: Service
 apiVersion: v1
 metadata:
   name: jellyfin-tcp
-  namespace: home-samba
+  namespace: home-media
   annotations:
     metallb.universe.tf/allow-shared-ip: jellyfin
 spec:

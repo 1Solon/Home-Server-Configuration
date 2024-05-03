@@ -4,7 +4,7 @@ metadata:
   labels:
     app: jellyfin
   name: jellyfin
-  namespace: home-samba
+  namespace: home-media
 spec:
   progressDeadlineSeconds: 600
   replicas: 1

@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: swaparr
-  namespace: home-samba
+  namespace: home-media
   labels:
     app: swaparr
 spec:
@@ -21,7 +21,7 @@ spec:
         resources: {}
         env:
         - name: BASEURL
-          value: "http://sonarr-service.home-samba.svc.cluster.local:8989"
+          value: "http://sonarr-service.home-media.svc.cluster.local:8989"
         - name: APIKEY
           valueFrom:
             secretKeyRef:

@@ -2,7 +2,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: postgres-pvc
-  namespace: home-samba
+  namespace: home-media
 spec:
   accessModes:
     - ReadWriteOnce

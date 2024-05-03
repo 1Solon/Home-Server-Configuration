@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: sonarr
-  namespace: home-samba
+  namespace: home-media
 spec:
   replicas: 1
   strategy: {}
@@ -33,7 +33,7 @@ spec:
           args:
             - /entrypoint.sh
             - SONARR__POSTGRES_HOST
-            - "postgres-service.home-samba.svc.cluster.local"
+            - "postgres-service.home-media.svc.cluster.local"
             - SONARR__POSTGRES_MAIN_DB
             - "sonarr-main"
             - SONARR__POSTGRES_LOG_DB

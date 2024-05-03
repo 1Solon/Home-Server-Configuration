@@ -2,7 +2,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: prowlarr-config
-  namespace: home-samba
+  namespace: home-media
 spec:
   accessModes:
     - ReadWriteMany

@@ -20,34 +20,32 @@ spec:
         fsGroup: 1000
         fsGroupChangePolicy: OnRootMismatch
       containers:
-      - name: prowlarr
-        image: ghcr.io/onedr0p/prowlarr-develop:1.17.0
-        imagePullPolicy: Always
-        resources: {}
-        volumeMounts:
-          - name: prowlarr-storage
-            mountPath: /config
-        args:
-          - /entrypoint.sh
-          - PROWLARR__POSTGRES_HOST
-          - "postgres-service.home-media.svc.cluster.local"
-          - PROWLARR__POSTGRES_MAIN_DB
-          - "prowlarr-main"
-          - PROWLARR__POSTGRES_LOG_DB
-          - "prowlarr-logs"
-          - PROWLARR__POSTGRES_USER
-          - "qstick"
-          - PROWLARR__POSTGRES_PASSWORD
-          - "qstick"
-        env:
-          - name: TZ
-            value: "Europe/Dublin"
-        livenessProbe:
-          exec:
-            command:
-              - bash
-              - -c
-              - "end=$(date -u +%s);start=$(stat -c %Z /proc/1 | awk '{print int($1)}'); test $(($end-$start)) -lt 86400"
+        - name: prowlarr
+          image: ghcr.io/onedr0p/prowlarr-develop:1.17.0
+          imagePullPolicy: Always
+          resources: {}
+          volumeMounts:
+            - name: prowlarr-storage
+              mountPath: /config
+          env:
+            - name: PROWLARR__POSTGRES_HOST
+              value: "postgres-service.home-media.svc.cluster.local"
+            - name: PROWLARR__POSTGRES_MAIN_DB
+              value: "prowlarr-main"
+            - name: PROWLARR__POSTGRES_LOG_DB
+              value: "prowlarr-logs"
+            - name: PROWLARR__POSTGRES_USER
+              value: "qstick"
+            - name: PROWLARR__POSTGRES_PASSWORD
+              value: "qstick"
+            - name: TZ
+              value: "Europe/Dublin"
+          livenessProbe:
+            exec:
+              command:
+                - bash
+                - -c
+                - "end=$(date -u +%s);start=$(stat -c %Z /proc/1 | awk '{print int($1)}'); test $(($end-$start)) -lt 86400"
       volumes:
         - name: prowlarr-storage
           persistentVolumeClaim:

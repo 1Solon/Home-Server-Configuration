@@ -19,7 +19,6 @@ spec:
         runAsGroup: 65534
         fsGroup: 65534
         fsGroupChangePolicy: OnRootMismatch
-
       containers:
         - name: radarr
           image: ghcr.io/onedr0p/radarr-develop:5.5.1
@@ -31,16 +30,16 @@ spec:
             - name: radarr-downloads
               mountPath: /downloads
           env:
-              - name: RADARR__POSTGRES_HOST
-                value: "postgres-service.home-media.svc.cluster.local"
-              - name: RADARR__POSTGRES_MAIN_DB
-                value: "radarr-main"
-              - name: RADARR__POSTGRES_LOG_DB
-                value: "radarr-logs"
-              - name: RADARR__POSTGRES_USER
-                value: "qstick"
-              - name: RADARR__POSTGRES_PASSWORD
-                value: "qstick"
+            - name: RADARR__POSTGRES_HOST
+              value: "postgres-service.home-media.svc.cluster.local"
+            - name: RADARR__POSTGRES_MAIN_DB
+              value: "radarr-main"
+            - name: RADARR__POSTGRES_LOG_DB
+              value: "radarr-logs"
+            - name: RADARR__POSTGRES_USER
+              value: "qstick"
+            - name: RADARR__POSTGRES_PASSWORD
+              value: "qstick"
 
       volumes:
         - name: samba-config

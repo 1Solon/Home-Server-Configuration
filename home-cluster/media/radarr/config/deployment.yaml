@@ -30,18 +30,17 @@ spec:
               mountPath: /config
             - name: radarr-downloads
               mountPath: /downloads
-          args:
-            - /entrypoint.sh
-            - RADARR__POSTGRES_HOST
-            - "postgres-service.home-media.svc.cluster.local"
-            - RADARR__POSTGRES_MAIN_DB
-            - "radarr-main"
-            - RADARR__POSTGRES_LOG_DB
-            - "radarr-logs"
-            - RADARR__POSTGRES_USER
-            - "qstick"
-            - RADARR__POSTGRES_PASSWORD
-            - "qstick"
+          env:
+              - name: RADARR__POSTGRES_HOST
+                value: "postgres-service.home-media.svc.cluster.local"
+              - name: RADARR__POSTGRES_MAIN_DB
+                value: "radarr-main"
+              - name: RADARR__POSTGRES_LOG_DB
+                value: "radarr-logs"
+              - name: RADARR__POSTGRES_USER
+                value: "qstick"
+              - name: RADARR__POSTGRES_PASSWORD
+                value: "qstick"
 
       volumes:
         - name: samba-config

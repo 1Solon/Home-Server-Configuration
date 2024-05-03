@@ -30,17 +30,17 @@ spec:
               mountPath: /config
             - name: sonarr-service
               mountPath: /downloads
+          command: ["/entrypoint.sh"]
           args:
-            - /entrypoint.sh
-            - --SONARR__POSTGRES_HOST
+            - SONARR__POSTGRES_HOST
             - "postgres-service.home-media.svc.cluster.local"
-            - --SONARR__POSTGRES_MAIN_DB
+            - SONARR__POSTGRES_MAIN_DB
             - "sonarr-main"
-            - --SONARR__POSTGRES_LOG_DB
+            - SONARR__POSTGRES_LOG_DB
             - "sonarr-logs"
-            - --SONARR__POSTGRES_USER
+            - SONARR__POSTGRES_USER
             - "qstick"
-            - --SONARR__POSTGRES_PASSWORD
+            - SONARR__POSTGRES_PASSWORD
             - "qstick"
           env:
             - name: TZ

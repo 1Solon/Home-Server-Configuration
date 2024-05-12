@@ -21,6 +21,11 @@
       "description": "Seemingly, in the past, Jellyfin used a year-month-day tagging scheme. This prevents that",
       "packagePatterns": ["^ghcr\\.io/linuxserver/jellyfin$"],
       "allowedVersions": "<2000"
+    },
+    {
+      "description": "qBittorrent also had a year-month-day tagging scheme.",
+      "packagePatterns": ["^ghcr\\.io/linuxserver/qbittorrent$"],
+      "allowedVersions": "<20"
     }
   ]
 }

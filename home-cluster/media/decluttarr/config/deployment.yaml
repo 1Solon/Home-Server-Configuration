@@ -1,0 +1,88 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: decluttarr
+  namespace: home-media
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: decluttarr
+  template:
+    metadata:
+      labels:
+        app: decluttarr
+    spec:
+      containers:
+        - name: decluttarr
+          image: ghcr.io/manimatter/decluttarr:v1.41.2
+          resources: {}
+          env:
+            - name: LOG_LEVEL
+              value: "INFO"
+            - name: REMOVE_TIMER
+              value: "10"
+            - name: REMOVE_FAILED
+              value: "true"
+            - name: REMOVE_METADATA_MISSING
+              value: "true"
+            - name: REMOVE_MISSING_FILES
+              value: "true"
+            - name: REMOVE_NO_FORMAT_UPGRADE
+              value: "true"
+            - name: REMOVE_ORPHANS
+              value: "true"
+            - name: REMOVE_SLOW
+              value: "true"
+            - name: REMOVE_STALLED
+              value: "true"
+            - name: REMOVE_UNMONITORED
+              value: "true"
+            - name: MIN_DOWNLOAD_SPEED
+              value: "100"
+            - name: PERMITTED_ATTEMPTS
+              value: "3"
+            - name: NO_STALLED_REMOVAL_QBIT_TAG
+              value: "Don't Kill"
+            - name: IGNORE_PRIVATE_TRACKERS
+              value: "true"
+            - name: RADARR_URL
+              value: "http://radarr-service.home-media.svc.cluster.local"
+            - name: RADARR_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: decluttarr-secret
+                  key: radarr-api-key
+            - name: SONARR_URL
+              value: "http://sonarr-service.home-media.svc.cluster.local"
+            - name: SONARR_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: decluttarr-secret
+                  key: sonarr-api-key
+            # - name: LIDARR_URL
+            #   value: "http://lidarr:8686"
+            # - name: LIDARR_KEY
+            #   valueFrom:
+            #     secretKeyRef:
+            #       name: lidarr-api-key
+            #       key: key
+            # - name: READARR_URL
+            #   value: "http://readarr:8787"
+            # - name: READARR_KEY
+            #   valueFrom:
+            #     secretKeyRef:
+            #       name: readarr-api-key
+            #       key: key
+            - name: QBITTORRENT_URL
+              value: "http://qbittorrent-service.home-media.svc.cluster.local"
+            - name: QBITTORRENT_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: decluttarr-secret
+                  key: qbittorrent-username
+            - name: QBITTORRENT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: decluttarr-secret
+                  key: qbittorrent-password

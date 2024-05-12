@@ -25,7 +25,7 @@
     {
       "description": "qBittorrent also had a year-month-day tagging scheme.",
       "packagePatterns": ["^ghcr\\.io/linuxserver/qbittorrent$"],
-      "allowedVersions": "<20"
+      "allowedVersions": "<6"
     }
   ]
 }

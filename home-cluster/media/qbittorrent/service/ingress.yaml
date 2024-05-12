@@ -1,0 +1,21 @@
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: qbittorrent
+  namespace: home-media
+  annotations: 
+    kubernetes.io/ingress.class: traefik-external
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`qbittorrent.local.solonsstuff.com`)
+      kind: Rule
+      services:
+        - name: qbittorrent-service
+          port: 80
+      middlewares:
+        - name: default-headers
+  tls:
+    secretName: local-qbittorrent-com-live-tls

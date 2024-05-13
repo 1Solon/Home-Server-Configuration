@@ -18,6 +18,8 @@ spec:
       - name: flood
         image: jesec/flood:4.8.2
         resources: {}
+        securityContext:
+          runAsUser: 1000
         ports:
         - containerPort: 3001
         env:

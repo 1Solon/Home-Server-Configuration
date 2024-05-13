@@ -19,6 +19,7 @@ spec:
         image: jesec/flood:4.8.2
         resources: {}
         securityContext:
+          runAsNonRoot: true
           runAsUser: 1000
         ports:
         - containerPort: 3001

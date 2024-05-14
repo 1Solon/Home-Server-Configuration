@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: decluttarr
-          image: ghcr.io/manimatter/decluttarr:v1.41.2
+          image: ghcr.io/manimatter/decluttarr:v1.42.0
           resources: {}
           env:
             - name: LOG_LEVEL

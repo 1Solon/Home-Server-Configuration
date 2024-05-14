@@ -6,6 +6,8 @@ metadata:
   namespace: home-media
 spec:
   replicas: 1
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
       app: flood
@@ -14,15 +16,16 @@ spec:
       labels:
         app: flood
     spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1001
+        fsGroup: 1001
+        fsGroupChangePolicy: OnRootMismatch
       containers:
       - name: flood
         image: jesec/flood:4.8.2
         resources: {}
-        securityContext:
-          runAsNonRoot: true
-          runAsUser: 1000
-        ports:
-        - containerPort: 3001
         env:
         - name: HOME
           value: "/config"

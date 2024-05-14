@@ -17,5 +17,12 @@ spec:
           port: 80
       middlewares:
         - name: default-headers
+    - match: Host(`jellyfin.solonsstuff.com`)
+      kind: Rule
+      services:
+        - name: jellyfin-tcp
+          port: 80
+      middlewares:
+        - name: default-headers
   tls:
     secretName: local-solonsstuff-com-live-tls

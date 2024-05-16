@@ -4,7 +4,6 @@ metadata:
   name: qbittorrent-tcp-service
   namespace: home-media
 spec:
-  type: LoadBalancer
   selector:
     app: qbittorrent
   ports:

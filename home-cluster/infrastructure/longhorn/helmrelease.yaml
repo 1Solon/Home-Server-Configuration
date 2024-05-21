@@ -1,0 +1,23 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: longhorn-release
+  namespace: longhorn-system
+spec:
+  chart:
+    spec:
+      chart: longhorn
+      reconcileStrategy: ChartVersion
+      sourceRef:
+        kind: HelmRepository
+        name: longhorn-repo
+      version: v1.6.0
+  interval: 1m0s
+  values:
+    defaultSettings:
+      defaultDataPath: "/storage"
+    service:
+      ui:
+        loadBalancerIP: "192.168.1.151"
+        type: "LoadBalancer"

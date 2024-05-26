@@ -4,7 +4,7 @@ metadata:
   name: jellyseerr
   namespace: home-media
 spec:
-  replicas: 0
+  replicas: 1
   selector:
     matchLabels:
       app: jellyseerr

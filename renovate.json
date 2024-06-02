@@ -19,12 +19,12 @@
       "enabled": false
     },
     {
-      "description": "Seemingly, in the past, Jellyfin used a year-month-day tagging scheme. This prevents that",
+      "description": "YMA dating scheme",
       "packagePatterns": ["^ghcr\\.io/linuxserver/jellyfin$"],
       "allowedVersions": "<2000"
     },
     {
-      "description": "qBittorrent also had a year-month-day tagging scheme.",
+      "description": "YMA dating scheme",
       "packagePatterns": ["^ghcr\\.io/linuxserver/qbittorrent$"],
       "allowedVersions": "<6"
     }

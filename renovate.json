@@ -1,34 +1,12 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": ["config:recommended"],
+  "kubernetes": { "fileMatch": ["\\.yaml$"] },
   "schedule": ["at any time"],
   "prHourlyLimit": 0,
   "prConcurrentLimit": 0,
   "reviewers": ["1Solon"],
-  "regexManagers": [
-    {
-      "description": "Update renovate docker image references",
-      "fileMatch": ["\\.yaml$"],
-      "matchStrings": [
-        "appVersion: '(?<currentValue>.*?)'\\s+",
-        "version: '(?<currentValue>.*?)'\\s+"
-      ],
-      "depNameTemplate": "renovate/renovate",
-      "datasourceTemplate": "docker"
-    },
-    {
-      "description": "Update docker image references",
-      "fileMatch": ["^charts\\/renovate\\/Chart\\.yaml$"],
-      "matchStrings": ["image: (?<depName>.*?):(?<currentValue>.*?)\\s+"],
-      "datasourceTemplate": "docker"
-    }
-  ],
   "packageRules": [
-    {
-      "description": "Docker images usually have miserable naming schemes",
-      "matchDatasources": ["docker"],
-      "versioning": "docker"
-    },
     {
       "description": "Postgres major updates are disabled, mainly because Starr apps ONLY support 14 :<",
       "packageNames": ["postgres"],

@@ -1,13 +1,23 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": ["config:recommended"],
-  "kubernetes": {
-    "fileMatch": ["\\.yaml$", "\\.yml$"]
-  },
+  "kubernetes": { "fileMatch": ["\\.yaml$"] },
   "schedule": ["at any time"],
   "prHourlyLimit": 0,
   "prConcurrentLimit": 0,
   "reviewers": ["1Solon"],
+  "regexManagers": [
+    {
+      "description": "Update renovate docker image references",
+      "fileMatch": ["^charts\\/renovate\\/Chart\\.yaml$"],
+      "matchStrings": [
+        "appVersion: '(?<currentValue>.*?)'\\s+",
+        "version: '(?<currentValue>.*?)'\\s+"
+      ],
+      "depNameTemplate": "renovate/renovate",
+      "datasourceTemplate": "docker"
+    }
+  ],
   "packageRules": [
     {
       "description": "Docker images usually have miserable naming schemes",
@@ -29,19 +39,6 @@
       "description": "YMA dating scheme",
       "packagePatterns": ["^ghcr\\.io/linuxserver/qbittorrent$"],
       "allowedVersions": "<6"
-    },
-    {
-      "description": "Handle Helm releases",
-      "matchManagers": ["helmv3", "helmfile"],
-      "matchDatasources": ["helm"],
-      "enabled": true,
-      "packageRules": [
-        {
-          "description": "HelmRelease specific format",
-          "packagePatterns": ["helmRelease"],
-          "allowedVersions": "^v1\\.6\\.1$"
-        }
-      ]
     }
   ]
 }

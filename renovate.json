@@ -1,7 +1,7 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": ["config:recommended"],
-  "kubernetes": { "fileMatch": ["(^|/)values\\.ya?ml$"] },
+  "kubernetes": { "fileMatch": ["\\.yaml$"] },
   "schedule": ["at any time"],
   "prHourlyLimit": 0,
   "prConcurrentLimit": 0,

@@ -37,7 +37,7 @@ spec:
             - name: REMOVE_STALLED
               value: "true"
             - name: REMOVE_UNMONITORED
-              value: "true"
+              value: "false"
             - name: MIN_DOWNLOAD_SPEED
               value: "100"
             - name: PERMITTED_ATTEMPTS

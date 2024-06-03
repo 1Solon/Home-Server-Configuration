@@ -27,6 +27,19 @@
       "description": "YMA dating scheme",
       "packagePatterns": ["^ghcr\\.io/linuxserver/qbittorrent$"],
       "allowedVersions": "<6"
-    }
-  ]
-}
+    },
+    {
+        "description": "Helm releases handling",
+        "matchManagers": ["helm-releases"],
+        "matchDatasources": ["helm"],
+        "enabled": true,
+        "packageRules": [
+          {
+            "description": "Handle specific HelmRelease format",
+            "packagePatterns": ["helmRelease"],
+            "allowedVersions": "^v1\\.6\\.1$"
+          }
+        ]
+      }
+    ]
+  }

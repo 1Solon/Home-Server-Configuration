@@ -1,7 +1,9 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": ["config:recommended"],
-  "kubernetes": { "fileMatch": ["\\.yaml$"] },
+  "kubernetes": {
+    "fileMatch": ["\\.yaml$", "\\.yml$"]
+  },
   "schedule": ["at any time"],
   "prHourlyLimit": 0,
   "prConcurrentLimit": 0,
@@ -29,17 +31,17 @@
       "allowedVersions": "<6"
     },
     {
-        "description": "Helm releases handling",
-        "matchManagers": ["helm-releases"],
-        "matchDatasources": ["helm"],
-        "enabled": true,
-        "packageRules": [
-          {
-            "description": "Handle specific HelmRelease format",
-            "packagePatterns": ["helmRelease"],
-            "allowedVersions": "^v1\\.6\\.1$"
-          }
-        ]
-      }
-    ]
-  }
+      "description": "Handle Helm releases",
+      "matchManagers": ["helmv3", "helmfile"],
+      "matchDatasources": ["helm"],
+      "enabled": true,
+      "packageRules": [
+        {
+          "description": "HelmRelease specific format",
+          "packagePatterns": ["helmRelease"],
+          "allowedVersions": "^v1\\.6\\.1$"
+        }
+      ]
+    }
+  ]
+}

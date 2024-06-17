@@ -29,7 +29,7 @@ spec:
           key: TS_AUTHKEY
           optional: true
     - name: TS_ROUTES
-      value: "192.168.1.0/24,192.168.0.0/24,10.43.0.0/15,10.42.0.0/15"
+      value: "192.168.1.0/24,192.168.0.0/24,10.42.0.0/15"
     securityContext:
       capabilities:
         add:

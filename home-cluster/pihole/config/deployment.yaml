@@ -36,13 +36,13 @@ spec:
             exec:
               command: ["dig", "@127.0.0.1", "cloudflare.com"]
               timeoutSeconds: 20
-              initialDelaySeconds: 5
-              periodSeconds: 60
+            initialDelaySeconds: 5
+            periodSeconds: 60
           livenessProbe:
             tcpSocket:
               port: 53
-              initialDelaySeconds: 15
-              periodSeconds: 30
+            initialDelaySeconds: 15
+            periodSeconds: 30
       volumes:
         - name: pihole-storage
           persistentVolumeClaim:

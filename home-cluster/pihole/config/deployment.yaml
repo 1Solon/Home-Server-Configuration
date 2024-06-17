@@ -40,7 +40,7 @@ spec:
               periodSeconds: 60
           livenessProbe:
             tcpSocket:
-              port: dns-tcp
+              port: 53
               initialDelaySeconds: 15
               periodSeconds: 30
       volumes:

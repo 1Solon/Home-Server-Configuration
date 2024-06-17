@@ -32,6 +32,17 @@ spec:
           volumeMounts:
             - mountPath: /etc/pihole
               name: pihole-storage
+      readinessProbe:
+        exec:
+        command: ['dig', '@127.0.0.1', 'cloudflare.com']
+        timeoutSeconds: 20
+        initialDelaySeconds: 5
+        periodSeconds: 60
+      livenessProbe:
+        tcpSocket:
+        port: dns-tcp
+        initialDelaySeconds: 15
+        periodSeconds: 30
       volumes:
         - name: pihole-storage
           persistentVolumeClaim:

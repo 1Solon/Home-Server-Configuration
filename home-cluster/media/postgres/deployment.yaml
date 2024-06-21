@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: postgres
-        image: postgres:14-alpine@sha256:a8acc7e332967b5091330f5a6d34f718dd20591541407cd10da2fc65d479efa6
+        image: postgres:14-alpine@sha256:55633b9ab4c34e2844648f9ab877b46a87c36fc3d32f06a0c7d1703360d4fa81
         resources: {}
         env:
         - name: POSTGRES_PASSWORD

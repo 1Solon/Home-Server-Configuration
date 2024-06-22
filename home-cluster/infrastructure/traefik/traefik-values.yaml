@@ -5,6 +5,7 @@ globalArguments:
 additionalArguments:
   - "--serversTransport.insecureSkipVerify=true"
   - "--log.level=INFO"
+  - "--providers.kubernetescrd.allowCrossNamespace=true"
 
 deployment:
   enabled: true

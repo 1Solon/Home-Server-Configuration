@@ -17,5 +17,6 @@ spec:
           port: 80
       middlewares:
         - name: default-headers
+          namespace: traefik
   tls:
     secretName: local-qbittorrent-com-live-tls

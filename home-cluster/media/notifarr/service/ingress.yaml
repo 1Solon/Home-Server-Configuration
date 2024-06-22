@@ -17,6 +17,5 @@ spec:
           port: 80
       middlewares:
         - name: default-headers
-          namespace: traefik
   tls:
     secretName: local-solonsstuff-com-live-tls

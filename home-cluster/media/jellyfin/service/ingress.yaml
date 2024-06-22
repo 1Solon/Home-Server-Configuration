@@ -17,7 +17,6 @@ spec:
           port: 80
       middlewares:
         - name: default-headers
-          namespace: traefik
     - match: Host(`jellyfin.solonsstuff.com`)
       kind: Rule
       services:
@@ -25,6 +24,5 @@ spec:
           port: 80
       middlewares:
         - name: default-headers
-          namespace: traefik
   tls:
     secretName: solonsstuff-com-live-tls

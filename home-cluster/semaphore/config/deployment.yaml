@@ -61,30 +61,6 @@ spec:
             - containerPort: 3000
           resources: {}
           env:
-            - name: SEMAPHORE_ADMIN
-              valueFrom:
-                secretKeyRef:
-                  name: semaphore-secret
-                  key: SEMAPHORE_ADMIN
-                  optional: false
-            - name: SEMAPHORE_ADMIN_NAME
-              valueFrom:
-                secretKeyRef:
-                  name: semaphore-secret
-                  key: SEMAPHORE_ADMIN_NAME
-                  optional: false
-            - name: SEMAPHORE_ADMIN_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: semaphore-secret
-                  key: SEMAPHORE_ADMIN_PASSWORD
-                  optional: false
-            - name: SEMAPHORE_DB_PASS
-              valueFrom:
-                secretKeyRef:
-                  name: semaphore-secret
-                  key: SEMAPHORE_DB_PASS
-                  optional: false
             - name: SEMAPHORE_DB_USER
               valueFrom:
                 secretKeyRef:
@@ -92,35 +68,46 @@ spec:
                   key: SEMAPHORE_DB_USER
                   optional: false
 
-            #Configure this if your environment has mail sending capabilities
-            #- name: SEMAPHORE_ADMIN_EMAIL
-            #  value: admin@localhost
-
-            - name: POD_NAMESPACE
+            - name: SEMAPHORE_DB_PASS
               valueFrom:
-                fieldRef:
-                  fieldPath: metadata.namespace
+                secretKeyRef:
+                  name: semaphore-secret
+                  key: SEMAPHORE_DB_PASS
+                  optional: false
 
-            - name: SEMAPHORE_DB
-              value: semaphore
-
-            - name: SEMAPHORE_DB_DIALECT
-              value: mysql
-
-            #if the DB is moved to different pod, this need to updated to service FQDN of the DB
             - name: SEMAPHORE_DB_HOST
-              value: 127.0.0.1
+              value: "mysql"
 
             - name: SEMAPHORE_DB_PORT
               value: "3306"
 
+            - name: SEMAPHORE_DB_DIALECT
+              value: "mysql"
+
+            - name: SEMAPHORE_DB
+              value: "semaphore"
+
             - name: SEMAPHORE_PLAYBOOK_PATH
-              value: /tmp/semaphore
+              value: "/tmp/semaphore/"
 
-            #I am unable to make GUI work with this set, so commented this
-            #- name: SEMAPHORE_WEB_ROOT
-            #  value: http://127.0.0.1:3000
+            - name: SEMAPHORE_ADMIN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: semaphore-secret
+                  key: SEMAPHORE_ADMIN_PASSWORD
+                  optional: false
 
-            # use head -c32 /dev/urandom | base64 to generate the below value
+            - name: SEMAPHORE_ADMIN_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: semaphore-secret
+                  key: SEMAPHORE_ADMIN_NAME
+
+            - name: SEMAPHORE_ADMIN
+              valueFrom:
+                secretKeyRef:
+                  name: semaphore-secret
+                  key: SEMAPHORE_ADMIN
+
             - name: SEMAPHORE_ACCESS_KEY_ENCRYPTION
-              value: ZeoACskLPvxu9Nw/Uf4DLQe3teNgdcL3FRT/FLKEs04=
+              value: "ZeoACskLPvxu9Nw/Uf4DLQe3teNgdcL3FRT/FLKEs04="

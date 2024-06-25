@@ -1,1 +1,2 @@
 passwordLoginDisable: true
+nonAdminCanCreateProject: true

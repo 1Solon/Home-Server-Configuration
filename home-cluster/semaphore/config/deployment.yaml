@@ -58,7 +58,7 @@ spec:
         - name: semaphore
           image: semaphoreui/semaphore
           ports:
-            - containerPort: 80
+            - containerPort: 3000
           resources: {}
           env:
             - name: SEMAPHORE_DB_USER
@@ -102,6 +102,9 @@ spec:
                 secretKeyRef:
                   name: semaphore-secret
                   key: SEMAPHORE_ADMIN_NAME
+                
+            - name: SEMAPHORE_ADMIN_EMAIL
+              value: "admin@localhost"
 
             - name: SEMAPHORE_ADMIN
               valueFrom:

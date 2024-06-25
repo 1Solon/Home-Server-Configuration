@@ -5,5 +5,4 @@ metadata:
   namespace: ansible-semaphore
 spec:
   interval: 1m
-  type: oci
-  url: oci://ghcr.io/cloudhippie/charts/ansible-semaphore
+  url: https://cloudhippie.github.io/charts

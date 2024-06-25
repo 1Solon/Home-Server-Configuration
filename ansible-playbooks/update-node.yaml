@@ -5,5 +5,5 @@
     - name: update apt packages
       apt:
         update_cache: yes
-        upgrade: dist
+        upgrade: yes
         cache_valid_time: 3600

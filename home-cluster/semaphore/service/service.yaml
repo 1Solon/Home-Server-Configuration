@@ -1,0 +1,15 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: semaphore
+  namespace: ansible-semaphore
+  labels:
+    app: semaphore
+spec:
+  ports:
+    - name: "semaphore"
+      port: 3000
+      targetPort: 3000
+  selector:
+    app: semaphore

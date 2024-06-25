@@ -1,0 +1,126 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: semaphore
+  namespace: ansible-semaphore
+  labels:
+    app: semaphore
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: semaphore
+  template:
+    metadata:
+      labels:
+        app: semaphore
+    spec:
+      restartPolicy: Always
+      volumes:
+        - name: semaphore-db-vol
+          persistentVolumeClaim:
+            claimName: semaphore-pvc
+      containers:
+        - name: mysql
+          image: mysql
+          resources: {}
+          ports:
+            - containerPort: 3306
+          env:
+            - name: MYSQL_DATABASE
+              value: semaphore
+
+            - name: MYSQL_USER
+              valueFrom:
+                secretKeyRef:
+                  name: semaphore-secret
+                  key: MYSQL_USER
+                  optional: false
+
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: semaphore-secret
+                  key: MYSQL_PASSWORD
+                  optional: false
+
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: semaphore-secret
+                  key: MYSQL_ROOT_PASSWORD
+                  optional: false
+          volumeMounts:
+            - name: semaphore-db-vol
+              mountPath: /var/lib/mysql
+        
+        - name: semaphore
+          image: ansiblesemaphore/semaphore
+          ports:
+            - containerPort: 3000
+          resources: {}
+          env:
+            - name: SEMAPHORE_ADMIN
+              valueFrom:
+                secretKeyRef:
+                  name: semaphore-secret
+                  key: SEMAPHORE_ADMIN
+                  optional: false
+            - name: SEMAPHORE_ADMIN_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: semaphore-secret
+                  key: SEMAPHORE_ADMIN_NAME
+                  optional: false
+            - name: SEMAPHORE_ADMIN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: semaphore-secret
+                  key: SEMAPHORE_ADMIN_PASSWORD
+                  optional: false
+            - name: SEMAPHORE_DB_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: semaphore-secret
+                  key: SEMAPHORE_DB_PASS
+                  optional: false
+            - name: SEMAPHORE_DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: semaphore-secret
+                  key: SEMAPHORE_DB_USER
+                  optional: false
+
+            #Configure this if your environment has mail sending capabilities
+            #- name: SEMAPHORE_ADMIN_EMAIL
+            #  value: admin@localhost
+
+            - name: POD_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+
+            - name: SEMAPHORE_DB
+              value: semaphore
+
+            - name: SEMAPHORE_DB_DIALECT
+              value: mysql
+
+            #if the DB is moved to different pod, this need to updated to service FQDN of the DB
+            - name: SEMAPHORE_DB_HOST
+              value: 127.0.0.1
+
+            - name: SEMAPHORE_DB_PORT
+              value: "3306"
+
+            - name: SEMAPHORE_PLAYBOOK_PATH
+              value: /tmp/semaphore
+
+            #I am unable to make GUI work with this set, so commented this
+            #- name: SEMAPHORE_WEB_ROOT
+            #  value: http://127.0.0.1:3000
+
+            # use head -c32 /dev/urandom | base64 to generate the below value
+            - name: SEMAPHORE_ACCESS_KEY_ENCRYPTION
+              value: ZeoACskLPvxu9Nw/Uf4DLQe3teNgdcL3FRT/FLKEs04=

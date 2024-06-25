@@ -76,7 +76,7 @@ spec:
                   optional: false
 
             - name: SEMAPHORE_DB_HOST
-              value: "mysql"
+              value: "127.0.0.1"
 
             - name: SEMAPHORE_DB_PORT
               value: "3306"

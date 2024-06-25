@@ -1,5 +1,5 @@
 ---
-- hosts: Home Cluster
+- hosts: "Home Cluster"
   become: true
   tasks: 
     - name: update apt packages

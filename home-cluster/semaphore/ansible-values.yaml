@@ -1,0 +1,8 @@
+ingress:
+  enabled: true
+
+hosts:
+  - host: "semaphore.local.solonsstuff.com"
+    paths:
+      - path: "/"
+        pathType: Prefix

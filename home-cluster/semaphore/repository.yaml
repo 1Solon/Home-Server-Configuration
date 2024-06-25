@@ -1,0 +1,9 @@
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: HelmRepository
+metadata:
+  name: ansible-semaphore
+  namespace: ansible-semaphore
+spec:
+  interval: 1m
+  type: oci
+  url: oci://ghcr.io/cloudhippie/charts/ansible-semaphore

@@ -58,7 +58,7 @@ spec:
         - name: semaphore
           image: semaphoreui/semaphore
           ports:
-            - containerPort: 3000
+            - containerPort: 80
           resources: {}
           env:
             - name: SEMAPHORE_DB_USER

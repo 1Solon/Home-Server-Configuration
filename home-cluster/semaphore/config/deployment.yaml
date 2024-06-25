@@ -56,7 +56,7 @@ spec:
               mountPath: /var/lib/mysql
         
         - name: semaphore
-          image: ansiblesemaphore/semaphore
+          image: semaphoreui/semaphore
           ports:
             - containerPort: 3000
           resources: {}

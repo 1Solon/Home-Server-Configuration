@@ -76,7 +76,10 @@ spec:
                   optional: false
 
             - name: SEMAPHORE_DB_HOST
-              value: "127.0.0.1"
+              value: 127.0.0.1
+
+            - name: SEMAPHORE_WEB_ROOT
+              value: http://127.0.0.1:3000
 
             - name: SEMAPHORE_DB_PORT
               value: "3306"

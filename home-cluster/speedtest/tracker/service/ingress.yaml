@@ -1,0 +1,21 @@
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: speedtest
+  namespace: speedtest
+  annotations:
+    kubernetes.io/ingress.class: traefik-external
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`speed.local.solonsstuff.com`)
+      kind: Rule
+      services:
+        - name: speedtest-tracker
+          port: 80
+      middlewares:
+        - name: default-headers
+  tls:
+    secretName: local-solonsstuff-com-live-tls

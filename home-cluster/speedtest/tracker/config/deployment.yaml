@@ -1,0 +1,59 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: speedtest-tracker
+  namespace: speedtest
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: speedtest-tracker
+  template:
+    metadata:
+      labels:
+        app: speedtest-tracker
+    spec:
+      dnsPolicy: None
+      dnsConfig:
+        nameservers:
+          - 10.152.183.10
+          - 8.8.8.8
+        searches:
+          - speedtest-tracker.speedtest.svc.cluster.local
+        options:
+          - name: ndots
+            value: "5"
+      containers:
+        - name: speedtest-tracker
+          image: ghcr.io/linuxserver/speedtest-tracker:0.20.7
+          resources: {}
+          ports:
+            - containerPort: 80
+          env:
+            - name: PUID
+              value: "1000"
+            - name: PGID
+              value: "1000"
+            - name: DB_CONNECTION
+              value: pgsql
+            - name: DB_HOST
+              value: 10.43.12.207
+            - name: DB_PORT
+              value: "5432"
+            - name: DB_DATABASE
+              value: speedtest_tracker
+            - name: DB_USERNAME
+              value: speedy
+            - name: DB_PASSWORD
+              value: password
+            - name: AUTH
+              value: "false"
+
+          volumeMounts:
+            - mountPath: /config
+              name: speedtest-tracker
+      volumes:
+        - name: speedtest-tracker
+          persistentVolumeClaim:
+            claimName: speedtest-tracker

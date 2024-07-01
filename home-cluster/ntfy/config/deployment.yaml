@@ -48,9 +48,9 @@ spec:
                 - secretRef:
                     name: ntfy-user-config
               volumeMounts:
-                - name: user-db
-                  mountPath: "/var/lib/ntfy/"
-          volumes:
-            - name: user-db
-              persistentVolumeClaim:
-                claimName: ntfy-pvc
+                - mountPath: /var/lib/ntfy/
+                  name: user-db
+      volumes:
+        - name: user-db
+          persistentVolumeClaim:
+            claimName: ntfy-pvc

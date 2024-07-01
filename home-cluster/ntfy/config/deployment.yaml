@@ -52,4 +52,5 @@ spec:
                   mountPath: "/var/lib/ntfy/"
           volumes:
             - name: user-db
-              emptyDir: {}
+              persistentVolumeClaim:
+                claimName: ntfy-pvc

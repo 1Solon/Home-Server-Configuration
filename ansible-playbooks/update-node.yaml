@@ -17,12 +17,14 @@
       register: reboot_required
     
     # Notify me when a reboot is required
-    - name: Send Discord message
+    - name: send ntfy notification
       uri:
         url: "https://ntfy.solonsstuff.com/{{ ntfy_channel }}"
         method: POST
         body: "{{ inventory_hostname }} requires a reboot. 🖥️"
         headers: 
           'Authorization': "{{ ntfy_token }}"
+        return_content: yes
         follow_redirects: all
+        use_proxy: no
       # when: reboot_required.stat.exists

@@ -4,16 +4,9 @@ metadata:
   name: ntfy
   namespace: ntfy
 spec:
-  internalTrafficPolicy: Cluster
-  ipFamilies: 
-  - IPv4
-  ipFamilyPolicy: SingleStack
-  ports:
-    - name: 80-80
-      port: 80
-      protocol: TCP
-      targetPort: 80
   selector:
-    app.kubernetes.io/name: ntfy
-  sessionAffinity: None
-  type: ClusterIP
+    app: ntfy
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80

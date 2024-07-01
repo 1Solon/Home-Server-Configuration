@@ -23,5 +23,5 @@
         method: POST
         body: "{{ inventory_hostname }} requires a reboot. 🖥️"
         headers: 
-          'Authorization': {{ ntfy_token }}
+          'Authorization': "{{ ntfy_token }}"
       when: reboot_required.stat.exists

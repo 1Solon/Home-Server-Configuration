@@ -5,7 +5,7 @@ metadata:
   namespace: ntfy
 spec:
   headers:
-    browserXssFilter: true
+    browserXssFilter: false
     contentTypeNosniff: true
     forceSTSHeader: true
     stsIncludeSubdomains: true

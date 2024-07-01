@@ -3,8 +3,6 @@ kind: Service
 metadata:
   name: ntfy
   namespace: ntfy
-  labels:
-    app.kubernetes.io/name: ntfy
 spec:
   internalTrafficPolicy: Cluster
   ipFamilies: 

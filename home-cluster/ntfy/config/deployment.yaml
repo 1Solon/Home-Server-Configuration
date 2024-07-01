@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ntfy
+  namespace: ntfy
+  labels:
+    app: ntfy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: ntfy
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: ntfy
+    spec:
+      containers:
+        - name: ntfy
+          image: binwiederhier/ntfy:v2.11.0
+          resources: {}
+          imagePullPolicy: Always
+          command: ["ntfy", "serve"]
+          envFrom:
+            - configMapRef:
+                name: ntfy-server-config
+          ports:
+            - containerPort: 80
+              name: TCP
+          volumeMounts:
+            - name: user-db
+              mountPath: "/var/lib/ntfy"
+          initContainers:
+            - name: init-user-db
+              image: binwiederhier/ntfy:v2.11.0
+              imagePullPolicy: Always
+              command: ["/bin/sh", "-c"]
+              args:
+                - |
+                  ntfy serve &
+                  if [ $? -eq 0 ]; then
+                    while true; do sleep 3 && test -f $NTFY_AUTH_FILE && break; done
+                    ntfy user add --role=admin $NTFY_USERNAME
+                    pkill -TERM ntfy
+                  else
+                    exit $?
+                  fi
+              envFrom:
+                - configMapRef:
+                    name: ntfy-server-config
+                - secretRef:
+                    name: ntfy-user-config
+              volumeMounts:
+                - name: user-db
+                  mountPath: "/var/lib/ntfy/"
+          volumes:
+            - name: user-db
+              emptyDir: {}

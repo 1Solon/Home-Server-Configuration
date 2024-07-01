@@ -1,0 +1,21 @@
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: ntfy
+  namespace: ntfy
+  annotations: 
+    kubernetes.io/ingress.class: traefik-external
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`ntfy.solonsstuff.com`)
+      kind: Rule
+      services:
+        - name: ntfy
+          port: 80
+      middlewares:
+        - name: default-headers
+  tls:
+    secretName: solonsstuff-com-live-tls

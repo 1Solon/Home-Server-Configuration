@@ -1,0 +1,12 @@
+apiVersion: v1
+king: ConfigMap
+metadata:
+  name: ntfy-server-config
+  namespace: ntfy
+  labels:
+    app.kubernetes.io/name: ntfy
+data:
+  NTFY_AUTH_FILE: /var/lib/ntfy/user.db
+  NTFY_AUTH_DEFAULT_ACCESS: deny-all
+  NTFY_BASE_URL: "https://ntfy.solonsstuff.com"
+  NTFY_UPSTREAM_BASE_URL: "https://ntfy.sh"

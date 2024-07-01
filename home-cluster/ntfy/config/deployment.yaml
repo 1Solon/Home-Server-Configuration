@@ -24,7 +24,6 @@ spec:
                 name: ntfy-server-config
           ports:
             - containerPort: 80
-              name: TCP
           volumeMounts:
             - name: user-db
               mountPath: "/var/lib/ntfy"

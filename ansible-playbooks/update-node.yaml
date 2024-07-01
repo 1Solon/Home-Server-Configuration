@@ -24,4 +24,5 @@
         body: "{{ inventory_hostname }} requires a reboot. 🖥️"
         headers: 
           'Authorization': "{{ ntfy_token }}"
+        follow_redirects: all
       # when: reboot_required.stat.exists

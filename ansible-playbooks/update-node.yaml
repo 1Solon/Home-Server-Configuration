@@ -11,9 +11,17 @@
 
      # Check if reboot is required
     - name: check if system reboot is required
-      become: true
+      become: false
       stat:
         path: /var/run/reboot-required
       register: reboot_required
     
-    # TODO: Add a system to notify me when a reboot is required
+    # Notify me when a reboot is required
+    - name: Send Discord message
+      uri:
+        url: "https://ntfy.solonsstuff.com/{{ ntfy_channel }}"
+        method: POST
+        body: "{{ inventory_hostname }} requires a reboot. 🖥️"
+        headers: 
+          'Authorization': {{ ntfy_token }}
+      when: reboot_required.stat.exists

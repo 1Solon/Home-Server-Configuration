@@ -36,22 +36,22 @@ spec:
       DB_HOSTNAME:
         valueFrom:
           secretKeyRef:
-            name: immich_db
+            name: immich-db
             key: HOST
       DB_USERNAME:
         valueFrom:
           secretKeyRef:
-            name: immich_db
+            name: immich-db
             key: LOGIN
       DB_PASSWORD:
         valueFrom:
           secretKeyRef:
-            name: immich_db
+            name: immich-db
             key: PASSWORD
       DB_DATABASE_NAME:
         valueFrom:
           secretKeyRef:
-            name: immich_db
+            name: immich-db
             key: DATABASE_NAME
       LOG_LEVEL: verbose
       TZ: Europe/Dublin

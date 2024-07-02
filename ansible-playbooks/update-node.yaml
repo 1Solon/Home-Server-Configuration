@@ -21,9 +21,12 @@
       uri:
         url: "https://ntfy.solonsstuff.com/{{ ntfy_channel }}"
         method: POST
-        body: "{{ inventory_hostname }} requires a reboot. 🖥️"
+        body: "{{ inventory_hostname }} requires a reboot. "
         headers: 
           'Authorization': "{{ ntfy_token }}"
+          'Title': "Reboot Required"
+          'Priority': '3'
+          'Tags': 'computer'
         return_content: yes
         follow_redirects: all
         use_proxy: no

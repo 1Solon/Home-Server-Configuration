@@ -49,6 +49,11 @@ spec:
               value: password
             - name: AUTH
               value: "false"
+            - name: APP_KEY
+              valuefrom:
+                secretKeyRef:
+                  name: speedtest-secret
+                  key: api-key
 
           volumeMounts:
             - mountPath: /config

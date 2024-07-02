@@ -23,34 +23,34 @@ spec:
 
     postgres:
       enabled: false
-      image:
-        repository: tensorchord/pgvecto-rs
-        tag: pg14-v0.2.0
-      global:
-        postgresql:
-          auth:
-            username:
-              valueFrom:
-                secretKeyRef:
-                  name: immich-db
-                  key: LOGIN
-            database:
-              valueFrom:
-                secretKeyRef:
-                  name: immich-db
-                  key: DATABASE_NAME
-            password:
-              valueFrom:
-                secretKeyRef:
-                  name: immich-db
-                  key: PASSWORD
-      primary:
-        initdb:
-          scripts:
-            create-extensions.sql: |
-              CREATE EXTENSION cube;
-              CREATE EXTENSION earthdistance;
-              CREATE EXTENSION vectors;
+      # image:
+      #   repository: tensorchord/pgvecto-rs
+      #   tag: pg14-v0.2.0
+      # global:
+      #   postgresql:
+      #     auth:
+      #       username:
+      #         valueFrom:
+      #           secretKeyRef:
+      #             name: immich-db
+      #             key: LOGIN
+      #       database:
+      #         valueFrom:
+      #           secretKeyRef:
+      #             name: immich-db
+      #             key: DATABASE_NAME
+      #       password:
+      #         valueFrom:
+      #           secretKeyRef:
+      #             name: immich-db
+      #             key: PASSWORD
+      # primary:
+      #   initdb:
+      #     scripts:
+      #       create-extensions.sql: |
+      #         CREATE EXTENSION cube;
+      #         CREATE EXTENSION earthdistance;
+      #         CREATE EXTENSION vectors;
     
     immich:
       metrics:

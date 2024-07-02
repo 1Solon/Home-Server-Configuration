@@ -27,7 +27,4 @@
           'Title': "Reboot Required"
           'Priority': '3'
           'Tags': 'arrows_counterclockwise'
-        return_content: yes
-        follow_redirects: all
-        use_proxy: no
       # when: reboot_required.stat.exists

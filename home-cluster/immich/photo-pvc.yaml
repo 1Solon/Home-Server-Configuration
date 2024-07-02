@@ -2,7 +2,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: photo-library
-  namespace: immich
+  namespace: home-media
 spec:
   accessModes:
   - ReadWriteMany

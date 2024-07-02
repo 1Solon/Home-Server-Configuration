@@ -50,7 +50,7 @@ spec:
             - name: AUTH
               value: "false"
             - name: APP_KEY
-              valuefrom:
+              valueFrom:
                 secretKeyRef:
                   name: speedtest-secret
                   key: api-key

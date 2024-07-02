@@ -2,7 +2,7 @@ apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
   name: immich
-  namespace: home-media
+  namespace: immich
 spec:
   interval: 5m
   chart:
@@ -18,12 +18,40 @@ spec:
     remediation:
       retries: 3
   values:
-    postgres:
-      enabled: false
-
     redis:
       enabled: true
 
+    postgres:
+      enabled: true
+      image:
+        repository: tensorchord/pgvecto-rs
+        tag: pg14-v0.2.0
+      global:
+        postgresql:
+          auth:
+            username:
+              valueFrom:
+                secretKeyRef:
+                  name: immich-db
+                  key: LOGIN
+            database:
+              valueFrom:
+                secretKeyRef:
+                  name: immich-db
+                  key: DATABASE_NAME
+            password:
+              valueFrom:
+                secretKeyRef:
+                  name: immich-db
+                  key: PASSWORD
+      primary:
+        initdb:
+          scripts:
+            create-extensions.sql: |
+              CREATE EXTENSION cube;
+              CREATE EXTENSION earthdistance;
+              CREATE EXTENSION vectors;
+    
     immich:
       metrics:
         enabled: false

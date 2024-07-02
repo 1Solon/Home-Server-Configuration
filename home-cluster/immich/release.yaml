@@ -20,7 +20,7 @@ spec:
   values:
     
     postgresql:
-      enabled: false
+      enabled: true
       image:
         repository: tensorchord/pgvecto-rs
         tag: pg14-v0.2.0

@@ -1,42 +1,42 @@
----
-apiVersion: kustomize.toolkit.fluxcd.io/v1
-kind: Kustomization
-metadata:
-  name: &appname cloudnative-pg
-  namespace: flux-system
-spec:
-  targetNamespace: databases
-  commonMetadata:
-    labels:
-      app.kubernetes.io/name: *appname
-  interval: 10m
-  path: "./home-cluster/infrastructure/databases/cloudnative-postgres/app"
-  prune: true
-  sourceRef:
-    kind: GitRepository
-    name: flux-system
-  wait: true
----
-apiVersion: kustomize.toolkit.fluxcd.io/v1
-kind: Kustomization
-metadata:
-  name: &appname-cluster postgres-cluster
-  namespace: flux-system
-  labels:
-    substitution.flux.home.arpa/enabled: "true"
-spec:
-  targetNamespace: databases
-  commonMetadata:
-    labels:
-      app.kubernetes.io/name: *appname-cluster
-  interval: 10m
-  path: "./home-cluster/infrastructure/databases/cloudnative-postgres/cluster"
-  prune: true
-  sourceRef:
-    kind: GitRepository
-    name: flux-system
-  wait: true
-  dependsOn:
-    - name: cloudnative-pg
-    # - name: longhorn
-    # TODO: Uncomment this when the longhorn dependency is enabled with kustomize
+# ---
+# apiVersion: kustomize.toolkit.fluxcd.io/v1
+# kind: Kustomization
+# metadata:
+#   name: &appname cloudnative-pg
+#   namespace: flux-system
+# spec:
+#   targetNamespace: databases
+#   commonMetadata:
+#     labels:
+#       app.kubernetes.io/name: *appname
+#   interval: 10m
+#   path: "./home-cluster/infrastructure/databases/cloudnative-postgres/app"
+#   prune: true
+#   sourceRef:
+#     kind: GitRepository
+#     name: flux-system
+#   wait: true
+# ---
+# apiVersion: kustomize.toolkit.fluxcd.io/v1
+# kind: Kustomization
+# metadata:
+#   name: &appname-cluster postgres-cluster
+#   namespace: flux-system
+#   labels:
+#     substitution.flux.home.arpa/enabled: "true"
+# spec:
+#   targetNamespace: databases
+#   commonMetadata:
+#     labels:
+#       app.kubernetes.io/name: *appname-cluster
+#   interval: 10m
+#   path: "./home-cluster/infrastructure/databases/postgres/cloudnative-postgres/cluster"
+#   prune: true
+#   sourceRef:
+#     kind: GitRepository
+#     name: flux-system
+#   wait: true
+#   dependsOn:
+#     - name: cloudnative-pg
+#     # - name: longhorn
+#     # TODO: Uncomment this when the longhorn dependency is enabled with kustomize

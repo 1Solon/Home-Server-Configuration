@@ -10,7 +10,7 @@ spec:
     labels:
       app.kubernetes.io/name: metallb
   interval: 10m
-  path: "./home-cluster/metallb/app"
+  path: "./home-cluster/metallb/metallb/app"
   prune: true
   sourceRef:
     kind: GitRepository
@@ -27,7 +27,7 @@ spec:
     labels:
       app.kubernetes.io/name: metallb-config
   interval: 10m
-  path: "./home-cluster/metallb/config"
+  path: "./home-cluster/metallb/metallb/config"
   prune: true
   sourceRef:
     kind: GitRepository

@@ -16,3 +16,7 @@ spec:
   valuesFrom:
     - kind: ConfigMap
       name: traefik-values
+  dependsOn:
+    - name: longhorn
+      namespace: longhorn-system
+      kind: HelmRelease

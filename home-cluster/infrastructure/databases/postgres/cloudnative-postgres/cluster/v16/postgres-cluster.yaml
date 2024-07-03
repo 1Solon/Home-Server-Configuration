@@ -1,0 +1,35 @@
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: postgres16
+spec:
+  instances: 3
+  imageName: ghcr.io/ahinko/postgres-extended:16.3.4
+  primaryUpdateStrategy: unsupervised
+  storage:
+    size: 50Gi
+    storageClass: longhorn
+  enableSuperuserAccess: true
+  superuserSecret:
+    name: cloudnative-pg-secret
+  monitoring:
+    enablePodMonitor: true
+
+  resources:
+    requests:
+      cpu: 500m
+    limits:
+      memory: 4Gi
+
+  affinity:
+    enablePodAntiAffinity: true
+    topologyKey: kubernetes.io/hostname
+    podAntiAffinityType: required
+
+  postgresql:
+    shared_preload_libraries:
+      - "vectors.so"
+    parameters:
+      max_connections: "300"
+      shared_buffers: 512MB

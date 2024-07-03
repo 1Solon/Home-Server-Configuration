@@ -13,7 +13,7 @@ spec:
         kind: HelmRepository
         name: metallb-repo
   maxHistory: 2
-    install:
+  install:
     createNamespace: true
     remediation:
       retries: 3

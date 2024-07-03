@@ -4,7 +4,7 @@ kind: HelmRelease
 metadata:
   name: cloudnative-pg
 spec:
-  interval: 15m
+  interval: 1m
   chart:
     spec:
       chart: cloudnative-pg
@@ -13,7 +13,6 @@ spec:
         kind: HelmRepository
         name: cloudnative-pg-charts
         namespace: flux-system
-      interval: 1m
   # TODO: Uncomment this when the longhorn dependency is enabled with kustomize
   # dependsOn:
   #   - name: longhorn

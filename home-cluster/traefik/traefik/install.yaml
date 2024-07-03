@@ -16,6 +16,9 @@ spec:
     kind: GitRepository
     name: flux-system
   wait: true
+  dependsOn:
+    - name: cert-manager
+      namespace: flux-system
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization

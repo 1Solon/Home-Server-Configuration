@@ -19,5 +19,5 @@ spec:
   dependsOn:
     - name: metallb
       namespace: flux-system
-    - name: longhorn-system
+    - name: longhorn
       namespace: flux-system

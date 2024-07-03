@@ -4,4 +4,3 @@ kind: Kustomization
 resources:
   - ./namespace.yaml
   - ./cloudnative-postgres/install.yaml
-  # - ./ext-postgres-operator/install.yaml

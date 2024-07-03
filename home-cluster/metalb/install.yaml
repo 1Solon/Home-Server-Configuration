@@ -28,7 +28,7 @@ spec:
     labels:
       app.kubernetes.io/name: *appname
   interval: 10m
-  path: "./home-cluster/metalb/app"
+  path: "./home-cluster/metalb/config"
   prune: true
   sourceRef:
     kind: GitRepository

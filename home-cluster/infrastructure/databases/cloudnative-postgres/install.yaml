@@ -10,7 +10,7 @@ spec:
     labels:
       app.kubernetes.io/name: *appname
   interval: 10m
-  path: "./home-cluster/infrastructure/databases/postgres/cloudnative-postgres/app"
+  path: "./home-cluster/infrastructure/databases/cloudnative-postgres/app"
   prune: true
   sourceRef:
     kind: GitRepository
@@ -30,7 +30,7 @@ spec:
     labels:
       app.kubernetes.io/name: *appname-cluster
   interval: 10m
-  path: "./home-cluster/infrastructure/databases/postgres/cloudnative-postgres/cluster"
+  path: "./home-cluster/infrastructure/databases/cloudnative-postgres/cluster"
   prune: true
   sourceRef:
     kind: GitRepository

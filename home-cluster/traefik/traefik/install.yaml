@@ -36,4 +36,4 @@ spec:
   wait: true
   dependsOn:
     - name: traefik
-      namespace: traefik
+      namespace: flux-system

@@ -1,31 +1,32 @@
 ---
-apiVersion: kustomize.config.k8s.io/v1beta1
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
 kind: Kustomization
 metadata:
-  name: &appname metallb
-  namespace: metallb-system
+  name: metallb
+  namespace: flux-system
 spec:
   targetNamespace: metallb-system
   commonMetadata:
     labels:
-      app.kubernetes.io/name: *appname
+      app.kubernetes.io/name: metallb
   interval: 10m
   path: "./app"
   prune: true
   sourceRef:
     kind: GitRepository
     name: flux-system
+
 ---
-apiVersion: kustomize.config.k8s.io/v1beta1
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
 kind: Kustomization
 metadata:
-  name: &appname metallb-config
-  namespace: metallb-system
+  name: metallb-config
+  namespace: flux-system
 spec:
   targetNamespace: metallb-system
   commonMetadata:
     labels:
-      app.kubernetes.io/name: *appname
+      app.kubernetes.io/name: metallb-config
   interval: 10m
   path: "./config"
   prune: true
@@ -35,3 +36,5 @@ spec:
   wait: true
   dependsOn:
     - name: metallb
+      namespace: metallb-system
+      kind: HelmRelease

@@ -15,7 +15,6 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
-
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
@@ -28,7 +27,7 @@ spec:
     labels:
       app.kubernetes.io/name: metallb-config
   interval: 10m
-  path: "./home-cluster/metallb/app/config"
+  path: "./home-cluster/metallb/config"
   prune: true
   sourceRef:
     kind: GitRepository
@@ -36,5 +35,4 @@ spec:
   wait: true
   dependsOn:
     - name: metallb
-      namespace: metallb-system
-      kind: HelmRelease
+      namespace: flux-system

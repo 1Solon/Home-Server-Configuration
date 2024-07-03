@@ -13,10 +13,6 @@ spec:
         kind: HelmRepository
         name: cloudnative-pg-charts
         namespace: flux-system
-  # TODO: Uncomment this when the longhorn dependency is enabled with kustomize
-  # dependsOn:
-  #   - name: longhorn
-  #     namespace: longhorn-system
   maxHistory: 2
   install:
     createNamespace: true

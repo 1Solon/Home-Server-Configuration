@@ -18,6 +18,6 @@ spec:
   wait: true
   dependsOn:
     - name: metallb
-      namespace: metallb-system
+      namespace: flux-system
     - name: longhorn-system
-      namespace: longhorn-system
+      namespace: flux-system

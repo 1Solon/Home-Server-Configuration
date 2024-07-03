@@ -35,4 +35,6 @@ spec:
     name: flux-system
   wait: true
   dependsOn:
-    - name: metalb
+    - name: metallb
+      namespace: metallb-system
+      kind: HelmRelease

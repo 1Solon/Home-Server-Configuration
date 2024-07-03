@@ -6,12 +6,12 @@ metadata:
   name: flux-system
   namespace: flux-system
 spec:
-  interval: 1m0s
+  interval: 10s
   ref:
     branch: master
   secretRef:
     name: flux-system
-  url: ssh://git@github.com/1Solon/Home-Server-Configuration.git
+  url: https://github.com/1Solon/Home-Server-Configuration.git
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
@@ -19,9 +19,13 @@ metadata:
   name: flux-system
   namespace: flux-system
 spec:
-  interval: 10m0s
+  interval: 30s
   path: ./home-cluster
   prune: true
   sourceRef:
     kind: GitRepository
     name: flux-system
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age

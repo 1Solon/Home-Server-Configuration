@@ -14,7 +14,7 @@ spec:
   prune: true
   sourceRef:
     kind: GitRepository
-    name: homelab-k8s
+    name: flux-system
   wait: true
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
@@ -34,7 +34,7 @@ spec:
   prune: true
   sourceRef:
     kind: GitRepository
-    name: homelab-k8s
+    name: flux-system
   wait: true
   dependsOn:
     - name: cloudnative-pg

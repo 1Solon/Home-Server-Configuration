@@ -3,6 +3,7 @@ apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: &appname cloudnative-pg
+  namespace: flux-system
 spec:
   targetNamespace: databases
   commonMetadata:
@@ -20,6 +21,7 @@ apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: &appname-cluster postgres-cluster
+  namespace: flux-system
   labels:
     substitution.flux.home.arpa/enabled: "true"
 spec:

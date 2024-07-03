@@ -7,7 +7,7 @@ spec:
   chart:
     spec:
       chart: metallb
-      version: "6.3.6"
+      version: "6.3.5"
       sourceRef:
         kind: HelmRepository
         name: metallb-repo

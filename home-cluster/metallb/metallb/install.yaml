@@ -16,9 +16,6 @@ spec:
     kind: GitRepository
     name: flux-system
   wait: true
-  dependsOn:
-    - name: longhorn
-      namespace: longhorn-system
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization

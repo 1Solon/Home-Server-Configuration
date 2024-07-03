@@ -15,6 +15,8 @@ spec:
       values:
       - "true"
   serviceAccountName: system-upgrade
+  disable:
+  - traefik
   upgrade:
     image: rancher/k3s-upgrade
   channel: https://update.k3s.io/v1-release/channels/stable

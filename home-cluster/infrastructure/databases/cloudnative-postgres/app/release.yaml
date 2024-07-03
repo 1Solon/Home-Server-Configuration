@@ -33,6 +33,6 @@ spec:
     crds:
       create: true
     monitoring:
-      podMonitorEnabled: true
+      podMonitorEnabled: false
       grafanaDashboard:
         create: false # Set to true when the grafana dashboard is ready

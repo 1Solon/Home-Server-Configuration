@@ -17,7 +17,5 @@ spec:
   upgrade:
     remediation:
       retries: 3
-  rollback:
-    enable: true
   maxHistory: 2
   targetNamespace: metallb-system

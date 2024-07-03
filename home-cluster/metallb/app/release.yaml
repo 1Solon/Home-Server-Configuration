@@ -4,25 +4,17 @@ metadata:
   name: metallb
   namespace: metallb-system
 spec:
-  interval: 5m
   chart:
     spec:
       chart: metallb
-      version: 6.3.6
       sourceRef:
         kind: HelmRepository
         name: metallb-repo
-  maxHistory: 2
+  interval: 5m
   install:
     createNamespace: true
-    remediation:
-      retries: 3
+    wait: true
   upgrade:
-    cleanupOnFail: false
-    remediation:
-      retries: 3
-  uninstall:
-    keepHistory: false
-  values:
-    crds:
-      create: true
+    wait: true
+  maxHistory: 2
+  targetNamespace: metallb-system

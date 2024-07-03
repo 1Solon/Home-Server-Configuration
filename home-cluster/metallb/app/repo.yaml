@@ -1,8 +1,8 @@
-apiVersion: source.toolkit.fluxcd.io/v1
+apiVersion: source.toolkit.fluxcd.io/v1beta1
 kind: HelmRepository
 metadata:
   name: metallb-repo
-  namespace: metallb-system
+  namespace: flux-system
 spec:
   interval: 1h
   url: https://metallb.github.io/metallb

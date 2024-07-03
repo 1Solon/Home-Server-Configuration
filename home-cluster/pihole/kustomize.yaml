@@ -2,7 +2,7 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 metadata:
-  name: pihole
+  name: pihole-root
 resources:
   - ./namespace.yaml
   - ./pihole/install.yaml

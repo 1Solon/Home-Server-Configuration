@@ -9,7 +9,7 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: cloudnative-pg
-  interval: 2m
+  interval: 10m
   path: "./home-cluster/databases/cloudnative-postgres/app"
   prune: true
   sourceRef:
@@ -27,7 +27,7 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: postgres-cluster
-  interval: 2m
+  interval: 10m
   path: "./home-cluster/databases/cloudnative-postgres/cluster"
   prune: true
   sourceRef:

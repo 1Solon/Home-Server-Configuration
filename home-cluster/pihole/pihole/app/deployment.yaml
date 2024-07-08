@@ -53,3 +53,6 @@ spec:
         - name: pihole-hosts
           configMap:
             name: pihole-hosts
+            items:
+              - key: custom.list
+                path: custom.list

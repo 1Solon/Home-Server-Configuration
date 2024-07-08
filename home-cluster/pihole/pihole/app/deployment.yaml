@@ -32,6 +32,9 @@ spec:
           volumeMounts:
             - mountPath: /etc/pihole
               name: pihole-storage
+            - mountPath: /etc/pihole/custom.list
+              name: pihole-hosts
+              subPath: custom.list
           readinessProbe:
             exec:
               command: ["dig", "@127.0.0.1", "cloudflare.com"]
@@ -47,3 +50,6 @@ spec:
         - name: pihole-storage
           persistentVolumeClaim:
             claimName: pihole-pvc
+        - name: pihole-hosts
+          configMap:
+            name: pihole-hosts

@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: pihole-hosts
+  namespace: pihole
+data:
+  192.168.1.162 pihole.local.solonsstuff.com
+  192.168.1.162 traefik.local.solonsstuff.com
+  192.168.1.162 longhorn.local.solonsstuff.com

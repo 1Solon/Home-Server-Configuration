@@ -4,5 +4,8 @@ kind: Kustomization
 metadata:
   name: homarr
 resources:
-  - ./config
-  - ./service
+  - ./config/dashboard.yaml
+  - ./config/pvc.yaml
+  - ./service/headers.yaml
+  - ./service/service.yaml
+  - ./service/ingress.yaml

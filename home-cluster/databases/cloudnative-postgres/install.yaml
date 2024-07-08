@@ -9,7 +9,7 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: cloudnative-pg
-  interval: 10s
+  interval: 10m
   path: "./home-cluster/databases/cloudnative-postgres/app"
   prune: true
   sourceRef:
@@ -27,14 +27,13 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: postgres-cluster
-  interval: 10s
+  interval: 10m
   path: "./home-cluster/databases/cloudnative-postgres/cluster"
   prune: true
   sourceRef:
     kind: GitRepository
     name: flux-system
   wait: true
-  timeout: 5m
   dependsOn:
     - name: metallb
       namespace: flux-system

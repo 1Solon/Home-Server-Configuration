@@ -22,8 +22,6 @@ kind: Kustomization
 metadata:
   name: postgres-cluster
   namespace: databases
-  labels:
-    substitution.flux.home.arpa/enabled: "true"
 spec:
   targetNamespace: databases
   commonMetadata:

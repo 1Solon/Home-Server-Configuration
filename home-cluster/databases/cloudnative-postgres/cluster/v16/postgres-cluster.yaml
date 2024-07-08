@@ -28,8 +28,6 @@ spec:
     podAntiAffinityType: required
 
   postgresql:
-    shared_preload_libraries:
-      - "vectors.so"
     parameters:
       max_connections: "300"
       shared_buffers: 512MB

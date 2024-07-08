@@ -20,3 +20,10 @@ spec:
       retries: 3
   maxHistory: 2
   targetNamespace: databases
+  values:
+    crds:
+      create: true
+    monitoring:
+      podMonitorEnabled: false
+      grafanaDashboard:
+        create: false # Set to true when the grafana dashboard is ready

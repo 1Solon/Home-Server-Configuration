@@ -3,7 +3,7 @@ apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: cloudnative-pg
-  namespace: databases
+  namespace: flux-system
 spec:
   targetNamespace: databases
   commonMetadata:
@@ -21,7 +21,7 @@ apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: postgres-cluster
-  namespace: databases
+  namespace: flux-system
 spec:
   targetNamespace: databases
   commonMetadata:

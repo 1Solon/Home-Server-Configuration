@@ -20,4 +20,3 @@ spec:
       retries: 3
   maxHistory: 2
   targetNamespace: databases
-

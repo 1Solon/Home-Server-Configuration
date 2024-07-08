@@ -4,12 +4,15 @@ metadata:
   name: pihole
   namespace: pihole
 spec:
-  replicas: 1
   selector:
     matchLabels:
       app: pihole
+  replicas: 1
   strategy:
-    type: Recreate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
   template:
     metadata:
       labels:

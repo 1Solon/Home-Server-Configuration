@@ -47,7 +47,10 @@ spec:
             - name: DB_DATABASE
               value: speedtest_tracker
             - name: DB_USERNAME
-              value: speedy
+              valueFrom:
+                secretKeyRef:
+                  name: secret-speedtest-db-user
+                  key: LOGIN
             - name: DB_PASSWORD
               valueFrom:
                 secretKeyRef:

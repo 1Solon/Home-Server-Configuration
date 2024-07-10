@@ -5,6 +5,6 @@ metadata:
   name: ext-postgres-operator-charts
   namespace: flux-system
 spec:
-  interval: 1h
+  interval: 1m
   url: https://movetokube.github.io/postgres-operator/
   timeout: 3m

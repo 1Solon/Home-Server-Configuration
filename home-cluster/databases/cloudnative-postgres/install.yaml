@@ -41,3 +41,7 @@ spec:
       namespace: flux-system
     - name: cloudnative-pg
       namespace: flux-system
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age

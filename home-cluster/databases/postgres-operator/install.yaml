@@ -18,3 +18,7 @@ spec:
   wait: true
   dependsOn:
     - name: postgres-cluster
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age

@@ -5,6 +5,7 @@ metadata:
   name: ext-postgres-operator
   namespace: databases
 spec:
+  interval: 15m
   chart:
     spec:
       chart: ext-postgres-operator
@@ -12,7 +13,7 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: ext-postgres-operator-charts
-  interval: 10m0s
+      interval: 15m
   values:
     # podAnnotations:
     #   reloader.stakater.com/auto: "true"

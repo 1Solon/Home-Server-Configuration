@@ -59,7 +59,7 @@ spec:
                   name: secret-speedtest-db-user
                   key: PASSWORD
             - name: AUTH
-              value: "false"
+              value: "true"
             - name: APP_KEY
               valueFrom:
                 secretKeyRef:

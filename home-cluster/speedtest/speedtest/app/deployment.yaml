@@ -41,7 +41,7 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: secret-speedtest-db-user
-                  key: POSTGRES_HOST
+                  key: HOST
             - name: DB_PORT
               value: "5432"
             - name: DB_DATABASE

@@ -12,7 +12,7 @@ spec:
         kind: HelmRepository
         name: ext-postgres-operator-charts
         namespace: flux-system
-  interval: 1m0s
+  interval: 10m0s
   values:
     # podAnnotations:
     #   reloader.stakater.com/auto: "true"

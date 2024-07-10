@@ -18,4 +18,4 @@ spec:
   role: speedy
   database: speedtest-db
   secretName: secret
-  privleges: OWNER
+  privileges: OWNER

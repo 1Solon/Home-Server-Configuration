@@ -14,16 +14,6 @@ spec:
       labels:
         app: speedtest-tracker
     spec:
-      # dnsPolicy: None
-      # dnsConfig:
-      #   nameservers:
-      #     - 10.152.183.10
-      #     - 8.8.8.8
-      #   searches:
-      #     - speedtest-tracker.speedtest.svc.cluster.local
-      #   options:
-      #     - name: ndots
-      #       value: "5"
       containers:
         - name: speedtest-tracker
           image: ghcr.io/linuxserver/speedtest-tracker:0.20.7

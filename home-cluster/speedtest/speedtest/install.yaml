@@ -20,3 +20,5 @@ spec:
     provider: sops
     secretRef:
       name: sops-age
+  dependsOn:
+    - name: ext-postgres-operator

@@ -4,8 +4,6 @@ kind: Service
 metadata:
   name: postgres14-loadbalancer
   namespace: databases
-  labels:
-    cnpg.io/cluster: postgres14
   annotations:
     metallb.universe.tf/loadBalancerIPs: 192.168.1.154
 spec:

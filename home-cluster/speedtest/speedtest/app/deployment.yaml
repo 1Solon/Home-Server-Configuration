@@ -36,7 +36,7 @@ spec:
             - name: PGID
               value: "1000"
             - name: APP_DEBUG
-              value: "true"
+              value: "false"
             - name: DB_CONNECTION
               value: pgsql
             - name: DB_HOST
@@ -65,6 +65,10 @@ spec:
                 secretKeyRef:
                   name: speedtest-secret
                   key: api-key
+            - name: SPEEDTEST_SERVERS
+              value: "58482" # Eir Dublin
+            - name: SPEEDTEST_SCHEDULE
+              value: "0 */6 * * *" # Run every 6 hours
 
           volumeMounts:
             - mountPath: /config

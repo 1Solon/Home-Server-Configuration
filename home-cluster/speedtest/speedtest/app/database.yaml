@@ -1,0 +1,21 @@
+---
+apiVersion: db.movetokube.com/v1alpha1
+kind: Postgres
+metadata:
+  name: speedtest-db
+  namespace: speedtest
+spec: 
+  database: speedtest_tracker
+  dropOnDelete: true
+
+---
+apiVersion: db.movetokube.com/v1alpha1
+kind: PostgresUser
+metadata:
+  name: speedtest-db-user
+  namespace: speedtest
+spec:
+  role: speedy
+  database: speedtest-db
+  secretName: secret
+  privleges: OWNER

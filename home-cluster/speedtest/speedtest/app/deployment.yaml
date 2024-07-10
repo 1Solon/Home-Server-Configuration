@@ -38,7 +38,10 @@ spec:
             - name: DB_CONNECTION
               value: pgsql
             - name: DB_HOST
-              value: 10.43.12.207
+              valueFrom:
+                secretKeyRef:
+                  name: secret-speedtest-db-user
+                  key: POSTGRES_URL
             - name: DB_PORT
               value: "5432"
             - name: DB_DATABASE
@@ -46,7 +49,10 @@ spec:
             - name: DB_USERNAME
               value: speedy
             - name: DB_PASSWORD
-              value: password
+              valueFrom:
+                secretKeyRef:
+                  name: secret-speedtest-db-user
+                  key: PASSWORD
             - name: AUTH
               value: "false"
             - name: APP_KEY

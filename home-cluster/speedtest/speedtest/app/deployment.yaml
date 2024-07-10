@@ -35,6 +35,8 @@ spec:
               value: "1000"
             - name: PGID
               value: "1000"
+            - name: APP_DEBUG
+              value: "true"
             - name: DB_CONNECTION
               value: pgsql
             - name: DB_HOST

@@ -10,7 +10,7 @@ spec:
     labels:
       app.kubernetes.io/name: semaphore
   interval: 10m
-  path: "./home-cluster/semaphore/semaphore/app"
+  path: "./kubernetes/semaphore/semaphore/app"
   prune: true
   sourceRef:
     kind: GitRepository

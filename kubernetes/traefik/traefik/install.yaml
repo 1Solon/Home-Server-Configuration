@@ -10,7 +10,7 @@ spec:
     labels:
       app.kubernetes.io/name: traefik
   interval: 10m
-  path: "./home-cluster/traefik/traefik/app"
+  path: "./kubernetes/traefik/traefik/app"
   prune: true
   sourceRef:
     kind: GitRepository
@@ -31,7 +31,7 @@ spec:
     labels:
       app.kubernetes.io/name: traefik-dashboard
   interval: 10m
-  path: "./home-cluster/traefik/traefik/dashboard"
+  path: "./kubernetes/traefik/traefik/dashboard"
   prune: true
   sourceRef:
     kind: GitRepository

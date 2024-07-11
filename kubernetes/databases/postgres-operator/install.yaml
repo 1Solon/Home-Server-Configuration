@@ -10,7 +10,7 @@ spec:
     labels:
       app.kubernetes.io/name: ext-postgres-operator
   interval: 10m
-  path: "./home-cluster/databases/postgres-operator/app"
+  path: "./kubernetes/databases/postgres-operator/app"
   prune: true
   sourceRef:
     kind: GitRepository

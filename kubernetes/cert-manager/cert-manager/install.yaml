@@ -10,7 +10,7 @@ spec:
     labels:
       app.kubernetes.io/name: cert-manager
   interval: 10m
-  path: "./home-cluster/cert-manager/cert-manager/app"
+  path: "./kubernetes/cert-manager/cert-manager/app"
   prune: true
   sourceRef:
     kind: GitRepository
@@ -29,7 +29,7 @@ spec:
     labels:
       app.kubernetes.io/name: cert-manager-issuers
   interval: 10m
-  path: "./home-cluster/cert-manager/cert-manager/issuers"
+  path: "./kubernetes/cert-manager/cert-manager/issuers"
   prune: true
   sourceRef:
     kind: GitRepository
@@ -51,7 +51,7 @@ spec:
     labels:
       app.kubernetes.io/name: cert-manager-certificates
   interval: 10m
-  path: "./home-cluster/cert-manager/cert-manager/certificates"
+  path: "./kubernetes/cert-manager/cert-manager/certificates"
   prune: true
   sourceRef:
     kind: GitRepository

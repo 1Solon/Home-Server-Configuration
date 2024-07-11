@@ -10,7 +10,7 @@ spec:
     labels:
       app.kubernetes.io/name: reflector
   interval: 10m
-  path: "./home-cluster/reloader/reloader/app"
+  path: "./kubernetes/reloader/reloader/app"
   prune: true
   sourceRef:
     kind: GitRepository

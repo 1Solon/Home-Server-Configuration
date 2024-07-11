@@ -10,7 +10,7 @@ spec:
     labels:
       app.kubernetes.io/name: longhorn
   interval: 10m
-  path: "./home-cluster/longhorn/longhorn/app"
+  path: "./kubernetes/longhorn/longhorn/app"
   prune: true
   sourceRef:
     kind: GitRepository

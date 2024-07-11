@@ -10,7 +10,7 @@ spec:
     labels:
       app.kubernetes.io/name: speedtest
   interval: 10m
-  path: "./home-cluster/speedtest/speedtest/app"
+  path: "./kubernetes/speedtest/speedtest/app"
   prune: true
   sourceRef:
     kind: GitRepository

@@ -10,7 +10,7 @@ spec:
     labels:
       app.kubernetes.io/name: reflector
   interval: 10m
-  path: "./home-cluster/reflector/reflector/app"
+  path: "./kubernetes/reflector/reflector/app"
   prune: true
   sourceRef:
     kind: GitRepository

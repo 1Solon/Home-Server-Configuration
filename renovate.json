@@ -8,12 +8,6 @@
   "reviewers": ["1Solon"],
   "packageRules": [
     {
-      "description": "Postgres major updates are disabled, mainly because Starr apps ONLY support 14 :<",
-      "packageNames": ["postgres"],
-      "updateTypes": ["major"],
-      "enabled": false
-    },
-    {
       "description": "YMA dating scheme",
       "packagePatterns": ["^ghcr\\.io/linuxserver/jellyfin$"],
       "allowedVersions": "<2000"

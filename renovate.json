@@ -1,11 +1,10 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": ["config:recommended"],
-  "kubernetes": { "fileMatch": ["\\.yaml$"] },
-  "schedule": ["at any time"],
+  "labels": ["dependencies"],
+  "reviewers": ["1Solon"],
   "prHourlyLimit": 0,
   "prConcurrentLimit": 0,
-  "reviewers": ["1Solon"],
   "packageRules": [
     {
       "description": "YMA dating scheme",
@@ -16,17 +15,6 @@
       "description": "YMA dating scheme",
       "packagePatterns": ["^ghcr\\.io/linuxserver/qbittorrent$"],
       "allowedVersions": "<6"
-    }
-  ],
-  "regexManagers": [
-    {
-      "datasourceTemplate": "github-releases",
-      "fileMatch": [
-        "home-cluster/.*\\.yaml"
-      ],
-      "matchStrings": [
-        " +targetRevision: +(?<currentValue>[^'\" ]+) +# renovate: depName=(?<depName>[^ \\n]+) +(extractVersion=(?<extractVersion>[^\\n]+))?"
-      ]
     }
   ]
 }

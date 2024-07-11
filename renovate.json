@@ -17,6 +17,5 @@
       "packagePatterns": ["^ghcr\\.io/linuxserver/qbittorrent$"],
       "allowedVersions": "<6"
     }
-  ],
-
+  ]
 }

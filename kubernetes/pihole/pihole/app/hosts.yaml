@@ -12,3 +12,12 @@ data:
     192.168.1.162 speed.local.solonsstuff.com
     192.168.1.162 ntfy.solonsstuff.com
     192.168.1.162 semaphore.local.solonsstuff.com
+    192.168.1.162 flood.local.solonsstuff.com
+    192.168.1.162 jellyfin.local.solonsstuff.com
+    192.168.1.162 jellyfin.solonsstuff.com
+    192.168.1.162 jellyseerr.local.solonsstuff.com
+    192.168.1.162 notifiarr.local.solonsstuff.com
+    192.168.1.162 prowlarr.local.solonsstuff.com
+    192.168.1.162 qbittorrent.local.solonsstuff.com
+    192.168.1.162 radarr.local.solonsstuff.com
+    192.168.1.162 sonarr.local.solonsstuff.com

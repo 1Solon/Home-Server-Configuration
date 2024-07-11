@@ -1,20 +1,20 @@
-{
-  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["config:recommended"],
-  "labels": ["dependencies"],
-  "reviewers": ["1Solon"],
-  "prHourlyLimit": 0,
-  "prConcurrentLimit": 0,
-  "packageRules": [
-    {
-      "description": "YMA dating scheme",
-      "packagePatterns": ["^ghcr\\.io/linuxserver/jellyfin$"],
-      "allowedVersions": "<2000"
-    },
-    {
-      "description": "YMA dating scheme",
-      "packagePatterns": ["^ghcr\\.io/linuxserver/qbittorrent$"],
-      "allowedVersions": "<6"
-    }
-  ]
-}
+// {
+//   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+//   "extends": ["config:recommended"],
+//   "labels": ["dependencies"],
+//   "reviewers": ["1Solon"],
+//   "prHourlyLimit": 0,
+//   "prConcurrentLimit": 0,
+//   "packageRules": [
+//     {
+//       "description": "YMA dating scheme",
+//       "packagePatterns": ["^ghcr\\.io/linuxserver/jellyfin$"],
+//       "allowedVersions": "<2000"
+//     },
+//     {
+//       "description": "YMA dating scheme",
+//       "packagePatterns": ["^ghcr\\.io/linuxserver/qbittorrent$"],
+//       "allowedVersions": "<6"
+//     }
+//   ]
+// }

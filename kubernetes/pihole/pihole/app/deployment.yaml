@@ -24,7 +24,7 @@ spec:
       containers:
         - name: pihole
           resources: {}
-          image: pihole/pihole:2024.06.0
+          image: pihole/pihole:2024.07.0
           env:
             - name: TZ
               value: "Europe/Dublin"

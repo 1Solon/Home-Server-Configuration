@@ -11,6 +11,6 @@ resources:
   - ./prowlarr/install.yaml
   - ./notifarr/install.yaml
   - ./jellyseer/install.yaml
-  # - ./jellyfin/install.yaml
+  - ./jellyfin/install.yaml
   - ./flood/install.yaml
   - ./decluttarr/install.yaml

@@ -3,12 +3,13 @@ kind: Deployment
 metadata:
   name: pihole
   namespace: pihole
+  annotations:
+    # Reloads the pod whenever a new host is added
+    configmap.reloader.stakater.com/reload: "pihole-hosts"
 spec:
   selector:
     matchLabels:
       app: pihole
-  annotations:
-    configmap.reloader.stakater.com/reload: "pihole-hosts"
   replicas: 1
   strategy:
     rollingUpdate:

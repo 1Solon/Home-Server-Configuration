@@ -4,5 +4,6 @@ metadata:
   name: ansible-semaphore
   namespace: ansible-semaphore
 spec:
-  interval: 1m
+  interval: 1h
   url: https://cloudhippie.github.io/charts
+  timeout: 3m

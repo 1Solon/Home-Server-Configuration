@@ -1,10 +1,12 @@
+---
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: ansible-semaphore
 resources:
-  - namespace.yaml
-  - repository.yaml
-  - release.yaml
+  - ./repository.yaml
+  - ./release.yaml
+  - ./ingress.yaml
+  - ./headers.yaml
 configMapGenerator:
   - name: ansible-semaphore-values
     files:

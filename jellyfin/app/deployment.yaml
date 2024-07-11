@@ -6,7 +6,6 @@ metadata:
     app: jellyfin
   name: jellyfin
 spec:
-  progressDeadlineSeconds: 600
   replicas: 1
   selector:
     matchLabels:

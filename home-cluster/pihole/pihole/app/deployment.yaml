@@ -7,6 +7,8 @@ spec:
   selector:
     matchLabels:
       app: pihole
+  annotations:
+    configmap.reloader.stakater.com/reload: "pihole-hosts"
   replicas: 1
   strategy:
     rollingUpdate:

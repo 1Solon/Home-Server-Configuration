@@ -15,10 +15,9 @@ spec:
         name: ext-postgres-operator-charts
       interval: 15m
   values:
-    # podAnnotations:
-    #   reloader.stakater.com/auto: "true"
+    podAnnotations:
+      reloader.stakater.com/auto: "true"
     
-    # I still need to install reloader
     existingSecret: ext-postgres-operator-secret
 
     env:

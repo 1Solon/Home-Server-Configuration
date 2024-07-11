@@ -1,0 +1,36 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: prowlarr
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: prowlarr
+  template:
+    metadata:
+      labels:
+        app: prowlarr
+    spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+      containers:
+        - name: prowlarr
+          image: ghcr.io/onedr0p/prowlarr-develop:1.20.0
+          imagePullPolicy: Always
+          resources: {}
+          volumeMounts:
+            - name: prowlarr-storage
+              mountPath: /config
+          env:
+            - name: TZ
+              value: "Europe/Dublin"
+      volumes:
+        - name: prowlarr-storage
+          persistentVolumeClaim:
+            claimName: prowlarr-config

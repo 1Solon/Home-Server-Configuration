@@ -1,0 +1,42 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: radarr
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: radarr
+  template:
+    metadata:
+      labels:
+        app: radarr
+    spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 65534
+        runAsGroup: 65534
+        fsGroup: 65534
+        fsGroupChangePolicy: OnRootMismatch
+      containers:
+        - name: radarr
+          image: ghcr.io/onedr0p/radarr-develop:5.8.0
+          imagePullPolicy: Always
+          resources: {}
+          volumeMounts:
+            - name: samba-config
+              mountPath: /config
+            - name: radarr-downloads
+              mountPath: /downloads
+          env:
+            - name: TZ
+              value: "Europe/Dublin"
+
+      volumes:
+        - name: samba-config
+          persistentVolumeClaim:
+            claimName: radarr-config
+        - name: radarr-downloads
+          persistentVolumeClaim:
+            claimName: samba-pvc

@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sonarr
+spec:
+  replicas: 1
+  strategy: {}
+  selector:
+    matchLabels:
+      app: sonarr
+  template:
+    metadata:
+      labels:
+        app: sonarr
+    spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 65534
+        runAsGroup: 65534
+        fsGroup: 65534
+        fsGroupChangePolicy: OnRootMismatch
+      containers:
+        - name: sonarr
+          image: ghcr.io/onedr0p/sonarr-develop:4.0.5
+          imagePullPolicy: Always
+          resources: {}
+          volumeMounts:
+            - name: samba-config
+              mountPath: /config
+            - name: sonarr-service
+              mountPath: /downloads
+          env:
+            - name: TZ
+              value: "Europe/Dublin"
+
+      volumes:
+        - name: samba-config
+          persistentVolumeClaim:
+            claimName: sonarr-config
+        - name: sonarr-service
+          persistentVolumeClaim:
+            claimName: samba-pvc

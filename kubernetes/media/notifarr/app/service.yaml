@@ -1,0 +1,12 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: notifiarr-service
+spec:
+  selector:
+    app: notifiarr
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 5454

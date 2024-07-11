@@ -1,0 +1,12 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: flood-service
+spec:
+  selector:
+    app: flood
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 3000

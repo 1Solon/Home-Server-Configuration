@@ -1,0 +1,35 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: notifiarr
+spec:
+  replicas: 1
+  strategy: 
+    type: Recreate
+  selector:
+    matchLabels:
+      app: notifiarr
+  template:
+    metadata:
+      labels:
+        app: notifiarr
+    spec:
+      containers:
+        - name: notifiarr
+          image: golift/notifiarr:0.7.3
+          imagePullPolicy: Always
+          resources: {}
+          ports:
+            - containerPort: 5454
+          volumeMounts:
+            - name: appdata
+              mountPath: /config
+            - name: appdata
+              mountPath: /var/run/utmp
+            - name: appdata
+              mountPath: /etc/machine-id
+      volumes:
+        - name: appdata
+          persistentVolumeClaim:
+            claimName: notifiarr-pvc

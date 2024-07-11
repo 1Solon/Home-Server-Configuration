@@ -13,4 +13,4 @@ resources:
   - ./jellyseer/install.yaml
   - ./jellyfin/install.yaml
   - ./flood/install.yaml
-  - ./decluttar/install.yaml
+  - ./decluttarr/install.yaml

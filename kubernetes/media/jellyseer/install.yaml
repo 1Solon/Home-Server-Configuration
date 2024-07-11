@@ -10,7 +10,7 @@ spec:
     labels:
       app.kubernetes.io/name: jellyseerr
   interval: 10m
-  path: "./kubernetes/media/jellyseerr/app"
+  path: "./kubernetes/media/jellyseer/app"
   prune: true
   sourceRef:
     kind: GitRepository

@@ -10,7 +10,7 @@ spec:
     labels:
       app.kubernetes.io/name: notifiarr
   interval: 10m
-  path: "./kubernetes/media/notifiarr/app"
+  path: "./kubernetes/media/notifarr/app"
   prune: true
   sourceRef:
     kind: GitRepository

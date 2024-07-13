@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: ntfy
-          image: binwiederhier/ntfy:v2.11.0
+          image: binwiederhier/ntfy:v2.11.0@sha256:4a7d0f0adc6d5d9fc36e64ab55ef676e76e124a2bdd50ce115b6d9c1c7430294
           resources: {}
           imagePullPolicy: Always
           command: ["ntfy", "serve"]
@@ -28,7 +28,7 @@ spec:
               mountPath: "/var/lib/ntfy"
           initContainers:
             - name: init-user-db
-              image: binwiederhier/ntfy:v2.11.0
+              image: binwiederhier/ntfy:v2.11.0@sha256:4a7d0f0adc6d5d9fc36e64ab55ef676e76e124a2bdd50ce115b6d9c1c7430294
               imagePullPolicy: Always
               command: ["/bin/sh", "-c"]
               args:

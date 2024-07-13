@@ -23,7 +23,7 @@ spec:
         fsGroupChangePolicy: OnRootMismatch
       containers:
       - name: flood
-        image: jesec/flood:4.8.2
+        image: jesec/flood:4.8.2@sha256:04329477fd4a8286e978d032a78d253e803801f0ba2e386d9b1a3ebd7080cd09
         resources: {}
         env:
         - name: HOME

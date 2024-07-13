@@ -16,8 +16,8 @@ spec:
     args:
     - prepare
     - server-plan
-    image: rancher/k3s-upgrade
+    image: rancher/k3s-upgrade@sha256:70a238fdf8da99b99fcdb835f8162c9176e8078c170f5d6f349d3b38c3bfed7b
   serviceAccountName: system-upgrade
   upgrade:
-    image: rancher/k3s-upgrade
+    image: rancher/k3s-upgrade@sha256:70a238fdf8da99b99fcdb835f8162c9176e8078c170f5d6f349d3b38c3bfed7b
   channel: https://update.k3s.io/v1-release/channels/stable

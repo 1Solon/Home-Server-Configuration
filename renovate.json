@@ -3,6 +3,7 @@
   "extends": [
     "github>1Solon/renovate-config"
   ],
+  "dependencyDashboard": true,
   "flux": {
     "fileMatch": [
       ".+\\.ya?ml$"

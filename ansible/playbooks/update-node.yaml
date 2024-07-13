@@ -9,7 +9,7 @@
         upgrade: yes
         cache_valid_time: 3600
 
-     # Check if reboot is required
+    # Check if reboot is required
     - name: Check if system reboot is required
       become: false
       stat:

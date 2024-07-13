@@ -1,26 +1,22 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["github>1Solon/renovate-config"],
-  "dependencyDashboard": true,
-  "packageRules": [
-    {
-      "description": "YMA dating scheme",
-      "packagePatterns": ["^ghcr\\.io/linuxserver/jellyfin$"],
-      "allowedVersions": "<2000"
-    },
-    {
-      "description": "YMA dating scheme",
-      "packagePatterns": ["^ghcr\\.io/linuxserver/qbittorrent$"],
-      "allowedVersions": "<6"
-    }
+  "extends": [
+    "github>1Solon/renovate-config"
   ],
+  "dependencyDashboard": true,
   "flux": {
-    "fileMatch": [".+\\.ya?ml$"]
+    "fileMatch": [
+      ".+\\.ya?ml$"
+    ]
   },
   "helm-values": {
-    "fileMatch": [".+\\.ya?ml$"]
+    "fileMatch": [
+      ".+\\.ya?ml$"
+    ]
   },
   "kubernetes": {
-    "fileMatch": [".+\\.ya?ml$"]
+    "fileMatch": [
+      ".+\\.ya?ml$"
+    ]
   }
 }

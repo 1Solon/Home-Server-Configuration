@@ -27,4 +27,4 @@
           'Title': "Reboot Required"
           'Priority': '3'
           'Tags': 'arrows_counterclockwise'
-      when: reboot_required.stat.exists
+      # when: reboot_required.stat.exists

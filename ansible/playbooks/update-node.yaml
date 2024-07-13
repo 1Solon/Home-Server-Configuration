@@ -1,6 +1,7 @@
+---
 - hosts: all
   become: true
-  tasks: 
+  tasks:
     # Update apt packages
     - name: Update apt packages
       apt:
@@ -8,6 +9,15 @@
         upgrade: yes
         cache_valid_time: 3600
       become: true
+      retries: 5
+      delay: 10
+      register: apt_result
+      until: apt_result is succeeded
+
+    # Debug information for apt task
+    - name: Debug apt task result
+      debug:
+        var: apt_result
 
     # Check if reboot is required
     - name: Check if system reboot is required

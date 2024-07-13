@@ -1,4 +1,3 @@
----
 - hosts: all
   become: true
   tasks: 
@@ -8,6 +7,7 @@
         update_cache: yes
         upgrade: yes
         cache_valid_time: 3600
+      become: true
 
     # Check if reboot is required
     - name: Check if system reboot is required
@@ -27,3 +27,4 @@
           'Priority': '3'
           'Tags': 'arrows_counterclockwise'
       when: reboot_required.stat.exists
+      become: false

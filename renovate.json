@@ -1,55 +1,21 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "labels": ["dependencies", "{{updateType}}", "{{manager}}"],
-  "minimumReleaseAge": "3 days",
-  "schedule": ["at any time"],
-  "prHourlyLimit": 0,
-  "prConcurrentLimit": 0,
-  "reviewers": ["1Solon"],
-  "prCreation": "not-pending",
-  "rebaseWhen": "conflicted",
-  "requireConfig": "required",
-  "rollbackPrs": true,
   "extends": [
-    "config:recommended",
-    ":dependencyDashboard",
-    ":enablePreCommit",
-    ":ignoreUnstable",
-    ":separateMultipleMajorReleases",
-    ":timezone(Europe/Dublin)",
-    "docker:enableMajor",
-    "group:recommended",
-    "helpers:pinGitHubActionDigests",
-    "preview:dockerCompose",
-    "preview:dockerVersions",
-    "regexManagers:dockerfileVersions",
-    "regexManagers:githubActionsVersions"
+    "github>1Solon/renovate-config"
   ],
-  "kubernetes": {
-    "fileMatch": ["\\.ya?ml$"]
+  "flux": {
+    "fileMatch": [
+      ".+\\.ya?ml$"
+    ]
   },
-  "packageRules": [
-    {
-      "description": "YMA dating scheme",
-      "packagePatterns": ["^ghcr\\.io/linuxserver/jellyfin$"],
-      "allowedVersions": "<2000"
-    },
-    {
-      "description": "YMA dating scheme",
-      "packagePatterns": ["^ghcr\\.io/linuxserver/qbittorrent$"],
-      "allowedVersions": "<6"
-    },
-    {
-      "description": "v prefix workaround for action updates",
-      "extractVersion": "^(?<version>v\\d+\\.\\d+\\.\\d+)$",
-      "matchDepTypes": ["action"],
-      "versioning": "regex:^v(?<major>\\d+)(\\.(?<minor>\\d+)\\.(?<patch>\\d+))?$"
-    },
-    {
-      "description": "Remove v prefix in regex `_VERSION` updates",
-      "extractVersion": "^?v?(?<version>\\d+\\.\\d+\\.\\d+.*)$",
-      "matchManagers": ["regex"],
-      "versioning": "regex:^v?(?<major>\\d+)(\\.(?<minor>\\d+)\\.(?<patch>\\d+.*))?$"
-    }
-  ]
+  "helm-values": {
+    "fileMatch": [
+      ".+\\.ya?ml$"
+    ]
+  },
+  "kubernetes": {
+    "fileMatch": [
+      ".+\\.ya?ml$"
+    ]
+  }
 }

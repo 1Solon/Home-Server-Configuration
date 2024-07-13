@@ -11,7 +11,6 @@
 
     # Check if reboot is required
     - name: Check if system reboot is required
-      become: false
       stat:
         path: /var/run/reboot-required
       register: reboot_required

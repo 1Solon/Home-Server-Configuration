@@ -28,7 +28,7 @@ spec:
               value: "true"
             - name: REMOVE_MISSING_FILES
               value: "true"
-            - name: REMOVE_NO_FORMAT_UPGRADE
+            - name: REMOVE_FAILED_IMPORTS
               value: "true"
             - name: REMOVE_ORPHANS
               value: "true"

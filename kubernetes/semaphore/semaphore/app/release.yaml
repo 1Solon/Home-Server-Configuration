@@ -5,7 +5,6 @@ metadata:
   name: ansible-semaphore
 spec:
   interval: 10m
-  releaseName: ansible-semaphore
   chart:
     spec:
       chart: ansible-semaphore
@@ -13,6 +12,7 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: ansible-semaphore
+        namespace: ansible-semaphore
   valuesFrom:
     - kind: ConfigMap
       name: ansible-semaphore-values

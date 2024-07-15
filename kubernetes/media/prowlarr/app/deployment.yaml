@@ -21,7 +21,7 @@ spec:
         fsGroupChangePolicy: OnRootMismatch
       containers:
         - name: prowlarr
-          image: ghcr.io/onedr0p/prowlarr-develop:1.20.1@sha256:14577f7cd78d1ee9c9bc606ff96a9bdefde83c5fe93dc163b6c74c83ef5b1085
+          image: ghcr.io/onedr0p/prowlarr-develop:1.21.0@sha256:a2face5a50fb161ff24b9de419731a60ce0a8aae9bb7eb7189ed3627c9dd39cf
           imagePullPolicy: Always
           resources: {}
           volumeMounts:

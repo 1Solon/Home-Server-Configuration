@@ -5,6 +5,9 @@
   "flux": {
     "fileMatch": [".+\\.ya?ml$"]
   },
+  "helm-values": {
+    "fileMatch": [".+\\.ya?ml$"]
+  },
   "kubernetes": {
     "fileMatch": [".+\\.ya?ml$"]
   },

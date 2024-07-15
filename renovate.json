@@ -5,7 +5,7 @@
   "flux": {
     "fileMatch": [".+\\.ya?ml$"]
   },
-  "apps": {
+  "kubernetes": {
     "fileMatch": [".+\\.ya?ml$"]
   },
   "packageRules": [

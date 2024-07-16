@@ -14,3 +14,27 @@ _A k3's cluster managed with Flux and Renovate_
 ![GitHub forks](https://img.shields.io/github/forks/1Solon/AS2-AES-Encryption?style=for-the-badge)
 
 </div>
+
+## 📂 Repository structure
+
+The Git repository contains the following directories:
+
+```sh
+📁
+├─📁 ansible 
+│  └─ 📁 playbooks
+└──📁 kubernetes     
+   ├── 📁 cert-manager
+   ├── 📁 dashboard
+   ├── 📁 databases
+   ├── 📁 kube-system
+   ├── 📁 longhorn
+   ├── 📁 media       # Sonarr, Radarr, Jellyfin, etc
+   ├── 📁 metallb
+   ├── 📁 ntfy
+   ├── 📁 pihole
+   ├── 📁 reflector
+   ├── 📁 reloader
+   ├── 📁 semaphore
+   ├── 📁 speedtest
+   └── 📁 traefik

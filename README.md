@@ -73,6 +73,13 @@ The following apps are installed on the clusters.
 | [Speedtest](https://github.com/sivel/speedtest-cli)                               | Internet speed testing tool                                                              |
 | [Traefik](https://traefik.io)                                                     | Edge router and load balancer                                                            |
 
+## 📦 Hardware
+
+| Device                                                                     | Count | OS Disk Size | Data Disk Size              | Ram  | Operating System | Purpose          |
+| -------------------------------------------------------------------------- | ----- | ------------ | --------------------------- | ---- | ---------------- | ---------------- |
+| [Turing RK1](https://turingpi.com/product/turing-rk1/?attribute_ram=16+GB) | 4     | 2TB NVMe     | 8TB HDD (only one has this) | 16GB | Ubuntu           | Various purposes |
+| [Turing Pi 2](https://turingpi.com/product/turing-pi-2-5/)                 | 1     | -            | -                           | -    | -                | Cluster Platform |
+
 ## 🤖 Automation
 
 [Renovate](https://www.whitesourcesoftware.com/free-developer-tools/renovate) Bot makes sure the components are never outdated.
@@ -86,10 +93,3 @@ Flux supports [SOPS](https://github.com/getsops/sops) in particular [AGE](https:
 ## 🌐 DNS
 
 I'm using Cloudflare for external DNS and have a wildcard A record pointing to my traefik instance. Internally I'm using PiHole for DNS resolution, these are injected into the pods via the `hosts` configmap.
-
-## 📦 Hardware
-
-| Device                                                | Count | OS Disk Size | Data Disk Size              | Ram  | Operating System | Purpose          |
-| ----------------------------------------------------- | ----- | ------------ | --------------------------- | ---- | ---------------- | ---------------- |
-| [Turing RK1](https://turingpi.com/product/turing-rk1/?attribute_ram=16+GB)    | 4     | 2TB NVMe     | 8TB HDD (only one has this) | 16GB | Ubuntu           | Various purposes |
-| [Turing Pi 2](https://turingpi.com/product/turing-pi-2-5/) | 1     | -            | -                           | -    | -                | Cluster Platform |

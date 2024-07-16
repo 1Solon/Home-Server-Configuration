@@ -75,10 +75,10 @@ The following apps are installed on the clusters.
 
 ## 📦 Hardware
 
-| Device                                                                     | Count | OS Disk Size | Data Disk Size              | Ram  | Operating System | Purpose          |
-| -------------------------------------------------------------------------- | ----- | ------------ | --------------------------- | ---- | ---------------- | ---------------- |
-| [Turing RK1](https://turingpi.com/product/turing-rk1/?attribute_ram=16+GB) | 4     | 2TB NVMe     | 8TB HDD (only one has this) | 16GB | Ubuntu           | Various purposes |
-| [Turing Pi 2](https://turingpi.com/product/turing-pi-2-5/)                 | 1     | -            | -                           | -    | -                | Cluster Platform |
+| Device                                                                     | Count | OS Disk Size | Data Disk Size | Ram  | Operating System | Purpose          |
+| -------------------------------------------------------------------------- | ----- | ------------ | -------------- | ---- | ---------------- | ---------------- |
+| [Turing RK1](https://turingpi.com/product/turing-rk1/?attribute_ram=16+GB) | 4     | 2TB NVMe     | 8TB HDD (1x)   | 16GB | Ubuntu           | Various purposes |
+| [Turing Pi 2](https://turingpi.com/product/turing-pi-2-5/)                 | 1     | -            | -              | -    | -                | Cluster Platform |
 
 ## 🤖 Automation
 

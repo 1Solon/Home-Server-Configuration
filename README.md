@@ -87,6 +87,8 @@ Flux supports [SOPS](https://github.com/getsops/sops) in particular [AGE](https:
 
 I'm using Cloudflare for external DNS and have a wildcard A record pointing to my traefik instance. Internally I'm using PiHole for DNS resolution, these are injected into the pods via the `hosts` configmap.
 
+## 📦 Hardware
+
 | Device                                                | Count | OS Disk Size | Data Disk Size              | Ram  | Operating System | Purpose          |
 | ----------------------------------------------------- | ----- | ------------ | --------------------------- | ---- | ---------------- | ---------------- |
 | [Turing RK1](https://www.turingpi.com/turing-rk1/)    | 4     | 2TB NVMe     | 8TB HDD (only one has this) | 16GB | Ubuntu           | Various purposes |

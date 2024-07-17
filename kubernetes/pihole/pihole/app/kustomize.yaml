@@ -10,4 +10,3 @@ resources:
   - ./pvc.yaml
   - ./service.yaml
   - ./hosts.yaml
-  - ./ftl-config.yaml

@@ -9,4 +9,5 @@ resources:
   - ./ingress.yaml
   - ./pvc.yaml
   - ./service.yaml
-  - ./configmap.yaml
+  - ./hosts.yaml
+  - ./ftl-config.yaml

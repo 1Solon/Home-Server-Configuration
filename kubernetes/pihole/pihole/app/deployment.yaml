@@ -4,8 +4,8 @@ metadata:
   name: pihole
   namespace: pihole
   annotations:
-    # Reloads the pod whenever a new host is added
-    configmap.reloader.stakater.com/reload: "pihole-hosts"
+    # Reloads the pod whenever a new host is added, or config is changed
+    configmap.reloader.stakater.com/reload: "pihole-hosts, pihole-ftl"
 spec:
   selector:
     matchLabels:
@@ -41,6 +41,9 @@ spec:
             - mountPath: /etc/pihole/custom.list
               name: pihole-hosts
               subPath: custom.list
+            - mountPath: /etc/pihole/pihole-FTL.conf
+              name: pihole-ftl
+              subPath: pihole-FTL.conf
           readinessProbe:
             exec:
               command: ["dig", "@127.0.0.1", "cloudflare.com"]
@@ -62,3 +65,9 @@ spec:
             items:
               - key: custom.list
                 path: custom.list
+        - name: pihole-ftl
+          configMap:
+            name: pihole-ftl
+            items:
+              - key: pihole-FTL.conf
+                path: pihole-FTL.conf

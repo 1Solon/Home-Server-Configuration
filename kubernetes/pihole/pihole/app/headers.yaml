@@ -16,20 +16,3 @@ spec:
     customFrameOptionsValue: SAMEORIGIN
     customRequestHeaders:
       X-Forwarded-Proto: https
-    accessControlAllowOriginList:
-      - "http://10.42.3.64"
-      - "http://pihole.local.solonsstuff.com"
-      - "http://pi.hole"
-      - "http://localhost"
-      - "http://pihole-7d8d5555cd-2jpk2"
-    accessControlAllowMethods:
-      - "GET"
-      - "POST"
-      - "PUT"
-      - "DELETE"
-      - "OPTIONS"
-    accessControlAllowHeaders:
-      - "Content-Type"
-      - "Authorization"
-      - "X-Requested-With"
-    accessControlAllowCredentials: true

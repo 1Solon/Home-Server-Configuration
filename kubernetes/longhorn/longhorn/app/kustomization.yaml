@@ -4,5 +4,5 @@ kind: Kustomization
 resources:
   - ./headers.yaml
   - ./ingress.yaml
-  - ./helmrelease.yaml
+  - ./release.yaml
   - ./helmrepo.yaml

@@ -17,7 +17,11 @@ spec:
     customRequestHeaders:
       X-Forwarded-Proto: https
     accessControlAllowOriginList:
-      - "https://pihole.local.solonsstuff.com"
+      - "http://10.42.3.64"
+      - "http://pihole.local.solonsstuff.com"
+      - "http://pi.hole"
+      - "http://localhost"
+      - "http://pihole-7d8d5555cd-2jpk2"
     accessControlAllowMethods:
       - "GET"
       - "POST"

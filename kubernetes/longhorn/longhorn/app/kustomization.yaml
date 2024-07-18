@@ -6,3 +6,4 @@ resources:
   - ./ingress.yaml
   - ./release.yaml
   - ./helmrepo.yaml
+  - ./secret.yaml

@@ -17,7 +17,7 @@ spec:
   values:
     defaultSettings:
       defaultDataPath: "/storage"
-      backupTarget: cifs://${u415357.your-storagebox.de}/${backup}
+      backupTarget: cifs://u415357.your-storagebox.de/backup
       backupTargetCredentialSecret: cifs-secret
     service:
       ui:

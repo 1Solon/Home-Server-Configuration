@@ -17,6 +17,8 @@ spec:
   values:
     defaultSettings:
       defaultDataPath: "/storage"
+      backupTarget: "cifs://${u415357.your-storagebox.de}/${backup}"
+      backupTargetCredentialSecret: "cifs-secret"
     service:
       ui:
         loadBalancerIP: "192.168.1.151"

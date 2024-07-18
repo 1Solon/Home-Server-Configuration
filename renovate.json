@@ -14,11 +14,6 @@
   },
   "packageRules": [
     {
-      "description": "Automerge non-major updates",
-      "matchUpdateTypes": ["minor", "patch"],
-      "automerge": true
-    },
-    {
       "description": "YMA dating scheme",
       "packagePatterns": ["^ghcr\\.io/linuxserver/jellyfin$"],
       "allowedVersions": "<2000"

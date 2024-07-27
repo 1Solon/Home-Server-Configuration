@@ -1,11 +1,7 @@
----
 apiVersion: v1
 kind: Service
 metadata:
   name: qbittorrent-webui-service
-  annotations:
-    metallb.universe.tf/allow-shared-ip: qbittorrent
-    metallb.universe.tf/loadBalancerIPs: 192.168.1.111
 spec:
   selector:
     app: qbittorrent

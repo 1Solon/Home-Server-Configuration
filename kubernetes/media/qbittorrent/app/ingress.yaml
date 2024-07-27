@@ -12,7 +12,7 @@ spec:
     - match: Host(`qbittorrent.local.solonsstuff.com`)
       kind: Rule
       services:
-        - name: qbittorrent-webui-service
+        - name: qbittorrent-service
           port: 80
       middlewares:
         - name: default-headers

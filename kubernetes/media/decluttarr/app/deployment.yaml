@@ -80,7 +80,7 @@ spec:
             #       name: readarr-api-key
             #       key: key
             - name: QBITTORRENT_URL
-              value: "http://qbittorrent-tcp-service.home-media.svc.cluster.local"
+              value: "http://qbittorrent-service.home-media.svc.cluster.local"
             - name: QBITTORRENT_USERNAME
               valueFrom:
                 secretKeyRef:

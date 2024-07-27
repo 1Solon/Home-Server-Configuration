@@ -1,0 +1,45 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: muse
+spec:
+  replicas: 1
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app: muse
+  template:
+    metadata:
+      labels:
+        app: muse
+    spec:
+      containers:
+        - name: muse
+          image: codetheweb/muse:2.9.0@sha256:4251ef3800f126902c65ed394276e2170522361d1fd09f2519169268cf2c346f
+          resources: {}
+          env:
+            - name: DISCORD_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: muse-secrets
+                  key: discord_token
+            - name: YOUTUBE_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: muse-secrets
+                  key: youtube_api_key
+            - name: SPOTIFY_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: muse-secrets
+                  key: spotify_client_id
+            - name: SPOTIFY_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: muse-secrets
+                  key: spotify_client_secret

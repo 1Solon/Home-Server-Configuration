@@ -24,7 +24,7 @@ spec:
           resources: {}
           env:
             - name: LOG_LEVEL
-              value: "INFO"
+              value: "VERBOSE"
             - name: REMOVE_TIMER
               value: "10"
             - name: REMOVE_FAILED

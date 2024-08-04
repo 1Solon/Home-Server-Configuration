@@ -5,19 +5,13 @@
   "schedule": ["every weekend, after 12pm, before 6pm"],
   "dependencyDashboard": true,
   "flux": {
-    "fileMatch": ["gotk-components.+\\.ya?ml$"]
+    "fileMatch": [".+\\.ya?ml$"]
   },
-  "controller": {
-    "fileMatch": ["system-upgrade-controller.+\\.ya?ml$"]
-  },
-  "plans": {
-    "fileMatch": ["\\plan.+\\.ya?ml$"]
-  },
-  "helm": {
-    "fileMatch": ["release.+\\.ya?ml$"]
+  "helm-values": {
+    "fileMatch": [".+\\.ya?ml$"]
   },
   "kubernetes": {
-    "fileMatch": ["deployment.+\\.ya?ml$"]
+    "fileMatch": [".+\\.ya?ml$"]
   },
   "packageRules": [
     {

@@ -10,7 +10,7 @@ spec:
     labels:
       app.kubernetes.io/name: pihole
   interval: 10m
-  path: "./kubernetes/pihole/pihole/app"
+  path: "./kubernetes/deployments/pihole/pihole/app"
   prune: true
   sourceRef:
     kind: GitRepository

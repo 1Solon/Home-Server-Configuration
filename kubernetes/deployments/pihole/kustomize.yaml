@@ -5,5 +5,4 @@ metadata:
   name: pihole-install
 resources:
   - ./namespace.yaml
-  - ./secret.yaml
   - ./pihole/install.yaml

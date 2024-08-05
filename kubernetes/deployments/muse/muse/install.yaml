@@ -10,7 +10,7 @@ spec:
     labels:
       app.kubernetes.io/name: muse
   interval: 10m
-  path: "./kubernetes/muse/muse/app"
+  path: "./kubernetes/deployments/muse/muse/app"
   prune: true
   sourceRef:
     kind: GitRepository

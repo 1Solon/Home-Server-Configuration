@@ -5,13 +5,13 @@
   "schedule": ["every weekend, after 12pm, before 6pm"],
   "dependencyDashboard": true,
   "flux": {
-    "fileMatch": [".+\\.ya?ml$"]
+    "fileMatch": ["(^|/)kubernetes/.+\\.ya?ml(?:\\.j2)?$"]
   },
   "helm-values": {
-    "fileMatch": ["(^|/)release/.+\\.ya?ml$"]
+    "fileMatch": ["(^|/)kubernetes/.+\\.ya?ml(?:\\.j2)?$"]
   },
   "kubernetes": {
-    "fileMatch": ["(^|/)deployment/.+\\.ya?ml$"]
+    "fileMatch": ["(^|/)kubernetes/.+\\.ya?ml(?:\\.j2)?$"]
   },
   "packageRules": [
     {

@@ -10,3 +10,4 @@ resources:
   - ./pvc.yaml
   - ./service.yaml
   - ./hosts.yaml
+  - ./secret.yaml

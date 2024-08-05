@@ -10,7 +10,7 @@ spec:
     labels:
       app.kubernetes.io/name: ntfy
   interval: 10m
-  path: "./kubernetes/ntfy/ntfy/app"
+  path: "./kubernetes/deployments/ntfy/ntfy/app"
   prune: true
   sourceRef:
     kind: GitRepository

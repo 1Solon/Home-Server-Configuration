@@ -14,7 +14,7 @@ spec:
   superuserSecret:
     name: cloudnative-pg-secret
   monitoring:
-    enablePodMonitor: true
+    enablePodMonitor: false
 
   resources:
     requests:

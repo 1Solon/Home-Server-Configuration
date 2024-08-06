@@ -7,7 +7,6 @@ resources:
 - flux-system
 - kube-system
 - longhorn
-- media
 - metallb
 - reflector
 - reloader

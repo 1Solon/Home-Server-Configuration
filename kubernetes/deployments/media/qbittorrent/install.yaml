@@ -2,15 +2,15 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: jellyseerr
+  name: qbittorrent
   namespace: flux-system
 spec:
   targetNamespace: home-media
   commonMetadata:
     labels:
-      app.kubernetes.io/name: jellyseerr
+      app.kubernetes.io/name: qbittorrent
   interval: 10m
-  path: "./kubernetes/media/jellyseer/app"
+  path: "./kubernetes/deployments/media/qbittorrent/app"
   prune: true
   sourceRef:
     kind: GitRepository

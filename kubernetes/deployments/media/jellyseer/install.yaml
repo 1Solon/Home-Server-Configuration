@@ -2,15 +2,15 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: jellyfin
+  name: jellyseerr
   namespace: flux-system
 spec:
   targetNamespace: home-media
   commonMetadata:
     labels:
-      app.kubernetes.io/name: jellyfin
+      app.kubernetes.io/name: jellyseerr
   interval: 10m
-  path: "./kubernetes/media/jellyfin/app"
+  path: "./kubernetes/deployments/media/jellyseer/app"
   prune: true
   sourceRef:
     kind: GitRepository

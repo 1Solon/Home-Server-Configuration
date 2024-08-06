@@ -2,15 +2,15 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: prowlarr
+  name: flood
   namespace: flux-system
 spec:
   targetNamespace: home-media
   commonMetadata:
     labels:
-      app.kubernetes.io/name: prowlarr
+      app.kubernetes.io/name: flood
   interval: 10m
-  path: "./kubernetes/media/prowlarr/app"
+  path: "./kubernetes/deployments/media/flood/app"
   prune: true
   sourceRef:
     kind: GitRepository

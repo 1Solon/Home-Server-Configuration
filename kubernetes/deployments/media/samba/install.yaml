@@ -2,22 +2,24 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: qbittorrent
+  name: samba
   namespace: flux-system
 spec:
   targetNamespace: home-media
   commonMetadata:
     labels:
-      app.kubernetes.io/name: qbittorrent
+      app.kubernetes.io/name: samba
   interval: 10m
-  path: "./kubernetes/media/qbittorrent/app"
+  path: "./kubernetes/deployments/media/samba/app"
   prune: true
   sourceRef:
     kind: GitRepository
     name: flux-system
   wait: true
   dependsOn:
-    - name: samba
+    - name: longhorn
+    - name: metallb
+    - name: traefik
   decryption:
     provider: sops
     secretRef:

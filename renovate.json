@@ -5,7 +5,7 @@
   "schedule": ["every weekend, after 12pm, before 6pm"],
   "dependencyDashboard": true,
   "flux": {
-    "fileMatch": ["(^|/)kubernetes/flux/.+\\.ya?ml(?:\\.j2)?$"]
+    "fileMatch": ["(^|/)kubernetes/.+\\.ya?ml(?:\\.j2)?$"]
   },
   "helm-values": {
     "fileMatch": ["(^|/)kubernetes/helm/.+\\.ya?ml(?:\\.j2)?$"]

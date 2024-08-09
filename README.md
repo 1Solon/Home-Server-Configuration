@@ -25,6 +25,17 @@ The Git repository contains the following directories:
    ├── 📁 apps
    │   ├── 📁 dashboard
    │   ├── 📁 media
+   │   │   ├── 📁 decluttarr
+   │   │   ├── 📁 flaresolver
+   │   │   ├── 📁 flood
+   │   │   ├── 📁 jellyfin
+   │   │   ├── 📁 jellyseer
+   │   │   ├── 📁 notifarr
+   │   │   ├── 📁 prowlarr
+   │   │   ├── 📁 qbittorrent
+   │   │   ├── 📁 radarr
+   │   │   ├── 📁 samba
+   │   │   └── 📁 sonarr
    │   ├── 📁 muse
    │   ├── 📁 ntfy
    │   ├── 📁 pihole
@@ -33,6 +44,8 @@ The Git repository contains the following directories:
    └── 📁 infra
        ├── 📁 cert-manager
        ├── 📁 databases
+       │   ├── 📁 cloudnative-postgres
+       │   └── 📁 postgres-operator
        ├── 📁 flux
        ├── 📁 longhorn
        ├── 📁 metallb

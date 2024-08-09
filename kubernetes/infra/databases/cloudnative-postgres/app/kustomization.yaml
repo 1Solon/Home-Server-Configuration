@@ -4,4 +4,3 @@ kind: Kustomization
 resources:
   - ./release.yaml
   - ./secret.yaml
-  - ./repo.yaml

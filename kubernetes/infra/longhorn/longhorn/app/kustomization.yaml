@@ -5,5 +5,4 @@ resources:
   - ./headers.yaml
   - ./ingress.yaml
   - ./release.yaml
-  - ./helmrepo.yaml
   - ./secret.yaml

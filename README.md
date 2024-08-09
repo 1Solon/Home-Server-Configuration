@@ -21,23 +21,25 @@ The Git repository contains the following directories:
 
 ```sh
 📁
-├─📁 ansible
-│  └─ 📁 playbooks
 └──📁 kubernetes
-   ├── 📁 cert-manager
-   ├── 📁 dashboard
-   ├── 📁 databases   # Postgres, CloudNativePG
-   ├── 📁 kube-system
-   ├── 📁 longhorn
-   ├── 📁 media       # Sonarr, Radarr, Jellyfin, etc
-   ├── 📁 metallb
-   ├── 📁 ntfy
-   ├── 📁 pihole
-   ├── 📁 reflector
-   ├── 📁 reloader
-   ├── 📁 semaphore
-   ├── 📁 speedtest
-   └── 📁 traefik
+   ├── 📁 apps
+   │   ├── 📁 dashboard
+   │   ├── 📁 media
+   │   ├── 📁 muse
+   │   ├── 📁 ntfy
+   │   ├── 📁 pihole
+   │   ├── 📁 semaphore
+   │   ├── 📁 speedtest
+   └── 📁 infra
+       ├── 📁 cert-manager
+       ├── 📁 databases
+       ├── 📁 flux
+       ├── 📁 longhorn
+       ├── 📁 metallb
+       ├── 📁 reflector
+       ├── 📁 reloader
+       ├── 📁 system-upgrade
+       └── 📁 traefik
 ```
 
 ## 🖥️ Software
@@ -59,6 +61,7 @@ The following apps are installed on the clusters.
 | [Flood](https://github.com/jfurrow/flood)                                         | Web UI for rtorrent and other torrent clients                                            |
 | [Jellyfin](https://jellyfin.org)                                                  | Media server                                                                             |
 | [Jellyseer](https://github.com/Fallenbagel/jellyseerr)                            | Media discovery and management for Jellyfin                                              |
+| [Muse](https://github.com/codetheweb/muse)                                        | Self-hostable discord music bot                                                          |
 | [Notifiarr](https://notifiarr.wiki)                                               | Notifications and monitoring tool for media services                                     |
 | [Prowlarr](https://github.com/Prowlarr/Prowlarr)                                  | Indexer manager for media automation                                                     |
 | [Qbittorrent](https://www.qbittorrent.org)                                        | Torrent client                                                                           |

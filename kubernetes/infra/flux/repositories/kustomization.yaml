@@ -1,0 +1,13 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+- ansible-semaphore.yaml
+- bjw-s.yaml
+- cert-manager.yaml
+- cloudnative-pg.yaml
+- ext-postgres-operator.yaml
+- longhorn.yaml
+- metallb.yaml
+- reflector.yaml
+- stakater.yaml
+- traefik.yaml

@@ -20,12 +20,6 @@
       "description": "YMA dating scheme",
       "packagePatterns": ["^ghcr\\.io/linuxserver/qbittorrent$"],
       "allowedVersions": "<6"
-    },
-    {
-      "description": "Monitor k3's updates",
-      "datasources": ["github-releases"],
-      "packagePatterns": ["^k3s-io/k3s$"],
-      "groupName": "k3s-releases"
     }
   ]
 }

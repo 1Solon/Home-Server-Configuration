@@ -3,7 +3,8 @@ kind: Plan
 metadata:
   name: worker
 spec:
-  channel: https://update.k3s.io/v1-release/channels/stable
+  # renovate: datasource=github-releases depName=k3s-io/k3s
+  version: v1.29.6+k3s2
   serviceAccountName: system-upgrade
   concurrency: 1
   cordon: true

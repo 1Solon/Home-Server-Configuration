@@ -4,6 +4,7 @@ metadata:
   name: metallb
   namespace: metallb-system
 spec:
+  interval: 30m
   chart:
     spec:
       chart: metallb
@@ -11,7 +12,6 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: metallb-repo
-  interval: 5m
   install:
     createNamespace: true
   upgrade:

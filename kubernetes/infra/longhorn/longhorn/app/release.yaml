@@ -5,6 +5,7 @@ metadata:
   name: longhorn
   namespace: longhorn-system
 spec:
+  interval: 30m
   chart:
     spec:
       chart: longhorn
@@ -13,7 +14,6 @@ spec:
         kind: HelmRepository
         name: longhorn-repo
       version: 1.6.2
-  interval: 1m0s
   values:
     defaultSettings:
       defaultDataPath: "/storage"

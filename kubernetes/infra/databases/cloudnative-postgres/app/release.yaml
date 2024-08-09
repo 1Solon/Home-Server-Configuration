@@ -5,7 +5,7 @@ metadata:
   name: cloudnative-pg
   namespace: databases
 spec:
-  interval: 15m
+  interval: 30m
   chart:
     spec:
       chart: cloudnative-pg
@@ -13,7 +13,6 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: cloudnative-pg-charts
-      interval: 15m
   install:
     createNamespace: true
   upgrade:

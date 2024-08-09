@@ -4,7 +4,7 @@ kind: HelmRelease
 metadata:
   name: ansible-semaphore
 spec:
-  interval: 10m
+  interval: 30m
   chart:
     spec:
       chart: ansible-semaphore

@@ -9,8 +9,8 @@ spec:
   concurrency: 1
   cordon: true
   nodeSelector:
-    matchExpressions:
-      - { key: node-role.kubernetes.io/worker, operator: Exists }
+      matchExpressions:
+        - { key: node-role.kubernetes.io/control-plane, operator: DoesNotExist }
   tolerations:
     - { effect: NoSchedule, operator: Exists }
     - { effect: NoExecute, operator: Exists }

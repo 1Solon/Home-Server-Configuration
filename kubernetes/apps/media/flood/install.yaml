@@ -1,0 +1,24 @@
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: flood
+  namespace: flux-system
+spec:
+  targetNamespace: home-media
+  commonMetadata:
+    labels:
+      app.kubernetes.io/name: flood
+  interval: 10m
+  path: "./kubernetes/apps/media/flood/app"
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  wait: true
+  dependsOn:
+    - name: samba
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age

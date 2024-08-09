@@ -1,0 +1,26 @@
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: ansible-semaphore
+  namespace: flux-system
+spec:
+  targetNamespace: ansible-semaphore
+  commonMetadata:
+    labels:
+      app.kubernetes.io/name: semaphore
+  interval: 10m
+  path: "./kubernetes/apps/semaphore/semaphore/app"
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  wait: true
+  dependsOn:
+    - name: longhorn
+    - name: metallb
+    - name: traefik
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age

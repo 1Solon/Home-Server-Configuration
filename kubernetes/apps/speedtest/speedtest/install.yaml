@@ -1,0 +1,24 @@
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: speedtest
+  namespace: flux-system
+spec:
+  targetNamespace: speedtest
+  commonMetadata:
+    labels:
+      app.kubernetes.io/name: speedtest
+  interval: 10m
+  path: "./kubernetes/apps/speedtest/speedtest/app"
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  wait: true
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age
+  dependsOn:
+    - name: ext-postgres-operator

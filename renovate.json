@@ -2,7 +2,7 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": ["github>1Solon/renovate-config"],
   "reviewers": ["1Solon"],
-  "schedule": ["every weekend, after 12pm, before 6pm"],
+  "schedule": ["every weekend"],
   "dependencyDashboard": true,
   "flux": {
     "fileMatch": ["(^|/)kubernetes/.+\\.ya?ml(?:\\.j2)?$"]

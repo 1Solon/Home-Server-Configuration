@@ -3,14 +3,13 @@ kind: Plan
 metadata:
   name: worker
 spec:
-  # renovate: datasource=github-releases depName=k3s-io/k3s
-  version: v1.29.6+k3s2
+  channel: https://update.k3s.io/v1-release/channels/stable
   serviceAccountName: system-upgrade
   concurrency: 1
   cordon: true
   nodeSelector:
-      matchExpressions:
-        - { key: node-role.kubernetes.io/control-plane, operator: DoesNotExist }
+    matchExpressions:
+      - { key: node-role.kubernetes.io/control-plane, operator: DoesNotExist }
   tolerations:
     - { effect: NoSchedule, operator: Exists }
     - { effect: NoExecute, operator: Exists }

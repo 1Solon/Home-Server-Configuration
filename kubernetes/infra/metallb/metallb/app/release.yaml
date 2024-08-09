@@ -12,6 +12,7 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: metallb-repo
+        namespace: flux-system
   install:
     createNamespace: true
   upgrade:

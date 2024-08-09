@@ -2,9 +2,9 @@
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: HelmRepository
 metadata:
-  name: stakater-charts
-  namespace: kube-system
+  name: bjw-s-charts
+  namespace: flux-system
 spec:
   interval: 1h
-  url: https://stakater.github.io/stakater-charts
+  url: https://bjw-s.github.io/helm-charts
   timeout: 3m

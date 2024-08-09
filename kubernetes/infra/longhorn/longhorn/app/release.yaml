@@ -9,11 +9,12 @@ spec:
   chart:
     spec:
       chart: longhorn
+      version: 1.6.2
       reconcileStrategy: ChartVersion
       sourceRef:
         kind: HelmRepository
         name: longhorn-repo
-      version: 1.6.2
+        namespace: flux-system
   values:
     defaultSettings:
       defaultDataPath: "/storage"

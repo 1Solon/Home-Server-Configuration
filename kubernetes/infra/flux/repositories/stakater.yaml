@@ -1,9 +1,10 @@
+---
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: HelmRepository
 metadata:
-  name: ansible-semaphore
-  namespace: ansible-semaphore
+  name: stakater-charts
+  namespace: flux-system
 spec:
   interval: 1h
-  url: https://cloudhippie.github.io/charts
+  url: https://stakater.github.io/stakater-charts
   timeout: 3m

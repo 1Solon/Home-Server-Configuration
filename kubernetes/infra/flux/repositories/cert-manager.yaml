@@ -1,8 +1,8 @@
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: HelmRepository
 metadata:
-  name: reflector
-  namespace: default
+  name: cert-manager
+  namespace: flux-system
 spec:
   interval: 1h
-  url: https://emberstack.github.io/helm-charts
+  url: https://charts.jetstack.io

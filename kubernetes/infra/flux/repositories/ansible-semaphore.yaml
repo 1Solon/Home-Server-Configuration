@@ -1,10 +1,9 @@
----
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: HelmRepository
 metadata:
-  name: bjw-s-charts
-  namespace: kube-system
+  name: ansible-semaphore
+  namespace: flux-system
 spec:
   interval: 1h
-  url: https://bjw-s.github.io/helm-charts
+  url: https://cloudhippie.github.io/charts
   timeout: 3m

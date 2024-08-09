@@ -13,3 +13,4 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: reflector
+        namespace: flux-system

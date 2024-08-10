@@ -9,10 +9,12 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: reflector
-  interval: 10m
   path: "./kubernetes/infra/reflector/reflector/app"
   prune: true
   sourceRef:
     kind: GitRepository
     name: flux-system
   wait: true
+  interval: 30m
+  retryInterval: 1m
+  timeout: 5m

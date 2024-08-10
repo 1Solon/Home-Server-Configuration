@@ -9,15 +9,17 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: homarr
-  interval: 10m
   path: "./kubernetes/apps/dashboard/homarr/app"
   prune: true
   sourceRef:
     kind: GitRepository
     name: flux-system
-  wait: true
   dependsOn:
     - name: metallb
       namespace: flux-system
     - name: longhorn
       namespace: flux-system
+  wait: true
+  interval: 30m
+  retryInterval: 1m
+  timeout: 5m

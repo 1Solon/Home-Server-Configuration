@@ -9,13 +9,11 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: semaphore
-  interval: 10m
   path: "./kubernetes/apps/semaphore/semaphore/app"
   prune: true
   sourceRef:
     kind: GitRepository
     name: flux-system
-  wait: true
   dependsOn:
     - name: longhorn
     - name: metallb
@@ -24,3 +22,7 @@ spec:
     provider: sops
     secretRef:
       name: sops-age
+  wait: true
+  interval: 30m
+  retryInterval: 1m
+  timeout: 5m

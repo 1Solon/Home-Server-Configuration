@@ -9,17 +9,19 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: cert-manager
-  interval: 10m
   path: "./kubernetes/infra/cert-manager/cert-manager/app"
   prune: true
   sourceRef:
     kind: GitRepository
     name: flux-system
-  wait: true
   decryption:
     provider: sops
     secretRef:
       name: sops-age
+  wait: true
+  interval: 30m
+  retryInterval: 1m
+  timeout: 5m
 
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
@@ -32,16 +34,18 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: cert-manager-issuers
-  interval: 10m
   path: "./kubernetes/infra/cert-manager/cert-manager/issuers"
   prune: true
   sourceRef:
     kind: GitRepository
     name: flux-system
-  wait: true
   dependsOn:
     - name: cert-manager
       namespace: flux-system
+  wait: true
+  interval: 30m
+  retryInterval: 1m
+  timeout: 5m
 
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
@@ -54,15 +58,17 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: cert-manager-certificates
-  interval: 10m
   path: "./kubernetes/infra/cert-manager/cert-manager/certificates"
   prune: true
   sourceRef:
     kind: GitRepository
     name: flux-system
-  wait: true
   dependsOn:
     - name: cert-manager
       namespace: flux-system
     - name: cert-manager-issuers
       namespace: flux-system
+  wait: true
+  interval: 30m
+  retryInterval: 1m
+  timeout: 5m

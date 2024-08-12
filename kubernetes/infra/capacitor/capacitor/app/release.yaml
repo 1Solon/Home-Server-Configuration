@@ -1,0 +1,82 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app capacitor
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: app-template
+      version: 3.3.2
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s-charts
+        namespace: flux-system
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    remediation:
+      retries: 3
+  values:
+    controllers:
+      capacitor:
+        replicas: 1
+        pod:
+          securityContext:
+            fsGroup: 999
+            # runAsGroup: 3000
+            # runAsNonRoot: true
+            # runAsUser: 1000
+            # seccompProfile:
+            #   type: RuntimeDefault
+        containers:
+          app:
+            env:
+              TZ: Europe/Dublin
+
+            image:
+              repository: ghcr.io/gimlet-io/capacitor
+              tag: v0.4.2@sha256:085f61f6359d15cfd7b13695bbce7e6623ed7bad78882803cd3aadefcc4e87b0
+            securityContext:
+              allowPrivilegeEscalation: false
+              capabilities:
+                drop:
+                  - ALL
+              readOnlyRootFilesystem: true
+
+            probes:
+              startup:
+                enabled: false
+              liveness: &probe
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /
+                    port: &port 9000
+                    scheme: HTTP
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+              readiness: *probe
+
+            resources:
+              limits:
+                memory: 127Mi
+
+    serviceAccount:
+      create: false
+      name: capacitor
+
+    service:
+      app:
+        controller: capacitor
+        ports:
+          http:
+            enabled: true
+            port: *port
+            protocol: HTTP

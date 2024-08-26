@@ -48,6 +48,7 @@ spec:
         - name: samba-volume
           persistentVolumeClaim:
             claimName: samba-pvc
+            namespace: home-media
         - name: qbittorrent-config
           persistentVolumeClaim:
             claimName: qbittorrent-config

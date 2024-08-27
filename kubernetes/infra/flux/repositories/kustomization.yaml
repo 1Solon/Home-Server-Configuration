@@ -12,4 +12,4 @@ resources:
 - reflector.yaml
 - stakater.yaml
 - traefik.yaml
-- truechart-qbittorrent.yaml
+- truechart.yaml

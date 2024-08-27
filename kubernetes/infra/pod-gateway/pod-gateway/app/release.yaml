@@ -90,7 +90,7 @@ spec:
       - home-media
 
     settings:
-      VPN_INTERFACE: "wg0"
+      VPN_INTERFACE: "tun0"
       VXLAN_ID: "45"
       VXLAN_IP_NETWORK: "192.168.2"
       VPN_BLOCK_OTHER_TRAFFIC: "false"

@@ -88,7 +88,7 @@ spec:
             type: udp
           - port: 6881
             type: tcp
-    routed_namespaces: ["media"]
+    routed_namespaces: ["home-media"]
     settings:
       VPN_INTERFACE: *if
       VXLAN_ID: "43"

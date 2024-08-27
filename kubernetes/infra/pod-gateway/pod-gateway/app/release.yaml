@@ -75,7 +75,7 @@ spec:
                 - ipBlock:
                     cidr: 0.0.0.0/0
               ports:
-                - port: &port 51820
+                - port: &port 6881
                   protocol: UDP
             - to:
                 - namespaceSelector: {}

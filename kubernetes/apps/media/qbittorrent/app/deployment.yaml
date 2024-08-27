@@ -16,10 +16,7 @@ spec:
     metadata:
       labels:
         app: qbittorrent
-        setGateway: "true"
       annotations:
-        setGateway: "true"
-      podAnnotations:
         setGateway: "true"
 
     spec:

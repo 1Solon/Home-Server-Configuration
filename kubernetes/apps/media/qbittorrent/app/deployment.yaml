@@ -19,6 +19,8 @@ spec:
         setGateway: "true"
       annotations:
         setGateway: "true"
+      podAnnotations:
+        setGateway: "true"
 
     spec:
       containers:

@@ -42,25 +42,30 @@ spec:
           repository: ghcr.io/qdm12/gluetun
           tag: v3.39.0@sha256:2f011a9aca767af62008d879eefcbc80a8645bd4fd4466ab312cc941cb658ad1
         env:
-          - name: VPN_TYPE
-            value: wireguard
           - name: VPN_SERVICE_PROVIDER
             value: nordvpn
+          - name: VPN_TYPE
+            value: openvpn
+          - name: OPENVPN_PROTOCOL
+            value: udp
           - name: VPN_INTERFACE
             value: &if wg0
           - name: FIREWALL
             value: "off"
           - name: DOT
             value: "off"
-          - name: VPN_ENDPOINT_PORT
-            value: 51820
-          - name: WIREGUARD_PRIVATE_KEY
+          - name: SERVER_COUNTRIES
+            value: "Switzerland"
+          - name: OPENVPN_USER
             valueFrom:
               secretKeyRef:
                 name: vpn-credentials
-                key: token
-          - name: SERVER_COUNTRIES
-            value: "Switzerland"
+                key: username
+          - name: OPENVPN_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: vpn-credentials
+                key: password
         securityContext:
           capabilities:
             add: ["NET_ADMIN"]

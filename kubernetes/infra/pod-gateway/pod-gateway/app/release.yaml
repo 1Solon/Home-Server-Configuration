@@ -55,7 +55,7 @@ spec:
           - name: DOT
             value: "off"
           - name: SERVER_COUNTRIES
-            value: "Switzerland"
+            value: "Netherlands"
           - name: OPENVPN_USER
             valueFrom:
               secretKeyRef:

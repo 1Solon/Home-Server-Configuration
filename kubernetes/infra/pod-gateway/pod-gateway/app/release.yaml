@@ -81,6 +81,10 @@ spec:
             - to:
                 - namespaceSelector: {}
 
+    podAnnotations:
+      configmap.reloader.stakater.com/reload: downloads-gateway-pod-gateway
+      secret.reloader.stakater.com/reload: downloads-gateway-vpnconfig
+
     DNS: 192.168.1.1
     routed_namespaces: ["home-media"]
 

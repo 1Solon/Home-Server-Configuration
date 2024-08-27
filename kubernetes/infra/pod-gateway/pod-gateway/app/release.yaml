@@ -86,7 +86,8 @@ spec:
       secret.reloader.stakater.com/reload: downloads-gateway-vpnconfig
 
     DNS: 192.168.1.1
-    routed_namespaces: ["home-media"]
+    routed_namespaces:
+      - home-media
 
     settings:
       VPN_INTERFACE: "wg0"

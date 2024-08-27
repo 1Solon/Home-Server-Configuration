@@ -87,7 +87,6 @@ spec:
             type: tcp
     routed_namespaces: ["home-media"]
     settings:
-      VPN_INTERFACE: *if
       VXLAN_ID: "43"
       VXLAN_IP_NETWORK: "172.16.1"
       VPN_BLOCK_OTHER_TRAFFIC: "true"

@@ -47,8 +47,10 @@ The Git repository contains the following directories:
        │   ├── 📁 cloudnative-postgres
        │   └── 📁 postgres-operator
        ├── 📁 flux
+       │   └── 📁 repositories
        ├── 📁 longhorn
        ├── 📁 metallb
+       ├── 📁 pod-gateway
        ├── 📁 reflector
        ├── 📁 reloader
        ├── 📁 system-upgrade
@@ -88,6 +90,7 @@ The following apps are installed on the clusters.
 | [Semaphore](https://semaphoreci.com)                                              | Continuous integration and delivery                                                      |
 | [Speedtest](https://github.com/sivel/speedtest-cli)                               | Internet speed testing tool                                                              |
 | [Traefik](https://traefik.io)                                                     | Edge router and load balancer                                                            |
+| [`pod-gateway`](https://github.com/angelnu/pod-gateway)                           | Routes traffic from pods to a gateway (I use it to route to a vpn)                       |
 
 ## 📦 Hardware
 

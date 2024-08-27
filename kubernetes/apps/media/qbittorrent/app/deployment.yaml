@@ -16,6 +16,10 @@ spec:
     metadata:
       labels:
         app: qbittorrent
+        setGateway: "true"
+      annotations:
+        setGateway: "true"
+
     spec:
       containers:
         - name: qbittorrent

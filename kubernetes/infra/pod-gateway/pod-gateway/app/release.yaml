@@ -84,11 +84,11 @@ spec:
       - IP: 10
         hostname: qbittorrent-0
         ports:
-          - port: 57683
+          - port: 6881
             type: udp
-          - port: 57683
+          - port: 6881
             type: tcp
-    routed_namespaces: ["downloads"]
+    routed_namespaces: ["media"]
     settings:
       VPN_INTERFACE: *if
       VXLAN_ID: "43"

@@ -1,0 +1,10 @@
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: HelmRepository
+metadata:
+  name: qbittorrent
+  namespace: flux-system
+spec:
+  interval: 1h
+  type: oci
+  url: oci://tccr.io/truecharts/qbittorrent
+  timeout: 3m

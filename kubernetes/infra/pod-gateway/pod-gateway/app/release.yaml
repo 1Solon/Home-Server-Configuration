@@ -25,13 +25,10 @@ spec:
   uninstall:
     keepHistory: false
   values:
-    controller:
-      annotations:
-        reloader.stakater.com/auto: "true"
     image:
       repository: ghcr.io/angelnu/pod-gateway
       tag: v1.10.0@sha256:d728eac85f750b37c96a0dafd038561ea4b8035857802be1128ea9b19c61e181
-    DNS: 192.168.1.1
+
     addons:
       netshoot:
         enabled: true
@@ -48,8 +45,6 @@ spec:
             value: openvpn
           - name: OPENVPN_PROTOCOL
             value: udp
-          - name: VPN_INTERFACE
-            value: &if wg0
           - name: FIREWALL
             value: "off"
           - name: DOT
@@ -57,6 +52,8 @@ spec:
           - name: SERVER_REGIONS
             value: Switzerland
           - name: OPENVPN_USER
+          - name: FIREWALL_VPN_INPUT_PORTS
+            value: 1637,6881
             valueFrom:
               secretKeyRef:
                 name: vpn-credentials
@@ -66,42 +63,53 @@ spec:
               secretKeyRef:
                 name: vpn-credentials
                 key: password
+
         securityContext:
           privledged: true
+
         networkPolicy:
-          enabled: false
+          enabled: true
           egress:
             - to:
                 - ipBlock:
                     cidr: 0.0.0.0/0
               ports:
-                - port: &port 6881
+                - port: 1637
                   protocol: UDP
+                - port: 6881
+                  protocol: UDP
+                - port: 6881
+                  protocol: TCP
             - to:
                 - namespaceSelector: {}
-    publicPorts:
-      - IP: 10
-        hostname: qbittorrent-0
-        ports:
-          - port: 6881
-            type: udp
-          - port: 6881
-            type: tcp
+
+    DNS: 192.168.1.1
     routed_namespaces: ["home-media"]
+
     settings:
-      VPN_INTERFACE: *if
-      VXLAN_ID: "43"
-      VXLAN_IP_NETWORK: "172.16.1"
-      VPN_BLOCK_OTHER_TRAFFIC: "true"
-      VPN_TRAFFIC_PORT: *port
-      DNS_LOCAL_CIDRS: "local"
-      NOT_ROUTED_TO_GATEWAY_CIDRS: "10.0.0.0/8 172.16.0.0/12 192.168.0.0/16"
-      VPN_LOCAL_CIDRS: "10.0.0.0/8 172.16.0.0/12 192.168.0.0/16"
-      IPTABLES_NFT: "yes"
+      VPN_INTERFACE: "wg0"
+      VXLAN_ID: "45"
+      VXLAN_IP_NETWORK: "192.168.1"
+      VPN_BLOCK_OTHER_TRAFFIC: "false"
+      VPN_TRAFFIC_PORT: "1637"
+      DNS_LOCAL_CIDRS: "10.0.0.0/8 192.168.0.0/16"
+      NOT_ROUTED_TO_GATEWAY_CIDRS: 10.0.0.0/8 192.168.0.0/16
+
+    publicPorts:
+      - hostname: qbittorrent
+        IP: 10
+        ports:
+          - type: tcp
+            port: 6881
+          - type: udp
+            port: 6881
+
     webhook:
-      gatewayDefault: false
-      gatewayAnnotation: setGateway
-      gatewayLabel: setGateway
       image:
         repository: ghcr.io/angelnu/gateway-admision-controller
         tag: v3.10.0@sha256:a8ed630613de277244dfe203cd11d05905d7eeba8d8c41e399b02ee9a847b2f5
+      gatewayDefault: false
+      gatewayLabel: setDownloadGateway
+      gatewayAnnotation: setDownloadGateway
+      namespaceSelector:
+        label: "downloads-routed-gateway"

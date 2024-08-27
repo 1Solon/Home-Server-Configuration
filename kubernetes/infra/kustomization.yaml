@@ -6,7 +6,7 @@ resources:
 - flux
 - longhorn
 - metallb
-- pod-gateway
+# - pod-gateway
 - reflector
 - reloader
 - system-upgrade

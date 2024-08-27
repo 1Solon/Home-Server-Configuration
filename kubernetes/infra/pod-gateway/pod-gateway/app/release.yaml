@@ -48,8 +48,6 @@ spec:
             value: openvpn
           - name: OPENVPN_PROTOCOL
             value: udp
-          - name: VPN_INTERFACE
-            value: &if wg0
           - name: FIREWALL
             value: "off"
           - name: DOT
@@ -67,8 +65,7 @@ spec:
                 name: vpn-credentials
                 key: password
         securityContext:
-          capabilities:
-            add: ["NET_ADMIN"]
+          privledged: true
         networkPolicy:
           enabled: false
           egress:

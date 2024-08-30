@@ -11,6 +11,7 @@ data:
     192.168.1.162 homarr.local.solonsstuff.com
     192.168.1.162 speed.local.solonsstuff.com
     192.168.1.162 ntfy.solonsstuff.com
+    192.168.1.162 vaultwarden.solonsstuff.com
     192.168.1.162 semaphore.local.solonsstuff.com
     192.168.1.162 flood.local.solonsstuff.com
     192.168.1.162 jellyfin.local.solonsstuff.com

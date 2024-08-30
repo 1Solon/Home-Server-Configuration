@@ -71,7 +71,7 @@ The following apps are installed on the clusters.
 | [Homarr](https://github.com/ajnart/homarr)                                        | Sleek, modern dashboard for managing services                                            |
 | [CloudNativePG](https://cloudnative-pg.io)                                        | Cloud-native PostgreSQL cluster operator                                                 |
 | [Postgres Operator](https://www.postgresql.org)                                   | Operator for managing PostgreSQL clusters                                                |
-| [Decluttarr](https://github.com/decluttarr/decluttarr)                            | Automated media organization and decluttering tool                                       |
+| [Decluttarr](https://github.com/ManiMatter/decluttarr)                            | Automated media organization and decluttering tool                                       |
 | [Flaresolverr](https://github.com/FlareSolverr/FlareSolverr)                      | Cloudflare and DDoS protection bypass                                                    |
 | [Flood](https://github.com/jfurrow/flood)                                         | Web UI for rtorrent and other torrent clients                                            |
 | [Jellyfin](https://jellyfin.org)                                                  | Media server                                                                             |

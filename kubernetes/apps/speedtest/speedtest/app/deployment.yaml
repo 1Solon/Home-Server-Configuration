@@ -6,6 +6,11 @@ metadata:
   namespace: speedtest
 spec:
   replicas: 1
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
   selector:
     matchLabels:
       app: speedtest-tracker

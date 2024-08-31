@@ -130,6 +130,14 @@ sonarr:
         assign_scores_to:
           - name: WEBDL-1080p
           - name: WEBDL-720p
+      - trash_ids: [3bc5f395426614e155e585a2f056cdf1] # Season Packs
+        assign_scores_to:
+          - name: WEBDL-1080p
+            score: 1
+          - name: WEBDL-720p
+            score: 1
+          - name: WEBDL-480p
+            score: 1
       - trash_ids: [9965a052eb87b0d10313b1cea89eb451] # Remux Tier 01
         assign_scores_to:
           - name: WEBDL-1080p

@@ -9,7 +9,6 @@ resources:
   - ./radarr/install.yaml
   - ./qbittorrent/install.yaml
   - ./prowlarr/install.yaml
-  - ./notifarr/install.yaml
   - ./jellyseer/install.yaml
   - ./jellyfin/install.yaml
   - ./flood/install.yaml

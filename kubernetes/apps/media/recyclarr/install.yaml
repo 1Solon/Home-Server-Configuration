@@ -20,7 +20,7 @@ spec:
     provider: sops
     secretRef:
       name: sops-age
-  wait: true
+  wait: false
   interval: 30m
   retryInterval: 1m
   timeout: 5m

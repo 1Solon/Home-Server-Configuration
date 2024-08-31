@@ -12,7 +12,7 @@ sonarr:
       type: series
 
     quality_profiles:
-      - name: Web 1080p
+      - name: WEBDL-1080p
         upgrade:
           allowed: true
           until_quality: Web-1080p
@@ -37,7 +37,7 @@ sonarr:
               - WEBRip-480p
           - name: DVD
           - name: SDTV
-      - name: Web 720p
+      - name: WEBDL-720p
         reset_unmatched_scores:
           enabled: true
         upgrade:
@@ -58,7 +58,7 @@ sonarr:
               - WEBRip-480p
           - name: DVD
           - name: SDTV
-      - name: Web 480p
+      - name: WEBDL-480p
         reset_unmatched_scores:
           enabled: true
         upgrade:
@@ -128,15 +128,15 @@ sonarr:
           - d84935abd3f8556dcd51d4f27e22d0a6 # WEB Tier 03
           - d0c516558625b04b363fa6c5c2c7cfd4 # WEB Scene
         assign_scores_to:
-          - name: Web 1080p
-          - name: Web 720p
+          - name: WEBDL-1080p
+          - name: WEBDL-720p
       - trash_ids: [9965a052eb87b0d10313b1cea89eb451] # Remux Tier 01
         assign_scores_to:
-          - name: Web 1080p
+          - name: WEBDL-1080p
             score: 1900
       - trash_ids: [8a1d0c3d7497e741736761a1da866a2e] # Remux Tier 02
         assign_scores_to:
-          - name: Web 1080p
+          - name: WEBDL-1080p
             score: 1850
 radarr:
   radarr:
@@ -150,7 +150,7 @@ radarr:
       type: movie
 
     quality_profiles:
-      - name: Remux/Web 1080p
+      - name: WEBDL-1080p
         reset_unmatched_scores:
           enabled: true
         upgrade:
@@ -221,7 +221,7 @@ radarr:
           - 2a6039655313bf5dab1e43523b62c374 # MA
           - 16622a6911d1ab5d5b8b713d5b0036d4 # CRiT
         assign_scores_to:
-          - name: Remux/Web 1080p
+          - name: WEBDL-1080p
       - trash_ids:
           # Streaming Services
           - b3b3a6ac74ecbd56bcdbefa4799fb9df # AMZN
@@ -237,5 +237,5 @@ radarr:
           - e36a0ba1bc902b26ee40818a1d59b8bd # PMTP
           - c2863d2a50c9acad1fb50e53ece60817 # STAN
         assign_scores_to:
-          - name: Remux/Web 1080p
+          - name: WEBDL-1080p
             score: 0

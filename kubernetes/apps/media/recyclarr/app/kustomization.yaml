@@ -5,6 +5,7 @@ kind: Kustomization
 resources:
   - secret.yaml
   - release.yaml
+  - pvc.yaml
 namespace: home-media
 configMapGenerator:
   - name: recyclarr-configmap

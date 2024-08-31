@@ -1,15 +1,30 @@
 {
     "cSpell.words": [
+        "ATVP",
+        "BCORE",
+        "Bluray",
         "cleanup",
+        "CRAV",
         "dani",
+        "DSNP",
         "fluxcd",
+        "HMAX",
+        "IMAX",
+        "kustomize",
+        "PCOK",
+        "PMTP",
         "prowlarr",
+        "QIBI",
+        "radarr",
         "recyclarr",
+        "Remux",
         "solonsstuff",
+        "sonarr",
         "stakater",
         "statefulset",
         "traefik",
         "vaultwarden",
+        "WEBDL",
         "websecure"
     ]
 }

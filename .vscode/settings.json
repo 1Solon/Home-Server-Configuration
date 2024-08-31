@@ -3,9 +3,13 @@
         "cleanup",
         "dani",
         "fluxcd",
+        "prowlarr",
         "recyclarr",
+        "solonsstuff",
         "stakater",
         "statefulset",
-        "vaultwarden"
+        "traefik",
+        "vaultwarden",
+        "websecure"
     ]
 }

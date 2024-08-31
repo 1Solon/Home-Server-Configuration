@@ -9,7 +9,7 @@ namespace: home-media
 configMapGenerator:
   - name: recyclarr-configmap
     files:
-      - recyclarr.yaml=./config/recyclarr.yaml
+      - recyclarr.yaml=config.yaml
 generatorOptions:
   disableNameSuffixHash: true
   annotations:

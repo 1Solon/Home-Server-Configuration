@@ -77,7 +77,7 @@ The following apps are installed on the clusters.
 | [Jellyfin](https://jellyfin.org)                                                  | Media server                                                                             |
 | [Jellyseer](https://github.com/Fallenbagel/jellyseerr)                            | Media discovery and management for Jellyfin                                              |
 | [Muse](https://github.com/codetheweb/muse)                                        | Self-hostable discord music bot                                                          |
-| [Notifiarr](https://notifiarr.wiki)                                               | Notifications and monitoring tool for media services                                     |
+| [Recyclarr](https://github.com/recyclarr/recyclarr)                               | Notifications and monitoring tool for media services                                     |
 | [Prowlarr](https://github.com/Prowlarr/Prowlarr)                                  | Indexer manager for media automation                                                     |
 | [Qbittorrent](https://www.qbittorrent.org)                                        | Torrent client                                                                           |
 | [Radarr](https://radarr.video)                                                    | Automated movie download tool                                                            |
@@ -90,7 +90,7 @@ The following apps are installed on the clusters.
 | [Semaphore](https://semaphoreci.com)                                              | Continuous integration and delivery                                                      |
 | [Speedtest](https://github.com/sivel/speedtest-cli)                               | Internet speed testing tool                                                              |
 | [Traefik](https://traefik.io)                                                     | Edge router and load balancer                                                            |
-| [Pod-gateway](https://github.com/angelnu/pod-gateway)                           | Routes traffic from pods to a gateway (I use it to route to a vpn)                       |
+| [Pod-gateway](https://github.com/angelnu/pod-gateway)                             | Routes traffic from pods to a gateway (I use it to route to a vpn)                       |
 
 ## 📦 Hardware
 

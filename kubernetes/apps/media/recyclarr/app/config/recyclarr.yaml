@@ -216,7 +216,6 @@ radarr:
           - dc98083864ea246d05a42df0d05f81cc # x265 (HD)
           - b8cd450cbfa689c0259a01d9e29ba3d6 # 3D
           - bfd8eb01832d646a0a89c4deb46f8564 # Upscaled
-          - 48f031e76111f17ea94898f4cdc34fdc # FR LQ
           # Streaming Services
           - cc5e51a9e85a6296ceefe097a77f12f4 # BCORE
           - 2a6039655313bf5dab1e43523b62c374 # MA
@@ -234,8 +233,6 @@ radarr:
           - e0ec9672be6cac914ffad34a6b077209 # IT
           - 6a061313d22e51e0f25b7cd4dc065233 # MAX
           - 170b1d363bd8516fbf3a3eb05d4faff6 # NF
-          - fbca986396c5e695ef7b2def3c755d01 # OViD
-          - bf7e73dd1d85b12cc527dc619761c840 # Pathe
           - c9fd353f8f5f1baf56dc601c4cb29920 # PCOK
           - e36a0ba1bc902b26ee40818a1d59b8bd # PMTP
           - c2863d2a50c9acad1fb50e53ece60817 # STAN

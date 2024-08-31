@@ -56,6 +56,9 @@ spec:
         controller: *app
         enabled: false
     persistence:
+      config:
+        enabled: true
+        existingClaim: recyclarr
       config-file:
         type: configMap
         name: recyclarr-config

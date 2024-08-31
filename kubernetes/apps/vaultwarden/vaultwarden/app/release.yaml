@@ -8,11 +8,23 @@ spec:
   chart:
     spec:
       chart: app-template
+      version: 3.4.0
       sourceRef:
         kind: HelmRepository
         name: bjw-s-charts
         namespace: flux-system
-      version: 3.4.0
+  maxHistory: 2
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      strategy: rollback
+      retries: 3
+  uninstall:
+    keepHistory: false
   values:
     controllers:
       vaultwarden:

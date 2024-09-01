@@ -30,10 +30,10 @@ The Git repository contains the following directories:
    │   │   ├── 📁 flood
    │   │   ├── 📁 jellyfin
    │   │   ├── 📁 jellyseer
-   │   │   ├── 📁 notifarr
    │   │   ├── 📁 prowlarr
    │   │   ├── 📁 qbittorrent
    │   │   ├── 📁 radarr
+   │   │   ├── 📁 recyclarr
    │   │   ├── 📁 samba
    │   │   └── 📁 sonarr
    │   ├── 📁 muse

@@ -22,7 +22,7 @@ spec:
     spec:
       containers:
         - name: qbittorrent
-          image: ghcr.io/linuxserver/qbittorrent:4.6.6@sha256:5c89a1cd3132981c51fc5ba0f47ecae9b10253029cf8decaa8ae14236fb11e32
+          image: ghcr.io/linuxserver/qbittorrent:4.6.6@sha256:d3b778c7fc388172958ba993ae7acb427f298ea079c3b243313c86a09e0a0991
           imagePullPolicy: Always
           resources: {}
           env:

@@ -43,5 +43,6 @@ spec:
           persistentVolumeClaim:
             claimName: radarr-config
         - name: radarr-downloads
-          persistentVolumeClaim:
-            claimName: samba-pvc
+          nfs:
+            server: truenas.local
+            path: /mnt/STORAGE-01/Media-Storage

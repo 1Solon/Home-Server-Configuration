@@ -49,8 +49,9 @@ spec:
               subPath: downloads
       volumes:
         - name: samba-volume
-          persistentVolumeClaim:
-            claimName: samba-pvc
+          nfs:
+            server: truenas.local
+            path: /mnt/STORAGE-01/Media-Storage
         - name: qbittorrent-config
           persistentVolumeClaim:
             claimName: qbittorrent-config

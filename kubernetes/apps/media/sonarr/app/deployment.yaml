@@ -42,5 +42,6 @@ spec:
           persistentVolumeClaim:
             claimName: sonarr-config
         - name: sonarr-service
-          persistentVolumeClaim:
-            claimName: samba-pvc
+          nfs:
+            server: truenas.local
+            path: /mnt/STORAGE-01/Media-Storage

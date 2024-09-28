@@ -4,7 +4,6 @@ kind: Kustomization
 resources:
   - ./namespace.yaml
   - ./headers.yaml
-  - ./samba/install.yaml
   - ./sonarr/install.yaml
   - ./radarr/install.yaml
   - ./qbittorrent/install.yaml

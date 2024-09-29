@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: sonarr
 spec:
-  replicas: 1
+  replicas: 0
   strategy:
     rollingUpdate:
       maxSurge: 1

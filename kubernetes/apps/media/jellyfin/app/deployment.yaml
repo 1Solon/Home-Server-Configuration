@@ -54,9 +54,6 @@ spec:
             - name: TZ
               value: Europe/Amsterdam
           securityContext:
-            runAsUser: 1000
-            runAsGroup: 1000
-            fsGroup: 1000
             privileged: true # Container must run as privileged inside of the pod, required for hardware acceleration
           image: ghcr.io/linuxserver/jellyfin:10.9.11@sha256:50e541e59ef6b3adc667eee4eeb0c88af09cad46ac15a7e66cf335dfd2cc05bf
           imagePullPolicy: Always

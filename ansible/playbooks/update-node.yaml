@@ -1,30 +1,56 @@
 ---
 - hosts: all
   become: true
-  tasks: 
-    # Update apt packages
-    - name: Update apt packages
-      apt:
-        update_cache: yes
-        upgrade: yes
-        cache_valid_time: 3600
+  tasks:
+    - block:
+        # Update apt packages
+        - name: Update apt packages
+          apt:
+            update_cache: yes
+            upgrade: yes
+            cache_valid_time: 3600
 
-     # Check if reboot is required
-    - name: Check if system reboot is required
-      become: false
-      stat:
-        path: /var/run/reboot-required
-      register: reboot_required
-  
-    # Notify me when a reboot is required
-    - name: Send ntfy notification
-      uri:
-        url: "https://ntfy.solonsstuff.com/{{ ntfy_channel }}"
-        method: POST
-        body: "The system '{{ inventory_hostname }}' needs to be restarted."
-        headers: 
-          'Authorization': "{{ ntfy_token }}"
-          'Title': "Reboot Required"
-          'Priority': '3'
-          'Tags': 'arrows_counterclockwise'
-      when: reboot_required.stat.exists
+        # Check if reboot is required
+        - name: Check if system reboot is required
+          stat:
+            path: /var/run/reboot-required
+          register: reboot_required
+
+        # Notify if a reboot is required
+        - name: Send ntfy notification for reboot required
+          uri:
+            url: "https://ntfy.solonsstuff.com/{{ ntfy_channel }}"
+            method: POST
+            body: "The system '{{ inventory_hostname }}' needs to be restarted."
+            headers:
+              "Authorization": "{{ ntfy_token }}"
+              "Title": "Reboot Required"
+              "Priority": "3"
+              "Tags": "arrows_counterclockwise"
+          when: reboot_required.stat.exists
+
+      rescue:
+        # Notify if the playbook failed
+        - name: Send ntfy notification for playbook failure
+          uri:
+            url: "https://ntfy.solonsstuff.com/{{ ntfy_channel }}"
+            method: POST
+            body: "The playbook execution failed on '{{ inventory_hostname }}'."
+            headers:
+              "Authorization": "{{ ntfy_token }}"
+              "Title": "Playbook Failure"
+              "Priority": "5"
+              "Tags": "warning"
+
+      always:
+        # Optionally, a final notification if you need to indicate success as well
+        - name: Send ntfy notification for playbook success
+          uri:
+            url: "https://ntfy.solonsstuff.com/{{ ntfy_channel }}"
+            method: POST
+            body: "The playbook completed successfully on '{{ inventory_hostname }}'."
+            headers:
+              "Authorization": "{{ ntfy_token }}"
+              "Title": "Playbook Success"
+              "Priority": "1"
+              "Tags": "checkmark"

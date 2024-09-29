@@ -12,3 +12,6 @@ all:
     kube4:
       ansible_host: 192.168.1.104
       ansible_user: ubuntu
+    kube5:
+      ansible_host: 192.168.1.105
+      ansible_user: ubuntu

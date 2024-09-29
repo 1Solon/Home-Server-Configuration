@@ -41,16 +41,3 @@
               "Title": "Playbook Failure"
               "Priority": "5"
               "Tags": "warning"
-
-      always:
-        # Optionally, a final notification if you need to indicate success as well
-        - name: Send ntfy notification for playbook success
-          uri:
-            url: "https://ntfy.solonsstuff.com/{{ ntfy_channel }}"
-            method: POST
-            body: "The playbook completed successfully on '{{ inventory_hostname }}'."
-            headers:
-              "Authorization": "{{ ntfy_token }}"
-              "Title": "Playbook Success"
-              "Priority": "1"
-              "Tags": "checkmark"

@@ -44,5 +44,5 @@ spec:
             claimName: radarr-config
         - name: radarr-downloads
           nfs:
-            server: truenas.local
+            server: 192.168.1.111
             path: /mnt/STORAGE-01/Media-Storage

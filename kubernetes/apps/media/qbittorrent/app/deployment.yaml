@@ -50,7 +50,7 @@ spec:
       volumes:
         - name: samba-volume
           nfs:
-            server: truenas.local
+            server: 192.168.1.111
             path: /mnt/STORAGE-01/Media-Storage
         - name: qbittorrent-config
           persistentVolumeClaim:

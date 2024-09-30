@@ -26,7 +26,7 @@ jobs:
           git add .
           git commit -m "Update flux"
           git checkout -b gh-actions/flux-update
-          git push
+          git push --set-upstream origin gh-actions/flux-update
 
       - name: Create Pull Request
         run: gh pr create -B master -H gh-actions/flux-update --title 'Update Flux' --body 'Updates flux components using Flux CLI'

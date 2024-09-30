@@ -1,0 +1,17 @@
+name: CI
+
+on:
+  workflow_dispatch:
+
+jobs:
+  update-flux:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Setup Flux CLI
+        uses: fluxcd/flux2/action@main
+        with:
+          version: "latest"
+
+      - name: Update flux
+        run: flux install --export > ./kubernetes/infra/flux/gotk-components.yaml

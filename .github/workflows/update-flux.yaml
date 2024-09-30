@@ -2,6 +2,8 @@ name: Update-Flux
 
 on:
   workflow_dispatch:
+  schedule:
+    - cron: "0 0 * * 1" # Run at 12:00 AM every Monday
 
 jobs:
   update-flux:

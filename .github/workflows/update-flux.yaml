@@ -17,7 +17,7 @@ jobs:
           version: "latest"
 
       - name: Update flux
-        run: flux install --export > ./kubernetes/infra/flux/gotk-components.yaml
+        run: flux install --export > ./kubernetes/infra/flux/gotk-components.old
 
       - name: Commit and push changes
         run: |

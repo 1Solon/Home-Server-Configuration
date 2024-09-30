@@ -25,7 +25,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git add .
           git commit -m "Update flux"
-          git branch -b gh-actions/flux-update
+          git checkout -b gh-actions/flux-update
           git push
 
       - name: Create Pull Request

@@ -30,10 +30,22 @@ jobs:
             git push --set-upstream origin gh-actions/flux-update
           else
             echo "No changes to commit."
+            echo "no changes" > /tmp/no-changes.txt
+          fi
+        shell: bash
+
+      - name: Check for changes
+        id: changes
+        run: |
+          if [ -f /tmp/no-changes.txt ]; then
+            echo "::set-output name=changes::false"
+          else
+            echo "::set-output name=changes::true"
           fi
         shell: bash
 
       - name: Create Pull Request
+        if: steps.changes.outputs.changes == 'true'
         run: gh pr create -B master -H gh-actions/flux-update --title 'Update Flux' --body 'Updates flux components using Flux CLI'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

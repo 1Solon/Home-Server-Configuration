@@ -20,6 +20,7 @@ jobs:
         run: flux install --export > ./kubernetes/infra/flux/gotk-components.yaml
 
       - name: Commit and push changes
+        id: commit
         run: |
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git config user.name "github-actions[bot]"
@@ -28,24 +29,15 @@ jobs:
             git commit -m "Update flux"
             git checkout -b gh-actions/flux-update
             git push --set-upstream origin gh-actions/flux-update
+            echo "changes=true" >> $GITHUB_OUTPUT
           else
             echo "No changes to commit."
-            echo "no changes" > /tmp/no-changes.txt
-          fi
-        shell: bash
-
-      - name: Check for changes
-        id: changes
-        run: |
-          if [ -f /tmp/no-changes.txt ]; then
-            echo "::set-output name=changes::false"
-          else
-            echo "::set-output name=changes::true"
+            echo "changes=false" >> $GITHUB_OUTPUT
           fi
         shell: bash
 
       - name: Create Pull Request
-        if: steps.changes.outputs.changes == 'true'
+        if: steps.commit.outputs.changes == 'true'
         run: gh pr create -B master -H gh-actions/flux-update --title 'Update Flux' --body 'Updates flux components using Flux CLI'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

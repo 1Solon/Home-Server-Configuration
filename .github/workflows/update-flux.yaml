@@ -30,7 +30,8 @@ jobs:
             git push --set-upstream origin gh-actions/flux-update
           else
             echo "No changes to commit."
-        shell: /usr/bin/bash -e {0}
+          fi
+        shell: bash
 
       - name: Create Pull Request
         run: gh pr create -B master -H gh-actions/flux-update --title 'Update Flux' --body 'Updates flux components using Flux CLI'

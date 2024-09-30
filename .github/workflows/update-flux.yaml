@@ -21,7 +21,6 @@ jobs:
 
       - name: Commit and push changes
         run: |
-          git config user.name "github-actions[bot]"
           git add .
           git commit -m "Update flux"
           git branch -b gh-actions/flux-update

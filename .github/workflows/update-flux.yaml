@@ -21,7 +21,6 @@ jobs:
 
       - name: Commit and push changes
         run: |
-          git config --global user.email "
           git config --global user.name "GitHub Actions"
           git add .
           git commit -m "Update flux"

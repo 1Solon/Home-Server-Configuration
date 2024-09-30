@@ -24,4 +24,10 @@ jobs:
           git config user.name "github-actions[bot]"
           git add .
           git commit -m "Update flux"
+          git branch -b gh-actions/flux-update
           git push
+
+      - name: Create Pull Request
+        run: gh pr create -B master -H gh-actions/flux-update --title 'Update Flux' --body 'Updates flux components using Flux CLI'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

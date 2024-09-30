@@ -15,3 +15,11 @@ jobs:
 
       - name: Update flux
         run: flux install --export > ./kubernetes/infra/flux/gotk-components.yaml
+
+      - name: Commit and push changes
+        run: |
+          git config --global user.email "
+          git config --global user.name "GitHub Actions"
+          git add .
+          git commit -m "Update flux"
+          git push

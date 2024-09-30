@@ -1,4 +1,4 @@
-name: CI
+name: Update-Flux
 
 on:
   workflow_dispatch:

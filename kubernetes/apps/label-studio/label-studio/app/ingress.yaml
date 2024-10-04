@@ -9,7 +9,7 @@ spec:
   entryPoints:
     - websecure
   routes:
-    - match: Host(`label-studio.local.solonsstuff.com`)
+    - match: Host(`label-studio.solonsstuff.com`)
       kind: Rule
       services:
         - name: label-studio
@@ -17,4 +17,4 @@ spec:
       middlewares:
         - name: default-headers
   tls:
-    secretName: local-solonsstuff-com-live-tls
+    secretName: solonsstuff-com-live-tls

@@ -3,7 +3,6 @@ apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
   name: label-studio
-  namespace: label-studio
   annotations:
     kubernetes.io/ingress.class: traefik-external
 spec:

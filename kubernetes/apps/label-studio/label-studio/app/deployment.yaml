@@ -54,7 +54,6 @@ spec:
           volumeMounts:
             - mountPath: /label-studio/data
               name: label-studio-data
-          command: ["label-studio-uwsgi"]
       volumes:
         - name: label-studio-data
           nfs:

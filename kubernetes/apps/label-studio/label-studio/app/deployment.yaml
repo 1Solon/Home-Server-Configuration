@@ -51,6 +51,8 @@ spec:
                   key: HOST
             - name: JSON_LOG
               value: "1"
+            - name: LOCAL_FILES_SERVING_ENABLED
+              value: "true"
           volumeMounts:
             - mountPath: /label-studio/data
               name: label-studio-data

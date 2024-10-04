@@ -21,5 +21,6 @@ data:
     192.168.1.162 qbittorrent.local.solonsstuff.com
     192.168.1.162 radarr.local.solonsstuff.com
     192.168.1.162 sonarr.local.solonsstuff.com
+    192.168.1.162 label-studio.local.solonsstuff.com
     192.168.1.110 proxmox.local.solonsstuff.com
     192.168.1.111 truenas.local.solonsstuff.com

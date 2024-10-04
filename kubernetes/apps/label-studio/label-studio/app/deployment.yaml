@@ -30,24 +30,24 @@ spec:
             - name: POSTGRE_NAME
               valueFrom:
                 secretKeyRef:
-                  name: label-studio-db-user
+                  name: secret-label-studio-db-user
                   key: DATABASE_NAME
             - name: POSTGRE_USER
               valueFrom:
                 secretKeyRef:
-                  name: label-studio-db-user
+                  name: secret-label-studio-db-user
                   key: LOGIN
             - name: POSTGRE_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: label-studio-db-user
+                  name: secret-label-studio-db-user
                   key: PASSWORD
             - name: POSTGRE_PORT
               value: "5432"
             - name: POSTGRE_HOST
               valueFrom:
                 secretKeyRef:
-                  name: label-studio-db-user
+                  name: secret-label-studio-db-user
                   key: HOST
             - name: JSON_LOG
               value: "1"

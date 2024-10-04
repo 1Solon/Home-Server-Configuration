@@ -1,0 +1,21 @@
+---
+apiVersion: db.movetokube.com/v1alpha1
+kind: Postgres
+metadata:
+  name: label-studio-db
+  namespace: label-studio
+spec:
+  database: label_studio
+  dropOnDelete: true
+
+---
+apiVersion: db.movetokube.com/v1alpha1
+kind: PostgresUser
+metadata:
+  name: label-studio-db-user
+  namespace: label-studio
+spec:
+  role: write
+  database: label-studio-db
+  secretName: secret
+  privileges: OWNER

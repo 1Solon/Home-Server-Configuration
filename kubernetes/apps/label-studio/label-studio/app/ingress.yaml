@@ -1,0 +1,21 @@
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: label-studio
+  namespace: label-studio
+  annotations:
+    kubernetes.io/ingress.class: traefik-external
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`label-studio.local.solonsstuff.com`)
+      kind: Rule
+      services:
+        - name: label-studio
+          port: 80
+      middlewares:
+        - name: default-headers
+  tls:
+    secretName: local-solonsstuff-com-live-tls

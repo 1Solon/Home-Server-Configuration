@@ -1,0 +1,34 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend-deployment
+spec:
+  replicas: 1
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+        - name: flood
+          image: ghcr.io/2024-cmpu9010-group-3/frontend:0.1.0@sha256:fc0a5476f7e3797c788e4b3f1994f8576cf9b469e0019a09c77b57050895a24b
+          resources: {}
+          ports:
+            - containerPort: 80
+          env:
+            - name: NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: frontend-secret
+                  key: Mapbox_API
+            - name: NODE_ENV
+              value: production

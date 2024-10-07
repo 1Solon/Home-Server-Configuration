@@ -1,0 +1,49 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: public-backend-deployment
+spec:
+  replicas: 1
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app: public-backend
+  template:
+    metadata:
+      labels:
+        app: public-backend
+    spec:
+      containers:
+        - name: flood
+          image: ghcr.io/2024-cmpu9010-group-3/backend-public:0.1.0@sha256:49de0e6fcbc4d3f4d99d57fa84514dbe30ce3770b686ae58108eea30825e22d3
+          resources: {}
+          ports:
+            - containerPort: 80
+          env:
+            - name: DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: secret-label-studio-db-user
+                  key: LOGIN
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: secret-label-studio-db-user
+                  key: PASSWORD
+            - name: DB_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: secret-label-studio-db-user
+                  key: HOST
+            - name: DB_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: secret-label-studio-db-user
+                  key: DATABASE_NAME
+            - name: MAGPIE_DB_URL
+              value: "postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:5432/${DB_NAME}"

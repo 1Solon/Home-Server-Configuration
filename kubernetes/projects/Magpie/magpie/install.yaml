@@ -9,7 +9,7 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: magpie
-  path: "./kubernetes/projects/magpie/magpie/app"
+  path: "./kubernetes/projects/Magpie/magpie/app"
   prune: true
   sourceRef:
     kind: GitRepository

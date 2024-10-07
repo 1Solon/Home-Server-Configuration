@@ -25,25 +25,23 @@ spec:
           ports:
             - containerPort: 3000
           env:
-            - name: DB_USER
+            - name: LOGIN
               valueFrom:
                 secretKeyRef:
                   name: secret-magpie-db-user
                   key: LOGIN
-            - name: DB_PASSWORD
+            - name: PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: secret-magpie-db-user
                   key: PASSWORD
-            - name: DB_HOST
+            - name: HOST
               valueFrom:
                 secretKeyRef:
                   name: secret-magpie-db-user
                   key: HOST
-            - name: DB_NAME
+            - name: DATABASE_NAME
               valueFrom:
                 secretKeyRef:
                   name: secret-magpie-db-user
                   key: DATABASE_NAME
-            - name: MAGPIE_DB_URL
-              value: "postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:5432/${DB_NAME}"

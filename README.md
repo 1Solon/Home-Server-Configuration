@@ -24,6 +24,7 @@ The Git repository contains the following directories:
 └──📁 kubernetes
    ├── 📁 apps
    │   ├── 📁 dashboard
+   │   ├── 📁 label-studio
    │   ├── 📁 media
    │   │   ├── 📁 decluttarr
    │   │   ├── 📁 flaresolver
@@ -34,27 +35,29 @@ The Git repository contains the following directories:
    │   │   ├── 📁 qbittorrent
    │   │   ├── 📁 radarr
    │   │   ├── 📁 recyclarr
-   │   │   ├── 📁 samba
    │   │   └── 📁 sonarr
    │   ├── 📁 muse
    │   ├── 📁 ntfy
    │   ├── 📁 pihole
    │   ├── 📁 semaphore
    │   ├── 📁 speedtest
-   └── 📁 infra
-       ├── 📁 cert-manager
-       ├── 📁 databases
-       │   ├── 📁 cloudnative-postgres
-       │   └── 📁 postgres-operator
-       ├── 📁 flux
-       │   └── 📁 repositories
-       ├── 📁 longhorn
-       ├── 📁 metallb
-       ├── 📁 pod-gateway
-       ├── 📁 reflector
-       ├── 📁 reloader
-       ├── 📁 system-upgrade
-       └── 📁 traefik
+   │   └── 📁 vaultwarden
+   ├── 📁 infra
+   │   ├── 📁 cert-manager
+   │   ├── 📁 databases
+   │   │   ├── 📁 cloudnative-postgres
+   │   │   └── 📁 postgres-operator
+   │   ├── 📁 flux
+   │   │   └── 📁 repositories
+   │   ├── 📁 longhorn
+   │   ├── 📁 metallb
+   │   ├── 📁 pod-gateway
+   │   ├── 📁 reflector
+   │   ├── 📁 reloader
+   │   ├── 📁 system-upgrade
+   │   └── 📁 traefik
+   └── 📁 projects
+       └── 📁 Magpie
 ```
 
 ## 🖥️ Software
@@ -63,7 +66,7 @@ The following apps are installed on the clusters.
 
 | Software                                                                          | Purpose                                                                                  |
 | --------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
-| [Flux2](https://fluxcd.io)                                                        | GitOps Tool managing the cluster                                                         |
+| [Flux](https://fluxcd.io)                                                         | GitOps Tool managing the cluster                                                         |
 | [Longhorn](https://longhorn.io)                                                   | Persistent Block Storage Provisioner                                                     |
 | [MetalLB](https://metallb.universe.tf)                                            | Bare metal LoadBalancer                                                                  |
 | [Cert-Manager](https://cert-manager.io)                                           | Letsencrypt certificates with Cloudflare DNS                                             |
@@ -81,7 +84,6 @@ The following apps are installed on the clusters.
 | [Prowlarr](https://github.com/Prowlarr/Prowlarr)                                  | Indexer manager for media automation                                                     |
 | [Qbittorrent](https://www.qbittorrent.org)                                        | Torrent client                                                                           |
 | [Radarr](https://radarr.video)                                                    | Automated movie download tool                                                            |
-| [Samba](https://www.samba.org)                                                    | File sharing service                                                                     |
 | [Sonarr](https://sonarr.tv)                                                       | Automated TV show download tool                                                          |
 | [Ntfy](https://ntfy.sh)                                                           | Push notifications                                                                       |
 | [Pihole](https://pi-hole.net)                                                     | Network-wide ad blocker (I am also using this for DNS)                                   |
@@ -91,13 +93,16 @@ The following apps are installed on the clusters.
 | [Speedtest](https://github.com/sivel/speedtest-cli)                               | Internet speed testing tool                                                              |
 | [Traefik](https://traefik.io)                                                     | Edge router and load balancer                                                            |
 | [Pod-gateway](https://github.com/angelnu/pod-gateway)                             | Routes traffic from pods to a gateway (I use it to route to a vpn)                       |
+| [Vaultwarden](https://github.com/dani-garcia/vaultwarden)                         | Bitwarden compatible password manager                                                    |
+| [Label-Studio](https://labelstud.io/)                                             | Data labeling tool                                                                       |
 
 ## 📦 Hardware
 
-| Device                                                                     | Count | OS Disk Size | Data Disk Size | Ram  | Operating System | Purpose          |
-| -------------------------------------------------------------------------- | ----- | ------------ | -------------- | ---- | ---------------- | ---------------- |
-| [Turing RK1](https://turingpi.com/product/turing-rk1/?attribute_ram=16+GB) | 4     | 2TB NVMe     | 8TB HDD (1x)   | 16GB | Ubuntu           | Various purposes |
-| [Turing Pi 2](https://turingpi.com/product/turing-pi-2-5/)                 | 1     | -            | -              | -    | -                | Cluster Platform |
+| Device                                                                                       | Count | OS Disk Size | Data Disk Size | Ram  | Operating System | Purpose           |
+| -------------------------------------------------------------------------------------------- | ----- | ------------ | -------------- | ---- | ---------------- | ----------------- |
+| [Turing RK1](https://turingpi.com/product/turing-rk1/?attribute_ram=16+GB)                   | 4     | 2TB NVMe     | -              | 16GB | Ubuntu           | Cluster Nodes     |
+| [Turing Pi 2](https://turingpi.com/product/turing-pi-2-5/)                                   | 1     | -            | -              | -    | -                | Baseboard and KVM |
+| [CWWK AMD-7940HS](https://www.amazon.com/CWWK-NAS-display-network-motherboard/dp/B0D5M2M3Y5) | 1     | 1TB NVMe     | 8TB HDD (2x)   | 32GB | Proxmox          | NAS/Cluster Nodes |
 
 ## 🤖 Automation
 

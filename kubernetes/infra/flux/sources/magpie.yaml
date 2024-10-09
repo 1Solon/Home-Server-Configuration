@@ -20,7 +20,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 30s
-  path: ./Distribution/kubernetes
+  path: ./Distribution
   prune: true
   sourceRef:
     kind: GitRepository

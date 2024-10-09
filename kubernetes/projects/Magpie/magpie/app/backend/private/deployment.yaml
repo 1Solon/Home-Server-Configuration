@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
         - name: flood
-          image: ghcr.io/2024-cmpu9010-group-3/backend-private:0.2.0
+          image: ghcr.io/2024-cmpu9010-group-3/backend-private:0.2.1@sha256:c624444e50f1d012cc42e4870c8833913ee5446241143f3adeaa6684178f6075
           resources: {}
           ports:
             - containerPort: 3000

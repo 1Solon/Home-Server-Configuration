@@ -3,7 +3,7 @@
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: GitRepository
 metadata:
-  name: 2024-CMPU9010-GROUP-3
+  name: 2024_CMPU9010_GROUP-3
   namespace: flux-system
 spec:
   interval: 10s
@@ -16,7 +16,7 @@ spec:
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: 2024-CMPU9010-GROUP-3
+  name: 2024_CMPU9010_GROUP-3
   namespace: flux-system
 spec:
   interval: 30s
@@ -24,7 +24,7 @@ spec:
   prune: true
   sourceRef:
     kind: GitRepository
-    name: 2024-CMPU9010-GROUP-3
+    name: 2024_CMPU9010_GROUP-3
   decryption:
     provider: sops
     secretRef:

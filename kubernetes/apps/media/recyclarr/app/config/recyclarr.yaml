@@ -37,6 +37,33 @@ sonarr:
               - WEBRip-480p
           - name: DVD
           - name: SDTV
+
+      - name: Remux-1080p - Anime Dub
+        upgrade:
+          allowed: true
+          until_quality: Web-1080p
+          until_score: 2000
+        min_format_score: 0
+        quality_sort: top
+        qualities:
+          - name: Bluray-1080p Remux
+          - name: Web-1080p
+            qualities:
+              - WEBDL-1080p
+              - WEBRip-1080p
+          - name: HDTV-1080p
+          - name: Web-720p
+            qualities:
+              - WEBDL-720p
+              - WEBRip-720p
+          - name: HDTV-720p
+          - name: Web-480p
+            qualities:
+              - WEBDL-480p
+              - WEBRip-480p
+          - name: DVD
+          - name: SDTV
+
       - name: WEBDL-720p
         reset_unmatched_scores:
           enabled: true
@@ -58,6 +85,7 @@ sonarr:
               - WEBRip-480p
           - name: DVD
           - name: SDTV
+
       - name: WEBDL-480p
         reset_unmatched_scores:
           enabled: true
@@ -72,6 +100,7 @@ sonarr:
               - WEBRip-480p
           - name: DVD
           - name: SDTV
+
     custom_formats:
       - trash_ids:
           # Audio
@@ -146,6 +175,44 @@ sonarr:
         assign_scores_to:
           - name: WEBDL-1080p
             score: 1850
+
+        ## Anime dub additions for Avril
+      - trash_ids:
+          - 026d5aadd1a6b4e550b134cb6c72b3ca # Uncensored
+        assign_scores_to:
+          - name: Remux-1080p - Anime Dub
+            score: 0 # Adjust scoring as desired
+
+      - trash_ids:
+          - b2550eb333d27b75833e25b8c2557b38 # 10bit
+        assign_scores_to:
+          - name: Remux-1080p - Anime Dub
+            score: 0 # Adjust scoring as desired
+
+      - trash_ids:
+          - 418f50b10f1907201b6cfdf881f467b7 # Anime Dual Audio
+        assign_scores_to:
+          - name: Remux-1080p - Anime Dub
+            score: 2000 # Adjust scoring as desired
+
+      - trash_ids:
+          - 3bc5f395426614e155e585a2f056cdf1 # Season Pack
+        assign_scores_to:
+          - name: Remux-1080p - Anime Dub
+            score: 1 # Adjust scoring as desired
+
+      - trash_ids:
+          - 9c14d194486c4014d422adc64092d794 # Dubs Only
+        assign_scores_to:
+          - name: Remux-1080p - Anime Dub
+            score: 3000
+
+      - trash_ids:
+          - 47435ece6b99a0b477caf360e79ba0bb # x265 (HD)
+        assign_scores_to:
+          - name: Remux-1080p - Anime Dub
+            score: -5
+
 radarr:
   radarr:
     base_url: http://radarr-service.home-media.svc.cluster.local
@@ -176,6 +243,7 @@ radarr:
               - WEBDL-1080p
               - WEBRip-1080p
           - name: HDTV-1080p
+
     custom_formats:
       - trash_ids:
           # Audio

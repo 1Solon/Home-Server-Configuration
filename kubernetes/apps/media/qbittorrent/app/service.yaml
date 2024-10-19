@@ -10,14 +10,14 @@ spec:
   selector:
     app: qbittorrent
   ports:
-    - name: qbittorrent-udp
-      protocol: UDP
-      port: 52716
-      targetPort: 52716
-    - name: qbittorrent-tcp
-      protocol: TCP
-      port: 52716
-      targetPort: 52716
+    # - name: qbittorrent-udp
+    #   protocol: UDP
+    #   port: 52716
+    #   targetPort: 52716
+    # - name: qbittorrent-tcp
+    #   protocol: TCP
+    #   port: 52716
+    #   targetPort: 52716
     - name: qbittorrent-webui
       protocol: TCP
       port: 80

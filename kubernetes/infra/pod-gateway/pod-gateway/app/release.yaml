@@ -42,8 +42,8 @@ spec:
             value: airvpn
           - name: VPN_TYPE
             value: wireguard
-          # - name: FIREWALL
-          #   value: "off"
+          - name: FIREWALL
+            value: "off"
           - name: DOT
             value: "off"
           - name: SERVER_COUNTRIES

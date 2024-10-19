@@ -35,11 +35,11 @@ spec:
             - name: WEBUI_PORT
               value: "8080"
             - name: TORRENTING_PORT
-              value: "6881"
+              value: "52716"
           ports:
             - containerPort: 8080
-            - containerPort: 6881
-            - containerPort: 6881
+            - containerPort: 52716
+            - containerPort: 52716
               protocol: UDP
           volumeMounts:
             - name: qbittorrent-config

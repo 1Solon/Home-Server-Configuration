@@ -12,12 +12,12 @@ spec:
   ports:
     - name: qbittorrent-udp
       protocol: UDP
-      port: 6881
-      targetPort: 6881
+      port: 52716
+      targetPort: 52716
     - name: qbittorrent-tcp
       protocol: TCP
-      port: 6881
-      targetPort: 6881
+      port: 52716
+      targetPort: 52716
     - name: qbittorrent-webui
       protocol: TCP
       port: 80

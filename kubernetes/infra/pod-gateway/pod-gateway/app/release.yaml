@@ -78,9 +78,9 @@ spec:
               ports:
                 - port: &vpn_port 1637
                   protocol: UDP
-                - port: 6881
+                - port: 52716
                   protocol: UDP
-                - port: 6881
+                - port: 52716
                   protocol: TCP
             - to:
                 - namespaceSelector: {}
@@ -107,9 +107,9 @@ spec:
         IP: 10
         ports:
           - type: tcp
-            port: 6881
+            port: 52716
           - type: udp
-            port: 6881
+            port: 52716
 
     webhook:
       image:

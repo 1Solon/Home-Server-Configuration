@@ -48,6 +48,8 @@ spec:
             value: "off"
           - name: SERVER_COUNTRIES
             value: Switzerland
+          - name: FIREWALL_VPN_INPUT_PORTS
+            value: "52716"
 
           - name: WIREGUARD_PRIVATE_KEY
             valueFrom:

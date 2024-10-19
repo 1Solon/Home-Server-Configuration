@@ -52,7 +52,9 @@ spec:
             - name: PUID
               value: "\x31\x30\x34\x34" #< ACII code for '1044'
             - name: TZ
-              value: Europe/Amsterdam
+              value: Europe/Dublin
+            - name: DOCKER_MODS
+              value: "ghcr.io/intro-skipper/intro-skipper-docker-mod"
           securityContext:
             privileged: true # Container must run as privileged inside of the pod, required for hardware acceleration
           image: ghcr.io/linuxserver/jellyfin:10.9.11@sha256:a074e43e90e97cb6a59ca0345bc6908fa3262b459618ae608b9da7e8ac4ae1f2

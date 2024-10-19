@@ -40,27 +40,31 @@ spec:
           tag: v3.39.1@sha256:6a8058e626763cbf735ac2f78c774dbb24fec2490bd9d9f7d67e22592cb4a991
         env:
           - name: VPN_SERVICE_PROVIDER
-            value: nordvpn
+            value: airvpn
           - name: VPN_TYPE
-            value: openvpn
-          - name: OPENVPN_PROTOCOL
-            value: udp
+            value: wireguard
           - name: FIREWALL
             value: "off"
           - name: DOT
             value: "off"
-          - name: SERVER_REGIONS
+          - name: SERVER_COUNTRIES
             value: Switzerland
-          - name: OPENVPN_USER
+
+          - name: WIREGUARD_PRIVATE_KEY
             valueFrom:
               secretKeyRef:
                 name: vpn-credentials
-                key: username
-          - name: OPENVPN_PASSWORD
+                key: private_key
+          - name: WIREGUARD_PRESHARED_KEY
             valueFrom:
               secretKeyRef:
                 name: vpn-credentials
-                key: password
+                key: preshared_key
+          - name: WIREGUARD_ADDRESSES
+            valueFrom:
+              secretKeyRef:
+                name: vpn-credentials
+                key: addresses
 
         securityContext:
           privledged: true

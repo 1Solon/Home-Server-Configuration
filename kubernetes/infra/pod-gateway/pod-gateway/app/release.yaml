@@ -65,9 +65,6 @@ spec:
                 name: vpn-credentials
                 key: addresses
 
-        securityContext:
-          privledged: true
-
         networkPolicy:
           enabled: true
           egress:

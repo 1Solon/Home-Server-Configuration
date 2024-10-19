@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: homarr
-        image: ghcr.io/ajnart/homarr:0.15.4@sha256:c13f04c95fdfbdb710375301cc45783a4c239eaedc96258e2a026feead213f99
+        image: ghcr.io/ajnart/homarr:0.15.6@sha256:889162656ea48d6ad151aa56328a81ac5320fd99f8923d065d915296384c346e
         imagePullPolicy: Always
         resources: {}
         ports:

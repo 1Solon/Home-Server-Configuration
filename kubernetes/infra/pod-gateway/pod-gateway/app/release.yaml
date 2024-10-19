@@ -76,7 +76,7 @@ spec:
                 - ipBlock:
                     cidr: 0.0.0.0/0
               ports:
-                - port: 1194
+                - port: &vpn_port 1637
                   protocol: UDP
                 - port: 6881
                   protocol: UDP
@@ -98,7 +98,7 @@ spec:
       VXLAN_ID: "45"
       VXLAN_IP_NETWORK: "192.168.2"
       VPN_BLOCK_OTHER_TRAFFIC: "false"
-      VPN_TRAFFIC_PORT: "1194"
+      VPN_TRAFFIC_PORT: *vpn_port
       DNS_LOCAL_CIDRS: "10.0.0.0/8 192.168.0.0/16"
       NOT_ROUTED_TO_GATEWAY_CIDRS: 10.0.0.0/8 192.168.0.0/16
 

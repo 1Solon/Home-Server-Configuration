@@ -15,6 +15,11 @@ spec:
     name: cloudnative-pg-secret
   monitoring:
     enablePodMonitor: false
+  bootstrap:
+    initdb:
+      postInitTemplateSQL:
+        - CREATE EXTENSION postgis;
+        - CREATE EXTENSION uuid-ossp;
 
   resources:
     requests:

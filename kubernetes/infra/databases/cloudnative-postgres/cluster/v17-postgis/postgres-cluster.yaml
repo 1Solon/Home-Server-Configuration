@@ -19,7 +19,6 @@ spec:
     initdb:
       postInitTemplateSQL:
         - CREATE EXTENSION postgis;
-        - CREATE EXTENSION uuid-ossp;
 
   resources:
     requests:

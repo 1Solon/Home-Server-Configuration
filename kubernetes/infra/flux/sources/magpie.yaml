@@ -11,7 +11,7 @@ spec:
     branch: main
   secretRef:
     name: flux-system
-  url: https://github.com/2024-CMPU9010-GROUP-3/PROJECT.git
+  url: https://github.com/2024-CMPU9010-GROUP-3/magpie.git
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization

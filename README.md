@@ -21,43 +21,60 @@ The Git repository contains the following directories:
 
 ```sh
 📁
+├──📁 ansible
+│   └──📁 playbooks
 └──📁 kubernetes
-   ├── 📁 apps
-   │   ├── 📁 dashboard
-   │   ├── 📁 label-studio
-   │   ├── 📁 media
-   │   │   ├── 📁 decluttarr
-   │   │   ├── 📁 flaresolver
-   │   │   ├── 📁 flood
-   │   │   ├── 📁 jellyfin
-   │   │   ├── 📁 jellyseer
-   │   │   ├── 📁 prowlarr
-   │   │   ├── 📁 qbittorrent
-   │   │   ├── 📁 radarr
-   │   │   ├── 📁 recyclarr
-   │   │   └── 📁 sonarr
-   │   ├── 📁 muse
-   │   ├── 📁 ntfy
-   │   ├── 📁 pihole
-   │   ├── 📁 semaphore
-   │   ├── 📁 speedtest
-   │   └── 📁 vaultwarden
-   ├── 📁 infra
-   │   ├── 📁 cert-manager
-   │   ├── 📁 databases
-   │   │   ├── 📁 cloudnative-postgres
-   │   │   └── 📁 postgres-operator
-   │   ├── 📁 flux
-   │   │   └── 📁 repositories
-   │   ├── 📁 longhorn
-   │   ├── 📁 metallb
-   │   ├── 📁 pod-gateway
-   │   ├── 📁 reflector
-   │   ├── 📁 reloader
-   │   ├── 📁 system-upgrade
-   │   └── 📁 traefik
-   └── 📁 projects
-       └── 📁 Magpie
+    ├──📁 apps
+    │   ├──📁 dashboard
+    │   │   └──📁 homarr
+    │   ├──📁 label-studio
+    │   │   └──📁 label-studio
+    │   ├──📁 media
+    │   │   ├──📁 decluttarr
+    │   │   ├──📁 flaresolver
+    │   │   ├──📁 flood
+    │   │   ├──📁 jellyfin
+    │   │   ├──📁 jellyseer
+    │   │   ├──📁 prowlarr
+    │   │   ├──📁 qbittorrent
+    │   │   ├──📁 radarr
+    │   │   ├──📁 recyclarr
+    │   │   └──📁 sonarr
+    │   ├──📁 muse
+    │   │   └──📁 muse
+    │   ├──📁 ntfy
+    │   │   └──📁 ntfy
+    │   ├──📁 pihole
+    │   │   └──📁 pihole
+    │   ├──📁 semaphore
+    │   │   └──📁 semaphore
+    │   ├──📁 speedtest
+    │   │   └──📁 speedtest
+    │   └──📁 vaultwarden
+    │       └──📁 vaultwarden
+    └──📁 infra
+        ├──📁 cert-manager
+        │   └──📁 cert-manager
+        ├──📁 databases
+        │   ├──📁 cloudnative-postgres
+        │   └──📁 postgres-operator
+        ├──📁 flux
+        │   ├──📁 repositories
+        │   └──📁 sources
+        ├──📁 longhorn
+        │   └──📁 longhorn
+        ├──📁 metallb
+        │   └──📁 metallb
+        ├──📁 pod-gateway
+        │   └──📁 pod-gateway
+        ├──📁 reflector
+        │   └──📁 reflector
+        ├──📁 reloader
+        │   └──📁 reloader
+        ├──📁 system-upgrade
+        │   └──📁 system-upgrade-controller
+        └──📁 traefik
+            └──📁 traefik
 ```
 
 ## 🖥️ Software

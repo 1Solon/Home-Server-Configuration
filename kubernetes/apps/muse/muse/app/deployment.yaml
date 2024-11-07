@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
         - name: muse
-          image: codetheweb/muse:2.9.4@sha256:589fcdea4955de4b23454b0157dd394325564df1238e6322f1e9f867b0af03ef
+          image: codetheweb/muse:2.10.0@sha256:28e58e69df8613285cd2922c6c0ecdaa3c5a9992753bccfc678f031a5d2867b1
           resources: {}
           env:
             - name: DISCORD_TOKEN

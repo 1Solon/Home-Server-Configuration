@@ -64,7 +64,6 @@
   "labels": ["dependencies", "{{updateType}}", "{{manager}}"],
   "additionalBranchPrefix": "{{manager}}/",
   "commitBodyTable": true,
-  "minimumReleaseAge": "3 days",
   "branchConcurrentLimit": 100,
   "reviewers": ["1Solon"],
   "dependencyDashboard": true,

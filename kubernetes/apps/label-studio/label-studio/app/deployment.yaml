@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
         - name: label-studio
-          image: heartexlabs/label-studio:1.13.1@sha256:9cc24ee2a8ad4d3e6169028181a9cb0dc685c9964288f45e0033d07ee19aef2a
+          image: heartexlabs/label-studio:1.14.0@sha256:9256006cee79d81cbcf99938bb7bf5f7e4f959226b7b1449d2e2e595dec64bcb
           resources: {}
           ports:
             - containerPort: 8000

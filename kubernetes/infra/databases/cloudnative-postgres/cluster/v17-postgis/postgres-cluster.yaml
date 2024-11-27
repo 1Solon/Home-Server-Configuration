@@ -4,7 +4,7 @@ kind: Cluster
 metadata:
   name: postgres17-postgis
 spec:
-  instances: 1
+  instances: 0
   imageName: ghcr.io/cloudnative-pg/postgis:17-3.5
   primaryUpdateStrategy: unsupervised
   storage:

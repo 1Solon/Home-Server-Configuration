@@ -65,6 +65,7 @@
   "additionalBranchPrefix": "{{manager}}/",
   "commitBodyTable": true,
   "branchConcurrentLimit": 100,
+  "prHourlyLimit": 100,
   "reviewers": ["1Solon"],
   "dependencyDashboard": true,
   "prCreation": "not-pending",

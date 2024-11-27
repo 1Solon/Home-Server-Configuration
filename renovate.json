@@ -1,8 +1,36 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["github>1Solon/renovate-config"],
-  "reviewers": ["1Solon"],
-  "dependencyDashboard": true,
+  "extends": [
+    "config:recommended",
+    ":dependencyDashboard",
+    ":enablePreCommit",
+    ":ignoreUnstable",
+    ":separateMultipleMajorReleases",
+    ":separateMultipleMajorReleases",
+    ":timezone(Europe/Dublin)",
+    "docker:enableMajor",
+    "docker:pinDigests",
+    "group:recommended",
+    "helpers:pinGitHubActionDigests",
+    "preview:dockerCompose",
+    "preview:dockerVersions",
+    "regexManagers:dockerfileVersions",
+    "regexManagers:githubActionsVersions"
+  ],
+  "regexManagers": [
+    {
+      "description": "Process various other dependencies",
+      "fileMatch": [
+        "(^|/)ansible/.+\\.ya?ml(\\.j2)?$",
+        "(^|/)kubernetes/.+\\.ya?ml(\\.j2)?$"
+      ],
+      "matchStrings": [
+        "datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)( versioning=(?<versioning>\\S+))?\n.*?\"(?<currentValue>.*)\"\n"
+      ],
+      "datasourceTemplate": "{{#if datasource}}{{{datasource}}}{{else}}github-releases{{/if}}",
+      "versioningTemplate": "{{#if versioning}}{{{versioning}}}{{else}}semver{{/if}}"
+    }
+  ],
   "flux": {
     "fileMatch": ["(^|/)kubernetes/.+\\.ya?ml(?:\\.j2)?$"]
   },
@@ -19,6 +47,34 @@
       "description": "YMA dating scheme",
       "packagePatterns": ["^ghcr\\.io/linuxserver/qbittorrent$"],
       "allowedVersions": "<6"
+    },
+    {
+      "description": "v prefix workaround for action updates",
+      "extractVersion": "^(?<version>v\\d+\\.\\d+\\.\\d+)$",
+      "matchDepTypes": ["action"],
+      "versioning": "regex:^v(?<major>\\d+)(\\.(?<minor>\\d+)\\.(?<patch>\\d+))?$"
+    },
+    {
+      "description": "Remove v prefix in regex `_VERSION` updates",
+      "extractVersion": "^?v?(?<version>\\d+\\.\\d+\\.\\d+.*)$",
+      "matchManagers": ["regex"],
+      "versioning": "regex:^v?(?<major>\\d+)(\\.(?<minor>\\d+)\\.(?<patch>\\d+.*))?$"
     }
-  ]
+  ],
+  "labels": ["dependencies", "{{updateType}}", "{{manager}}"],
+  "additionalBranchPrefix": "{{manager}}/",
+  "commitBodyTable": true,
+  "minimumReleaseAge": "3 days",
+  "onboarding": true,
+  "reviewers": ["1Solon"],
+  "dependencyDashboard": true,
+  "prCreation": "not-pending",
+  "rebaseWhen": "conflicted",
+  "requireConfig": "required",
+  "rollbackPrs": true,
+  "vulnerabilityAlerts": {
+    "addLabels": ["security"],
+    "description": "Be sure that the Dependency graph and Dependabot alerts are enabled for the repo. Details: https://docs.renovatebot.com/configuration-options/#vulnerabilityalerts",
+    "enabled": true
+  }
 }

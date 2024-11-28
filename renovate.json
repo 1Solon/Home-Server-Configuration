@@ -74,6 +74,13 @@
       "versioning": "regex:^v?(?<major>\\d+)(\\.(?<minor>\\d+)\\.(?<patch>\\d+.*))?$"
     }
   ],
+  "vulnerabilityAlerts": {
+    "addLabels": [
+      "security"
+    ],
+    "description": "Be sure that the Dependency graph and Dependabot alerts are enabled for the repo. Details: https://docs.renovatebot.com/configuration-options/#vulnerabilityalerts",
+    "enabled": true
+  },
   "labels": [
     "dependencies",
     "{{updateType}}",
@@ -87,14 +94,8 @@
     "1Solon"
   ],
   "dependencyDashboard": true,
+  "minimumReleaseAge": "3 days",
   "prCreation": "not-pending",
   "rebaseWhen": "conflicted",
-  "rollbackPrs": true,
-  "vulnerabilityAlerts": {
-    "addLabels": [
-      "security"
-    ],
-    "description": "Be sure that the Dependency graph and Dependabot alerts are enabled for the repo. Details: https://docs.renovatebot.com/configuration-options/#vulnerabilityalerts",
-    "enabled": true
-  }
+  "rollbackPrs": true
 }

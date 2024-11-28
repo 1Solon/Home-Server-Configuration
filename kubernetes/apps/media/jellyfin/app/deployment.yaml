@@ -44,18 +44,21 @@ spec:
           hostPath:
             path: /dev/mpp_service
       containers:
-        # - env:
-        #     - name: JELLYFIN_PublishedServerUrl
-        #       value: 192.168.1.113 # The IP, make sure it's the same as the IP in the TCP and UDP service yaml
-        #     - name: PGID
-        #       value: "\x36\x35\x35\x34\x31" # < ASCII code for '65541'
-        #     - name: PUID
-        #       value: "\x31\x30\x34\x34" #< ACII code for '1044'
-        #     - name: TZ
-        #       value: Europe/Dublin
-        #     - name: DOCKER_MODS
-        #       value: "ghcr.io/intro-skipper/intro-skipper-docker-mod"
-        - securityContext:
+        - env:
+            - name: JELLYFIN_PublishedServerUrl
+              value: 192.168.1.113 # The IP, make sure it's the same as the IP in the TCP and UDP service yaml
+            - name: TZ
+              value: Europe/Dublin
+            # I previously used LinuxServer Jellyfin, these mappings are necessary
+            - name: JELLYFIN_DATA_DIR
+              value: /config/data
+            - name: JELLYFIN_CONFIG_DIR
+              value: /config
+            - name: JELLYFIN_LOG_DIR
+              value: /config/log
+            - name: JELLYFIN_CACHE_DIR
+              value: /config/cache
+          securityContext:
             privileged: true # Container must run as privileged inside of the pod, required for hardware acceleration
           image: jellyfin/jellyfin:10.10.3@sha256:17c3a8d9dddb97789b5f37112840ebf96566442c14d4754193a6c2eb154bc221
           imagePullPolicy: Always

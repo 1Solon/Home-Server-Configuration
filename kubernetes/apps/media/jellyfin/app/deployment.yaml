@@ -57,7 +57,7 @@ spec:
               value: "ghcr.io/intro-skipper/intro-skipper-docker-mod"
           securityContext:
             privileged: true # Container must run as privileged inside of the pod, required for hardware acceleration
-          image: ghcr.io/linuxserver/jellyfin:10.10.3@sha256:97bb454710cc1d02ef2c750b57e4c4e9c6d2dbb3e849f405b37c5127f47b7d4c
+          image: jellyfin/jellyfin:10.10.3@sha256:17c3a8d9dddb97789b5f37112840ebf96566442c14d4754193a6c2eb154bc221
           imagePullPolicy: Always
           name: jellyfin
           ports:

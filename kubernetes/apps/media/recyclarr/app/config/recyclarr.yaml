@@ -43,7 +43,7 @@ sonarr:
           allowed: true
           until_quality: Web-1080p
           until_score: 10000
-        min_format_score: 2000
+        min_format_score: 1995
         quality_sort: top
         qualities:
           - name: Bluray-1080p Remux

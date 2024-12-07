@@ -14,6 +14,12 @@
       memory: true
       show: false
       showLabel: true
+- datetime:
+    text_size: l
+    format:
+      dateStyle: long
+      timeStyle: short
+      hourCycle: h23
 - openmeteo:
     label: Home
     latitude: "{{HOMEPAGE_VAR_LATITUDE}}"
@@ -21,9 +27,3 @@
     timezone: Europe/Dublin
     units: metric
     cache: 5
-- datetime:
-    text_size: l
-    format:
-      dateStyle: long
-      timeStyle: short
-      hourCycle: h23

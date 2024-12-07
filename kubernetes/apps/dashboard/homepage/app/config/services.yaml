@@ -3,6 +3,7 @@
     - Jellyfin:
         icon: jellyfin.png
         href: https://jellyfin.solonsstuff.com
+        enableBlocks: true
         description: Media Server
         widget:
             type: jellyfin

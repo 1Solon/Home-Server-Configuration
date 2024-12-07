@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
         - name: speedtest-tracker
-          image: ghcr.io/linuxserver/speedtest-tracker:0.24.3@sha256:6bb8984c4105a482a9119b7c4a85f06b1e2fa4be0e597ce1c0ae26e0b67dd18e
+          image: ghcr.io/linuxserver/speedtest-tracker:0.25.1@sha256:6b3f135969052d85aed9b91cda47c4a6a79f98cce031a2f7d2d13d64104d460f
           resources: {}
           ports:
             - containerPort: 80

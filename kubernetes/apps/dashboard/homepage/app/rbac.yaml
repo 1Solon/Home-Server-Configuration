@@ -1,4 +1,3 @@
----
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
@@ -37,6 +36,13 @@ rules:
     resources:
       - customresourcedefinitions
       - customresourcedefinitions/status
+    verbs:
+      - get
+      - list
+  - apiGroups:
+      - traefik.io
+    resources:
+      - ingressroutes
     verbs:
       - get
       - list

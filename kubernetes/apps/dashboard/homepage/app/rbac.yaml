@@ -56,4 +56,4 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: *app
-    namespace: home-dashboard # keep
+    namespace: default # keep

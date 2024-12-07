@@ -6,3 +6,4 @@ metadata:
 resources:
   - ./namespace.yaml
   - ./homarr/install.yaml
+  - ./homepage/install.yaml

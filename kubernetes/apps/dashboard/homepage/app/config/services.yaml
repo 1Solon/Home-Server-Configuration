@@ -6,17 +6,17 @@
         description: Media Server
         widget:
           type: jellyfin
-          url: http://jellyfin-tcp.home-media.svc.cluster.local
+          url: http://jellyfin-tcp.home-media.svc.cluster.local.:80
           key: { { HOMEPAGE_VAR_JELLYFIN_TOKEN } }
           enableNowPlaying: true
-          
+
     - Sonarr:
         href: https://sonarr.local.solonsstuff.com
         icon: sonarr.png
         description: TV Shows
         widget:
           type: sonarr
-          url: http://sonarr-service.home-media.svc.cluster.local
+          url: http://sonarr-service.home-media.svc.cluster.local.:80
           key: { { HOMEPAGE_VAR_SONARR_TOKEN } }
 
     - Radarr:
@@ -25,7 +25,7 @@
         description: Movies
         widget:
           type: radarr
-          url: http://radarr-service.home-media.svc.cluster.local
+          url: http://radarr-service.home-media.svc.cluster.local.:80
           key: { { HOMEPAGE_VAR_RADARR_TOKEN } }
 
     - Calendar:

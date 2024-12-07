@@ -1,7 +1,7 @@
 ---
 - greeting:
     text_size: xl
-    text: Greetings, Citizen.
+    text: Welcome, User
 - kubernetes:
     cluster:
       cpu: true

@@ -9,7 +9,6 @@
             url: http://jellyfin-tcp.home-media.svc.cluster.local
             key: {{HOMEPAGE_VAR_JELLYFIN_TOKEN}}
             enableNowPlaying: true
-
     - Sonarr:
         href: https://sonarr.${SECRET_EXTERNAL_DOMAIN}
         icon: sonarr.png
@@ -18,7 +17,6 @@
             type: sonarr
             url: http://sonarr-service.home-media.svc.cluster.local
             key: {{HOMEPAGE_VAR_SONARR_TOKEN}}
-
     - Radarr:
         href: https://radarr.${SECRET_EXTERNAL_DOMAIN}
         icon: radarr.png
@@ -27,7 +25,6 @@
             type: radarr
             url: http://sonarr-service.home-media.svc.cluster.local
             key: {{HOMEPAGE_VAR_RADARR_TOKEN}}
-
 - Calendar:
     - Agenda:
         widget:

@@ -2,42 +2,26 @@
 - Media:
     - Jellyfin:
         icon: jellyfin.png
-        href: https://jellyfin.solonsstuff.com
+        href: https://jellyfin.${SECRET_EXTERNAL_DOMAIN}
         description: Media Server
         widget:
-          type: jellyfin
-          url: http://jellyfin-tcp.home-media.svc.cluster.local:80
-          key: { { HOMEPAGE_VAR_JELLYFIN_TOKEN } }
-          enableNowPlaying: true
-
+            type: jellyfin
+            url: http://jellyfin-tcp.home-media.svc.cluster.local
+            key: {{HOMEPAGE_VAR_JELLYFIN_TOKEN}}
+            enableNowPlaying: true
     - Sonarr:
-        href: https://sonarr.local.solonsstuff.com
+        href: https://sonarr.${SECRET_EXTERNAL_DOMAIN}
         icon: sonarr.png
         description: TV Shows
         widget:
-          type: sonarr
-          url: http://sonarr-service.home-media.svc.cluster.local:80
-          key: { { HOMEPAGE_VAR_SONARR_TOKEN } }
-
+            type: sonarr
+            url: http://sonarr-service.home-media.svc.cluster.local
+            key: {{HOMEPAGE_VAR_SONARR_TOKEN}}
     - Radarr:
-        href: https://radarr.local.solonsstuff.com
+        href: https://radarr.${SECRET_EXTERNAL_DOMAIN}
         icon: radarr.png
         description: Movies
         widget:
-          type: radarr
-          url: http://radarr-service.home-media.svc.cluster.local:80
-          key: { { HOMEPAGE_VAR_RADARR_TOKEN } }
-
-    # - Calendar:
-    #     - Agenda:
-    #         widget:
-    #           type: calendar
-    #           view: agenda # optional - possible values monthly, agenda
-    #           maxEvents: 5 # optional - defaults to 10
-    #           integrations: # optional
-    #             - type: sonarr # active widget type that is currently enabled on homepage - possible values: radarr, sonarr>
-    #               service_group: Media # group name where widget exists
-    #               service_name: Sonarr # service name for that widget
-    #             - type: radarr # active widget type that is currently enabled on homepage - possible values: radarr, sonarr>
-    #               service_group: Media # group name where widget exists
-    #               service_name: Radarr # service name for that widget
+            type: radarr
+            url: http://radarr-service.home-media.svc.cluster.local
+            key: {{HOMEPAGE_VAR_RADARR_TOKEN}}

@@ -19,6 +19,10 @@ spec:
       namespace: flux-system
     - name: longhorn
       namespace: flux-system
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age
   wait: false
   interval: 30m
   retryInterval: 1m

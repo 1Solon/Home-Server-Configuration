@@ -3,23 +3,3 @@ title: Dashboard
 favicon: https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/homepage.png
 theme: dark
 color: slate
-headerStyle: clean
-layout:
-  Calendar:
-    style: column
-  Media:
-    style: column
-  Infrastructure:
-    style: row
-    columns: 3
-    icon: mdi-server
-  Storage:
-    style: row
-    columns: 2
-  Home:
-    style: column
-  Observability:
-    style: column
-  Downloads:
-    style: row
-    columns: 3

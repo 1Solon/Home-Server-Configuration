@@ -7,10 +7,8 @@ headerStyle: clean
 layout:
   Calendar:
     style: column
-    icon: mdi-calendar
   Media:
     style: column
-    icon: mdi-play-circle
   Infrastructure:
     style: row
     columns: 3
@@ -18,14 +16,10 @@ layout:
   Storage:
     style: row
     columns: 2
-    icon: mdi-desktop-tower
   Home:
     style: column
-    icon: mdi-home-analytics
   Observability:
     style: column
-    icon: mdi-chart-line
   Downloads:
     style: row
     columns: 3
-    icon: mdi-download-circle

@@ -10,6 +10,15 @@
             url: http://jellyfin-tcp.home-media.svc.cluster.local
             key: {{HOMEPAGE_VAR_JELLYFIN_TOKEN}}
             enableNowPlaying: true
+    - Jellyseer:
+        icon: jellyseer.png
+        href: https://jellyseer.solonsstuff.com
+        description: Media Stats
+        widget:
+            type: jellyseer
+            url: http://jellyseer-service.home-media.svc.cluster.local
+            key: {{HOMEPAGE_VAR_JELLYSEER_TOKEN}}
+
     - Sonarr:
         href: https://sonarr.local.solonsstuff.com
         icon: sonarr.png

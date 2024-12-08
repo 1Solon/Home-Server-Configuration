@@ -73,6 +73,11 @@
         icon: vaultwarden.png
         href: https://vaultwarden.solonsstuff.com
         description: Password Manager
+
+    - Traefik:
+        icon: traefik.png
+        href: https://traefik.local.solonsstuff.com/dashboard/#/
+        description: Reverse Proxy
     
     - Pihole:
         icon: pi-hole.png
@@ -92,16 +97,6 @@
             type: speedtest
             url: http://speedtest-tracker.speedtest.svc.cluster.local
             bitratePrecision: 3
-
-    - Traefik:
-        icon: traefik.png
-        href: https://traefik.local.solonsstuff.com/dashboard/#/
-        description: Reverse Proxy
-        widget:
-            type: traefik
-            url: http://traefik.traefik.svc.cluster.local:443
-            username: {{ HOMEPAGE_VAR_TRAEFIK_USERNAME }}
-            password: {{ HOMEPAGE_VAR_TRAEFIK_PASSWORD }}
   
 - Storage:
     - Longhorn:

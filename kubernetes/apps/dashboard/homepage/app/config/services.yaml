@@ -75,7 +75,7 @@
         description: Password Manager
     
     - Pihole:
-        icon: pihole.png
+        icon: pi-hole.png
         href: https://pihole.local.solonsstuff.com/admin/login.php
         description: Network-wide Ad Blocking
         widget:
@@ -85,7 +85,7 @@
             key: {{HOMEPAGE_VAR_PIHOLE_TOKEN}}
 
     - Speedtest:
-        icon: speedtest.png
+        icon: openspeedtest.png
         href: https://speed.local.solonsstuff.com/admin
         description: Network Speed Test
         widget:

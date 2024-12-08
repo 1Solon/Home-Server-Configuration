@@ -37,6 +37,16 @@
             type: radarr
             url: http://radarr-service.home-media.svc.cluster.local
             key: {{HOMEPAGE_VAR_RADARR_TOKEN}}
+
+    - Prowlarr:
+        href: https://prowlarr.local.solonsstuff.com
+        icon: prowlarr.png
+        description: Indexer
+        widget:
+            type: prowlarr
+            url: http://prowlarr-service.home-media.svc.cluster.local
+            key: {{HOMEPAGE_VAR_PROWLARR_TOKEN}}
+                   
 - Calendar:
     - Agenda:
         widget:

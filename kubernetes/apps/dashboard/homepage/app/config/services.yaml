@@ -11,12 +11,12 @@
             key: {{HOMEPAGE_VAR_JELLYFIN_TOKEN}}
             enableNowPlaying: true
     - Jellyseer:
-        icon: jellyseer.png
-        href: https://jellyseer.solonsstuff.com
+        icon: jellyseerr.png
+        href: https://jellyseerr.solonsstuff.com
         description: Media Stats
         widget:
-            type: jellyseer
-            url: http://jellyseer-service.home-media.svc.cluster.local
+            type: jellyseerr
+            url: http://jellyseerr-service.home-media.svc.cluster.local
             key: {{HOMEPAGE_VAR_JELLYSEER_TOKEN}}
 
     - Sonarr:

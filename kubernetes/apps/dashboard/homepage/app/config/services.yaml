@@ -80,7 +80,7 @@
         description: Network-wide Ad Blocking
         widget:
             type: pihole
-            url: http://pihole-tcp.pihole.svc.cluster.local/admin
+            url: http://pihole-tcp.pihole.svc.cluster.local
             version: 5
             key: {{HOMEPAGE_VAR_PIHOLE_TOKEN}}
 

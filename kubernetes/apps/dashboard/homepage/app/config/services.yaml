@@ -99,7 +99,7 @@
         description: Reverse Proxy
         widget:
             type: traefik
-            url: http://traefik.traefik.svc.cluster.local
+            url: http://traefik.traefik.svc.cluster.local:443
             username: {{ HOMEPAGE_VAR_TRAEFIK_USERNAME }}
             password: {{ HOMEPAGE_VAR_TRAEFIK_PASSWORD }}
   

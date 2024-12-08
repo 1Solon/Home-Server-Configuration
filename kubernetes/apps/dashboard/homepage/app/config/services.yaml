@@ -14,7 +14,7 @@
     - Jellyseer:
         icon: jellyseerr.png
         href: https://jellyseerr.local.solonsstuff.com/
-        description: Media Stats
+        description: Media Requests
         widget:
             type: jellyseerr
             url: http://jellyseerr-service.home-media.svc.cluster.local
@@ -41,17 +41,28 @@
     - Prowlarr:
         href: https://prowlarr.local.solonsstuff.com
         icon: prowlarr.png
-        description: Indexer
+        description: Indexer Manager
         widget:
             type: prowlarr
             url: http://prowlarr-service.home-media.svc.cluster.local
             key: {{HOMEPAGE_VAR_PROWLARR_TOKEN}}
-                   
+
+- Downloaders:
+    - Qbittorrent:
+        icon: qbittorrent.png
+        href: https://qbittorrent.local.solonsstuff.com
+        description: Torrents
+        widget:
+            type: qbittorrent
+            url: http://qbittorrent-service.home-media.svc.cluster.local
+            username: {{HOMEPAGE_VAR_QBITTORRENT_USERNAME}}
+            password: {{HOMEPAGE_VAR_QBITTORRENT_PASSWORD}}
+
 - Calendar:
     - Agenda:
         widget:
           type: calendar
-          view: agenda # optional - possible values monthly, agenda
+          view: monthly # optional - possible values monthly, agenda
           maxEvents: 5 # optional - defaults to 10
           integrations: # optional
             - type: sonarr # active widget type that is currently enabled on homepage - possible values: radarr, sonarr>

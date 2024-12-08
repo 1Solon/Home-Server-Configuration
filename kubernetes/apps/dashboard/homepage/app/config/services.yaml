@@ -58,6 +58,58 @@
             username: {{HOMEPAGE_VAR_QBITTORRENT_USERNAME}}
             password: {{HOMEPAGE_VAR_QBITTORRENT_PASSWORD}}
 
+- Utilities:
+    - Semaphore:
+        icon: semaphore.png
+        href: https://semaphore.local.solonsstuff.com
+        description: Automated server management
+
+    - Ntfy:
+        icon: ntfy.png
+        href: https://ntfy.solonsstuff.com
+        description: Notifications
+
+    - Vaultwarden:
+        icon: vaultwarden.png
+        href: https://vaultwarden.solonsstuff.com
+        description: Password Manager
+    
+    - Pihole:
+        icon: pihole.png
+        href: https://pihole.local.solonsstuff.com/admin/login.php
+        description: Network-wide Ad Blocking
+        widget:
+            type: pihole
+            url: http://pihole-tcp.pihole.svc.cluster.local/admin
+            version: 5
+            key: {{HOMEPAGE_VAR_PIHOLE_TOKEN}}
+
+    - Speedtest:
+        icon: speedtest.png
+        href: https://speed.local.solonsstuff.com/admin
+        description: Network Speed Test
+        widget:
+            type: speedtest
+            url: http://speedtest-tracker.speedtest.svc.cluster.local
+            bitratePrecision: 3
+
+    - Traefik:
+        icon: traefik.png
+        href: https://traefik.local.solonsstuff.com/dashboard/#/
+        description: Reverse Proxy
+        widget:
+            type: traefik
+            url: http://traefik.traefik.svc.cluster.local:443
+            username: {{ HOMEPAGE_VAR_TRAEFIK_USERNAME }}
+            password: {{ HOMEPAGE_VAR_TRAEFIK_PASSWORD }}
+  
+- Storage:
+    - Longhorn:
+        expanded: true
+        total: true
+        labels: true
+        nodes: true
+
 - Calendar:
     - Agenda:
         widget:

@@ -2,7 +2,7 @@
 - Media:
     - Jellyfin:
         icon: jellyfin.png
-        href: https://jellyfin.solonsstuff.com
+        href: https://jellyfin.local.solonsstuff.com
         enableBlocks: true
         description: Media Server
         widget:
@@ -28,7 +28,7 @@
             type: sonarr
             url: http://sonarr-service.home-media.svc.cluster.local
             key: {{HOMEPAGE_VAR_SONARR_TOKEN}}
-            
+
     - Radarr:
         href: https://radarr.local.solonsstuff.com
         icon: radarr.png

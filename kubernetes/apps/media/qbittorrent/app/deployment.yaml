@@ -20,27 +20,24 @@ spec:
         setGateway: "true"
 
     spec:
+      securityContext:
+        runAsUser: 65534
+        runAsGroup: 65534
+        fsGroup: 65534
+        fsGroupChangePolicy: OnRootMismatch
       containers:
         - name: qbittorrent
-          image: ghcr.io/linuxserver/qbittorrent:5.0.2@sha256:00360a0160872bffeaea5e232acfdb086063be5f03e0cba48b129b7087cb7ba1
+          image: ghcr.io/onedr0p/qbittorrent:5.0.2@sha256:c228a180dbfcd96c25accf48fb248ca75be4e92938238325d00bba4edfcff4bb
+          user: 65534:65534
           imagePullPolicy: Always
           resources: {}
           env:
-            - name: PUID
-              value: "1000"
-            - name: PGID
-              value: "1000"
-            - name: TZ
-              value: "Europe/Dublin"
-            - name: WEBUI_PORT
+            - name: QBT_WEBUI_PORT
               value: "8080"
-            - name: TORRENTING_PORT
+            - name: QBT_TORRENTING_PORT
               value: "52716"
           ports:
             - containerPort: 8080
-            # - containerPort: 52716
-            # - containerPort: 52716
-            #   protocol: UDP
           volumeMounts:
             - name: qbittorrent-config
               mountPath: /config

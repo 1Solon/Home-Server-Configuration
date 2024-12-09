@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
         - name: decluttarr
-          image: ghcr.io/manimatter/decluttarr:v1.50.0@sha256:e15ebfa928c755ae47158a88d63c771db02e0533b85acbcccce37590bd61efbf
+          image: ghcr.io/manimatter/decluttarr:v1.50.1@sha256:8a5e2492a3334da620aa23be3ec38901745826d1c9938ece40f0039aaccfe4ad
           resources: {}
           env:
             - name: LOG_LEVEL

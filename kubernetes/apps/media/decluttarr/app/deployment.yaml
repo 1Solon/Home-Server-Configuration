@@ -50,7 +50,7 @@ spec:
             - name: NO_STALLED_REMOVAL_QBIT_TAG
               value: "Don't Kill"
             - name: IGNORE_PRIVATE_TRACKERS
-              value: "false"
+              value: "true"
             - name: RADARR_URL
               value: "http://radarr-service.home-media.svc.cluster.local"
             - name: RADARR_KEY

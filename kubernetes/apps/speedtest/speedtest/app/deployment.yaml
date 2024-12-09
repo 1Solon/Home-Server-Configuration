@@ -70,6 +70,8 @@ spec:
                 secretKeyRef:
                   name: speedtest-secret
                   key: api-key
+            - name: SPEEDTEST_SERVERS
+              value: "58482" # Eir Dublin
             - name: SPEEDTEST_SCHEDULE
               value: "0 */6 * * *" # Run every 6 hours
             - name: PRUNE_RESULTS_OLDER_THAN

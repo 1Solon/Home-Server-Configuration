@@ -19,16 +19,6 @@ spec:
       labels:
         app: speedtest-tracker
     spec:
-      dnsPolicy: None
-      dnsConfig:
-        nameservers:
-          - 10.42.1.250
-          - 1.1.1.1
-        searches:
-          - speedtest-tracker.speedtest.svc.cluster.local
-        options:
-          - name: ndots
-            value: "5"
       containers:
         - name: speedtest-tracker
           image: ghcr.io/linuxserver/speedtest-tracker:0.25.1@sha256:6b3f135969052d85aed9b91cda47c4a6a79f98cce031a2f7d2d13d64104d460f
@@ -71,7 +61,7 @@ spec:
                   name: speedtest-secret
                   key: api-key
             - name: SPEEDTEST_SERVERS
-              value: "58482" # Eir Dublin
+              value: "20854" # IP Telecom Dublin
             - name: SPEEDTEST_SCHEDULE
               value: "0 */6 * * *" # Run every 6 hours
             - name: PRUNE_RESULTS_OLDER_THAN

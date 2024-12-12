@@ -33,19 +33,31 @@ jobs:
           FILE="./kubernetes/infra/flux/gotk-components.yaml"
           TMP_FILE="./kubernetes/infra/flux/gotk-components.tmp.yaml"
 
+          # Read the YAML file line by line
           while IFS= read -r line; do
-            if [[ "$line" =~ image:\ (.+):([a-zA-Z0-9_.-]+)$ ]]; then
+            # Match lines with Docker images in the format: image: ghcr.io/fluxcd/source-controller:v1.4.1
+            if [[ "$line" =~ image:\ ([^:]+):([a-zA-Z0-9_.-]+)$ ]]; then
               IMAGE="${BASH_REMATCH[1]}"
               TAG="${BASH_REMATCH[2]}"
-              DIGEST=$(skopeo inspect docker://$IMAGE:$TAG | jq -r '.Digest')
 
-              PINNED_IMAGE="$IMAGE:$TAG@$DIGEST"
+              # Fetch the digest using skopeo
+              DIGEST=$(skopeo inspect --no-tags docker://$IMAGE:$TAG | jq -r '.Digest')
 
-              line="${line//${BASH_REMATCH[0]}/image: $PINNED_IMAGE}"
+              # Ensure the digest was successfully retrieved
+              if [[ -n "$DIGEST" ]]; then
+                # Create the new image string with the digest
+                PINNED_IMAGE="$IMAGE:$TAG@$DIGEST"
+
+                # Replace the line with the pinned image format
+                line="image: $PINNED_IMAGE"
+              else
+                echo "Failed to fetch digest for $IMAGE:$TAG" >&2
+              fi
             fi
             echo "$line" >> "$TMP_FILE"
           done < "$FILE"
 
+          # Replace the original file with the updated file
           mv "$TMP_FILE" "$FILE"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

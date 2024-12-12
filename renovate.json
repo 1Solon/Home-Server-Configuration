@@ -94,7 +94,6 @@
     "1Solon"
   ],
   "dependencyDashboard": true,
-  "minimumReleaseAge": "3 days",
   "prCreation": "not-pending",
   "rebaseWhen": "conflicted",
   "rollbackPrs": true

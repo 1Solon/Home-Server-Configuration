@@ -18,58 +18,17 @@ jobs:
         with:
           version: "latest"
 
-      - name: Update Flux
+      - name: Update flux
         run: flux install --export > ./kubernetes/infra/flux/gotk-components.yaml
 
-      - name: Install Required Tools
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y jq
-          curl -L https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -o /usr/local/bin/yq
-          chmod +x /usr/local/bin/yq
-
-      - name: Pin Docker Image Tags to Digests
-        run: |
-          FILE="./kubernetes/infra/flux/gotk-components.yaml"
-          TMP_FILE="./kubernetes/infra/flux/gotk-components.tmp.yaml"
-
-          # Read the YAML file line by line
-          while IFS= read -r line; do
-            # Match lines with Docker images in the format: image: ghcr.io/fluxcd/source-controller:v1.4.1
-            if [[ "$line" =~ image:\ ([^:]+):([a-zA-Z0-9_.-]+)$ ]]; then
-              IMAGE="${BASH_REMATCH[1]}"
-              TAG="${BASH_REMATCH[2]}"
-
-              # Fetch the digest using skopeo
-              DIGEST=$(skopeo inspect --no-tags docker://$IMAGE:$TAG | jq -r '.Digest')
-
-              # Ensure the digest was successfully retrieved
-              if [[ -n "$DIGEST" ]]; then
-                # Create the new image string with the digest
-                PINNED_IMAGE="$IMAGE:$TAG@$DIGEST"
-
-                # Replace the line with the pinned image format
-                line="image: $PINNED_IMAGE"
-              else
-                echo "Failed to fetch digest for $IMAGE:$TAG" >&2
-              fi
-            fi
-            echo "$line" >> "$TMP_FILE"
-          done < "$FILE"
-
-          # Replace the original file with the updated file
-          mv "$TMP_FILE" "$FILE"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Commit and Push Changes
+      - name: Commit and push changes
         id: commit
         run: |
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git config user.name "github-actions[bot]"
           if [ -n "$(git status --porcelain)" ]; then
             git add .
-            git commit -m "Pin Docker image tags to digests"
+            git commit -m "Update flux"
             git checkout -b gh-actions/flux-update
             git push --set-upstream origin gh-actions/flux-update
             echo "changes=true" >> $GITHUB_OUTPUT
@@ -81,6 +40,6 @@ jobs:
 
       - name: Create Pull Request
         if: steps.commit.outputs.changes == 'true'
-        run: gh pr create -B master -H gh-actions/flux-update --title 'Update Flux with Pinned Digests' --body 'Updates flux components using Flux CLI and pins Docker image tags to digests'
+        run: gh pr create -B master -H gh-actions/flux-update --title 'Update Flux' --body 'Updates flux components using Flux CLI'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

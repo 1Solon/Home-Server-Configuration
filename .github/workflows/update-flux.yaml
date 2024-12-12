@@ -18,17 +18,46 @@ jobs:
         with:
           version: "latest"
 
-      - name: Update flux
+      - name: Update Flux
         run: flux install --export > ./kubernetes/infra/flux/gotk-components.yaml
 
-      - name: Commit and push changes
+      - name: Install Required Tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y jq
+          curl -L https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -o /usr/local/bin/yq
+          chmod +x /usr/local/bin/yq
+
+      - name: Pin Docker Image Tags to Digests
+        run: |
+          FILE="./kubernetes/infra/flux/gotk-components.yaml"
+          TMP_FILE="./kubernetes/infra/flux/gotk-components.tmp.yaml"
+
+          while IFS= read -r line; do
+            if [[ "$line" =~ image:\ (.+):([a-zA-Z0-9_.-]+)$ ]]; then
+              IMAGE="${BASH_REMATCH[1]}"
+              TAG="${BASH_REMATCH[2]}"
+              DIGEST=$(skopeo inspect docker://$IMAGE:$TAG | jq -r '.Digest')
+
+              PINNED_IMAGE="$IMAGE:$TAG@$DIGEST"
+
+              line="${line//${BASH_REMATCH[0]}/image: $PINNED_IMAGE}"
+            fi
+            echo "$line" >> "$TMP_FILE"
+          done < "$FILE"
+
+          mv "$TMP_FILE" "$FILE"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Commit and Push Changes
         id: commit
         run: |
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git config user.name "github-actions[bot]"
           if [ -n "$(git status --porcelain)" ]; then
             git add .
-            git commit -m "Update flux"
+            git commit -m "Pin Docker image tags to digests"
             git checkout -b gh-actions/flux-update
             git push --set-upstream origin gh-actions/flux-update
             echo "changes=true" >> $GITHUB_OUTPUT
@@ -40,6 +69,6 @@ jobs:
 
       - name: Create Pull Request
         if: steps.commit.outputs.changes == 'true'
-        run: gh pr create -B master -H gh-actions/flux-update --title 'Update Flux' --body 'Updates flux components using Flux CLI'
+        run: gh pr create -B master -H gh-actions/flux-update --title 'Update Flux with Pinned Digests' --body 'Updates flux components using Flux CLI and pins Docker image tags to digests'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

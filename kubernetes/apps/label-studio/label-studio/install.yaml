@@ -18,8 +18,8 @@ spec:
     provider: sops
     secretRef:
       name: sops-age
-  # dependsOn:
-  #   - name: ext-postgres-operator
+  dependsOn:
+    - name: ext-postgres-operator
   wait: true
   interval: 30m
   retryInterval: 1m

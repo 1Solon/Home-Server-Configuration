@@ -14,6 +14,16 @@ spec:
     customRequestHeaders:
       X-Forwarded-Proto: https
     accessControlAllowOrigin: "*"
-    accessControlAllowMethods: [GET,OPTIONS,PUT,POST,DELETE]
-    accessControlAllowHeaders: [Origin, X-Requested-With, Content-Type, Accept, Authorization]
+    accessControlAllowMethods: 
+      - GET
+      - OPTIONS
+      - PUT
+      - POST
+      - DELETE
+    accessControlAllowHeaders: 
+      - Origin
+      - X-Requested-With
+      - Content-Type
+      - Accept
+      - Authorization
     accessControlAllowCredentials: true

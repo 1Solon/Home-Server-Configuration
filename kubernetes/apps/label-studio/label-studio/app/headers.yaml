@@ -13,7 +13,6 @@ spec:
     customFrameOptionsValue: SAMEORIGIN
     customRequestHeaders:
       X-Forwarded-Proto: https
-    accessControlAllowOrigin: "*"
     accessControlAllowMethods: 
       - GET
       - OPTIONS

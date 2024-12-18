@@ -16,4 +16,4 @@ spec:
     - { effect: NoExecute, operator: Exists }
     - { key: CriticalAddonsOnly, operator: Exists }
   upgrade:
-    image: rancher/k3s-upgrade:v1.31.3-k3s1@sha256:735d425d6f9cda787719427799f4102cdd13c41367125cd6cd5c5184fa0deb2c
+    image: rancher/k3s-upgrade:v1.31.4-k3s1@sha256:d7f896fabd4bd1451aa2fc593fae914af144838bd9e20752b4588a9ec006ea13

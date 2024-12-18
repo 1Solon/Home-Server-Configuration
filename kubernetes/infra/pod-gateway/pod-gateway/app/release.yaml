@@ -54,7 +54,6 @@ spec:
             value: "on"
           - name: WIREGUARD_MTU
             value: 1320
-
           - name: WIREGUARD_PRIVATE_KEY
             valueFrom:
               secretKeyRef:
@@ -70,6 +69,11 @@ spec:
               secretKeyRef:
                 name: vpn-credentials
                 key: addresses
+
+        securityContext:
+          capabilities:
+            add:
+              - NET_ADMIN
 
         networkPolicy:
           enabled: true

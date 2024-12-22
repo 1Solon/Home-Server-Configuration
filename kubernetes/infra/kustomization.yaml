@@ -11,3 +11,4 @@ resources:
 - reloader
 - system-upgrade
 - traefik
+- external-dns

@@ -8,7 +8,7 @@ spec:
   endpoints:
     - dnsName: "jellyfin.solonsstuff.com"
       recordType: A
-      targets: ["84.203.42.6"]
+      targets: [84.203.42.6]
       providerSpecific:
         - name: external-dns.alpha.kubernetes.io/cloudflare-proxied
           value: 'false'

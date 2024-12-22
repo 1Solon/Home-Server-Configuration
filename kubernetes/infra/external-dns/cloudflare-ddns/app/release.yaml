@@ -39,12 +39,14 @@ spec:
                     name: external-dns-secret
                     key: api-token
             args:
-              - --zone-name
-              - solonsstuff.com
-              - --record-name
-              - ipv4.solonsstuff.com
-              - --provider
-              - icanhazip
+              [
+                "--zone-name",
+                "solonsstuff.com",
+                "--record-name",
+                "ipv4.solonsstuff.com",
+                "--provider",
+                "icanhazip",
+              ]
             probes:
               liveness:
                 enabled: true

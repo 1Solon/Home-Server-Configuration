@@ -47,7 +47,5 @@ spec:
     txtOwnerId: main
     txtPrefix: k8s.main.
     domainFilters: ["solonsstuff.com"]
-    serviceMonitor:
-      enabled: true
     podAnnotations:
       secret.reloader.stakater.com/reload: *secret

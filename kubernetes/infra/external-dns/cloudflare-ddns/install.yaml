@@ -9,7 +9,7 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
-  path: "./kubernetes/infra/external-dns/external-ddns/app"
+  path: "./kubernetes/infra/external-dns/cloudflare-ddns/app"
   prune: true
   sourceRef:
     kind: GitRepository

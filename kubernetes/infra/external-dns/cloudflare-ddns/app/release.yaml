@@ -45,7 +45,7 @@ spec:
                 "--record-name",
                 "ipv4.solonsstuff.com",
                 "--provider",
-                "icanhazip",
+                "icanhazip.com",
               ]
             probes:
               liveness:

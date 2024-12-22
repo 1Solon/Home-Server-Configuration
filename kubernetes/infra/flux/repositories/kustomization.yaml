@@ -13,3 +13,4 @@ resources:
 - stakater.yaml
 - traefik.yaml
 - truechart.yaml
+- external-dns.yaml

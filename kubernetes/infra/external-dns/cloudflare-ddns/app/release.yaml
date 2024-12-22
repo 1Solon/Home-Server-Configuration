@@ -32,9 +32,12 @@ spec:
             image:
               repository: ghcr.io/larivierec/cloudflare-ddns
               tag: v1.0.3@sha256:2ee2ba2f4741a771fdf6333dce33f50a4fc739f64388966d3c7d27c07c22f18b
-            envFrom:
-              - secretRef:
-                  name: external-dns-secret
+            env:
+              - name: CLOUDFLARE_API_TOKEN
+                valueFrom:
+                  secretKeyRef:
+                    name: external-dns-secret
+                    key: api-token
             args:
               [
                 "--zone-name",

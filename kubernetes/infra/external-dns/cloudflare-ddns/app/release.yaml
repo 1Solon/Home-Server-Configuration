@@ -45,7 +45,7 @@ spec:
                 "--record-name",
                 "ipv4.solonsstuff.com",
                 "--provider",
-                "cloudflare.trace",
+                "random",
               ]
             probes:
               liveness:

@@ -22,6 +22,6 @@ spec:
         - name: jellyfin-tcp
           port: 80
       middlewares:
-        - name: default-headers
+        - name: jellyfin-headers
   tls:
     secretName: solonsstuff-com-live-tls

@@ -25,7 +25,7 @@ spec:
         fsGroupChangePolicy: OnRootMismatch
       containers:
         - name: sonarr
-          image: ghcr.io/onedr0p/sonarr-develop:4.0.11@sha256:ac6fdfaa7056044d6131f6dbeec93542585ca3b9c76f4ebd3362864c70547e6b
+          image: ghcr.io/onedr0p/sonarr-develop:4.0.12@sha256:ae7efba78efc1d4923578f97933e206dcdf43fb1fd2533cfa3be77ab6d0e74b1
           imagePullPolicy: Always
           resources: {}
           volumeMounts:

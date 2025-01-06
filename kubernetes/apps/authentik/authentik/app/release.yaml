@@ -48,8 +48,8 @@ spec:
         enabled: true
         ingressClassName: traefik
         hosts:
-          - host: &host authentik.local.solonsstuff.com
+          - host: authentik.local.solonsstuff.com
         tls:
           - hosts:
-              - *host
+              - authentik.local.solonsstuff.com
             secretName: local-solonsstuff-com-live-tls

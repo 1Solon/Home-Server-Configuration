@@ -14,3 +14,4 @@ resources:
 - traefik.yaml
 - truechart.yaml
 - external-dns.yaml
+- authentik.yaml

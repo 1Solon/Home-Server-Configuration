@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: authentik
-      version: 2024.12.1
+      version: 2024.12.2
       sourceRef:
         kind: HelmRepository
         name: authentik
@@ -40,7 +40,7 @@ spec:
       replicas: 1
       initContainers:
         - name: init-db
-          image: ghcr.io/rafaribe/postgres-init:16
+          image: ghcr.io/rafaribe/postgres-init:16@sha256:9ad04872d61ee6344827ca7e789c0b6e81e949e8e30cb90a9cea17905b8118bb
           envFrom:
             - secretRef:
                 name: *secret

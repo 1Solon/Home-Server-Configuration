@@ -49,7 +49,7 @@ spec:
           - name: SERVER_COUNTRIES
             value: Switzerland
           - name: FIREWALL_VPN_INPUT_PORTS
-            value: "1637,52716"
+            value: "1637,20508"
           - name: FIREWALL_DEBUG
             value: "on"
           - name: WIREGUARD_MTU
@@ -109,9 +109,9 @@ spec:
         IP: 10
         ports:
           - type: tcp
-            port: 52716
+            port: 20508
           - type: udp
-            port: 52716
+            port: 20508
 
     webhook:
       image:

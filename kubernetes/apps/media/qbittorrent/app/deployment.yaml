@@ -35,7 +35,7 @@ spec:
             - name: QBT_WEBUI_PORT
               value: "8080"
             - name: QBT_TORRENTING_PORT
-              value: "52716"
+              value: "20508"
           ports:
             - containerPort: 8080
           volumeMounts:

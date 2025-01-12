@@ -17,12 +17,16 @@
     "customManagers:dockerfileVersions",
     "customManagers:githubActionsVersions"
   ],
-  "customManagers": [
+  "flux": {
+    "fileMatch": ["(^|/)kubernetes/.+\\.ya?ml(?:\\.j2)?$"]
+  },
+  "helm-values": {
+    "fileMatch": ["(^|/)kubernetes/.+\\.ya?ml(?:\\.j2)?$"]
+  },
+  "regexManagers": [
     {
-      "customType": "regex",
       "description": "Process various other dependencies",
       "fileMatch": [
-        "(^|/)ansible/.+\\.ya?ml(\\.j2)?$",
         "(^|/)kubernetes/.+\\.ya?ml(\\.j2)?$"
       ],
       "matchStrings": [
@@ -32,67 +36,41 @@
       "versioningTemplate": "{{#if versioning}}{{{versioning}}}{{else}}semver{{/if}}"
     }
   ],
-  "flux": {
-    "fileMatch": [
-      "(^|/)kubernetes/.+\\.ya?ml(?:\\.j2)?$"
-    ]
-  },
-  "helm-values": {
-    "fileMatch": [
-      "(^|/)kubernetes/.+\\.ya?ml(?:\\.j2)?$"
-    ]
-  },
   "packageRules": [
     {
       "description": "YMA dating scheme",
       "allowedVersions": "<2000",
-      "matchPackageNames": [
-        "/^ghcr\\.io/linuxserver/jellyfin$/"
-      ]
+      "matchPackageNames": ["/^ghcr\\.io/linuxserver/jellyfin$/"]
     },
     {
       "description": "YMA dating scheme",
       "allowedVersions": "<6",
-      "matchPackageNames": [
-        "/^ghcr\\.io/linuxserver/qbittorrent$/"
-      ]
+      "matchPackageNames": ["/^ghcr\\.io/linuxserver/qbittorrent$/"]
     },
     {
       "description": "v prefix workaround for action updates",
       "extractVersion": "^(?<version>v\\d+\\.\\d+\\.\\d+)$",
-      "matchDepTypes": [
-        "action"
-      ],
+      "matchDepTypes": ["action"],
       "versioning": "regex:^v(?<major>\\d+)(\\.(?<minor>\\d+)\\.(?<patch>\\d+))?$"
     },
     {
       "description": "Remove v prefix in regex `_VERSION` updates",
       "extractVersion": "^?v?(?<version>\\d+\\.\\d+\\.\\d+.*)$",
-      "matchManagers": [
-        "custom.regex"
-      ],
+      "matchManagers": ["custom.regex"],
       "versioning": "regex:^v?(?<major>\\d+)(\\.(?<minor>\\d+)\\.(?<patch>\\d+.*))?$"
     }
   ],
   "vulnerabilityAlerts": {
-    "addLabels": [
-      "security"
-    ],
+    "addLabels": ["security"],
     "description": "Be sure that the Dependency graph and Dependabot alerts are enabled for the repo. Details: https://docs.renovatebot.com/configuration-options/#vulnerabilityalerts",
     "enabled": true
   },
-  "labels": [
-    "dependencies",
-    "{{updateType}}",
-    "{{manager}}"
-  ],
+  "labels": ["dependencies", "{{updateType}}", "{{manager}}"],
   "additionalBranchPrefix": "{{manager}}/",
   "commitBodyTable": true,
   "branchConcurrentLimit": 100,
   "prHourlyLimit": 100,
-  "reviewers": [
-    "1Solon"
-  ],
+  "reviewers": ["1Solon"],
   "dependencyDashboard": true,
   "prCreation": "not-pending",
   "rebaseWhen": "conflicted",

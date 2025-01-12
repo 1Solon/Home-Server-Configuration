@@ -65,7 +65,7 @@
   "customManagers": [
     {
       "customType": "regex",
-      "fileMatch": ["kubernetes/infra/system-upgrade/system-upgrade-controller\\.ya?ml$"],
+      "fileMatch": ["kubernetes/infra/system-upgrade/system-upgrade-controller/plans/server\\.ya?ml$"],
       "matchStrings": ["version: (?<currentValue>v[\\d\\.\\+\\w-]+)"],
       "depNameTemplate": "k3s",
       "versioningTemplate": "semver-coerced",
@@ -73,13 +73,11 @@
     },
     {
       "customType": "regex",
-      "fileMatch": ["kubernetes/infra/system-upgrade/system-upgrade-controller\\.ya?ml$"],
-      "matchStrings": [
-        "SYSTEM_UPGRADE_JOB_KUBECTL_IMAGE: (?<depName>[\\w/-]+):(?<currentValue>v?\\d+\\.\\d+\\.\\d+)"
-      ],
-      "depNameTemplate": "{{depName}}",
-      "versioningTemplate": "docker",
-      "datasourceTemplate": "docker"
+      "fileMatch": ["kubernetes/infra/system-upgrade/system-upgrade-controller/plans/worker\\.ya?ml$"],
+      "matchStrings": ["version: (?<currentValue>v[\\d\\.\\+\\w-]+)"],
+      "depNameTemplate": "k3s",
+      "versioningTemplate": "semver-coerced",
+      "datasourceTemplate": "custom.k3s"
     },
     {
       "customType": "regex",

@@ -40,10 +40,6 @@ spec:
     kind: GitRepository
     name: flux-system
   dependsOn:
-    - name: metallb
-      namespace: flux-system
-    - name: longhorn
-      namespace: flux-system
     - name: cloudnative-pg
       namespace: flux-system
   decryption:

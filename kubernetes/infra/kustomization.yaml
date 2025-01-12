@@ -4,7 +4,7 @@ resources:
 - cert-manager
 # - databases
 - flux
-- longhorn
+# - longhorn
 - metallb
 - pod-gateway
 - reflector

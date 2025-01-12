@@ -14,11 +14,6 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
-  dependsOn:
-    - name: metallb
-      namespace: flux-system
-    - name: longhorn
-      namespace: flux-system
   wait: true
   interval: 30m
   retryInterval: 1m

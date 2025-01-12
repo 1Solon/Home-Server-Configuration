@@ -65,7 +65,7 @@
   "customManagers": [
     {
       "customType": "regex",
-      "fileMatch": ["apps/system-upgrade/k3s-upgrade-plan\\.ya?ml$"],
+      "fileMatch": ["kubernetes/infra/system-upgrade/system-upgrade-controller\\.ya?ml$"],
       "matchStrings": ["version: (?<currentValue>v[\\d\\.\\+\\w-]+)"],
       "depNameTemplate": "k3s",
       "versioningTemplate": "semver-coerced",
@@ -73,7 +73,7 @@
     },
     {
       "customType": "regex",
-      "fileMatch": ["apps/system-upgrade/system-upgrade-controller\\.ya?ml$"],
+      "fileMatch": ["kubernetes/infra/system-upgrade/system-upgrade-controller\\.ya?ml$"],
       "matchStrings": [
         "SYSTEM_UPGRADE_JOB_KUBECTL_IMAGE: (?<depName>[\\w/-]+):(?<currentValue>v?\\d+\\.\\d+\\.\\d+)"
       ],
@@ -84,7 +84,7 @@
     {
       "customType": "regex",
       "description": ["Process CloudnativePG Postgresql version"],
-      "fileMatch": ["apps/.*\\.ya?ml$"],
+      "fileMatch": ["kubernetes/apps/.*\\.ya?ml$"],
       "matchStrings": ["imageName: (?<depName>\\S+):(?<currentValue>.*\\-.*)"],
       "datasourceTemplate": "docker",
       "versioningTemplate": "redhat"

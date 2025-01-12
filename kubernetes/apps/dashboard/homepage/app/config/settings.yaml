@@ -7,4 +7,4 @@ providers:
   longhorn:
     username: {{ HOMEPAGE_VAR_LONGHORN_USERNAME }}
     password: {{ HOMEPAGE_VAR_LONGHORN_PASSWORD }}
-    url: http://longhorn-frontend.longhorn-system.svc.cluster.local
+    url: http://longhorn-frontend.longhorn.svc.cluster.local

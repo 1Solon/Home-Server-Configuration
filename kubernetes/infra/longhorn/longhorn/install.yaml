@@ -5,7 +5,7 @@ metadata:
   name: longhorn
   namespace: flux-system
 spec:
-  targetNamespace: longhorn-system
+  targetNamespace: longhorn
   commonMetadata:
     labels:
       app.kubernetes.io/name: longhorn

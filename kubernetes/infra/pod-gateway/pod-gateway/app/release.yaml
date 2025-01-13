@@ -71,9 +71,7 @@ spec:
                 key: addresses
 
         securityContext:
-          capabilities:
-            add:
-              - NET_ADMIN
+          privileged: true
 
         networkPolicy:
           enabled: true

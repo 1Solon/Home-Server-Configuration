@@ -26,7 +26,7 @@ spec:
             - name: LOG_LEVEL
               value: "VERBOSE"
             - name: REMOVE_TIMER
-              value: "60"
+              value: "10"
             - name: REMOVE_FAILED
               value: "true"
             - name: REMOVE_METADATA_MISSING

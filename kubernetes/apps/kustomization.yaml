@@ -8,5 +8,4 @@ resources:
 - pihole
 - semaphore
 - speedtest
-- vaultwarden
 - authentik

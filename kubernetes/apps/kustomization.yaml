@@ -7,6 +7,6 @@ resources:
 - ntfy
 - pihole
 - semaphore
-# - speedtest
+- speedtest
 - vaultwarden
-# - authentik
+- authentik

@@ -12,3 +12,4 @@ resources:
 - system-upgrade
 - traefik
 - external-dns
+- external-secrets

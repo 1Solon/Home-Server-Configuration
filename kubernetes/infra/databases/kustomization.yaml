@@ -6,3 +6,4 @@ resources:
   - ./cloudnative-postgres/install.yaml
   - ./postgres-operator/install.yaml
   - ./dragonfly/install.yaml
+  - ./postgres/install.yaml

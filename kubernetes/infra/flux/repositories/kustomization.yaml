@@ -16,3 +16,5 @@ resources:
 - external-dns.yaml
 - authentik.yaml
 - external-secrets-charts.yaml
+- crunchy-userinit.yaml
+- crunchydata.yaml

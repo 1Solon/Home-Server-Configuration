@@ -5,7 +5,7 @@ metadata:
   name: pgadmin
 spec:
   users:
-  - username: admin@homelab.io
+  - username: Saul
     role: Administrator
     passwordRef:
       name: pgadmin-secret

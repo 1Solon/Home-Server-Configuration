@@ -4,6 +4,9 @@ apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: userinit-controller
+  labelSelector:
+    matchLabels:
+      aarch: amd64
 spec:
   interval: 30m
   chart:

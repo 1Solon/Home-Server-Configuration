@@ -4,9 +4,6 @@ apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: userinit-controller
-labelSelector:
-  matchLabels:
-    aarch: amd64
 spec:
   interval: 30m
   chart:
@@ -19,3 +16,5 @@ spec:
         namespace: flux-system
   values:
     fullnameOverride: crunchy-userinit-controller
+    nodeSelector:
+      aarch: amd64

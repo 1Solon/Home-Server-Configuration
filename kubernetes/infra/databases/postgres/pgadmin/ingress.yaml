@@ -4,7 +4,6 @@ kind: Ingress
 metadata:
   name: pgadmin
 spec:
-  ingressClassName: internal
   tls:
     - hosts:
         - &host pgadmin.local.solonsstuff.com

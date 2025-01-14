@@ -44,6 +44,8 @@ spec:
                 "solonsstuff.com",
                 "--record-name",
                 "ipv4.solonsstuff.com",
+                "--provider",
+                "random",
               ]
             probes:
               liveness:

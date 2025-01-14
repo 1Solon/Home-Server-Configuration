@@ -7,7 +7,7 @@ spec:
   ingressClassName: internal
   tls:
     - hosts:
-        - *host
+        - &host pgadmin.local.solonsstuff.com
       secretName: local-solonsstuff-com-live-tls
   rules:
     - host: *host

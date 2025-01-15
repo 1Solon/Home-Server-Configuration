@@ -4,3 +4,4 @@ resources:
 - flux.yaml
 - repositories
 - sources
+- vars

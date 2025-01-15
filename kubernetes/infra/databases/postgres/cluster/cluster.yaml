@@ -68,6 +68,10 @@ spec:
         - sonarr_main
         - sonarr_logs
       password: *password
+    - name: speedtest-tracker
+      databases:
+        - speedtest_tracker
+      password: *password
 
   monitoring:
     pgmonitor:

@@ -8,4 +8,5 @@ resources:
 - pihole
 - semaphore
 - speedtest
+- speedtest-tracker
 - authentik

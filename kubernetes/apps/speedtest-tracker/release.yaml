@@ -1,0 +1,61 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: speedtest-tracker
+  namespace: monitoring
+spec:
+  interval: 30m
+  maxHistory: 3
+  chart:
+    spec:
+      chart: app-template
+      version: 3.6.1
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s-charts
+        namespace: flux-system
+  values:
+    controllers:
+      main:
+        containers:
+          speedtest-tracker:
+            image:
+              repository: lscr.io/linuxserver/speedtest-tracker
+              tag: 1.1.0
+            envFrom:
+              - secretRef:
+                  name: secret-db-speedtest-tracker
+            env:
+              - name: DISPLAY_TIMEZONE
+                value: "${TZ}"
+              - name: SPEEDTEST_SCHEDULE
+                value: "0 */6 * * *" # Run every 6 hours
+              - name: PRUNE_RESULTS_OLDER_THAN
+                value: "30" # Keep results for 30 days
+              - name: PUBLIC_DASHBOARD
+                value: "true"
+            resources:
+              limits:
+                memory: 256Mi
+    service:
+      main:
+        controller: main
+        ports:
+          http:
+            port: 80
+
+    ingress:
+      main:
+        enabled: true
+        hosts:
+          - host: &host "{{ .Release.Name }}.${LOCAL-DOMAIN}"
+            paths:
+              - path: /
+                service:
+                  identifier: app
+                  port: http
+        tls:
+          - hosts:
+              - *host
+            secretName: local-solonsstuff-com-live-tls

@@ -6,3 +6,5 @@ metadata:
   namespace: flux-system
 data:
   TZ: "Europe/Dublin"
+  LOCAL-DOMAIN: "local.solonsstuff.com"
+  REMOTE-DOMAIN: "solonsstuff.com"

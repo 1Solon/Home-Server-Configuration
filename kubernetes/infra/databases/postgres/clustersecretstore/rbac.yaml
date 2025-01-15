@@ -22,10 +22,10 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: *name
-    namespace: database
+    namespace: databases
 ---
 apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: external-secrets-pg
-  namespace: database
+  namespace: databases

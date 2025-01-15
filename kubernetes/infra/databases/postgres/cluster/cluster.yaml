@@ -61,12 +61,12 @@ spec:
     - name: radarr
       databases:
         - radarr_main
-        - radarr_log
+        - radarr_logs
       password: *password
     - name: sonarr
       databases:
         - sonarr_main
-        - sonarr_log
+        - sonarr_logs
       password: *password
 
   monitoring:

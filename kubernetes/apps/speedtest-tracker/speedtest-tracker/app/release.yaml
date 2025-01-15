@@ -2,7 +2,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: speedtest-tracker
+  name: &app speedtest-tracker
   namespace: monitoring
 spec:
   interval: 30m
@@ -40,9 +40,10 @@ spec:
                 memory: 256Mi
     service:
       main:
+        controller: *app
         ports:
           http:
-            port: 80
+            port: *port
 
     ingress:
       main:

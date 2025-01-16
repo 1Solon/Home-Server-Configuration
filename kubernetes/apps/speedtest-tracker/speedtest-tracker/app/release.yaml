@@ -26,6 +26,8 @@ spec:
             envFrom:
               - secretRef:
                   name: speedtest-tracker-db-secret
+              - secretRef:
+                  name: speedtest-tracker-secret
             env:
               - name: DISPLAY_TIMEZONE
                 value: "${TZ}"

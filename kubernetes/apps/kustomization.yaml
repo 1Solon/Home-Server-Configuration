@@ -1,12 +1,11 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-- dashboard
-- media
-- muse
-- ntfy
-- pihole
-- semaphore
-- speedtest
-- speedtest-tracker
-- authentik
+  - dashboard
+  - media
+  - muse
+  - ntfy
+  - pihole
+  - semaphore
+  - speedtest-tracker
+  - authentik

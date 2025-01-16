@@ -17,9 +17,9 @@ spec:
         namespace: flux-system
   values:
     controllers:
-      main:
+      speedtest-tracker:
         containers:
-          speedtest-tracker:
+          app:
             image:
               repository: lscr.io/linuxserver/speedtest-tracker
               tag: 1.1.0

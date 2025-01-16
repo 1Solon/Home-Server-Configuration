@@ -46,7 +46,7 @@ spec:
             port: 80
 
     ingress:
-      main:
+      app:
         enabled: true
         hosts:
           - host: &host "{{ .Release.Name }}.${LOCAL-DOMAIN}"

@@ -33,6 +33,8 @@ spec:
                 value: "${TZ}"
               - name: SPEEDTEST_SCHEDULE
                 value: "0 */6 * * *" # Run every 6 hours
+              - name: SPEEDTEST_SERVERS
+                value: "20854" # IP Telecom Dublin
               - name: PRUNE_RESULTS_OLDER_THAN
                 value: "30" # Keep results for 30 days
               - name: PUBLIC_DASHBOARD

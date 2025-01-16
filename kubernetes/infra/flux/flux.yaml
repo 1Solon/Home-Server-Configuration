@@ -25,3 +25,8 @@ spec:
   sourceRef:
     kind: OCIRepository
     name: flux-manifests
+  postBuild:
+    substituteFrom:
+      - kind: ConfigMap
+        name: cluster-settings
+        optional: false

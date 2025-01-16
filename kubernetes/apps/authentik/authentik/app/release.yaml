@@ -26,24 +26,22 @@ spec:
   values:
     global:
       podAnnotations:
-        secret.reloader.stakater.com/reload: &secret authentik-secret
+        secret.reloader.stakater.com/reload: authentik-secret, authentik-db-secret
       deploymentStrategy:
         type: RollingUpdate
       envFrom:
         - secretRef:
-            name: *secret
+            name: authentik-secret
+        - secretRef:
+            name: authentik-db-secret
+
     authentik:
       redis:
         host: dragonfly.databases.svc.cluster.local
         db: 1
     server:
       replicas: 1
-      initContainers:
-        - name: init-db
-          image: ghcr.io/rafaribe/postgres-init:16@sha256:9ad04872d61ee6344827ca7e789c0b6e81e949e8e30cb90a9cea17905b8118bb
-          envFrom:
-            - secretRef:
-                name: *secret
+
       ingress:
         enabled: true
         ingressClassName: traefik

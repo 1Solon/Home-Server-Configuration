@@ -72,6 +72,10 @@ spec:
       databases:
         - speedtest_tracker
       password: *password
+    - name: authentik
+      databases:
+        - authentik
+      password: *password
 
   monitoring:
     pgmonitor:

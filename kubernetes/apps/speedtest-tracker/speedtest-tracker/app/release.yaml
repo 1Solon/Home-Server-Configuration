@@ -49,7 +49,7 @@ spec:
       app:
         enabled: true
         hosts:
-          - host: &host "{{ .Release.Name }}.${LOCAL-DOMAIN}"
+          - host: &host "{{ .Release.Name }}.${LOCAL_DOMAIN}"
             paths:
               - path: /
                 service:

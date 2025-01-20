@@ -23,7 +23,7 @@ ports:
         scheme: https
         priority: 10
   websecure:
-    tls:
+    http3:
       enabled: true
 
 ingressRoute:

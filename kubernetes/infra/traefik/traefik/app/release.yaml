@@ -47,19 +47,19 @@ spec:
       enabled: true
       replicas: 1
 
-    ports:
-      web:
-        redirections:
-          entryPoint:
-            port: websecure
-            scheme: https
-            priority: 10
-      websecure:
-        http3:
-          enabled: true
-        advertisedPort: 4443
-        tls:
-          enabled: true
+    # ports:
+    #   web:
+    #     redirections:
+    #       entryPoint:
+    #         port: websecure
+    #         scheme: https
+    #         priority: 10
+    #   websecure:
+    #     http3:
+    #       enabled: true
+    #     advertisedPort: 4443
+    #     tls:
+    #       enabled: true
 
     ingressRoute:
       dashboard:

@@ -17,9 +17,10 @@ deployment:
 
 ports:
   web:
-    redirectTo:
-      port: websecure
-      priority: 10
+    redirections:
+      entryPoint:
+        port: websecure
+        priority: 10
   websecure:
     tls:
       enabled: true

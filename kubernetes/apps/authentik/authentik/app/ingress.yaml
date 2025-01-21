@@ -1,0 +1,32 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: authentik
+  namespace: authentik
+spec:
+  rules:
+    - host: "sso.${LOCAL_DOMAIN}"
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: authentik
+                port:
+                  number: 80
+    - host: "*.${LOCAL_DOMAIN}"
+      http:
+        paths:
+          - path: /outpost.goauthentik.io/
+            pathType: Prefix
+            backend:
+              service:
+                name: authentik
+                port:
+                  number: 80
+  tls:
+    - hosts:
+        - authentik.${LOCAL_DOMAIN}
+      secretName: local-solonsstuff-com-live-tls

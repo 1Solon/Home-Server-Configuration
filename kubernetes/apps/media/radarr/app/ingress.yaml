@@ -14,7 +14,8 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: radarr-service
+                name: authentik-server
+                namespace: authentik
                 port:
                   number: 80
   tls:

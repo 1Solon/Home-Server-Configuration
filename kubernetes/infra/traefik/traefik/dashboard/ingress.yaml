@@ -35,6 +35,10 @@ spec:
         paths:
           - path: /
             pathType: Prefix
+            backend:
+              service:
+                name: traefik
+  tls:
     - hosts:
         - *host
       secretName: local-solonsstuff-com-live-tls

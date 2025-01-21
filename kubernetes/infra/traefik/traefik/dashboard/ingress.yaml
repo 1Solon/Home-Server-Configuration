@@ -11,9 +11,9 @@ spec:
   routes:
     - match: Host(`traefik.local.solonsstuff.com`)
       kind: Rule
-      middlewares:
-        - name: traefik-dashboard-basicauth
-          namespace: traefik
+      # middlewares:
+      #   - name: traefik-dashboard-basicauth
+      #     namespace: traefik
       services:
         - name: api@internal
           kind: TraefikService

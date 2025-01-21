@@ -55,7 +55,7 @@ spec:
                 backend:
                   service:
                     service:
-                      identifier: app
+                      name: authentik-server
                       port: http
         tls:
           - hosts:

@@ -47,16 +47,16 @@ spec:
         ingressClassName: traefik
         hosts:
           - host: &host "sso.${LOCAL_DOMAIN}"
-          
+
           - host: "*.${LOCAL_DOMAIN}"
             paths:
-            - path: /outpost.goauthentik.io/
-              pathType: Prefix
-              backend:
-                service:
-                  identifier: authentik
-                  port:
-                    number: 80
+              - path: /outpost.goauthentik.io/
+                pathType: Prefix
+                backend:
+                  service:
+                    service:
+                      identifier: app
+                      port: http
         tls:
           - hosts:
               - *host

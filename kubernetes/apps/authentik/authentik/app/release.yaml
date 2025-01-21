@@ -46,7 +46,7 @@ spec:
         enabled: true
         ingressClassName: traefik
         hosts:
-          - host: &host "sso.${LOCAL_DOMAIN}"
+          - &host "sso.${LOCAL_DOMAIN}"
         tls:
           - hosts:
               - *host

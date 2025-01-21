@@ -5,27 +5,17 @@ metadata:
   name: authentik
   namespace: authentik
 spec:
-  rules:
-    - host: "sso.${LOCAL_DOMAIN}"
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: authentik-server
-                port:
-                  number: 80
-    - host: "*.${LOCAL_DOMAIN}"
-      http:
-        paths:
-          - path: /outpost.goauthentik.io/
-            pathType: Prefix
-            backend:
-              service:
-                name: authentik-server
-                port:
-                  number: 80
+  routes:
+    - kind: Rule
+      match: "Host(`sso.${LOCAL_DOMAIN}`)"
+      middlewares:
+        - name: middlewares-authentik
+          namespace: traefik
+      priority: 10
+
+    - kind: Rule
+      match: "Host(`sso.${LOCAL_DOMAIN}`) && PathPrefix(`/outpost.goauthentik.io/`)"
+      priority: 15
   tls:
     - hosts:
         - authentik.${LOCAL_DOMAIN}

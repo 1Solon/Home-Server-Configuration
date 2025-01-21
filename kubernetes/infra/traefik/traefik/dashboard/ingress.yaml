@@ -8,7 +8,7 @@ metadata:
     traefik.ingress.kubernetes.io/router.middlewares: traefik-middlewares-authentik@kubernetescrd
 spec:
   rules:
-    - host: "traefik.${LOCAL_DOMAIN}"
+    - host: &host "traefik.${LOCAL_DOMAIN}"
       http:
         paths:
           - path: /

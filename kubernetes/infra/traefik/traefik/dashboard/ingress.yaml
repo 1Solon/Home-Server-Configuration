@@ -17,7 +17,7 @@ spec:
               service:
                 name: traefik
                 port:
-                  number: 80
+                  number: 31826
   tls:
     - hosts:
         - *host

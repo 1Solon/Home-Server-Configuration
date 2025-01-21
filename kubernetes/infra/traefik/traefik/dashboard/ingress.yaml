@@ -4,7 +4,7 @@ kind: Ingress
 metadata:
   name: traefik-dashboard
   annotations:
-    traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
+    # traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
     # traefik.ingress.kubernetes.io/router.middlewares: traefik-middlewares-authentik@kubernetescrd
 spec:
   rules:

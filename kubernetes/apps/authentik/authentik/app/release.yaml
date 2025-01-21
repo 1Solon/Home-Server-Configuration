@@ -43,12 +43,12 @@ spec:
     server:
       replicas: 1
 
-      ingress:
-        enabled: true
-        ingressClassName: traefik
-        hosts:
-          - &host "sso.${LOCAL_DOMAIN}"
-        tls:
-          - hosts:
-              - *host
-            secretName: local-solonsstuff-com-live-tls
+      # ingress:
+      #   enabled: true
+      #   ingressClassName: traefik
+      #   hosts:
+      #     - &host "sso.${LOCAL_DOMAIN}"
+      #   tls:
+      #     - hosts:
+      #         - *host
+      #       secretName: local-solonsstuff-com-live-tls

@@ -37,7 +37,7 @@ spec:
               service:
                 name: sonarr-service
                 port:
-                  number: 8989
+                  number: 80
   tls:
     - hosts:
         - sonarr.local.solonsstuff.com

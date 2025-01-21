@@ -1,44 +1,23 @@
-# ---
-# apiVersion: networking.k8s.io/v1
-# kind: Ingress
-# metadata:
-#   annotations:
-#     traefik.ingress.kubernetes.io/router.middlewares: traefik-middlewares-authentik@kubernetescrd
-#   name: radarr
-# spec:
-#   rules:
-#     - host: &host radarr.${LOCAL_DOMAIN}
-#       http:
-#         paths:
-#           - path: /
-#             pathType: Prefix
-#             backend:
-#               service:
-#                 name: radarr-service
-#                 port:
-#                   number: 80
-#   tls:
-#     - hosts:
-#         - *host
-#       secretName: local-solonsstuff-com-live-tls
-
 ---
-apiVersion: traefik.io/v1alpha1
-kind: IngressRoute
+apiVersion: networking.k8s.io/v1
+kind: Ingress
 metadata:
-  name: radarr
   annotations:
-    kubernetes.io/ingress.class: traefik-external
+    traefik.ingress.kubernetes.io/router.middlewares: traefik-middlewares-authentik@kubernetescrd
+  name: radarr
 spec:
-  entryPoints:
-    - websecure
-  routes:
-    - match: Host(`radarr.local.solonsstuff.com`)
-      kind: Rule
-      services:
-        - name: radarr-service
-          port: 80
-      middlewares:
-        - name: default-headers
+  rules:
+    - host: &host radarr.${LOCAL_DOMAIN}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: radarr-service
+                port:
+                  number: 80
   tls:
-    secretName: local-solonsstuff-com-live-tls
+    - hosts:
+        - *host
+      secretName: local-solonsstuff-com-live-tls

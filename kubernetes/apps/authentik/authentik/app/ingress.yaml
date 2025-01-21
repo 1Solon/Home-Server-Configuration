@@ -13,7 +13,7 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: authentik
+                name: authentik-server
                 port:
                   number: 80
     - host: "*.${LOCAL_DOMAIN}"
@@ -23,7 +23,7 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: authentik
+                name: authentik-server
                 port:
                   number: 80
   tls:

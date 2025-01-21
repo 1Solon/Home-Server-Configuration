@@ -35,11 +35,6 @@ spec:
         paths:
           - path: /
             pathType: Prefix
-            backend:
-              service:
-                name: api@internal
-                kind: TraefikService
-  tls:
     - hosts:
         - *host
       secretName: local-solonsstuff-com-live-tls

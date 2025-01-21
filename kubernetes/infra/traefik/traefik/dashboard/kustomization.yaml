@@ -4,3 +4,4 @@ kind: Kustomization
 resources:
   - ./ingress.yaml
   - ./middleware.yaml
+  - ./authentik-middleware.yaml

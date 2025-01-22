@@ -39,7 +39,6 @@ spec:
       redis:
         host: dragonfly.databases.svc.cluster.local
         db: 1
-      log_level: trace
     server:
       replicas: 1
 

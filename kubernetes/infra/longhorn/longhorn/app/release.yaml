@@ -42,6 +42,8 @@ spec:
       enabled: true
       ingressClassName: traefik
       host: longhorn.${LOCAL_DOMAIN}
+      annotations:
+        traefik.ingress.kubernetes.io/router.middlewares: traefik-middlewares-authentik@kubernetescrd
       tls: true
       tlsSecret: local-solonsstuff-com-live-tls
     longhornDriver:

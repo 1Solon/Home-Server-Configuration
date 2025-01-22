@@ -2,7 +2,7 @@
 apiVersion: longhorn.io/v1beta1
 kind: RecurringJob
 metadata:
-  name: weekly-backup
+  name: weekly-trim
 spec:
   cron: "0 6 * * SAT"
   task: "filesystem-trim"

@@ -26,7 +26,7 @@ spec:
         fsGroup: 65534
         fsGroupChangePolicy: OnRootMismatch
       nodeSelector:
-        aarch: "!=amd64"
+        aarch: "!= amd64"
       containers:
         - name: qbittorrent
           image: ghcr.io/onedr0p/qbittorrent:5.0.3@sha256:19597e4a5c5e52702ff6b4ea5c4b5f9f42433d6c2f1ef1d2db5964938bf44557

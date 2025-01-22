@@ -13,4 +13,5 @@ spec:
     frameDeny: true
     customResponseHeaders:
       X-Robots-Tag: noindex, nofollow, nosnippet, noarchive, notranslate, noimageindex
+      X-FRAME-OPTIONS: SAMEORIGIN
       X-XSS-PROTECTION: 1;

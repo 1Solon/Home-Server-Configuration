@@ -14,3 +14,4 @@ spec:
     customFrameOptionsValue: SAMEORIGIN
     customRequestHeaders:
       X-Forwarded-Proto: https
+      X-Frame-Options: SAMEORIGIN

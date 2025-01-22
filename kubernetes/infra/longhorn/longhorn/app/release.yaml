@@ -24,9 +24,32 @@ spec:
       retries: 3
   values:
     defaultSettings:
-      defaultDataPath: "/storage"
       backupTarget: nfs://${TRUENAS_IP}:/mnt/STORAGE-01/Longhorn-Backup
-    service:
-      ui:
-        loadBalancerIP: "192.168.1.151"
-        type: "LoadBalancer"
+      defaultDataPath: "/storage"
+      defaultReplicaCount: 3
+      backupstorePollInterval: 0
+      createDefaultDiskLabeledNodes: true
+      restoreVolumeRecurringJobs: true
+      storageOverProvisioningPercentage: 100
+      storageMinimalAvailablePercentage: 1
+      guaranteedEngineManagerCPU: 20
+      guaranteedReplicaManagerCPU: 20
+      orphanAutoDeletion: true
+      concurrentAutomaticEngineUpgradePerNodeLimit: 3
+      nodeDownPodDeletionPolicy: delete-both-statefulset-and-deployment-pod
+      taintToleration: CriticalAddonsOnly:Exists; node-role.kubernetes.io/control-plane:NoSchedule
+    ingress:
+      enabled: true
+      ingressClassName: traefik
+      host: longhorn.${LOCAL_DOMAIN}
+      tls: true
+      tlsSecret: local-solonsstuff-com-live-tls
+    longhornDriver:
+      tolerations: &tolerations
+        - key: CriticalAddonsOnly
+          operator: Exists
+        - key: node-role.kubernetes.io/control-plane
+          operator: Exists
+          effect: NoSchedule
+    longhornManager:
+      tolerations: *tolerations

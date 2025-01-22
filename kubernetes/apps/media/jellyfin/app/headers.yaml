@@ -10,7 +10,7 @@ spec:
     stsIncludeSubdomains: true
     stsPreload: true
     stsSeconds: 315360000
-    frameDeny: true
+    frameDeny: false
     customResponseHeaders:
       X-Robots-Tag: noindex, nofollow, nosnippet, noarchive, notranslate, noimageindex
       X-FRAME-OPTIONS: SAMEORIGIN

@@ -18,3 +18,4 @@ resources:
 - external-secrets-charts.yaml
 - crunchy-userinit.yaml
 - crunchydata.yaml
+- csi-samba.yaml

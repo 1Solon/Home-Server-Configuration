@@ -1,0 +1,58 @@
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: longhorn
+  namespace: flux-system
+spec:
+  targetNamespace: samba
+  commonMetadata:
+    labels:
+      app.kubernetes.io/name: samba
+  interval: 10m
+  path: "./kubernetes/infra/samba/samba/app"
+  prune: false
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  wait: true
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age
+  postBuild:
+    substituteFrom:
+      - kind: ConfigMap
+        name: cluster-settings
+        optional: false
+
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: samba-storageclasses
+  namespace: flux-system
+spec:
+  targetNamespace: samba
+  commonMetadata:
+    labels:
+      app.kubernetes.io/name: samba
+  interval: 10m
+  path: "./kubernetes/infra/samba/samba/storageclasses"
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  wait: true
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age
+  dependsOn:
+    - name: samba
+      namespace: flux-system
+  postBuild:
+    substituteFrom:
+      - kind: Secret
+        name: hetzner-storagebox-secret
+        optional: false

@@ -68,8 +68,10 @@ spec:
         globalMounts:
           - path: "/data"
 
-      ssh:
-        type: hostPath
-        hostPath: /home/ubuntu/.ssh
-        globalMounts:
-          - path: "/root/.ssh"
+      root/.ssh/config:
+        type: secret
+        secretName: ssh-config-secrets
+
+      root/.ssh/id_rsa:
+        type: secret
+        secretName: id-rsa-secrets

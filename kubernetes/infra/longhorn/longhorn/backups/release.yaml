@@ -68,12 +68,12 @@ spec:
         globalMounts:
           - path: "/data"
 
-      config:
-        type: secret
-        name: ssh-config-secrets
-        defaultMode: 0400
-        globalMounts:
-          - path: "/root/.ssh/config"
+      # config:
+      #   type: secret
+      #   name: ssh-config-secrets
+      #   defaultMode: 0400
+      #   globalMounts:
+      #     - path: "/root/.ssh/config"
 
       id-rsa:
         type: secret

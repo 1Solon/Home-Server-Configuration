@@ -13,4 +13,3 @@ resources:
 - traefik
 - external-dns
 - secrets
-- samba

@@ -50,8 +50,8 @@ spec:
               - -c
               - |
                 mkdir -p /root/.ssh
-                cp /config/ssh_config /root/.ssh/config || true
-                cp /id_rsa/id_rsa /root/.ssh/id_rsa || true
+                cp /config/ssh_config /root/.ssh/config
+                cp /id_rsa/id_rsa /root/.ssh/id_rsa
                 restic init || true
             envFrom:
               - secretRef:

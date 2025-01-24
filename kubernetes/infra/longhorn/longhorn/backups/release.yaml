@@ -70,12 +70,12 @@ spec:
 
       config:
         type: secret
-        secretName: ssh-config-secrets
+        name: ssh-config-secrets
         globalMounts:
           - path: "/root/.ssh/config"
 
       id_rsa:
         type: secret
-        secretName: id-rsa-secrets
+        name: id-rsa-secrets
         globalMounts:
           - path: "/root/.ssh/id_rsa"

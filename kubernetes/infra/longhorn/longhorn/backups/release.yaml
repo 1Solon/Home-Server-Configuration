@@ -74,10 +74,3 @@ spec:
         defaultMode: 0400
         globalMounts:
           - path: "/root/.ssh"
-
-      id-rsa:
-        type: secret
-        name: id-rsa-secrets
-        defaultMode: 0400
-        globalMounts:
-          - path: "/root/.ssh"

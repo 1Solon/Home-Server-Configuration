@@ -49,8 +49,8 @@ spec:
               - /bin/sh
               - -c
               - |
-                cp /config /root/.ssh/config || true
-                cp /id_rsa /root/.ssh/id_rsa || true
+                cp /config/config /root/.ssh/config || true
+                cp /id_rsa/id_rsa /root/.ssh/id_rsa || true
                 restic init || true
             envFrom:
               - secretRef:

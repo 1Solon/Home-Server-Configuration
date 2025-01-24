@@ -73,7 +73,7 @@ spec:
         name: ssh-config-secrets
         defaultMode: 0400
         globalMounts:
-          - path: "/root/.ssh/config"
+          - path: "/root/.ssh"
 
       id-rsa:
         type: secret

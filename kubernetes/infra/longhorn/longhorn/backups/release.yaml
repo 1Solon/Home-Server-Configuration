@@ -68,14 +68,10 @@ spec:
         globalMounts:
           - path: "/data"
 
-      config:
+      root/.ssh/config:
         type: secret
         name: ssh-config-secrets
-        globalMounts:
-          - path: "/root/.ssh/config"
 
-      id_rsa:
+      root/.ssh/id_rsa:
         type: secret
         name: id-rsa-secrets
-        globalMounts:
-          - path: "/root/.ssh/id_rsa"

@@ -70,6 +70,6 @@ spec:
 
       ssh:
         type: hostPath
-        hostPath: ~/.ssh
+        hostPath: /home/ubuntu/.ssh
         globalMounts:
-          - path: "~/.ssh"
+          - path: "/root/.ssh"

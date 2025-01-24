@@ -74,7 +74,7 @@ spec:
         globalMounts:
           - path: "/root/.ssh/config"
 
-      id_rsa:
+      id-rsa:
         type: secret
         name: id-rsa-secrets
         globalMounts:

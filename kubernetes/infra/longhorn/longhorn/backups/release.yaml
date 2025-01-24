@@ -49,7 +49,8 @@ spec:
               - /bin/sh
               - -c
               - |
-                cp /config/config /root/.ssh/config || true
+                mkdir -p /root/.ssh
+                cp /config/ssh_config /root/.ssh/config || true
                 cp /id_rsa/id_rsa /root/.ssh/id_rsa || true
                 restic init || true
             envFrom:

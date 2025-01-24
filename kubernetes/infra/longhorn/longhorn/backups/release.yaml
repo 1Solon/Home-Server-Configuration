@@ -1,0 +1,68 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: restic
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: app-template
+      version: 3.6.1
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s-charts
+        namespace: flux-system
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      strategy: rollback
+      retries: 3
+  values:
+    controllers:
+      main:
+        type: cronjob
+        containers:
+          main:
+            image:
+              repository: ghcr.io/restic/restic
+              tag: 0.17.3@sha256:b89484687c77dfe09d7415a0ced4ad1e820bfba0f8e5c97881e697299d6b734b
+            command:
+              - /bin/sh
+              - -c
+              - |
+                restic backup /data
+                restic forget --keep-weekly 1 --prune
+            envFrom:
+              - secretRef:
+                  name: restic-secrets
+        initContainers:
+          init-repo:
+            image:
+              repository: ghcr.io/restic/restic
+              tag: 0.17.3@sha256:b89484687c77dfe09d7415a0ced4ad1e820bfba0f8e5c97881e697299d6b734b
+            command:
+              - /bin/sh
+              - -c
+              - |
+                restic init || true
+            envFrom:
+              - secretRef:
+                  name: restic-secrets
+        cronjob:
+          concurrencyPolicy: Forbid
+          schedule: "0 7 * * SUN"
+          startingDeadlineSeconds: 30
+          successfulJobsHistory: 1
+          failedJobsHistory: 1
+          backoffLimit: 3
+    persistence:
+      data:
+        type: nfs
+        server: ${TRUENAS_IP}
+        path: /mnt/STORAGE-01/Longhorn-Backup
+        globalMounts:
+          - path: "/data"

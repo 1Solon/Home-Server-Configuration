@@ -61,13 +61,14 @@ spec:
           backoffLimit: 3
     persistence:
       data:
-        - type: nfs
-          server: ${TRUENAS_IP}
-          path: /mnt/STORAGE-01/Longhorn-Backup
-          globalMounts:
-            - path: "/data"
+        type: nfs
+        server: ${TRUENAS_IP}
+        path: /mnt/STORAGE-01/Longhorn-Backup
+        globalMounts:
+          - path: "/data"
 
-        - type: hostPath
-          hostPath: /root/.ssh
-          globalMounts:
-            - path: "/root/.ssh"
+      ssh:
+        type: hostPath
+        hostPath: /root/.ssh
+        globalMounts:
+          - path: "/root/.ssh"

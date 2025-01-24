@@ -49,6 +49,8 @@ spec:
               - /bin/sh
               - -c
               - |
+                cp /config /root/.ssh/config || true
+                cp /id_rsa /root/.ssh/id_rsa || true
                 restic init || true
             envFrom:
               - secretRef:
@@ -71,13 +73,11 @@ spec:
       config:
         type: secret
         name: ssh-config-secrets
-        defaultMode: 0777 
         globalMounts:
-          - path: "/root/.ssh/config"
+          - path: "/config"
 
       id-rsa:
         type: secret
         name: id-rsa-secrets
-        defaultMode: 0777 
         globalMounts:
-          - path: "/root/.ssh/id_rsa"
+          - path: "/id_rsa"

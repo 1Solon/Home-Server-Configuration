@@ -38,8 +38,6 @@ spec:
           repository: ghcr.io/qdm12/gluetun
           tag: v3.40.0@sha256:2b42bfa046757145a5155acece417b65b4443c8033fb88661a8e9dcf7fda5a00
         env:
-          - name: LOG_LEVEL
-            value: debug
           - name: VPN_SERVICE_PROVIDER
             value: airvpn
           - name: VPN_TYPE

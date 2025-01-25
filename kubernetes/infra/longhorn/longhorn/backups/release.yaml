@@ -49,7 +49,8 @@ spec:
               - /bin/sh
               - -c
               - |
-                ssh-add /confg/id_id_ed25519 || true
+                mkdir -p ~/.ssh && chmod 700 ~/.ssh || true
+                cp -r /config/* ~/.ssh || true
                 restic init || true
             envFrom:
               - secretRef:

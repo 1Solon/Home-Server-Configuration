@@ -34,6 +34,10 @@ spec:
               - /bin/sh
               - -c
               - |
+                mkdir -p ~/.ssh
+                chmod 700 ~/.ssh 
+                cp /config/* ~/.ssh/
+                echo $'\n' >> ~/.ssh/id_*
                 restic backup /data
                 restic forget --keep-weekly 1 --prune
             envFrom:

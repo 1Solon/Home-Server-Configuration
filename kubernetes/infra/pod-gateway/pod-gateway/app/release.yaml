@@ -74,16 +74,16 @@ spec:
           privileged: true
 
         networkPolicy:
-          enabled: false
-          # egress:
-          #   - to:
-          #       - ipBlock:
-          #           cidr: 0.0.0.0/0
-          #     ports:
-          #       - port: &vpn_port 1637
-          #         protocol: UDP
-          #   - to:
-          #       - namespaceSelector: {}
+          enabled: true
+          egress:
+            - to:
+                - ipBlock:
+                    cidr: 0.0.0.0/0
+              ports:
+                - port: &vpn_port 1637
+                  protocol: UDP
+            - to:
+                - namespaceSelector: {}
 
     podAnnotations:
       configmap.reloader.stakater.com/reload: downloads-gateway-pod-gateway

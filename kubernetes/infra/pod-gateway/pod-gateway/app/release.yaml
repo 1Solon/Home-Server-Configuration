@@ -102,14 +102,14 @@ spec:
       DNS_LOCAL_CIDRS: "10.0.0.0/8 192.168.0.0/16"
       NOT_ROUTED_TO_GATEWAY_CIDRS: 10.0.0.0/8 192.168.0.0/16
 
-    # publicPorts:
-    #   - hostname: qbittorrent
-    #     IP: 10
-    #     ports:
-    #       - type: tcp
-    #         port: 20508
-    #       - type: udp
-    #         port: 20508
+    publicPorts:
+      - hostname: qbittorrent
+        IP: 10
+        ports:
+          - type: tcp
+            port: 20508
+          - type: udp
+            port: 20508
 
     webhook:
       image:

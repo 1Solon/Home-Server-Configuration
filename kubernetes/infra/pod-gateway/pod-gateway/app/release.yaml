@@ -53,7 +53,7 @@ spec:
           - name: FIREWALL_DEBUG
             value: "on"
           - name: WIREGUARD_MTU
-            value: 1320
+            value: 1280
           - name: WIREGUARD_PRIVATE_KEY
             valueFrom:
               secretKeyRef:

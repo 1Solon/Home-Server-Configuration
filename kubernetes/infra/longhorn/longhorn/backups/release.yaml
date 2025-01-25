@@ -49,7 +49,7 @@ spec:
               - /bin/sh
               - -c
               - |
-                cp /root/.ssh/id_ed25519.readonly /root/.ssh/id_ed25519 || true
+                cp -r /config /root/.ssh/
                 restic init || true
             envFrom:
               - secretRef:
@@ -73,5 +73,3 @@ spec:
         type: secret
         name: ssh-config-secrets
         defaultMode: 0400
-        globalMounts:
-          - path: "/root/.ssh"

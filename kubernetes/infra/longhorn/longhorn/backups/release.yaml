@@ -49,6 +49,7 @@ spec:
               - /bin/sh
               - -c
               - |
+                mkdir -p /root/.ssh
                 cp -r /config /root/.ssh/
                 restic init || true
             envFrom:

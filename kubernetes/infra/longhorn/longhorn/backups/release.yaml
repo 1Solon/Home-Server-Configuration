@@ -50,6 +50,7 @@ spec:
               - -c
               - |
                 mkdir -p /root/.ssh
+                chmod 700 /root/.ssh
                 cp -r /config /root/.ssh/
                 restic init || true
             envFrom:

@@ -50,7 +50,7 @@ spec:
               - -c
               - |
                 mkdir -p ~/.ssh && chmod 700 ~/.ssh
-                cp -r /config ~/.ssh
+                cp -r /config/* ~/.ssh
                 restic init || true
             envFrom:
               - secretRef:

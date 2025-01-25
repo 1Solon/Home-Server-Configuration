@@ -49,9 +49,8 @@ spec:
               - /bin/sh
               - -c
               - |
-                mkdir -p /root/.ssh
-                chmod 700 /root/.ssh
-                cp -r /config /root/.ssh/
+                mkdir -p ~/.ssh && chmod 700 ~/.ssh
+                cp -r /config ~/.ssh
                 restic init || true
             envFrom:
               - secretRef:

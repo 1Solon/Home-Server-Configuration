@@ -34,7 +34,6 @@ spec:
               - /bin/sh
               - -c
               - |
-                sleep infinity
                 restic backup /data
                 restic forget --keep-weekly 1 --prune
             envFrom:

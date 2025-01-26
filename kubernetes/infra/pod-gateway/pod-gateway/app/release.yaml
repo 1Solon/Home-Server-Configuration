@@ -50,10 +50,8 @@ spec:
             value: Switzerland
           - name: FIREWALL_VPN_INPUT_PORTS
             value: "1637,20508"
-          - name: FIREWALL_DEBUG
-            value: "on"
           - name: WIREGUARD_MTU
-            value: 1280
+            value: 1450
           - name: WIREGUARD_PRIVATE_KEY
             valueFrom:
               secretKeyRef:

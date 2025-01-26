@@ -22,6 +22,16 @@ spec:
       strategy: rollback
       retries: 3
   values:
+    defaultPodOptions:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: aarch
+                    operator: In
+                    values:
+                      - arm64
     controllers:
       main:
         type: cronjob
@@ -73,17 +83,6 @@ spec:
           successfulJobsHistory: 1
           failedJobsHistory: 1
           backoffLimit: 3
-
-    defaultPodOptions:
-      affinity:
-        nodeAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            nodeSelectorTerms:
-              - matchExpressions:
-                  - key: aarch
-                    operator: In
-                    values:
-                      - arm64
 
     persistence:
       data:

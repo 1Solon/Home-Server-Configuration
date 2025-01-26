@@ -23,16 +23,6 @@ spec:
       retries: 3
   values:
     controllers:
-      defaultPodOptions:
-        affinity:
-          nodeAffinity:
-            requiredDuringSchedulingIgnoredDuringExecution:
-              nodeSelectorTerms:
-                - matchExpressions:
-                    - key: aarch
-                      operator: In
-                      values:
-                        - arm64
       main:
         type: cronjob
         containers:
@@ -83,6 +73,18 @@ spec:
           successfulJobsHistory: 1
           failedJobsHistory: 1
           backoffLimit: 3
+
+    defaultPodOptions:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: aarch
+                    operator: In
+                    values:
+                      - arm64
+
     persistence:
       data:
         type: nfs

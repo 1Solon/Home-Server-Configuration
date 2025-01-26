@@ -23,6 +23,16 @@ spec:
       retries: 3
   values:
     controllers:
+      defaultPodOptions:
+        affinity:
+          nodeAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+              nodeSelectorTerms:
+                - matchExpressions:
+                    - key: aarch
+                      operator: In
+                      values:
+                        - arm64
       main:
         type: cronjob
         containers:

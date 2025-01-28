@@ -27,4 +27,4 @@ spec:
     - { key: node-role.kubernetes.io/etcd, effect: NoExecute, operator: Exists }
     - { key: CriticalAddonsOnly, operator: Exists }
   upgrade:
-    image: rancher/k3s-upgrade:v1.32.0-k3s1@sha256:7b8ea59ba830d3dd38ad89161c3c0f51c2bd2cd98a52e573bca53be59519100c
+    image: rancher/k3s-upgrade:v1.32.1-k3s1@sha256:92dc207c08ae53f63192222b792b0f15e11389a884c5dfee51111dcbd6ffb8c1

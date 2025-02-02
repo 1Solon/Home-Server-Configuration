@@ -14,7 +14,6 @@ spec:
         kind: HelmRepository
         name: ansible-semaphore
         namespace: flux-system
-      interval: 5m
   install:
     remediation:
       retries: 3

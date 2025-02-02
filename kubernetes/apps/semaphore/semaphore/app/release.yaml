@@ -91,20 +91,20 @@ spec:
       - kind: Secret
         name: semaphore-db-secret
         valuesKey: SEMAPHORE_DB_HOST
-        targetPath: database.host
+        # targetPath: database.host
       - kind: Secret
         name: semaphore-db-secret
         valuesKey: SEMAPHORE_DB_NAME
-        targetPath: database.name
+        # targetPath: database.name
       - kind: Secret
         name: semaphore-db-secret
         valuesKey: SEMAPHORE_DB_PORT
-        targetPath: database.port
+        # targetPath: database.port
       - kind: Secret
         name: semaphore-secret
         valuesKey: OAUTH2_CLIENT_ID
-        targetPath: oidc.providers.authentik.client_id
+        # targetPath: oidc.providers.authentik.client_id
       - kind: Secret
         name: semaphore-secret
         valuesKey: OAUTH2_CLIENT_SECRET
-        targetPath: oidc.providers.authentik.client_secret
+        # targetPath: oidc.providers.authentik.client_secret

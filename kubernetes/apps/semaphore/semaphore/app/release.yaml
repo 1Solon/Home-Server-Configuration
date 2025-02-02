@@ -1,18 +1,111 @@
 ---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: ansible-semaphore
+  name: semaphore
 spec:
   interval: 30m
   chart:
     spec:
       chart: ansible-semaphore
-      version: 12.3.4
+      version: 12.6.0
       sourceRef:
         kind: HelmRepository
         name: ansible-semaphore
         namespace: flux-system
-  valuesFrom:
-    - kind: ConfigMap
-      name: ansible-semaphore-values
+      interval: 5m
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      strategy: rollback
+      retries: 3
+  values:
+    replicaCount: 1
+    annotations:
+      secret.reloader.stakater.com/reload: semaphore-secret, authentik-db-secret
+    image:
+      repository: docker.io/semaphoreui/semaphore
+      tag: v2.12.3
+      pullPolicy: IfNotPresent
+    extraEnvVariables:
+      TZ: ${TZ}
+      ANSIBLE_HOST_KEY_CHECKING: false
+      SEMAPHORE_PORT: &port 3000
+    general:
+      host: https://{{ .Release.Name }}.${LOCAL_DOMAIN}
+      tmp_path: /tmp/semaphore/
+    secrets:
+      accesskeyEncryptionKey: SEMAPHORE_ACCESS_KEY_ENCRYPTION
+      existingSecret: semaphore-secret
+    postgresql:
+      enabled: false
+    database:
+      type: postgres
+      usernameFromSecret: true
+      usernameKey: SEMAPHORE_DB_USER
+      passwordKey: SEMAPHORE_DB_PASS
+      existingSecret: semaphore-db-secret
+    persistence:
+      enabled: true
+      storageClass: longhorn
+      size: 5G
+      accessModes: ["ReadWriteMany"]
+    oidc:
+      enable: true
+      providers:
+        authentik:
+          display_name: Login with Authentik
+          provider_url: https://sso.${LOCAL_DOMAIN}/application/o/semaphore/
+          redirect_url: https://{{ .Release.Name }}.${LOCAL_DOMAIN}/api/auth/oidc/authentik/redirect
+          username_claim: preferred_username
+          name_claim: preferred_username
+          email_claim: email
+    ldap:
+      enable: false
+    service:
+      type: ClusterIP
+      port: *port
+      internalPort: *port
+    ingress:
+      enabled: true
+      className: internal
+      hosts:
+        - host: &host "{{ .Release.Name }}.${LOCAL_DOMAIN}"
+          paths:
+            - path: /
+              pathType: Prefix
+      tls:
+        - hosts:
+            - *host
+          secretName: local-solonsstuff-com-live-tls
+    resources:
+      requests:
+        cpu: 5m
+        memory: 50M
+      limits:
+        memory: 1Gi
+    valuesFrom:
+      - kind: Secret
+        name: semaphore-db-secret
+        valuesKey: SEMAPHORE_DB_HOST
+        targetPath: database.host
+      - kind: Secret
+        name: semaphore-db-secret
+        valuesKey: SEMAPHORE_DB_NAME
+        targetPath: database.name
+      - kind: Secret
+        name: semaphore-db-secret
+        valuesKey: SEMAPHORE_DB_PORT
+        targetPath: database.port
+      - kind: Secret
+        name: semaphore-secret
+        valuesKey: OAUTH2_CLIENT_ID
+        targetPath: oidc.providers.authentik.client_id
+      - kind: Secret
+        name: semaphore-secret
+        valuesKey: OAUTH2_CLIENT_SECRET
+        targetPath: oidc.providers.authentik.client_secret

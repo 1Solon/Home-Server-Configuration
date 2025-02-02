@@ -36,7 +36,7 @@ spec:
       ANSIBLE_HOST_KEY_CHECKING: false
       SEMAPHORE_PORT: &port 3000
     general:
-      host: https://{{ .Release.Name }}.${LOCAL_DOMAIN}
+      host: https://semaphore.${LOCAL_DOMAIN}
       tmp_path: /tmp/semaphore/
     secrets:
       accesskeyEncryptionKey: SEMAPHORE_ACCESS_KEY_ENCRYPTION
@@ -60,7 +60,7 @@ spec:
         authentik:
           display_name: Login with Authentik
           provider_url: https://sso.${LOCAL_DOMAIN}/application/o/semaphore/
-          redirect_url: https://{{ .Release.Name }}.${LOCAL_DOMAIN}/api/auth/oidc/authentik/redirect
+          redirect_url: https://semaphore.${LOCAL_DOMAIN}/api/auth/oidc/authentik/redirect
           username_claim: preferred_username
           name_claim: preferred_username
           email_claim: email
@@ -74,7 +74,7 @@ spec:
       enabled: true
       className: internal
       hosts:
-        - host: &host "{{ .Release.Name }}.${LOCAL_DOMAIN}"
+        - host: &host "semaphore.${LOCAL_DOMAIN}"
           paths:
             - path: /
               pathType: Prefix

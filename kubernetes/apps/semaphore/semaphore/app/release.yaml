@@ -97,10 +97,10 @@ spec:
         name: semaphore-db-secret
         valuesKey: SEMAPHORE_DB_NAME
         targetPath: database.name
-      - kind: Secret
-        name: semaphore-db-secret
-        valuesKey: SEMAPHORE_DB_PORT
-        targetPath: database.port
+      # - kind: Secret
+      #   name: semaphore-db-secret
+      #   valuesKey: SEMAPHORE_DB_PORT
+      #   targetPath: database.port
       - kind: Secret
         name: semaphore-secret
         valuesKey: OAUTH2_CLIENT_ID

@@ -76,6 +76,10 @@ spec:
       databases:
         - authentik
       password: *password
+    - name: semaphore
+      databases:
+        - semaphore
+      password: *password
 
   monitoring:
     pgmonitor:

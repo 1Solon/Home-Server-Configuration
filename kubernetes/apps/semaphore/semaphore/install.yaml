@@ -33,7 +33,9 @@ spec:
         optional: false
       - kind: Secret
         name: semaphore-db-secret
+        namespace: ansible-semaphore
         optional: false
       - kind: Secret
         name: semaphore-secret
+        namespace: ansible-semaphore
         optional: false

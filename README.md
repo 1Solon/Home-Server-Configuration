@@ -25,14 +25,14 @@ The Git repository contains the following directories:
 │   └──📁 playbooks
 └──📁 kubernetes
     ├──📁 apps
+    │   ├──📁 authentik
+    │   │   └──📁 authentik
     │   ├──📁 dashboard
-    │   │   └──📁 homarr
-    │   ├──📁 label-studio
-    │   │   └──📁 label-studio
+    │   │   ├──📁 homarr
+    │   │   └──📁 homepage
     │   ├──📁 media
     │   │   ├──📁 decluttarr
     │   │   ├──📁 flaresolver
-    │   │   ├──📁 flood
     │   │   ├──📁 jellyfin
     │   │   ├──📁 jellyseer
     │   │   ├──📁 prowlarr
@@ -48,19 +48,22 @@ The Git repository contains the following directories:
     │   │   └──📁 pihole
     │   ├──📁 semaphore
     │   │   └──📁 semaphore
-    │   ├──📁 speedtest
-    │   │   └──📁 speedtest
-    │   └──📁 vaultwarden
-    │       └──📁 vaultwarden
+    │   └──📁 speedtest-tracker
+    │       └──📁 speedtest-tracker
     └──📁 infra
         ├──📁 cert-manager
         │   └──📁 cert-manager
+        ├──📁 cloudflare-ddns
         ├──📁 databases
-        │   ├──📁 cloudnative-postgres
-        │   └──📁 postgres-operator
+        │   ├──📁 dragonfly
+        │   └──📁 postgres
+        ├──📁 external-dns
+        │   ├──📁 cloudflare
+        │   └──📁 cloudflare-ddns
         ├──📁 flux
         │   ├──📁 repositories
-        │   └──📁 sources
+        │   ├──📁 sources
+        │   └──📁 vars
         ├──📁 longhorn
         │   └──📁 longhorn
         ├──📁 metallb
@@ -71,6 +74,8 @@ The Git repository contains the following directories:
         │   └──📁 reflector
         ├──📁 reloader
         │   └──📁 reloader
+        ├──📁 secrets
+        │   └──📁 external-secrets
         ├──📁 system-upgrade
         │   └──📁 system-upgrade-controller
         └──📁 traefik
@@ -81,37 +86,39 @@ The Git repository contains the following directories:
 
 The following apps are installed on the clusters.
 
-| Software                                                                          | Purpose                                                                                  |
-| --------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
-| [Flux](https://fluxcd.io)                                                         | GitOps Tool managing the cluster                                                         |
-| [Longhorn](https://longhorn.io)                                                   | Persistent Block Storage Provisioner                                                     |
-| [MetalLB](https://metallb.universe.tf)                                            | Bare metal LoadBalancer                                                                  |
-| [Cert-Manager](https://cert-manager.io)                                           | Letsencrypt certificates with Cloudflare DNS                                             |
-| [System Upgrade Controller](https://github.com/rancher/system-upgrade-controller) | Automated k3s upgrades                                                                   |
-| [Homarr](https://github.com/ajnart/homarr)                                        | Sleek, modern dashboard for managing services                                            |
-| [CloudNativePG](https://cloudnative-pg.io)                                        | Cloud-native PostgreSQL cluster operator                                                 |
-| [Postgres Operator](https://www.postgresql.org)                                   | Operator for managing PostgreSQL clusters                                                |
-| [Decluttarr](https://github.com/ManiMatter/decluttarr)                            | Automated media organization and decluttering tool                                       |
-| [Flaresolverr](https://github.com/FlareSolverr/FlareSolverr)                      | Cloudflare and DDoS protection bypass                                                    |
-| [Flood](https://github.com/jfurrow/flood)                                         | Web UI for rtorrent and other torrent clients                                            |
-| [Jellyfin](https://jellyfin.org)                                                  | Media server                                                                             |
-| [Jellyseer](https://github.com/Fallenbagel/jellyseerr)                            | Media discovery and management for Jellyfin                                              |
-| [Muse](https://github.com/codetheweb/muse)                                        | Self-hostable discord music bot                                                          |
-| [Recyclarr](https://github.com/recyclarr/recyclarr)                               | Notifications and monitoring tool for media services                                     |
-| [Prowlarr](https://github.com/Prowlarr/Prowlarr)                                  | Indexer manager for media automation                                                     |
-| [Qbittorrent](https://www.qbittorrent.org)                                        | Torrent client                                                                           |
-| [Radarr](https://radarr.video)                                                    | Automated movie download tool                                                            |
-| [Sonarr](https://sonarr.tv)                                                       | Automated TV show download tool                                                          |
-| [Ntfy](https://ntfy.sh)                                                           | Push notifications                                                                       |
-| [Pihole](https://pi-hole.net)                                                     | Network-wide ad blocker (I am also using this for DNS)                                   |
-| [Reflector](https://github.com/werwolfby/reflector)                               | Reflection and proxying of Docker registries                                             |
-| [Reloader](https://github.com/stakater/Reloader)                                  | Kubernetes controller to watch changes in ConfigMap and Secrets and trigger Pod restarts |
-| [Semaphore](https://semaphoreci.com)                                              | Continuous integration and delivery                                                      |
-| [Speedtest](https://github.com/sivel/speedtest-cli)                               | Internet speed testing tool                                                              |
-| [Traefik](https://traefik.io)                                                     | Edge router and load balancer                                                            |
-| [Pod-gateway](https://github.com/angelnu/pod-gateway)                             | Routes traffic from pods to a gateway (I use it to route to a vpn)                       |
-| [Vaultwarden](https://github.com/dani-garcia/vaultwarden)                         | Bitwarden compatible password manager                                                    |
-| [Label-Studio](https://labelstud.io/)                                             | Data labeling tool                                                                       |
+| Software                                                                            | Purpose                                                             |
+| ----------------------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| [Authentik](https://goauthentik.io)                                                 | Modern identity provider for authentication and access management.  |
+| [Homarr](https://github.com/ajnart/homarr)                                          | Sleek, modern dashboard for managing services.                      |
+| [Homepage](https://github.com/gethomepage/homepage)                                 | Customizable homepage dashboard for service management.             |
+| [Decluttarr](https://github.com/ManiMatter/decluttarr)                              | Automated media organization and decluttering tool.                 |
+| [Flaresolverr](https://github.com/FlareSolverr/FlareSolverr)                        | Bypasses Cloudflare and DDoS protections.                           |
+| [Jellyfin](https://jellyfin.org)                                                    | Media server.                                                       |
+| [Jellyseer](https://github.com/Fallenbagel/jellyseerr)                              | Media discovery and management for Jellyfin.                        |
+| [Prowlarr](https://github.com/Prowlarr/Prowlarr)                                    | Indexer manager for media automation.                               |
+| [Qbittorrent](https://www.qbittorrent.org)                                          | Torrent client.                                                     |
+| [Radarr](https://radarr.video)                                                      | Automated movie download tool.                                      |
+| [Recyclarr](https://github.com/recyclarr/recyclarr)                                 | Notifications and monitoring tool for media services.               |
+| [Sonarr](https://sonarr.tv)                                                         | Automated TV show download tool.                                    |
+| [Muse](https://github.com/codetheweb/muse)                                          | Self-hostable Discord music bot.                                    |
+| [Ntfy](https://ntfy.sh)                                                             | Push notifications.                                                 |
+| [Pihole](https://pi-hole.net)                                                       | Network-wide ad blocker and DNS service.                            |
+| [Semaphore](https://semaphoreci.com)                                                | Continuous integration and delivery tool.                           |
+| [Speedtest Tracker](https://github.com/sivel/speedtest-tracker)                     | Internet speed tracking tool.                                       |
+| [Flux](https://fluxcd.io)                                                           | GitOps tool managing the cluster.                                   |
+| [Cert-Manager](https://cert-manager.io)                                             | Manages Let's Encrypt certificates with Cloudflare DNS integration. |
+| [Cloudflare DDNS](https://github.com/wouterdebie/cloudflare-ddns)                   | Dynamic DNS updater for Cloudflare.                                 |
+| [Dragonfly](https://dragonflydb.io)                                                 | High-performance in-memory datastore.                               |
+| [Crunchy PG Operator](https://github.com/CrunchyData/postgres-operator)             | Operator for managing PostgreSQL clusters.                          |
+| [External DNS](https://github.com/kubernetes-sigs/external-dns)                     | Automates DNS record management for Kubernetes resources.           |
+| [Longhorn](https://longhorn.io)                                                     | Persistent block storage provisioner.                               |
+| [MetalLB](https://metallb.universe.tf)                                              | Bare metal load balancer.                                           |
+| [Pod-gateway](https://github.com/angelnu/pod-gateway)                               | Routes traffic from pods to a gateway for VPN access.               |
+| [Reflector](https://github.com/werwolfby/reflector)                                 | Proxies and mirrors Docker registries.                              |
+| [Reloader](https://github.com/stakater/Reloader)                                    | Watches changes in ConfigMaps and Secrets to trigger pod restarts.  |
+| [External Secrets](https://github.com/external-secrets/kubernetes-external-secrets) | Integrates external secret management systems into Kubernetes.      |
+| [System Upgrade Controller](https://github.com/rancher/system-upgrade-controller)   | Automates k3s upgrades.                                             |
+| [Traefik](https://traefik.io)                                                       | Edge router and load balancer.                                      |
 
 ## 📦 Hardware
 

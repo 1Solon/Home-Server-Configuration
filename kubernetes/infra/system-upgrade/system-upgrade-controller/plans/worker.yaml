@@ -3,7 +3,7 @@ kind: Plan
 metadata:
   name: worker
   labels:
-    k3s-upgrade: agent
+    k3s-upgrade: worker
 spec:
   concurrency: 1 # Batch size (roughly maps to maximum number of unschedulable nodes)
   version: v1.32.1+k3s1
@@ -16,8 +16,8 @@ spec:
   #   # Defaults to the same "resolved" tag that is used for the `upgrade` container, NOT `latest`
   #   image: rancher/k3s-upgrade
   #   args: ["prepare", "server"]
-  drain:
-    force: true
-    skipWaitForDeleteTimeout: 180 # 1.18+ (honor pod disruption budgets up to 120 seconds per pod then moves on)
+  # drain:
+  #   force: true
+  #   skipWaitForDeleteTimeout: 180 # 1.18+ (honor pod disruption budgets up to 120 seconds per pod then moves on)
   upgrade:
     image: rancher/k3s-upgrade

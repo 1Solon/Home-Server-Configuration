@@ -3,7 +3,7 @@ kind: Plan
 metadata:
   name: worker
   labels:
-    k3s-upgrade: worker
+    k3s-upgrade: agent
 spec:
   concurrency: 1 # Batch size (roughly maps to maximum number of unschedulable nodes)
   version: v1.32.1+k3s1

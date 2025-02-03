@@ -12,10 +12,10 @@ spec:
       - key: node-role.kubernetes.io/control-plane
         operator: DoesNotExist
   serviceAccountName: system-upgrade
-  prepare:
-    # Defaults to the same "resolved" tag that is used for the `upgrade` container, NOT `latest`
-    image: rancher/k3s-upgrade
-    args: ["prepare", "k3s-server"]
+  # prepare:
+  #   # Defaults to the same "resolved" tag that is used for the `upgrade` container, NOT `latest`
+  #   image: rancher/k3s-upgrade
+  #   args: ["prepare", "k3s-server"]
   drain:
     force: true
     skipWaitForDeleteTimeout: 180 # 1.18+ (honor pod disruption budgets up to 120 seconds per pod then moves on)

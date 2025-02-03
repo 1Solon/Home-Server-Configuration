@@ -31,3 +31,9 @@ spec:
       - kind: ConfigMap
         name: cluster-settings
         optional: false
+      - kind: Secret
+        name: semaphore-db-secret
+        optional: false
+      - kind: Secret
+        name: semaphore-secret
+        optional: false

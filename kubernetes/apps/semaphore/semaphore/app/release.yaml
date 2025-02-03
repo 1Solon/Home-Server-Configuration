@@ -48,6 +48,21 @@ spec:
       usernameKey: SEMAPHORE_DB_USER
       passwordKey: SEMAPHORE_DB_PASS
       existingSecret: semaphore-db-secret
+      host:
+        valueFrom:
+          secretKeyRef:
+            name: semaphore-db-secret
+            key: SEMAPHORE_DB_HOST
+      name:
+        valueFrom:
+          secretKeyRef:
+            name: semaphore-db-secret
+            key: SEMAPHORE_DB_NAME
+      port:
+        valueFrom:
+          secretKeyRef:
+            name: semaphore-db-secret
+            key: SEMAPHORE_DB_PORT
     persistence:
       enabled: true
       storageClass: longhorn
@@ -88,18 +103,18 @@ spec:
       limits:
         memory: 1Gi
     valuesFrom:
-      - kind: Secret
-        name: semaphore-db-secret
-        valuesKey: SEMAPHORE_DB_HOST
-        targetPath: database.host
-      - kind: Secret
-        name: semaphore-db-secret
-        valuesKey: SEMAPHORE_DB_NAME
-        targetPath: database.name
-      - kind: Secret
-        name: semaphore-db-secret
-        valuesKey: SEMAPHORE_DB_PORT
-        targetPath: database.port
+      # - kind: Secret
+      #   name: semaphore-db-secret
+      #   valuesKey: SEMAPHORE_DB_HOST
+      #   targetPath: database.host
+      # - kind: Secret
+      #   name: semaphore-db-secret
+      #   valuesKey: SEMAPHORE_DB_NAME
+      #   targetPath: database.name
+      # - kind: Secret
+      #   name: semaphore-db-secret
+      #   valuesKey: SEMAPHORE_DB_PORT
+      #   targetPath: database.port
       - kind: Secret
         name: semaphore-secret
         valuesKey: OAUTH2_CLIENT_ID

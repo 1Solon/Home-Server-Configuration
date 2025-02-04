@@ -55,7 +55,7 @@ spec:
       enabled: true
       storageClass: longhorn
       size: 5G
-      accessModes: ["ReadWriteOnce"]
+      accessModes: ["ReadWriteMany"]
     oidc:
       enable: true
       providers:

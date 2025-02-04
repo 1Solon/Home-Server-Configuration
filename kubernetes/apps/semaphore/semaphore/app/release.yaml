@@ -53,6 +53,7 @@ spec:
       existingSecret: semaphore-db-secret
     persistence:
       enabled: true
+      storageClass: longhorn
       size: 5G
       accessModes: ["ReadWriteMany"]
     oidc:

@@ -32,6 +32,7 @@ spec:
       pullPolicy: IfNotPresent
     securityContext:
       privileged: true # I hate this, but otherwise it can't write to the longhorn volume
+      runAsUser: 0
     extraEnvVariables:
       TZ: ${TZ}
       ANSIBLE_HOST_KEY_CHECKING: false

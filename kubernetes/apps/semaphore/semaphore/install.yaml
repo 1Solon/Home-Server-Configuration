@@ -15,13 +15,11 @@ spec:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
-  dependsOn:
-    - name: longhorn
-      namespace: flux-system
-    - name: metallb
-      namespace: flux-system
-    - name: traefik
-      namespace: flux-system
+  # TODO: I'll fix this later, each of these are present in flux-system, because this is in ansible-semaphore, it can't see them.
+  # dependsOn:
+  #   - name: longhorn
+  #   - name: metallb
+  #   - name: traefik
   decryption:
     provider: sops
     secretRef:

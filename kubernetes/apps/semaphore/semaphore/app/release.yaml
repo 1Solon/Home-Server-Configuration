@@ -30,6 +30,8 @@ spec:
       repository: docker.io/semaphoreui/semaphore
       tag: v2.12.3
       pullPolicy: IfNotPresent
+    securityContext:
+      privileged: true # I hate this, but otherwise it can't write to the longhorn volume
     extraEnvVariables:
       TZ: ${TZ}
       ANSIBLE_HOST_KEY_CHECKING: false
@@ -86,11 +88,6 @@ spec:
         - hosts:
             - *host
           secretName: local-solonsstuff-com-live-tls
-    securityContext:
-      runAsUser: 1000
-      runAsGroup: 1000
-      fsGroup: 1000
-      fsGroupChangePolicy: OnRootMismatch
     resources:
       requests:
         cpu: 5m

@@ -28,7 +28,7 @@ spec:
       secret.reloader.stakater.com/reload: semaphore-secret, authentik-db-secret
     image:
       repository: docker.io/semaphoreui/semaphore
-      tag: v2.12.3
+      tag: v2.12.4@sha256:5af55e3c08a7708b15defacedcd4fe7a51f66cfd87c8a3d152b2d8ff39f70778
       pullPolicy: IfNotPresent
     securityContext:
       privileged: true # I hate this, but otherwise it can't write to the longhorn volume

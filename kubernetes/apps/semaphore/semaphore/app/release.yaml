@@ -76,7 +76,7 @@ spec:
       internalPort: *port
     ingress:
       enabled: true
-      className: internal
+      className: traefik
       hosts:
         - host: &host "semaphore.${LOCAL_DOMAIN}"
           paths:

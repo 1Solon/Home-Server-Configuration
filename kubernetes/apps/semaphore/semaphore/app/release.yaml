@@ -44,6 +44,9 @@ spec:
       enabled: false
     database:
       type: postgres
+      host: ${SEMAPHORE_DB_HOST}
+      port: ${SEMAPHORE_DB_PORT}
+      name: ${SEMAPHORE_DB_NAME}
       usernameFromSecret: true
       usernameKey: SEMAPHORE_DB_USER
       passwordKey: SEMAPHORE_DB_PASS
@@ -63,6 +66,8 @@ spec:
           username_claim: preferred_username
           name_claim: preferred_username
           email_claim: email
+          client_secret: ${OAUTH2_CLIENT_SECRET}
+          client_id: ${OAUTH2_CLIENT_ID}
     ldap:
       enable: false
     service:
@@ -87,24 +92,3 @@ spec:
         memory: 50M
       limits:
         memory: 1Gi
-    valuesFrom:
-      - kind: Secret
-        name: semaphore-db-secret
-        valuesKey: SEMAPHORE_DB_HOST
-        targetPath: database.host
-      - kind: Secret
-        name: semaphore-db-secret
-        valuesKey: SEMAPHORE_DB_NAME
-        targetPath: database.name
-      - kind: Secret
-        name: semaphore-db-secret
-        valuesKey: SEMAPHORE_DB_PORT
-        targetPath: database.port
-      - kind: Secret
-        name: semaphore-secret
-        valuesKey: OAUTH2_CLIENT_ID
-        targetPath: oidc.providers.authentik.client_id
-      - kind: Secret
-        name: semaphore-secret
-        valuesKey: OAUTH2_CLIENT_SECRET
-        targetPath: oidc.providers.authentik.client_secret

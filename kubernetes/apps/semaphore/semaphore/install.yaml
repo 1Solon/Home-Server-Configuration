@@ -3,7 +3,7 @@ apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: ansible-semaphore
-  namespace: flux-system
+  namespace: ansible-semaphore
 spec:
   targetNamespace: ansible-semaphore
   commonMetadata:
@@ -27,7 +27,16 @@ spec:
   retryInterval: 1m
   timeout: 5m
   postBuild:
+    # I am aware how awfully cursed the below is. However, targetpath
+    # does not seem to be supported in the helmchart. Leaving this as
+    # my only option.
     substituteFrom:
       - kind: ConfigMap
         name: cluster-settings
+        optional: false
+      - kind: Secret
+        name: semaphore-secret
+        optional: false
+      - kind: Secret
+        name: semaphore-db-secret
         optional: false

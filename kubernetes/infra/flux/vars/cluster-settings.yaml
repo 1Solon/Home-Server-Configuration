@@ -4,6 +4,9 @@ kind: ConfigMap
 metadata:
   name: cluster-settings
   namespace: flux-system
+  annotations:
+    reflector.v1.k8s.emberstack.com/reflection-allowed: "true"
+    reflector.v1.k8s.emberstack.com/reflection-allowed-namespaces: "flux-system, ansible-semaphore"
 data:
   TZ: "Europe/Dublin"
   LOCAL_DOMAIN: "local.solonsstuff.com"

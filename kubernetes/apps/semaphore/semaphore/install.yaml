@@ -20,11 +20,6 @@ spec:
   #   - name: longhorn
   #   - name: metallb
   #   - name: traefik
-  decryption:
-    provider: sops
-    secretRef:
-      name: sops-age
-      namespace: flux-system
   wait: true
   interval: 30m
   retryInterval: 1m

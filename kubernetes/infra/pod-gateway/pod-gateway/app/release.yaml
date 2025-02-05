@@ -47,11 +47,11 @@ spec:
           - name: DOT
             value: "off"
           - name: SERVER_COUNTRIES
-            value: Switzerland
+            value: Ireland
           - name: FIREWALL_VPN_INPUT_PORTS
             value: "1637,20508"
           - name: WIREGUARD_MTU
-            value: 1324
+            value: 1320
           - name: WIREGUARD_PRIVATE_KEY
             valueFrom:
               secretKeyRef:

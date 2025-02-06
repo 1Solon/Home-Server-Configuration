@@ -26,7 +26,7 @@ spec:
         fsGroupChangePolicy: OnRootMismatch
       containers:
         - name: radarr
-          image: ghcr.io/onedr0p/radarr-develop:5.18.1@sha256:f19b5e8f22e1b807a563d50ebef0b47aca1a2d61cea63599c2c4ca85425a2320
+          image: ghcr.io/onedr0p/radarr-develop:5.18.4@sha256:9b9275f002f2e99b086d70b3fd131b330cde0ec9e2dabce47ac2bc91a29c1ba0
           imagePullPolicy: Always
           resources: {}
           volumeMounts:

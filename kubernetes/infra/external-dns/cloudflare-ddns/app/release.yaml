@@ -48,7 +48,7 @@ spec:
               - --ticker
               - 1m
               - --create-missing
-              - true
+              - "true"
             probes:
               liveness:
                 enabled: true

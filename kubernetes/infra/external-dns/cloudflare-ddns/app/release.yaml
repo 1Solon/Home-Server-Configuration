@@ -25,7 +25,7 @@ spec:
   valuesFrom:
     - targetPath: controllers.cloudflareddns.containers.app.env.CLOUDFLARE_API_TOKEN
       kind: Secret
-      name: cloudflare-api-token
+      name: external-dns-secret
       valuesKey: api-token
   values:
     fullnameOverride: *app

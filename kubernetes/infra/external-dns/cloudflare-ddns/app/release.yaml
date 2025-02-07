@@ -45,7 +45,9 @@ spec:
                 "--record-name",
                 "ipv4.solonsstuff.com",
                 "--provider",
-                "random",
+                "ipify",
+                "--ticker",
+                "1m",
               ]
             probes:
               liveness:

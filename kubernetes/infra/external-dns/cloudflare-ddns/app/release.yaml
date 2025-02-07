@@ -48,6 +48,8 @@ spec:
                 "ipify",
                 "--ticker",
                 "1m",
+                "--create-missing",
+                "true",
               ]
             probes:
               liveness:

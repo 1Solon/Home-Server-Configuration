@@ -39,18 +39,16 @@ spec:
                     name: external-dns-secret
                     key: api-token
             args:
-              [
-                "--zone-name",
-                "solonsstuff.com",
-                "--record-name",
-                "ipv4.solonsstuff.com",
-                "--provider",
-                "ipify",
-                "--ticker",
-                "1m",
-                "--create-missing",
-                "true",
-              ]
+              - --zone-name
+              - solonsstuff.com
+              - --record-name
+              - ipv4.solonsstuff.com
+              - --provider
+              - ipify
+              - --ticker
+              - 1m
+              - --create-missing
+              - true
             probes:
               liveness:
                 enabled: true

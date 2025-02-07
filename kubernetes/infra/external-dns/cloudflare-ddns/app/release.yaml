@@ -22,69 +22,38 @@ spec:
     remediation:
       strategy: rollback
       retries: 3
+  valuesFrom:
+    - targetPath: controllers.cloudflareddns.containers.app.env.CLOUDFLARE_API_TOKEN
+      kind: Secret
+      name: cloudflare-api-token
+      valuesKey: api-token
   values:
+    fullnameOverride: *app
+    defaultPodOptions:
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: "OnRootMismatch"
+        runAsNonRoot: true
+        seccompProfile:
+          type: RuntimeDefault
     controllers:
-      cloudflare-ddns:
-        annotations:
-          reloader.stakater.com/auto: "true"
+      cloudflareddns:
         containers:
           app:
             image:
-              repository: ghcr.io/larivierec/cloudflare-ddns
-              tag: v1.0.5@sha256:1246a89a90c6b8c3ae5e1dd6ab0b75afbdc40e73b5903e9f8a6f6e5e10dd4e10
+              repository: favonia/cloudflare-ddns
+              tag: 1.15.1@sha256:a4e2089b3531eec8c9328c7a9a586f80e8d67dcd94856e0b596b7896e1de3f62
             env:
-              ACCOUNT_TOKEN:
-                valueFrom:
-                  secretKeyRef:
-                    name: external-dns-secret
-                    key: api-token
-            args:
-              - --zone-name
-              - solonsstuff.com
-              - --record-name
-              - ipv4.solonsstuff.com
-              - --provider
-              - ipify
-              - --ticker
-              - 1m
-            probes:
-              liveness:
-                enabled: true
-                custom: true
-                spec:
-                  httpGet:
-                    path: /health/alive
-                    port: &port 8080
-              readiness:
-                enabled: true
-                custom: true
-                spec:
-                  httpGet:
-                    path: /health/ready
-                    port: *port
+              DOMAINS: "ipv4.${REMOTE_DOMAIN}"
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
               capabilities: { drop: ["ALL"] }
             resources:
               requests:
-                memory: 64Mi
                 cpu: 10m
+                memory: 50Mi
               limits:
-                memory: 128Mi
-    service:
-      app:
-        controller: *app
-        ports:
-          http:
-            port: *port
-    ingress:
-      app:
-        className: traefik
-        hosts:
-          - host: "ddns.${LOCAL_DOMAIN}"
-            paths:
-              - path: /
-                service:
-                  identifier: app
-                  port: http
+                memory: 100Mi

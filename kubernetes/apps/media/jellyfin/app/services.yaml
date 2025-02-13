@@ -26,6 +26,7 @@ metadata:
   annotations:
     metallb.universe.tf/allow-shared-ip: jellyfin
 spec:
+  type: LoadBalancer
   selector:
     app: jellyfin
   ports:

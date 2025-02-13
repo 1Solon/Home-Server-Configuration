@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: ansible-semaphore
-      version: 12.6.2
+      version: 12.6.4
       sourceRef:
         kind: HelmRepository
         name: ansible-semaphore
@@ -28,7 +28,7 @@ spec:
       secret.reloader.stakater.com/reload: semaphore-secret, authentik-db-secret
     image:
       repository: docker.io/semaphoreui/semaphore
-      tag: v2.12.4@sha256:5af55e3c08a7708b15defacedcd4fe7a51f66cfd87c8a3d152b2d8ff39f70778
+      tag: v2.12.5@sha256:b6adfa3f03d9a413fc1fd0a8600d99cb1eaec23a08b0c3001f37fb6882613363
       pullPolicy: IfNotPresent
     securityContext:
       privileged: true # I hate this, but otherwise it can't write to the longhorn volume

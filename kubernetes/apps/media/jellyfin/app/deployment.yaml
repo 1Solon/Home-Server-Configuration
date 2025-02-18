@@ -60,7 +60,7 @@ spec:
               value: /config/cache
           securityContext:
             privileged: true # Container must run as privileged inside of the pod, required for hardware acceleration
-          image: jellyfin/jellyfin:10.10.5@sha256:89d020f73334642943eca3269d2a652ad897481bdf0bd9827e108c939af49f24
+          image: jellyfin/jellyfin:10.10.6@sha256:96b09723b22fdde74283274bdc1f63b9b76768afd6045dd80d4a4559fc4bb7f3
           imagePullPolicy: Always
           name: jellyfin
           ports:

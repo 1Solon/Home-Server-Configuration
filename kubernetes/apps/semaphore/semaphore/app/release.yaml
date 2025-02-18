@@ -64,7 +64,7 @@ spec:
       providers:
         authentik:
           display_name: Login with Authentik
-          provider_url: https://sso.${LOCAL_DOMAIN}/application/o/semaphore/
+          provider_url: https://authentik-server.authentik.svc.cluster.local/application/o/semaphore/
           redirect_url: https://semaphore.${LOCAL_DOMAIN}/api/auth/oidc/authentik/redirect
           username_claim: preferred_username
           name_claim: preferred_username

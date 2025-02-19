@@ -95,5 +95,5 @@ spec:
               name: device-rga
             - mountPath: /dev/mpp_service
               name: device-mpp-service
-
+      dnsPolicy: Default
       restartPolicy: Always

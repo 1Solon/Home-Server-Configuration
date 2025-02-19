@@ -96,5 +96,4 @@ spec:
             - mountPath: /dev/mpp_service
               name: device-mpp-service
 
-      dnsPolicy: ClusterFirst
       restartPolicy: Always

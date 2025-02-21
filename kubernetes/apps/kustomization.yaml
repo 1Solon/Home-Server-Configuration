@@ -9,4 +9,4 @@ resources:
   - semaphore
   - speedtest-tracker
   - authentik
-  # - adguard
+  - adguard

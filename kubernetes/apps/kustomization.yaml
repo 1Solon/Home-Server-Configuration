@@ -5,7 +5,6 @@ resources:
   - media
   - muse
   - ntfy
-  - pihole
   - semaphore
   - speedtest-tracker
   - authentik

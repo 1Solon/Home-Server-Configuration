@@ -29,13 +29,13 @@ spec:
         replicas: 1
         strategy: RollingUpdate
 
-    containers:
-      app:
-        image:
-          repository: adguard/adguardhome
-          tag: v0.107.56
-        env:
-          TZ: ${TZ}
+        containers:
+          app:
+            image:
+              repository: adguard/adguardhome
+              tag: v0.107.56
+            env:
+              TZ: ${TZ}
 
     service:
       app:

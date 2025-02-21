@@ -1,0 +1,29 @@
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: adguard
+  namespace: flux-system
+spec:
+  targetNamespace: adguard
+  commonMetadata:
+    labels:
+      app.kubernetes.io/name: adguard
+  path: "./kubernetes/apps/adguard/adguard/app"
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age
+  wait: true
+  interval: 30m
+  retryInterval: 1m
+  timeout: 5m
+  postBuild:
+    substituteFrom:
+      - kind: ConfigMap
+        name: cluster-settings
+        optional: false

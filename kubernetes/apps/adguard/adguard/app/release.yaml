@@ -1,0 +1,86 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: adguard
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: app-template
+      version: 3.7.1
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s-charts
+        namespace: flux-system
+      interval: 15m
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      strategy: rollback
+      retries: 3
+  values:
+    controllers:
+      adguard:
+        replicas: 1
+        strategy: RollingUpdate
+
+    containers:
+      app:
+        image:
+          repository: adguard/adguardhome
+          tag: v0.107.56
+        env:
+          TZ: ${TZ}
+
+    service:
+      app:
+        controller: adguard
+        type: LoadBalancer
+        externalTrafficPolicy: Local
+        annotations:
+          metallb.universe.tf/loadBalancerIP: ${ADGUARD_IP}
+          metallb.universe.tf/ip-allocated-from-pool: default-pool
+          metallb.universe.tf/allow-shared-ip: adguard-home-dns
+        ports:
+          http:
+            primary: true
+            port: 3000
+          dns-tcp:
+            port: 53
+            protocol: TCP
+          dns-udp:
+            port: 53
+            protocol: UDP
+
+    persistence:
+      data:
+        enabled: true
+        type: persistentVolumeClaim
+        accessMode: ReadWriteMany
+        size: 1Mi
+      conf:
+        enabled: true
+        type: persistentVolumeClaim
+        accessMode: ReadWriteMany
+        size: 1Mi
+
+    ingress:
+      app:
+        className: traefik
+        hosts:
+          - host: &host "adguard.${LOCAL_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix
+                service:
+                  identifier: app
+                  port: http
+        tls:
+          - hosts:
+              - *host
+            secretName: local-solonsstuff-com-live-tls

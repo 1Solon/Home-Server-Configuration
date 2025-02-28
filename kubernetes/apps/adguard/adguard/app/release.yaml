@@ -58,16 +58,23 @@ spec:
             protocol: UDP
 
     persistence:
-      data:
+      work:
         enabled: true
         type: persistentVolumeClaim
         accessMode: ReadWriteMany
-        size: 1Mi
+        size: 5Gi
+        globalMounts:
+          - path: /opt/adguardhome/work
+            subPath: work
+
       conf:
         enabled: true
         type: persistentVolumeClaim
         accessMode: ReadWriteMany
         size: 1Mi
+        globalMounts:
+          - path: /opt/adguardhome/conf
+            subPath: conf
 
     ingress:
       app:

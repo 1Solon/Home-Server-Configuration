@@ -77,7 +77,7 @@ spec:
     ingress:
       app:
         enabled: true
-        className: internal
+        className: traefik
         annotations:
           traefik.ingress.kubernetes.io/router.middlewares: traefik-middlewares-authentik@kubernetescrd
         hosts:
@@ -95,8 +95,4 @@ spec:
     persistence:
       config:
         enabled: true
-        type: persistentVolumeClaim
-        accessMode: ReadWriteMany
-        size: 5Gi
-        globalMounts:
-          - path: /config
+        type: emptyDir

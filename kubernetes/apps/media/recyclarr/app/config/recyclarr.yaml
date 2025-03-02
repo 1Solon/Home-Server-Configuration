@@ -215,7 +215,7 @@ sonarr:
 
 radarr:
   radarr:
-    base_url: http://radarr.home-media.svc.cluster.local
+    base_url: http://radarr.home-media.svc.cluster.local:8080
     api_key: !env_var RADARR_API_KEY
 
     delete_old_custom_formats: true

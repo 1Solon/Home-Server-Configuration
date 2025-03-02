@@ -35,7 +35,7 @@
         description: Movies
         widget:
             type: radarr
-            url: http://radarr.home-media.svc.cluster.local
+            url: http://radarr.home-media.svc.cluster.local:8080
             key: {{HOMEPAGE_VAR_RADARR_TOKEN}}
 
     - Prowlarr:

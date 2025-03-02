@@ -52,7 +52,7 @@ spec:
             - name: IGNORE_PRIVATE_TRACKERS
               value: "true"
             - name: RADARR_URL
-              value: "http://radarr-service.home-media.svc.cluster.local"
+              value: "http://radarr.home-media.svc.cluster.local"
             - name: RADARR_KEY
               valueFrom:
                 secretKeyRef:

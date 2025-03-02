@@ -26,7 +26,7 @@
         description: TV Shows
         widget:
             type: sonarr
-            url: http://sonarr-service.home-media.svc.cluster.local
+            url: http://sonarr.home-media.svc.cluster.local:8080
             key: {{HOMEPAGE_VAR_SONARR_TOKEN}}
 
     - Radarr:

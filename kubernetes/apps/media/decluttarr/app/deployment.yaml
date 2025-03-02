@@ -59,7 +59,7 @@ spec:
                   name: decluttarr-secret
                   key: radarr-api-key
             - name: SONARR_URL
-              value: "http://sonarr-service.home-media.svc.cluster.local"
+              value: "http://sonarr.home-media.svc.cluster.local:8080"
             - name: SONARR_KEY
               valueFrom:
                 secretKeyRef:

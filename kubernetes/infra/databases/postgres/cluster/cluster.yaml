@@ -56,7 +56,6 @@ spec:
     - name: prowlarr
       databases:
         - prowlarr_main
-        - prowlarr_logs
       password: *password
     - name: radarr
       databases:
@@ -65,7 +64,6 @@ spec:
     - name: sonarr
       databases:
         - sonarr_main
-        - sonarr_logs
       password: *password
     - name: speedtest-tracker
       databases:

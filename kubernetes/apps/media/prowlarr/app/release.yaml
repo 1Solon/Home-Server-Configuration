@@ -27,12 +27,12 @@ spec:
   uninstall:
     keepHistory: false
   values:
-    # defaultPodOptions:
-    #   securityContext:
-    #     runAsUser: 568
-    #     runAsGroup: 568
-    #     fsGroup: 568
-    #     fsGroupChangePolicy: OnRootMismatch
+    defaultPodOptions:
+      securityContext:
+        runAsUser: 568
+        runAsGroup: 568
+        fsGroup: 568
+        fsGroupChangePolicy: OnRootMismatch
 
     controllers:
       prowlarr:
@@ -95,4 +95,8 @@ spec:
     persistence:
       config:
         enabled: true
-        type: emptyDir
+        type: persistentVolumeClaim
+        accessMode: ReadWriteMany
+        size: 5Gi
+        globalMounts:
+          - path: /config

@@ -1,0 +1,98 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app prowlarr
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: app-template
+      version: 3.7.1
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s-charts
+        namespace: flux-system
+  maxHistory: 2
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      strategy: rollback
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    defaultPodOptions:
+      securityContext:
+        runAsUser: 568
+        runAsGroup: 568
+        fsGroup: 568
+        fsGroupChangePolicy: OnRootMismatch
+
+    controllers:
+      prowlarr:
+        annotations:
+          reloader.stakater.com/auto: "true"
+          secret.reloader.stakater.com/reload: prowlarr-db-secret
+
+        containers:
+          app:
+            image:
+              repository: ghcr.io/onedr0p/prowlarr-develop
+              tag: 1.31.2.4975@sha256:fa776c72b6cdd900f36df88a8c3980ac91da16830157ae19eb1c044e2c09e2a7
+            env:
+              TZ: "${TZ}"
+              PROWLARR__APP__INSTANCENAME: Prowlarr
+              PROWLARR__APP__THEME: dark
+              PROWLARR__LOG__DBENABLED: "False"
+              PROWLARR__LOG__LEVEL: info
+              PROWLARR__AUTH__METHOD: External
+              PROWLARR__AUTH__REQUIRED: DisabledForLocalAddresses
+              PROWLARR__SERVER__PORT: &port 8080
+              PROWLARR__UPDATE__BRANCH: develop
+            envFrom:
+              - secretRef:
+                  name: prowlarr-secret
+              - secretRef:
+                  name: prowlarr-db-secret
+            resources:
+              requests:
+                cpu: 10m
+                memory: 100Mi
+              limits:
+                memory: 500Mi
+
+    service:
+      app:
+        controller: *app
+        ports:
+          http:
+            port: *port
+
+    ingress:
+      app:
+        enabled: true
+        className: internal
+        annotations:
+          traefik.ingress.kubernetes.io/router.middlewares: traefik-middlewares-authentik@kubernetescrd
+        hosts:
+          - host: &host "prowlarr.${LOCAL_DOMAIN}"
+            paths:
+              - path: /
+                service:
+                  identifier: app
+                  port: http
+        tls:
+          - hosts:
+              - *host
+            secretName: local-solonsstuff-com-live-tls
+
+    persistence:
+      config:
+        enabled: true
+        type: emptyDir

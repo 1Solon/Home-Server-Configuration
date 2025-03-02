@@ -61,8 +61,8 @@ spec:
                   name: radarr-db-secret
             resources:
               requests:
-                cpu: 500m
-                memory: 500Mi
+                cpu: 10m
+                memory: 256Mi
               limits:
                 memory: 2000Mi
 

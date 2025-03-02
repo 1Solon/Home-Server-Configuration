@@ -44,7 +44,7 @@
         description: Indexer Manager
         widget:
             type: prowlarr
-            url: http://prowlarr-service.home-media.svc.cluster.local
+            url: http://prowlarr.home-media.svc.cluster.local:8080
             key: {{HOMEPAGE_VAR_PROWLARR_TOKEN}}
 
 - Downloaders:

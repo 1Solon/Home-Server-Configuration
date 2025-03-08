@@ -14,10 +14,10 @@ spec:
   serviceAccountName: system-upgrade
   prepare:
     # Defaults to the same "resolved" tag that is used for the `upgrade` container, NOT `latest`
-    image: rancher/k3s-upgrade
+    image: rancher/k3s-upgrade@sha256:70a238fdf8da99b99fcdb835f8162c9176e8078c170f5d6f349d3b38c3bfed7b
     args: ["prepare", "server"]
   drain:
     force: true
     skipWaitForDeleteTimeout: 180 # 1.18+ (honor pod disruption budgets up to 120 seconds per pod then moves on)
   upgrade:
-    image: rancher/k3s-upgrade
+    image: rancher/k3s-upgrade@sha256:70a238fdf8da99b99fcdb835f8162c9176e8078c170f5d6f349d3b38c3bfed7b

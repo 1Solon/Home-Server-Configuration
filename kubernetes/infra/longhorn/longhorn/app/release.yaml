@@ -25,7 +25,7 @@ spec:
   values:
     defaultSettings:
       backupTarget: nfs://${TRUENAS_IP}:/mnt/STORAGE-01/Longhorn-Backup
-      defaultDataPath: "/storage"
+      # defaultDataPath: "/storage"
       defaultReplicaCount: 3
       backupstorePollInterval: 0
       createDefaultDiskLabeledNodes: true

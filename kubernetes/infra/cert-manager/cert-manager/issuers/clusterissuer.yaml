@@ -12,8 +12,8 @@ spec:
       - dns01:
           cloudflare:
             email: Burgesssaul@gmail.com
-            apiTokenSecretRef:
+            apiKeySecretRef:
               name: cloudflare-issuer-secret
-              key: CLOUDFLARE_API_TOKEN
+              key: CLOUDFLARE_API_KEY
         selector:
           dnsZones: ["solonsstuff.com"]

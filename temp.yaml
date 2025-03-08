@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: dataaccess
+  namespace: databases
+spec:
+  containers:
+  - name: alpine
+    image: alpine:latest
+    command: ['sleep', 'infinity']
+    volumeMounts:
+    - name: mypvc
+      mountPath: /data
+  volumes:
+  - name: mypvc
+    persistentVolumeClaim:
+      claimName: pgadmin-25cff39a-8dfe-42c6-bc23-9224b04598c4

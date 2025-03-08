@@ -3,13 +3,13 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
   - ./namespace.yaml
-  # - ./headers.yaml
-  # - ./sonarr/install.yaml
-  # - ./radarr/install.yaml
-  # - ./qbittorrent/install.yaml
-  # - ./prowlarr/install.yaml
-  # - ./jellyseer/install.yaml
-  # - ./jellyfin/install.yaml
-  # - ./decluttarr/install.yaml
-  # - ./flaresolver/install.yaml
-  # - ./recyclarr/install.yaml
+  - ./headers.yaml
+  - ./sonarr/install.yaml
+  - ./radarr/install.yaml
+  - ./qbittorrent/install.yaml
+  - ./prowlarr/install.yaml
+  - ./jellyseer/install.yaml
+  - ./jellyfin/install.yaml
+  - ./decluttarr/install.yaml
+  - ./flaresolver/install.yaml
+  - ./recyclarr/install.yaml

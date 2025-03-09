@@ -3,9 +3,7 @@ kind: Kustomization
 resources:
   - dashboard
   - media
-  - muse
   - ntfy
-  - semaphore
   - speedtest-tracker
   - authentik
   - adguard

@@ -9,7 +9,6 @@ resources:
 - pod-gateway
 - reflector
 - reloader
-- system-upgrade
 - traefik
 - external-dns
 - secrets

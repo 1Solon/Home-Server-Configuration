@@ -21,10 +21,10 @@ The Git repository contains the following directories:
 
 ```sh
 📁
-├──📁 ansible
-│   └──📁 playbooks
 └──📁 kubernetes
     ├──📁 apps
+    │   ├──📁 adguard
+    │   │   └──📁 adguard
     │   ├──📁 authentik
     │   │   └──📁 authentik
     │   ├──📁 dashboard
@@ -40,20 +40,13 @@ The Git repository contains the following directories:
     │   │   ├──📁 radarr
     │   │   ├──📁 recyclarr
     │   │   └──📁 sonarr
-    │   ├──📁 muse
-    │   │   └──📁 muse
     │   ├──📁 ntfy
     │   │   └──📁 ntfy
-    │   ├──📁 pihole
-    │   │   └──📁 pihole
-    │   ├──📁 semaphore
-    │   │   └──📁 semaphore
     │   └──📁 speedtest-tracker
     │       └──📁 speedtest-tracker
     └──📁 infra
         ├──📁 cert-manager
         │   └──📁 cert-manager
-        ├──📁 cloudflare-ddns
         ├──📁 databases
         │   ├──📁 dragonfly
         │   └──📁 postgres
@@ -76,8 +69,6 @@ The Git repository contains the following directories:
         │   └──📁 reloader
         ├──📁 secrets
         │   └──📁 external-secrets
-        ├──📁 system-upgrade
-        │   └──📁 system-upgrade-controller
         └──📁 traefik
             └──📁 traefik
 ```
@@ -100,10 +91,8 @@ The following apps are installed on the clusters.
 | [Radarr](https://radarr.video)                                                      | Automated movie download tool.                                      |
 | [Recyclarr](https://github.com/recyclarr/recyclarr)                                 | Notifications and monitoring tool for media services.               |
 | [Sonarr](https://sonarr.tv)                                                         | Automated TV show download tool.                                    |
-| [Muse](https://github.com/codetheweb/muse)                                          | Self-hostable Discord music bot.                                    |
 | [Ntfy](https://ntfy.sh)                                                             | Push notifications.                                                 |
-| [Pihole](https://pi-hole.net)                                                       | Network-wide ad blocker and DNS service.                            |
-| [Semaphore](https://semaphoreci.com)                                                | Continuous integration and delivery tool.                           |
+| [Adguard](https://github.com/AdguardTeam/AdGuardHome)                               | Network-wide ad blocker and DNS service.                            |
 | [Speedtest Tracker](https://github.com/sivel/speedtest-tracker)                     | Internet speed tracking tool.                                       |
 | [Flux](https://fluxcd.io)                                                           | GitOps tool managing the cluster.                                   |
 | [Cert-Manager](https://cert-manager.io)                                             | Manages Let's Encrypt certificates with Cloudflare DNS integration. |
@@ -117,7 +106,6 @@ The following apps are installed on the clusters.
 | [Reflector](https://github.com/werwolfby/reflector)                                 | Proxies and mirrors Docker registries.                              |
 | [Reloader](https://github.com/stakater/Reloader)                                    | Watches changes in ConfigMaps and Secrets to trigger pod restarts.  |
 | [External Secrets](https://github.com/external-secrets/kubernetes-external-secrets) | Integrates external secret management systems into Kubernetes.      |
-| [System Upgrade Controller](https://github.com/rancher/system-upgrade-controller)   | Automates k3s upgrades.                                             |
 | [Traefik](https://traefik.io)                                                       | Edge router and load balancer.                                      |
 
 ## 📦 Hardware

@@ -19,3 +19,4 @@ resources:
 - crunchy-userinit.yaml
 - crunchydata.yaml
 - csi-samba.yaml
+- metrics-server.yaml

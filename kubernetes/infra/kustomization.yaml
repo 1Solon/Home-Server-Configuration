@@ -13,3 +13,4 @@ resources:
 - external-dns
 - secrets
 - nvidia-device-plugin
+- nginx

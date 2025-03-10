@@ -28,7 +28,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: Jellyfin
+  name: jellyfin
 spec:
   ingressClassName: internal
   rules:

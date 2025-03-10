@@ -21,3 +21,4 @@ resources:
 - csi-samba.yaml
 - metrics-server.yaml
 - nvidia.yaml
+- nginx.yaml

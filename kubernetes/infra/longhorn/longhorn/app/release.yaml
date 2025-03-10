@@ -25,7 +25,6 @@ spec:
   values:
     defaultSettings:
       backupTarget: nfs://${TRUENAS_IP}:/mnt/STORAGE-01/Longhorn-Backup
-      # defaultDataPath: "/storage"
       defaultReplicaCount: 3
       backupstorePollInterval: 0
       createDefaultDiskLabeledNodes: true
@@ -40,12 +39,9 @@ spec:
       taintToleration: CriticalAddonsOnly:Exists; node-role.kubernetes.io/control-plane:NoSchedule
     ingress:
       enabled: true
-      ingressClassName: traefik
+      ingressClassName: internal
       host: longhorn.${LOCAL_DOMAIN}
-      annotations:
-        traefik.ingress.kubernetes.io/router.middlewares: traefik-middlewares-authentik@kubernetescrd
       tls: true
-      tlsSecret: local-solonsstuff-com-live-tls
     longhornDriver:
       tolerations: &tolerations
         - key: CriticalAddonsOnly

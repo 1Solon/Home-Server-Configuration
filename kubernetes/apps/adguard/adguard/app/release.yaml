@@ -78,7 +78,7 @@ spec:
 
     ingress:
       app:
-        className: traefik
+        className: internal
         hosts:
           - host: &host "adguard.${LOCAL_DOMAIN}"
             paths:
@@ -90,4 +90,3 @@ spec:
         tls:
           - hosts:
               - *host
-            secretName: local-solonsstuff-com-live-tls

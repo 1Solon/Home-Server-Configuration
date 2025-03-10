@@ -44,10 +44,9 @@ spec:
 
       ingress:
         enabled: true
-        ingressClassName: traefik
+        ingressClassName: internal
         hosts:
           - &host "sso.${LOCAL_DOMAIN}"
         tls:
           - hosts:
               - *host
-            secretName: local-solonsstuff-com-live-tls

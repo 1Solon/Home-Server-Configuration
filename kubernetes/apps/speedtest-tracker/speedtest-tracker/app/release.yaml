@@ -52,6 +52,7 @@ spec:
     ingress:
       app:
         enabled: true
+        className: internal
         hosts:
           - host: &host "{{ .Release.Name }}.${LOCAL_DOMAIN}"
             paths:
@@ -62,4 +63,3 @@ spec:
         tls:
           - hosts:
               - *host
-            secretName: local-solonsstuff-com-live-tls

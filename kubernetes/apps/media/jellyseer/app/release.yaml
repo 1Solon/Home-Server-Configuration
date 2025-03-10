@@ -84,15 +84,9 @@ spec:
     ingress:
       app:
         enabled: true
-        className: traefik
+        className: external
         hosts:
-          - host: jellyseerr.${LOCAL_DOMAIN}
-            paths:
-              - path: /
-                service:
-                  identifier: app
-                  port: http
-          - host: jellyseerr.${REMOTE_DOMAIN}
+          - host: &host jellyseerr.${REMOTE_DOMAIN}
             paths:
               - path: /
                 service:
@@ -100,9 +94,7 @@ spec:
                   port: http
         tls:
           - hosts:
-              - jellyseerr.${LOCAL_DOMAIN}
-              - jellyseerr.${REMOTE_DOMAIN}
-            secretName: local-solonsstuff-com-live-tls
+              - *host
 
     persistence:
       config:

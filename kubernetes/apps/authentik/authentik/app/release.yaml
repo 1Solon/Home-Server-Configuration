@@ -44,9 +44,9 @@ spec:
 
       ingress:
         enabled: true
-        ingressClassName: internal
+        ingressClassName: external
         hosts:
-          - &host "sso.${LOCAL_DOMAIN}"
+          - &host "sso.${REMOTE_DOMAIN}"
         tls:
           - hosts:
               - *host

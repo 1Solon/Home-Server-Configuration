@@ -4,7 +4,7 @@ kind: Ingress
 metadata:
   name: jellyfin
 spec:
-  ingressClassName: internal
+  ingressClassName: external
   rules:
     - host: &host jellyfin.solonsstuff.com
       http:

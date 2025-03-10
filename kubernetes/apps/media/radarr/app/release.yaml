@@ -76,9 +76,7 @@ spec:
     ingress:
       app:
         enabled: true
-        className: traefik
-        annotations:
-          traefik.ingress.kubernetes.io/router.middlewares: traefik-middlewares-authentik@kubernetescrd
+        className: internal
         hosts:
           - host: &host radarr.${LOCAL_DOMAIN}
             paths:
@@ -89,7 +87,6 @@ spec:
         tls:
           - hosts:
               - *host
-            secretName: local-solonsstuff-com-live-tls
 
     persistence:
       config:

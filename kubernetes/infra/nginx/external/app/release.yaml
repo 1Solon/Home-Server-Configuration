@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: nginx-internal
+  name: nginx-external
 spec:
   interval: 30m
   chart:
@@ -23,24 +23,24 @@ spec:
       strategy: rollback
       retries: 3
   values:
-    fullnameOverride: nginx-internal
+    fullnameOverride: nginx-external
     controller:
       replicaCount: 2
       service:
         enabled: true
         type: LoadBalancer
         annotations:
-          metallb.universe.tf/loadBalancerIPs: 192.168.1.160
+          metallb.universe.tf/loadBalancerIPs: 192.168.1.161
       ingressClassResource:
-        name: internal
+        name: external
         default: true
-        controllerValue: k8s.io/internal
+        controllerValue: k8s.io/external
       admissionWebhooks:
         objectSelector:
           matchExpressions:
             - key: ingress-class
               operator: In
-              values: ["internal"]
+              values: ["external"]
       allowSnippetAnnotations: true
       config:
         block-user-agents: GPTBot,~*GPTBot*,ChatGPT-User,~*ChatGPT-User*,Google-Extended,~*Google-Extended*,CCBot,~*CCBot*,Omgilibot,~*Omgilibot*,FacebookBot,~*FacebookBot*
@@ -65,7 +65,7 @@ spec:
         proxy-buffer-size: 16k
         ssl-protocols: TLSv1.3 TLSv1.2
       extraArgs:
-        default-ssl-certificate: "cert-manager/local-solonsstuff-com-live-tls"
+        default-ssl-certificate: "cert-manager/solonsstuff-com-live-tls"
       resources:
         requests:
           cpu: 100m

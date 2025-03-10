@@ -20,3 +20,4 @@ resources:
 - crunchydata.yaml
 - csi-samba.yaml
 - metrics-server.yaml
+- nvidia.yaml

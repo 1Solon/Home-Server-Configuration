@@ -5,6 +5,9 @@ metadata:
   name: pgadmin
 spec:
   ingressClassName: internal
+  tls:
+    - hosts:
+        - &host pgadmin.local.solonsstuff.com
   rules:
     - host: *host
       http:
@@ -16,6 +19,3 @@ spec:
                 name: pgadmin
                 port:
                   number: 5050
-  tls:
-    - hosts:
-        - pgadmin.local.solonsstuff.com

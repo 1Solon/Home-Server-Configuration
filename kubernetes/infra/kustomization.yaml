@@ -12,3 +12,4 @@ resources:
 - traefik
 - external-dns
 - secrets
+- nvidia-device-plugin

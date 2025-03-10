@@ -71,7 +71,7 @@ spec:
         enabled: true
         type: persistentVolumeClaim
         accessMode: ReadWriteMany
-        size: 1Mi
+        size: 10Mi
         globalMounts:
           - path: /opt/adguardhome/conf
             subPath: conf

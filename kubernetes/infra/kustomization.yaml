@@ -9,7 +9,6 @@ resources:
 - pod-gateway
 - reflector
 - reloader
-- traefik
 - external-dns
 - secrets
 - nvidia-device-plugin

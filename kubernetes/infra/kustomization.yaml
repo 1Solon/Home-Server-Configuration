@@ -5,7 +5,7 @@ resources:
 - databases
 - flux
 - longhorn
-- metallb
+# - metallb
 - pod-gateway
 - reflector
 - reloader

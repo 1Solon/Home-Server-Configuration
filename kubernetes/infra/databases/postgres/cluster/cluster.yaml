@@ -99,7 +99,7 @@ spec:
       replicas: *replica
       metadata:
         labels:
-          app.kubernetes.io/name: crunchy-postgres-pgbouncer
+          lbipam.cilium.io/ips: ${PGBOUNCER_IP}
       config:
         global:
           pool_mode: session # Grafana requires session https://github.com/grafana/grafana/issues/74260#issuecomment-1702795311. Everything else is happy with transaction

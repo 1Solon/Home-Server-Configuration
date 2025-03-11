@@ -30,7 +30,7 @@ spec:
         enabled: true
         type: LoadBalancer
         annotations:
-          metallb.universe.tf/loadBalancerIPs: 192.168.1.161
+          lbipam.cilium.io/ips: ${NGINX_EXTERNAL_IP}
       ingressClassResource:
         name: external
         default: true

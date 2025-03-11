@@ -42,10 +42,8 @@ spec:
         controller: adguard
         type: LoadBalancer
         externalTrafficPolicy: Local
-        annotations:
-          metallb.universe.tf/loadBalancerIPs: ${ADGUARD_IP}
-          metallb.universe.tf/ip-allocated-from-pool: default-pool
-          metallb.universe.tf/allow-shared-ip: adguard-home-dns
+        # annotations:
+        #   lbipam.cilium.io/ips: ${ADGUARD_IP}
         ports:
           http:
             primary: true

@@ -42,8 +42,8 @@ spec:
         controller: adguard
         type: LoadBalancer
         externalTrafficPolicy: Local
-        # annotations:
-        #   lbipam.cilium.io/ips: ${ADGUARD_IP}
+        annotations:
+          lbipam.cilium.io/ips: ${ADGUARD_IP}
         ports:
           http:
             primary: true

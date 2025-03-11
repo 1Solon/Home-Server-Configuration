@@ -10,4 +10,4 @@ spec:
     - ^eth[0-9]+
   nodeSelector:
     matchLabels:
-      kubernetes.io/os: linux
+      beta.kubernetes.io/os: linux

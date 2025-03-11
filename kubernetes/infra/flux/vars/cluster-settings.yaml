@@ -13,4 +13,4 @@ data:
   LOCAL_DOMAIN: "local.solonsstuff.com"
   REMOTE_DOMAIN: "solonsstuff.com"
   TRUENAS_IP: 192.168.1.111
-  ADGUARD_IP: 192.168.1.201
+  ADGUARD_IP: 192.168.1.155

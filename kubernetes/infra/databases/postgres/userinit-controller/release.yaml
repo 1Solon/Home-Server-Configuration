@@ -17,4 +17,4 @@ spec:
   values:
     fullnameOverride: crunchy-userinit-controller
     nodeSelector:
-      aarch: amd64
+      kubernetes.io/aarch: amd64

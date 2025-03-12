@@ -85,6 +85,8 @@ spec:
       app:
         enabled: true
         className: external
+        annotations:
+          external-dns.alpha.kubernetes.io/target: ipv4.${REMOTE_DOMAIN}
         hosts:
           - host: &host jellyseerr.${REMOTE_DOMAIN}
             paths:

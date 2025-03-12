@@ -95,7 +95,7 @@ spec:
     persistence:
       config:
         type: persistentVolumeClaim
-        accessMode: ReadWriteMany
+        accessMode: ReadWriteOnce
         size: 5Gi
       tmp:
         type: emptyDir

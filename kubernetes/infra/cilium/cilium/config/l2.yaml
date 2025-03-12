@@ -8,7 +8,8 @@ spec:
   loadBalancerIPs: true
   interfaces:
     - ^eth[0-9]+
-    - ^end[0-9]+
+    # - ^end[0-9]+ # For some reason I can't get interfaces here to bind. Needs more investigation.
   nodeSelector:
     matchLabels:
-      kubernetes.io/os: "linux"
+      # kubernetes.io/os: "linux"
+      l2-addressing: allow

@@ -8,8 +8,7 @@ spec:
   loadBalancerIPs: true
   interfaces:
     - ^eth[0-9]+
-    # This is the interface for my Turing nodes, for some reason I cannot use them for L2. This requires further investigation
-    # - ^end[0-9]+
+    - ^end[0-9]+
   nodeSelector:
     matchLabels:
       l2-addressing: allow

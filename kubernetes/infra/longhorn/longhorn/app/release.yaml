@@ -23,10 +23,12 @@ spec:
       strategy: rollback
       retries: 3
   values:
-    defaultSettings:
-      backupTarget: nfs://192.168.1.111:/mnt/STORAGE-01/Longhorn-Backup
-      defaultReplicaCount: 3
+    defaultBackupStore:
+      backupTarget: cifs://192.168.1.111/Longhorn-Backup
       backupstorePollInterval: 300
+      backupTargetCredentialSecret: cifs-secret
+    defaultSettings:
+      defaultReplicaCount: 3
       createDefaultDiskLabeledNodes: true
       restoreVolumeRecurringJobs: true
       storageOverProvisioningPercentage: 100

@@ -3,12 +3,12 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: jellyfin
+  annotations:
+    external-dns.alpha.kubernetes.io/target: ipv4.solonsstuff.com
 spec:
   ingressClassName: external
   rules:
     - host: &host jellyfin.solonsstuff.com
-      annotations:
-        external-dns.alpha.kubernetes.io/target: ipv4.solonsstuff.com
       http:
         paths:
           - path: /

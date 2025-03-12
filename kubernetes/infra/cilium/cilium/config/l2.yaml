@@ -11,4 +11,4 @@ spec:
     - ^end[0-9]+
   nodeSelector:
     matchLabels:
-      l2-addressing: allow
+      kubernetes.io/os: "linux"

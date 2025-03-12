@@ -7,7 +7,7 @@ spec:
   volumes:
   - name: my-volume
     persistentVolumeClaim:
-      claimName: jellyfin-pvc-data  # Change to the name of your existing PVC
+      claimName: jellyfin-config  # Change to the name of your existing PVC
   containers:
   - name: pvc-ps-container
     image: busybox

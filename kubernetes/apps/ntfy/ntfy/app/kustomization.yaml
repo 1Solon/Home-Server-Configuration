@@ -8,4 +8,3 @@ resources:
 - pvc.yaml
 - secret.yaml
 - service.yaml
-- dns-endpoint.yaml

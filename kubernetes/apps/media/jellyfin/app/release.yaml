@@ -34,7 +34,7 @@ spec:
           app:
             image:
               repository: jellyfin/jellyfin
-              tag: 10.10.6
+              tag: 10.10.6@sha256:96b09723b22fdde74283274bdc1f63b9b76768afd6045dd80d4a4559fc4bb7f3
               pullPolicy: IfNotPresent
             env:
               DOTNET_SYSTEM_IO_DISABLEFILELOCKING: "true"

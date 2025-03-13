@@ -45,7 +45,7 @@ spec:
       host: longhorn.${LOCAL_DOMAIN}
       annotations: 
         nginx.ingress.kubernetes.io/auth-url: |-
-            http://ak-outpost-authentik-embedded-outpost:9000/outpost.goauthentik.io/auth/nginx
+            http://authentik-server:9000/outpost.goauthentik.io/auth/nginx
         nginx.ingress.kubernetes.io/auth-signin: |-
             https://sso.solonsstuff.com/outpost.goauthentik.io/start?rd=$scheme://$http_host$escaped_request_uri
         nginx.ingress.kubernetes.io/auth-response-headers: |-

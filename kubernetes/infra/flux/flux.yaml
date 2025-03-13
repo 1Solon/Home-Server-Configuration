@@ -37,6 +37,10 @@ spec:
   path: ./kubernetes/infra/flux/secrets
   prune: true
   wait: true
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age
   sourceRef:
     kind: OCIRepository
     name: flux-manifests

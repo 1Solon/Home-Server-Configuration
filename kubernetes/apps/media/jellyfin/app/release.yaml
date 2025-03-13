@@ -61,11 +61,9 @@ spec:
               privleged: true # This is probably not good, but I need to do research on how to get hardware acceleration working without it
             resources:
               requests:
-                nvidia.com/gpu: 1
                 cpu: 100m
                 memory: 512Mi
               limits:
-                nvidia.com/gpu: 1
                 memory: 4Gi
 
     service:

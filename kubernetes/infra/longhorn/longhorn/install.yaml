@@ -11,7 +11,7 @@ spec:
       app.kubernetes.io/name: longhorn
   interval: 10m
   path: "./kubernetes/infra/longhorn/longhorn/app"
-  prune: true
+  prune: false # Longhorn should never prune
   sourceRef:
     kind: GitRepository
     name: flux-system

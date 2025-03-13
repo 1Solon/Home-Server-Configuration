@@ -5,4 +5,3 @@ kind: Kustomization
 resources:
 - release.yaml
 - externalsecret.yaml
-- worker-ingress.yaml

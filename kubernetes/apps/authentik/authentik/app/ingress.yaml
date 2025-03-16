@@ -4,6 +4,7 @@ kind: Ingress
 metadata:
   name: authentik-outpost
 spec:
+  ingressClassName: external
   rules:
     - host: sso.${REMOTE_DOMAIN}
       http:

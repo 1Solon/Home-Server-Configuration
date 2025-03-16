@@ -41,26 +41,3 @@ spec:
         db: 1
     server:
       replicas: 1
-
-      ingress:
-        enabled: true
-        ingressClassName: external
-        annotations:
-          external-dns.alpha.kubernetes.io/target: ipv4.solonsstuff.com
-        hosts:
-          - &host "sso.${REMOTE_DOMAIN}"
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: authentik-server
-                port: http
-
-          - path: /outpost.goauthentik.io
-            service:
-              name: ak-outpost-authentik-embedded-outpost
-              port: 9000
-        tls:
-          - hosts:
-              - *host

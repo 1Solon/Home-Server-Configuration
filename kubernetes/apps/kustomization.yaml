@@ -7,3 +7,4 @@ resources:
   - speedtest-tracker
   - authentik
   - adguard
+  - syncthing

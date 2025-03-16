@@ -89,11 +89,6 @@ spec:
         hosts:
           - host: &host "sonarr.${LOCAL_DOMAIN}"
             paths:
-              - path: /outpost.goauthentik.io
-                pathType: Prefix
-                service:
-                  identifier: app
-                  port: 9000
               - path: /
                 service:
                   identifier: app

@@ -48,7 +48,7 @@ spec:
         annotations:
           external-dns.alpha.kubernetes.io/target: ipv4.solonsstuff.com
         hosts:
-          - host: sso.${REMOTE_DOMAIN}
+          - host: "sso.${REMOTE_DOMAIN}"
             paths:
               - path: /
                 pathType: Prefix

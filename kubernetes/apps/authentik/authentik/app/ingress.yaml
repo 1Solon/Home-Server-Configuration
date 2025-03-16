@@ -4,7 +4,6 @@ kind: Ingress
 metadata:
   name: authentik-outpost
 spec:
-  
   rules:
     - host: sso.${REMOTE_DOMAIN}
       http:
@@ -15,10 +14,10 @@ spec:
               service:
                 name: ak-outpost-authentik-embedded-outpost
                 ports:
-                - name: auth
-                  port: 9000
-                  protocol: TCP
-                  targetPort: 9000
+                  - name: auth
+                    port: 9000
+                    protocol: TCP
+                    targetPort: 9000
 
 ---
 apiVersion: networking.k8s.io/v1

@@ -5,4 +5,4 @@ kind: Kustomization
 resources:
 - release.yaml
 - externalsecret.yaml
-# - ingress.yaml
+- ingress.yaml

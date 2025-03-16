@@ -50,14 +50,11 @@ spec:
         hosts:
           - host: "sso.${REMOTE_DOMAIN}"
             paths:
-              - path: /
+              - path: /outpost.goauthentik.io
                 pathType: Prefix
                 service:
                   name: ak-outpost-authentik-embedded-outpost
                   port: 9000
-
-          - host: &host "sso.${REMOTE_DOMAIN}"
-            paths:
               - path: /
                 service:
                   identifier: app

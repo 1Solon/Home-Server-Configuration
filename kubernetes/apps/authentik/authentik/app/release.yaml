@@ -42,13 +42,13 @@ spec:
     server:
       replicas: 1
 
-      # ingress:
-      #   enabled: true
-      #   ingressClassName: external
-      #   annotations:
-      #     external-dns.alpha.kubernetes.io/target: ipv4.solonsstuff.com
-      #   hosts:
-      #     - &host "sso.${REMOTE_DOMAIN}"
-      #   tls:
-      #     - hosts:
-      #         - *host
+      ingress:
+        enabled: true
+        ingressClassName: external
+        annotations:
+          external-dns.alpha.kubernetes.io/target: ipv4.solonsstuff.com
+        hosts:
+          - &host "sso.${REMOTE_DOMAIN}"
+        tls:
+          - hosts:
+              - *host

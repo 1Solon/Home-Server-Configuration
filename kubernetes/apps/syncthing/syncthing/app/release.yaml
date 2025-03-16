@@ -96,7 +96,7 @@ spec:
       main:
         className: "internal"
         hosts:
-          - host: syncthing.${LOCAL_DOMAIN}
+          - host: &host syncthing.${LOCAL_DOMAIN}
             paths:
               - path: /
                 service:

@@ -6,6 +6,8 @@ metadata:
   name: authentik
 spec:
   interval: 30m
+  driftDetection:
+    mode: enabled
   chart:
     spec:
       chart: authentik

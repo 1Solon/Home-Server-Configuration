@@ -6,8 +6,6 @@ metadata:
   name: authentik
 spec:
   interval: 30m
-  driftDetection:
-    mode: enabled
   chart:
     spec:
       chart: authentik
@@ -46,7 +44,9 @@ spec:
 
       ingress:
         enabled: true
-        ingressClassName: internal
+        ingressClassName: external
+        annotations:
+          external-dns.alpha.kubernetes.io/target: ipv4.solonsstuff.com
         hosts:
           - &host "sso.${REMOTE_DOMAIN}"
         tls:

@@ -30,6 +30,8 @@ spec:
         runAsGroup: 568
         fsGroup: 568
         fsGroupChangePolicy: OnRootMismatch
+    annotations:
+      secret.reloader.stakater.com/reload: shadow-empire-pbem-bot-secrets
 
     controllers:
       main:

@@ -2,7 +2,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: syncthing
+  name: shadow-empire-pbem-bot
 spec:
   interval: 30m
   chart:

@@ -37,7 +37,7 @@ spec:
           app:
             image:
               repository: ghcr.io/1solon/shadow-empire-pbem-bot
-              tag: 0.5.0@sha256:fccb1dc2f2f704f5201d3d55dcbb56cb0d1859130d311f59b5a50f4491920ce6
+              tag: 0.6.0@sha256:2f0d23a2884a1e93f221bad8d537a08c60a8004d0dbb80f51ea138ffedefccc8
             envFrom:
               - secretRef:
                   name: shadow-empire-pbem-bot-secrets

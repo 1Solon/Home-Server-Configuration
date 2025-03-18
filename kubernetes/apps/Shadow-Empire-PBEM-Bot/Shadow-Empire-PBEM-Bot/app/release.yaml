@@ -55,4 +55,4 @@ spec:
         server: ${TRUENAS_IP}
         path: /mnt/STORAGE-01/Syncthing
         globalMounts:
-          - path: /app/data
+          - path: /cat

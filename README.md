@@ -4,7 +4,7 @@
 
 ## Solon's Home Server Config
 
-_A k3's cluster managed with Flux and Renovate_
+_A k8's cluster managed with Talos, Flux and Renovate_
 
 </div>
 
@@ -112,7 +112,7 @@ The following apps are installed on the clusters.
 
 | Device                                                                                       | Count | OS Disk Size | Data Disk Size | Ram  | Operating System | Purpose           |
 | -------------------------------------------------------------------------------------------- | ----- | ------------ | -------------- | ---- | ---------------- | ----------------- |
-| [Turing RK1](https://turingpi.com/product/turing-rk1/?attribute_ram=16+GB)                   | 4     | 2TB NVMe     | -              | 16GB | Ubuntu           | Cluster Nodes     |
+| [Turing RK1](https://turingpi.com/product/turing-rk1/?attribute_ram=16+GB)                   | 4     | 2TB NVMe     | -              | 16GB | Talos            | Cluster Nodes     |
 | [Turing Pi 2](https://turingpi.com/product/turing-pi-2-5/)                                   | 1     | -            | -              | -    | -                | Baseboard and KVM |
 | [CWWK AMD-7940HS](https://www.amazon.com/CWWK-NAS-display-network-motherboard/dp/B0D5M2M3Y5) | 1     | 1TB NVMe     | 8TB HDD (2x)   | 32GB | Proxmox          | NAS/Cluster Nodes |
 

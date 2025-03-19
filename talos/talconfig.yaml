@@ -1,0 +1,178 @@
+---
+clusterName: home-cluster
+talosVersion: v1.9.4
+kubernetesVersion: v1.32.2
+endpoint: https://192.168.1.100:6443
+allowSchedulingOnMasters: true
+cniConfig:
+  name: none
+patches:
+  - |-
+    machine:
+      kubelet:
+        extraMounts:
+          - destination: /var/lib/longhorn
+            type: bind
+            source: /var/lib/longhorn
+            options:
+              - bind
+              - rshared
+              - rw
+  - |-
+    cluster:
+      proxy:
+        disabled: true
+
+controlPlane:
+  patches:
+    - |-
+      - op: remove
+        path: /cluster/apiServer/admissionControl
+
+nodes:
+  - hostname: kube1
+    ipAddress: 192.168.1.101
+    controlPlane: true
+    installDisk: /dev/nvme0n1
+    nameservers:
+      - 1.1.1.1
+      - 8.8.8.8
+    networkInterfaces:
+      - interface: end0
+        addresses:
+          - 192.168.1.101/24
+        routes:
+          - network: 0.0.0.0/0
+            gateway: 192.168.1.1
+        vip:
+          ip: 192.168.1.100
+    schematic:
+      overlay:
+        name: turingrk1
+        image: siderolabs/sbc-rockchip
+      customization:
+        systemExtensions:
+          officialExtensions:
+            - siderolabs/iscsi-tools
+            - siderolabs/util-linux-tools
+
+  - hostname: kube2
+    ipAddress: 192.168.1.102
+    controlPlane: true
+    installDisk: /dev/nvme0n1
+    nameservers:
+      - 1.1.1.1
+      - 8.8.8.8
+    networkInterfaces:
+      - interface: end0
+        addresses:
+          - 192.168.1.102/24
+        routes:
+          - network: 0.0.0.0/0
+            gateway: 192.168.1.1
+        vip:
+          ip: 192.168.1.100
+    schematic:
+      overlay:
+        name: turingrk1
+        image: siderolabs/sbc-rockchip
+      customization:
+        systemExtensions:
+          officialExtensions:
+            - siderolabs/iscsi-tools
+            - siderolabs/util-linux-tools
+
+  - hostname: kube3
+    ipAddress: 192.168.1.103
+    controlPlane: true
+    installDisk: /dev/nvme0n1
+    nameservers:
+      - 1.1.1.1
+      - 8.8.8.8
+    networkInterfaces:
+      - interface: end0
+        addresses:
+          - 192.168.1.103/24
+        routes:
+          - network: 0.0.0.0/0
+            gateway: 192.168.1.1
+        vip:
+          ip: 192.168.1.100
+    schematic:
+      overlay:
+        name: turingrk1
+        image: siderolabs/sbc-rockchip
+      customization:
+        systemExtensions:
+          officialExtensions:
+            - siderolabs/iscsi-tools
+            - siderolabs/util-linux-tools
+
+  - hostname: kube4
+    ipAddress: 192.168.1.104
+    controlPlane: false
+    installDisk: /dev/nvme0n1
+    nameservers:
+      - 1.1.1.1
+      - 8.8.8.8
+    networkInterfaces:
+      - interface: end0
+        addresses:
+          - 192.168.1.104/24
+        routes:
+          - network: 0.0.0.0/0
+            gateway: 192.168.1.1
+    schematic:
+      overlay:
+        name: turingrk1
+        image: siderolabs/sbc-rockchip
+      customization:
+        systemExtensions:
+          officialExtensions:
+            - siderolabs/iscsi-tools
+            - siderolabs/util-linux-tools
+
+  - hostname: kube5
+    ipAddress: 192.168.1.105
+    controlPlane: false
+    installDisk: /dev/sda
+    nameservers:
+      - 1.1.1.1
+      - 8.8.8.8
+    networkInterfaces:
+      - interface: eth0
+        addresses:
+          - 192.168.1.105/24
+        routes:
+          - network: 0.0.0.0/0
+            gateway: 192.168.1.1
+    schematic:
+      customization:
+        systemExtensions:
+          officialExtensions:
+            - siderolabs/iscsi-tools
+            - siderolabs/nonfree-kmod-nvidia-production
+            - siderolabs/nvidia-container-toolkit-production
+            - siderolabs/qemu-guest-agent
+            - siderolabs/util-linux-tools
+    patches:
+      - |-
+        machine:
+          kernel:
+            modules:
+              - name: nvidia
+              - name: nvidia_uvm
+              - name: nvidia_drm
+              - name: nvidia_modest
+          sysctls:
+            net.core.bpf_jit_harden: 1
+      - |-
+        machine:
+          files:
+            - path: /etc/cri/conf.d/20-customization.part
+              op: create
+              content: |
+                [plugins]
+                  [plugins."io.containerd.cri.v1.runtime"]
+                    [plugins."io.containerd.cri.v1.runtime".containerd]
+                      default_runtime_name = "nvidia"

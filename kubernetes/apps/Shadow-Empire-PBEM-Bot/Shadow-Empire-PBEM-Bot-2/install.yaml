@@ -5,7 +5,7 @@ metadata:
   name: &app shadow-empire-2
   namespace: flux-system
 spec:
-  path: "./kubernetes/apps/Shadow-Empire-PBEM-Bot/Shadow-Empire-PBEM-Bot-1/app"
+  path: "./kubernetes/apps/Shadow-Empire-PBEM-Bot/Shadow-Empire-PBEM-Bot-2/app"
   targetNamespace: shadow-empire
   prune: true
   wait: true

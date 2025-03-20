@@ -2,7 +2,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: shadow-empire-pbem-bot
+  name: shadow-empire-pbem-bot-1
 spec:
   interval: 30m
   chart:

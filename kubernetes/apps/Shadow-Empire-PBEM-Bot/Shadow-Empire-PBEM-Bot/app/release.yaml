@@ -31,7 +31,7 @@ spec:
         fsGroup: 568
         fsGroupChangePolicy: OnRootMismatch
     annotations:
-      secret.reloader.stakater.com/reload: shadow-empire-pbem-bot-secrets
+      secret.reloader.stakater.com/reload: shadow-empire-pbem-bot-secrets-1
 
     controllers:
       main:
@@ -42,7 +42,7 @@ spec:
               tag: 1.0.0@sha256:4a305b144d0ff0b5ed67a4cdd43014e527ede9bf30cb724db024f75aca9a5a45
             envFrom:
               - secretRef:
-                  name: shadow-empire-pbem-bot-secrets
+                  name: shadow-empire-pbem-bot-secrets-1
             resources:
               requests:
                 cpu: 1m

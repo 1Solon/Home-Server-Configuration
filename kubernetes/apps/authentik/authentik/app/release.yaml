@@ -23,7 +23,6 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: authentik
-        namespace: flux-system
       interval: 5m
   install:
     remediation:

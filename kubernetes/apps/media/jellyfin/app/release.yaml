@@ -63,10 +63,10 @@ spec:
               requests:
                 cpu: 100m
                 memory: 512Mi
-                nvidia.com/gpu: 1
+                # nvidia.com/gpu: 1
               limits:
                 memory: 4Gi
-                nvidia.com/gpu: 1
+                # nvidia.com/gpu: 1
 
     service:
       app:

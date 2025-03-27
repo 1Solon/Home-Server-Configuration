@@ -1,7 +1,11 @@
 ---
-clusterName: home-cluster
+# renovate: datasource=docker depName=ghcr.io/siderolabs/installer
 talosVersion: v1.9.4
+
+# renovate: datasource=docker depName=ghcr.io/siderolabs/kubelet
 kubernetesVersion: v1.32.2
+
+clusterName: home-cluster
 endpoint: https://192.168.1.100:6443
 allowSchedulingOnMasters: true
 cniConfig:

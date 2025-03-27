@@ -6,9 +6,10 @@
     ":automergeBranch",
     ":dependencyDashboard",
     ":disableRateLimiting",
-    ":semanticCommits"
+    ":semanticCommits",
+    ":assignee(1Solon)",
+    ":reviewer(1Solon)"
   ],
-  "reviewers": ["1Solon"],
   "dependencyDashboard": true,
   "suppressNotifications": ["prEditedNotification", "prIgnoreNotification"],
   "flux": {

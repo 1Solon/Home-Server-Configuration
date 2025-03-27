@@ -8,6 +8,7 @@
     ":disableRateLimiting",
     ":semanticCommits"
   ],
+  "reviewers": ["1Solon"],
   "dependencyDashboard": true,
   "suppressNotifications": ["prEditedNotification", "prIgnoreNotification"],
   "flux": {

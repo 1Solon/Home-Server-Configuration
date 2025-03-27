@@ -3,7 +3,6 @@
     "config:recommended",
     "docker:enableMajor",
     "helpers:pinGitHubActionDigests",
-    "docker:pinDigests",
     ":automergeBranch",
     ":dependencyDashboard",
     ":disableRateLimiting",

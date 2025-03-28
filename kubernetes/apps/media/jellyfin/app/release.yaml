@@ -27,9 +27,6 @@ spec:
       jellyfin:
         annotations:
           reloader.stakater.com/auto: "true"
-        pod:
-          nodeSelector:
-            kubernetes.io/hostname: kube5 # Replace with GPU label when available
         containers:
           app:
             image:

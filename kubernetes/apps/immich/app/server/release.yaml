@@ -41,7 +41,7 @@ spec:
             env:
               # General
               LOG_LEVEL: verbose
-              IMMICH_MEDIA_LOCATION: &mediaLocation /library
+              IMMICH_MEDIA_LOCATION: &mediaLocation /usr/src/app/upload
               # Urls
               IMMICH_WEB_URL: http://immich-web.selfhosted:3000
               IMMICH_SERVER_URL: http://immich-server.selfhosted:3001

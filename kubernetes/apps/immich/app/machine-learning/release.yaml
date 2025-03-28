@@ -42,7 +42,7 @@ spec:
               tag: v1.130.2-cuda
             env:
               # General
-              IMMICH_MEDIA_LOCATION: &mediaLocation /library
+              IMMICH_MEDIA_LOCATION: &mediaLocation /usr/src/app/upload
               # Ports
               MACHINE_LEARNING_HOST: 0.0.0.0
               MACHINE_LEARNING_PORT: &port 3003

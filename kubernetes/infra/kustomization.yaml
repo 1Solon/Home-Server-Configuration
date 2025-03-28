@@ -13,3 +13,4 @@ resources:
 - nvidia-device-plugin
 - nginx
 - cilium
+- node-feature-discovery

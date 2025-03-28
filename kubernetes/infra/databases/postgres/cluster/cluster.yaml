@@ -73,10 +73,6 @@ spec:
       databases:
         - authentik
       password: *password
-    - name: immich
-      databases:
-        - immich
-      password: *password
 
   monitoring:
     pgmonitor:

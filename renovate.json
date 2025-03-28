@@ -7,7 +7,6 @@
     ":dependencyDashboard",
     ":disableRateLimiting",
     ":semanticCommits",
-    ":assignee(1Solon)",
     ":reviewer(1Solon)"
   ],
   "dependencyDashboard": true,

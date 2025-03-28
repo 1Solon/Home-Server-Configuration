@@ -73,9 +73,9 @@ spec:
       databases:
         - authentik
       password: *password
-    - name: semaphore
+    - name: immich
       databases:
-        - semaphore
+        - immich
       password: *password
 
   monitoring:

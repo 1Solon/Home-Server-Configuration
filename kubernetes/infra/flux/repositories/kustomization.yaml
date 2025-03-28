@@ -22,3 +22,4 @@ resources:
 - nvidia.yaml
 - nginx.yaml
 - cilium.yaml
+- node-feature-discovery.yaml

@@ -27,26 +27,40 @@ spec:
     keepHistory: false
   values:
     config:
-      map:
+      map: # Note, I will need to expand the replicas as I have more pods that need GPU time
         default: |-
           version: v1
           flags:
             migStrategy: none
-            gpuSharing: true
+          sharing:
+            timeSlicing:
+              resources:
+              - name: nvidia.com/gpu
+                replicas: 3
         mig-single: |-
           version: v1
           flags:
             migStrategy: single
-            gpuSharing: true
+            sharing:
+              timeSlicing:
+                resources:
+                - name: nvidia.com/gpu
+                  replicas: 3
         mig-mixed: |-
           version: v1
           flags:
             migStrategy: mixed
-            gpuSharing: true
+          sharing:
+              timeSlicing:
+                resources:
+                - name: nvidia.com/gpu
+                  replicas: 3
+
       # Default config name within the ConfigMap
       default: "default"
       # List of fallback strategies to attempt if no config is selected and no default is provided
       fallbackStrategies: ["named", "single"]
+
     runtimeClassName: nvidia
     nodeSelector:
       feature.node.kubernetes.io/pci-10de.present: "true"

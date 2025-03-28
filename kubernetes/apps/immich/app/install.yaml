@@ -2,21 +2,22 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &appname immich-server
+  name: &app immich-server
   namespace: flux-system
 spec:
+  targetNamespace: immich
   commonMetadata:
     labels:
-      app.kubernetes.io/name: *appname
-  interval: 30m
+      app.kubernetes.io/name: *app
   path: "./kubernetes/apps/immich/app/server"
   prune: true
   sourceRef:
     kind: GitRepository
     name: flux-system
-  targetNamespace: immich
+  wait: false
+  interval: 1h
+  retryInterval: 2m
   timeout: 5m
-  wait: true
   postBuild:
     substituteFrom:
       - kind: ConfigMap
@@ -27,23 +28,52 @@ spec:
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &appname immich-ml
+  name: &app immich-machine-learning
   namespace: flux-system
 spec:
+  targetNamespace: immich
   commonMetadata:
     labels:
-      app.kubernetes.io/name: *appname
-  interval: 30m
-  path: "./kubernetes/apps/immich/app/machine-learning"
+      app.kubernetes.io/name: *app
   dependsOn:
     - name: immich-server
+  path: "./kubernetes/apps/immich/app/machine-learning"
   prune: true
   sourceRef:
     kind: GitRepository
     name: flux-system
-  targetNamespace: immich
+  wait: false
+  interval: 1h
+  retryInterval: 2m
   timeout: 5m
-  wait: true
+  postBuild:
+    substituteFrom:
+      - kind: ConfigMap
+        name: cluster-settings
+        optional: false
+
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: &app immich-microservices
+  namespace: flux-system
+spec:
+  targetNamespace: immich
+  commonMetadata:
+    labels:
+      app.kubernetes.io/name: *app
+  dependsOn:
+    - name: immich-server
+  path: "./kubernetes/apps/immich/app/microservices"
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  wait: false
+  interval: 1h
+  retryInterval: 2m
+  timeout: 5m
   postBuild:
     substituteFrom:
       - kind: ConfigMap

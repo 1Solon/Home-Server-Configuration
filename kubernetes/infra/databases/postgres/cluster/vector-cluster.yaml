@@ -20,12 +20,12 @@ metadata:
           "cascade": true
         }
       ]
-  spec: 
-    postgresVersion: 16
-    ## use dragon's image, I should probably bake my own one at some point.
-    image: ghcr.io/drag0n141/cdpgvector:0.3.0@sha256:6bd40ba06b7da1885fbabb66b8b672fea865e6dce7f5c1a1195b4b97a75b43eb
-    
-    patroni: # turn on sync writes to at least 1 other replica
+spec:
+  postgresVersion: 16
+  ## use dragon's image, I should probably bake my own one at some point.
+  image: ghcr.io/drag0n141/cdpgvector:0.3.0@sha256:6bd40ba06b7da1885fbabb66b8b672fea865e6dce7f5c1a1195b4b97a75b43eb
+
+  patroni: # turn on sync writes to at least 1 other replica
     dynamicConfiguration:
       synchronous_mode: true
       postgresql:
@@ -70,15 +70,15 @@ metadata:
       options: SUPERUSER
       password: *password
 
-  # monitoring:
-  #   pgmonitor:
-  #     exporter:
-  #       resources:
-  #         requests:
-  #           cpu: 10m
-  #           memory: 64M
-  #         limits:
-  #           memory: 512M
+  monitoring:
+    pgmonitor:
+      exporter:
+        resources:
+          requests:
+            cpu: 10m
+            memory: 64M
+          limits:
+            memory: 512M
 
   proxy:
     pgBouncer:

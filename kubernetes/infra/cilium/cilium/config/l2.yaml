@@ -3,7 +3,7 @@
 apiVersion: cilium.io/v2alpha1
 kind: CiliumL2AnnouncementPolicy
 metadata:
-  name: l2-policy
+  name: l2-policy-amd64
 spec:
   loadBalancerIPs: true
   interfaces:
@@ -17,7 +17,7 @@ spec:
 apiVersion: cilium.io/v2alpha1
 kind: CiliumL2AnnouncementPolicy
 metadata:
-  name: l2-policy
+  name: l2-policy-arm64
 spec:
   loadBalancerIPs: true
   interfaces:

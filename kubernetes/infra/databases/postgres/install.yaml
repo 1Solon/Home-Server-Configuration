@@ -32,7 +32,7 @@ spec:
       app.kubernetes.io/name: *app
   interval: 30m
   timeout: 5m
-  path: ./kubernetes/infra/databases/postgres/cluster
+  path: ./kubernetes/infra/databases/postgres/clusters
   prune: true
   sourceRef:
     kind: GitRepository

@@ -112,7 +112,7 @@ spec:
     webhook:
       image:
         repository: ghcr.io/angelnu/gateway-admision-controller
-        tag: v3.11.0@sha256:b4e092bbd681a68e2830ae8176b4186118733d75dd1d63420b75e811d1b239fd
+        tag: v3.10.0@sha256:a8ed630613de277244dfe203cd11d05905d7eeba8d8c41e399b02ee9a847b2f5
       gatewayDefault: false
       gatewayAnnotation: setGateway
       gatewayLabel: setGateway

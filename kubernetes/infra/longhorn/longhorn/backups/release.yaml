@@ -43,7 +43,7 @@ spec:
                 echo $'\n' >> ~/.ssh/id_*
                 restic unlock
                 restic backup /data
-                restic forget --keep-weekly 1 --prune
+                restic forget --keep-last 1 --group-by "" --prune
             envFrom:
               - secretRef:
                   name: restic-secrets

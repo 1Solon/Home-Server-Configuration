@@ -5,3 +5,4 @@ kind: Kustomization
 resources:
   - ./cluster.yaml
   - ./vector-cluster.yaml
+  - ./externalsecret.yaml

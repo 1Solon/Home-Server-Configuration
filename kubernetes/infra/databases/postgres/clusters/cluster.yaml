@@ -100,7 +100,7 @@ spec:
         - name: repo1 # Minio
           s3: &minio
             bucket: postgres
-            endpoint: "${TRUENAS_IP}:9002"
+            endpoint: "${TRUENAS_IP}"
             region: home
           schedules:
             full: 0 1 * * 0 # Sunday at 01:00

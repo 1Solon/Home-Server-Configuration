@@ -73,10 +73,6 @@ spec:
       databases:
         - authentik
       password: *password
-    - name: immich
-      databases: ["immich_db"]
-      options: SUPERUSER
-      password: *password
 
   backups:
     pgbackrest:

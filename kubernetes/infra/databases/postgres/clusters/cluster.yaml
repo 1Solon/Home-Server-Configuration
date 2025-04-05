@@ -85,7 +85,7 @@ spec:
         # Minio
         repo1-block: y
         repo1-bundle: y
-        repo1-path: /crunchy-pgo
+        repo1-path: /postgres-cluster
         repo1-retention-full: "7" # days
         repo1-retention-full-type: time
         repo1-s3-uri-style: path

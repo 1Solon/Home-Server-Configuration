@@ -39,7 +39,8 @@ nodes:
     controlPlane: true
     installDisk: /dev/nvme0n1
     nameservers:
-      - 192.168.1.155
+      - 1.1.1.1
+      - 8.8.8.8
     networkInterfaces:
       - interface: end0
         addresses:
@@ -64,7 +65,8 @@ nodes:
     controlPlane: true
     installDisk: /dev/nvme0n1
     nameservers:
-      - 192.168.1.155
+      - 1.1.1.1
+      - 8.8.8.8
     networkInterfaces:
       - interface: end0
         addresses:
@@ -89,7 +91,8 @@ nodes:
     controlPlane: true
     installDisk: /dev/nvme0n1
     nameservers:
-      - 192.168.1.155
+      - 1.1.1.1
+      - 8.8.8.8
     networkInterfaces:
       - interface: end0
         addresses:
@@ -114,7 +117,8 @@ nodes:
     controlPlane: false
     installDisk: /dev/nvme0n1
     nameservers:
-      - 192.168.1.155
+      - 1.1.1.1
+      - 8.8.8.8
     networkInterfaces:
       - interface: end0
         addresses:
@@ -137,7 +141,8 @@ nodes:
     controlPlane: false
     installDisk: /dev/sda
     nameservers:
-      - 192.168.1.155
+      - 1.1.1.1
+      - 8.8.8.8
     networkInterfaces:
       - interface: eth0
         addresses:

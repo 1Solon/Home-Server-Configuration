@@ -48,6 +48,8 @@ spec:
               MINIO_UPDATE: "off"
               MINIO_BROWSER_REDIRECT_URL: "https://minio.${LOCAL_DOMAIN}"
               MINIO_SERVER_URL: "https://s3.${LOCAL_DOMAIN}"
+              MINIO_API_CORS_ALLOW_ORIGIN: "*"
+              MINIO_BROWSER: "on"
 
             envFrom:
               - secretRef:

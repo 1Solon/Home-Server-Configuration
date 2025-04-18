@@ -23,3 +23,30 @@ spec:
       - kind: ConfigMap
         name: cluster-settings
         optional: false
+
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: minio-backups
+  namespace: flux-system
+spec:
+  targetNamespace: minio
+  commonMetadata:
+    labels:
+      app.kubernetes.io/name: minio
+  interval: 10m
+  path: "./kubernetes/apps/minio/minio/backups"
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  wait: true
+  dependsOn:
+    - name: minio
+      namespace: flux-system
+  postBuild:
+    substituteFrom:
+      - kind: ConfigMap
+        name: cluster-settings
+        optional: false

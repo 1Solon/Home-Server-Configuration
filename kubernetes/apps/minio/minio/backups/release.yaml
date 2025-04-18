@@ -79,7 +79,7 @@ spec:
       data:
         type: nfs
         server: ${TRUENAS_IP}
-        path: /mnt/STORAGE-01/Longhorn-Backup
+        path: /mnt/STORAGE-01/Backups
       config:
         type: secret
         name: ssh-config-secrets

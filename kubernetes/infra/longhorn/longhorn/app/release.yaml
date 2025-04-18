@@ -24,9 +24,9 @@ spec:
       retries: 3
   values:
     defaultBackupStore:
-      backupTarget: cifs://192.168.1.111/Longhorn-Backup
+      backupTarget: s3://longhorn@home/
       backupstorePollInterval: 300
-      backupTargetCredentialSecret: cifs-secret
+      backupTargetCredentialSecret: minio-secret
     defaultSettings:
       defaultReplicaCount: 3
       createDefaultDiskLabeledNodes: true

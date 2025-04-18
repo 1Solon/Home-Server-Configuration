@@ -73,6 +73,39 @@ spec:
       options: SUPERUSER
       password: *password
 
+  backups:
+    pgbackrest:
+      configuration:
+        - secret:
+            name: crunchy-postgres-secret
+      global:
+        compress-type: bz2
+        compress-level: "9"
+        # Minio
+        repo1-block: y
+        repo1-bundle: y
+        repo1-path: /postgres-vector-cluster
+        repo1-retention-full: "7" # days
+        repo1-retention-full-type: time
+        repo1-s3-uri-style: path
+      manual:
+        repoName: repo1
+        options:
+          - --type=full
+      metadata:
+        labels:
+          app.kubernetes.io/name: crunchy-postgres-backup
+      repos:
+        - name: repo1 # Minio
+          s3: &minio
+            bucket: postgres
+            endpoint: "s3.${LOCAL_DOMAIN}"
+            region: home
+          schedules:
+            full: 0 1 * * 0 # Sunday at 01:00
+            differential: 0 1 * * 1-6 # Mon-Sat at 01:00
+            incremental: 0 2-23 * * * # Every hour except 01:00
+
   monitoring:
     pgmonitor:
       exporter:

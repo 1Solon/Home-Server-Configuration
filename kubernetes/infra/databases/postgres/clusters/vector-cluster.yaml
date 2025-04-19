@@ -24,7 +24,7 @@ spec:
   postgresVersion: 16
 
   ## use dragon's image, I should probably bake my own one at some point.
-  image: ghcr.io/drag0n141/cdpgvector:0.4.0@sha256:9a646daf58cdef4255a47093ec984cac2d779f802b256957831fa9c2a8f2a332
+  image: ghcr.io/drag0n141/cdpgvector:0.3.0@sha256:6bd40ba06b7da1885fbabb66b8b672fea865e6dce7f5c1a1195b4b97a75b43eb
 
   patroni: # turn on sync writes to at least 1 other replica
     dynamicConfiguration:

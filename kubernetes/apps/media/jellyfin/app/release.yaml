@@ -96,10 +96,11 @@ spec:
         type: persistentVolumeClaim
         accessMode: ReadWriteOnce
         size: 5Gi
-      tmp:
-        type: emptyDir
       transcode:
         type: emptyDir
+        globalMounts:
+          - path: /cache/transcodes
+            readOnly: false
       media:
         type: nfs
         server: ${TRUENAS_IP}

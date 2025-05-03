@@ -2,114 +2,34 @@
 - Media:
     - Jellyfin:
         icon: jellyfin.png
-        href: https://jellyfin.local.solonsstuff.com
-        enableBlocks: true
+        href: https://jellyfin.${SECRET_EXTERNAL_DOMAIN}
         description: Media Server
         widget:
             type: jellyfin
-            url: http://jellyfin-tcp.home-media.svc.cluster.local
+            url: http://jellyfin.default.svc.cluster.local.:8096
             key: {{HOMEPAGE_VAR_JELLYFIN_TOKEN}}
             enableNowPlaying: true
-
-    - Jellyseer:
-        icon: jellyseerr.png
-        href: https://jellyseerr.local.solonsstuff.com/
-        description: Media Requests
-        widget:
-            type: jellyseerr
-            url: http://jellyseerr-service.home-media.svc.cluster.local
-            key: {{HOMEPAGE_VAR_JELLYSEER_TOKEN}}
-
     - Sonarr:
-        href: https://sonarr.local.solonsstuff.com
+        href: https://sonarr.${SECRET_EXTERNAL_DOMAIN}
         icon: sonarr.png
         description: TV Shows
         widget:
             type: sonarr
-            url: http://sonarr.home-media.svc.cluster.local:8080
+            url: http://sonarr.default.svc.cluster.local.:8080
             key: {{HOMEPAGE_VAR_SONARR_TOKEN}}
-
     - Radarr:
-        href: https://radarr.local.solonsstuff.com
+        href: https://radarr.${SECRET_EXTERNAL_DOMAIN}
         icon: radarr.png
         description: Movies
         widget:
             type: radarr
-            url: http://radarr.home-media.svc.cluster.local:8080
+            url: http://radarr.default.svc.cluster.local.:8080
             key: {{HOMEPAGE_VAR_RADARR_TOKEN}}
-
-    - Prowlarr:
-        href: https://prowlarr.local.solonsstuff.com
-        icon: prowlarr.png
-        description: Indexer Manager
-        widget:
-            type: prowlarr
-            url: http://prowlarr.home-media.svc.cluster.local:8080
-            key: {{HOMEPAGE_VAR_PROWLARR_TOKEN}}
-
-- Downloaders:
-    - Qbittorrent:
-        icon: qbittorrent.png
-        href: https://qbittorrent.local.solonsstuff.com
-        description: Torrents
-        widget:
-            type: qbittorrent
-            url: http://qbittorrent-service.home-media.svc.cluster.local
-            username: {{HOMEPAGE_VAR_QBITTORRENT_USERNAME}}
-            password: {{HOMEPAGE_VAR_QBITTORRENT_PASSWORD}}
-
-- Utilities:
-    - Semaphore:
-        icon: semaphore.png
-        href: https://semaphore.local.solonsstuff.com
-        description: Automated server management
-
-    - Ntfy:
-        icon: ntfy.png
-        href: https://ntfy.solonsstuff.com
-        description: Notifications
-
-    - Vaultwarden:
-        icon: vaultwarden.png
-        href: https://vaultwarden.solonsstuff.com
-        description: Password Manager
-
-    - Traefik:
-        icon: traefik.png
-        href: https://traefik.local.solonsstuff.com/dashboard/#/
-        description: Reverse Proxy
-    
-    - Pihole:
-        icon: pi-hole.png
-        href: https://pihole.local.solonsstuff.com/admin/login.php
-        description: Network-wide Ad Blocking
-        widget:
-            type: pihole
-            url: http://pihole-tcp.pihole.svc.cluster.local
-            version: 5
-            key: {{HOMEPAGE_VAR_PIHOLE_TOKEN}}
-
-    - Speedtest:
-        icon: openspeedtest.png
-        href: https://speed.local.solonsstuff.com/admin
-        description: Network Speed Test
-        widget:
-            type: speedtest
-            url: http://speedtest-tracker.speedtest.svc.cluster.local
-            bitratePrecision: 3
-  
-- Storage:
-    - Longhorn:
-        expanded: true
-        total: true
-        labels: true
-        nodes: true
-
 - Calendar:
     - Agenda:
         widget:
           type: calendar
-          view: monthly # optional - possible values monthly, agenda
+          view: agenda # optional - possible values monthly, agenda
           maxEvents: 5 # optional - defaults to 10
           integrations: # optional
             - type: sonarr # active widget type that is currently enabled on homepage - possible values: radarr, sonarr>

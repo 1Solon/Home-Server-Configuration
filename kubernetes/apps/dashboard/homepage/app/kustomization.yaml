@@ -5,7 +5,7 @@ kind: Kustomization
 resources:
   - rbac.yaml
   - release.yaml
-  - secret.yaml
+  - externalsecret.yaml
 configMapGenerator:
   - name: homepage-config
     files:

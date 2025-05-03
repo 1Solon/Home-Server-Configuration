@@ -1,7 +1,16 @@
 ---
+#- logo:
+#    icon: https://raw.githubusercontent.com/LilDrunkenSmurf/k3s-home-cluster/main/icons/lds-transparent.png
+- search:
+    provider: custom
+    url: https://kagi.com/search?q=
+    focus: false
+    target: _blank
+    suggestionUrl: https://kagi.com/api/autosuggest?q=
+    showSearchSuggestions: true
 - greeting:
     text_size: xl
-    text: Welcome, User
+    text: Greetings, Citizen.
 - kubernetes:
     cluster:
       cpu: true
@@ -14,12 +23,6 @@
       memory: true
       show: false
       showLabel: true
-- datetime:
-    text_size: l
-    format:
-      dateStyle: long
-      timeStyle: short
-      hourCycle: h23
 - openmeteo:
     label: Home
     latitude: "{{HOMEPAGE_VAR_LATITUDE}}"
@@ -27,3 +30,9 @@
     timezone: Europe/Dublin
     units: metric
     cache: 5
+- datetime:
+    text_size: l
+    format:
+      dateStyle: long
+      timeStyle: short
+      hourCycle: h23

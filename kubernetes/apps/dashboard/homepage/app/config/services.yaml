@@ -74,11 +74,13 @@
             key: {{HOMEPAGE_VAR_TRUENAS_TOKEN}}
             enablePools: true
             nasType: scale
-    - longhorn:
-        expanded: true
-        total: true
-        labels: true
-        nodes: true
+    - Longhorn:
+        icon: longhorn.png
+        href: https://longhorn.${LOCAL_DOMAIN}
+        description: Longhorn Storage
+        siteMonitor: http://longhorn-backend.longhorn.svc.cluster.local:9500
+        statusStyle: basic
+ 
 
 - Calendar:
     - Agenda:

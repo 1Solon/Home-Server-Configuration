@@ -26,6 +26,3 @@ layout:
     style: row
     # columns: 3 # Uncomment this later when I have more downloaders
     icon: mdi-download-circle
-providers:
-  longhorn:
-    url: http://longhorn-backend.longhorn.svc.cluster.local:9500

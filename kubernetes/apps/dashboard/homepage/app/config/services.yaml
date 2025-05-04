@@ -74,7 +74,7 @@
             key: {{HOMEPAGE_VAR_TRUENAS_TOKEN}}
             enablePools: true
             nasType: scale
-    - Longhorn:
+    - longhorn:
         expanded: true
         total: true
         labels: true

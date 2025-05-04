@@ -5,5 +5,4 @@ metadata:
   name: dashboard-install
 resources:
   - ./namespace.yaml
-  - ./homarr/install.yaml
   - ./homepage/install.yaml

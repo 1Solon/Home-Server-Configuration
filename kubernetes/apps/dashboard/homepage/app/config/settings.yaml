@@ -11,7 +11,7 @@ layout:
   Media:
     style: column
     icon: mdi-play-circle
-  Infrastructure:
+  Applications:
     style: row
     columns: 3
     icon: mdi-server

@@ -15,6 +15,10 @@ layout:
     style: row
     columns: 3
     icon: mdi-server
+  Downloads:
+    style: row
+    # columns: 3 # Uncomment this later when I have more downloaders
+    icon: mdi-download-circle
   Storage:
     style: row
     columns: 2
@@ -23,7 +27,3 @@ layout:
   Observability:
     style: column
     icon: mdi-chart-line
-  Downloads:
-    style: row
-    # columns: 3 # Uncomment this later when I have more downloaders
-    icon: mdi-download-circle

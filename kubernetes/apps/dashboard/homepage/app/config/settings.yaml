@@ -6,7 +6,7 @@ background:
   opacity: 60
 theme: dark
 cardBlur: md
-color: slate
+color: stone
 headerStyle: clean
 layout:
   Calendar:

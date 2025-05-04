@@ -77,6 +77,16 @@ spec:
     ingress:
       app:
         className: internal
+        annotations:
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/name: AdGuard Home
+          gethomepage.dev/description: AdGuard Home is a network-wide ads & trackers blocking DNS server.
+          gethomepage.dev/group: Infrastructure
+          gethomepage.dev/icon: adguard-home.png
+          gethomepage.dev/pod-selector: >-
+            app in (
+              adguard
+            )
         hosts:
           - host: &host "adguard.${LOCAL_DOMAIN}"
             paths:

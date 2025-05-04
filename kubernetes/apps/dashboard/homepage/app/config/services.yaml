@@ -61,6 +61,7 @@
         href: http://192.168.1.21/
         description: Proxmox KVM
         siteMonitor: http://192.168.1.21/
+        statusStyle: basic
 
 - Calendar:
     - Agenda:

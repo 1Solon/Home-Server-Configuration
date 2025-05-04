@@ -29,7 +29,7 @@
     longitude: "{{HOMEPAGE_VAR_LONGITUDE}}"
     timezone: Europe/Dublin
     units: metric
-    cache: 5
+    cache: 10
 - datetime:
     text_size: l
     format:

@@ -61,7 +61,7 @@ spec:
           gethomepage.dev/description: Identity provider and access management.
           gethomepage.dev/group: Infrastructure
           gethomepage.dev/icon: authentik.png
-          gethomepage.dev/pod-selector: authentik-server
+          gethomepage.dev/pod-selector: app.kubernetes.io/name=authentik-server
         hosts:
           - &host "sso.${REMOTE_DOMAIN}"
         tls:

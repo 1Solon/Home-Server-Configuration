@@ -33,6 +33,14 @@
             type: radarr
             url: http://radarr.home-media.svc.cluster.local:8080
             key: {{HOMEPAGE_VAR_RADARR_TOKEN}}
+    - Immich:
+        icon: immich.png
+        href: https://immich.${REMOTE_DOMAIN}
+        description: Photos
+        widget:
+            type: immich
+            url: http://immich-server.immich.svc.cluster.local:2283
+            key: {{IMMICH_VAR_IMMICH_API_KEY}}
 - Calendar:
     - Agenda:
         widget:

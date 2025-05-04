@@ -3,7 +3,7 @@ title: Dashboard
 favicon: https://raw.githubusercontent.com/auricom/home-ops/main/docs/src/assets/logo.png
 background: 
   image: https://www.nasa.gov/wp-content/uploads/2025/05/54470656907-2362dd2f92-o.jpg?auto=format&fit=crop&w=2560&q=80
-  opacity: 90
+  opacity: 70
 theme: dark
 cardBlur: md
 color: slate

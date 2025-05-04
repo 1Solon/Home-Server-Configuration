@@ -35,7 +35,7 @@
             key: {{HOMEPAGE_VAR_RADARR_TOKEN}}
     - Immich:
         icon: immich.png
-        href: https://immich.${LOCAL_DOMAIN}
+        href: https://photos.${REMOTE_DOMAIN}
         description: Photos
         widget:
             type: immich

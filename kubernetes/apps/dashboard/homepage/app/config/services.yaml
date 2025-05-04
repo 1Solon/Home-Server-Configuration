@@ -40,7 +40,7 @@
         widget:
             type: immich
             url: http://immich-server.immich.svc.cluster.local:2283
-            key: {{IMMICH_VAR_IMMICH_API_KEY}}
+            key: {{HOMEPAGE_VAR_IMMICH_TOKEN}}
             version: 2
 - Calendar:
     - Agenda:

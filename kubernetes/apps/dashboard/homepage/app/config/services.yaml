@@ -74,6 +74,11 @@
             key: {{HOMEPAGE_VAR_TRUENAS_TOKEN}}
             enablePools: true
             nasType: scale
+    - Longhorn:
+        expanded: true
+        total: true
+        labels: true
+        nodes: true
 
 - Calendar:
     - Agenda:

@@ -10,6 +10,7 @@ metadata:
     gethomepage.dev/description: Ntfy is a simple HTTP-based pub-sub notification service.
     gethomepage.dev/group: Applications
     gethomepage.dev/icon: ntfy.png
+    gethomepage.dev/pod-selector: app=ntfy
 spec:
   ingressClassName: external
   rules:

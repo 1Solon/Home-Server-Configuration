@@ -19,6 +19,7 @@ layout:
     style: row
     columns: 2
     icon: mdi-desktop-tower
+    useEqualHeights: true
   Observability:
     style: column
     icon: mdi-chart-line

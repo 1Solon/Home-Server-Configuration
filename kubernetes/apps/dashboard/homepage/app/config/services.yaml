@@ -42,6 +42,19 @@
             url: http://immich-server.immich.svc.cluster.local:2283
             key: {{HOMEPAGE_VAR_IMMICH_TOKEN}}
             version: 2
+
+- Downloads:
+    - qBittorrent:
+        icon: qbittorrent.png
+        href: https://qbittorrent.${LOCAL_DOMAIN}
+        description: Torrent Client
+        widget:
+            type: qbittorrent
+            url: http://qbittorrent-service.home-media.svc.cluster.local:80
+            username: {{HOMEPAGE_VAR_QBITTORRENT_USERNAME}}
+            password: {{HOMEPAGE_VAR_QBITTORRENT_PASSWORD}}
+            enableLeechProgress: true
+
 - Calendar:
     - Agenda:
         widget:

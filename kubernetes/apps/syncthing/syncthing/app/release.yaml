@@ -98,7 +98,7 @@ spec:
         annotations:
           gethomepage.dev/enabled: "true"
           gethomepage.dev/name: Syncthing
-          gethomepage.dev/description: Syncthing is a continuous file synchronization program.
+          gethomepage.dev/description: File Synchronization
           gethomepage.dev/group: Applications
           gethomepage.dev/icon: syncthing.png
         hosts:

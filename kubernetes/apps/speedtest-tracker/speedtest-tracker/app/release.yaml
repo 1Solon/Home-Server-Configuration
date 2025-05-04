@@ -54,7 +54,7 @@ spec:
         annotations:
           gethomepage.dev/enabled: "true"
           gethomepage.dev/name: Speedtest Tracker
-          gethomepage.dev/description: Speedtest Tracker is a self-hosted speed test tracker.
+          gethomepage.dev/description: Time-series speedtest tracking
           gethomepage.dev/group: Applications
           gethomepage.dev/icon: speedtest-tracker.png
         hosts:

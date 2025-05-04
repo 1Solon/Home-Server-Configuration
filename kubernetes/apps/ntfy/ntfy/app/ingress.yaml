@@ -7,7 +7,7 @@ metadata:
     external-dns.alpha.kubernetes.io/target: ipv4.solonsstuff.com
     gethomepage.dev/enabled: "true"
     gethomepage.dev/name: Ntfy
-    gethomepage.dev/description: Ntfy is a simple HTTP-based pub-sub notification service.
+    gethomepage.dev/description: Notification service
     gethomepage.dev/group: Applications
     gethomepage.dev/icon: ntfy.png
     gethomepage.dev/pod-selector: app=ntfy

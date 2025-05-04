@@ -89,7 +89,7 @@ spec:
             proxy_set_header X-Forwarded-Host $http_host;
           gethomepage.dev/enabled: "true"
           gethomepage.dev/name: Prowlarr
-          gethomepage.dev/description: Prowlarr is a indexer manager for Usenet and BitTorrent users.
+          gethomepage.dev/description: Indexer manager for Radarr and Sonarr
           gethomepage.dev/group: Applications
           gethomepage.dev/icon: prowlarr.png
         hosts:

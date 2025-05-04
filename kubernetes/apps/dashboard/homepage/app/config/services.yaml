@@ -2,7 +2,7 @@
 - Media:
     - Jellyfin:
         icon: jellyfin.png
-        href: https://jellyfin.${SECRET_EXTERNAL_DOMAIN}
+        href: https://jellyfin.${REMOTE_DOMAIN}
         description: Media Server
         widget:
             type: jellyfin
@@ -10,7 +10,7 @@
             key: {{HOMEPAGE_VAR_JELLYFIN_TOKEN}}
             enableNowPlaying: true
     - Sonarr:
-        href: https://sonarr.${SECRET_EXTERNAL_DOMAIN}
+        href: https://sonarr.${LOCAL_DOMAIN}
         icon: sonarr.png
         description: TV Shows
         widget:
@@ -18,7 +18,7 @@
             url: http://sonarr.home-media.svc.cluster.local:8080
             key: {{HOMEPAGE_VAR_SONARR_TOKEN}}
     - Radarr:
-        href: https://radarr.${SECRET_EXTERNAL_DOMAIN}
+        href: https://radarr.${LOCAL_DOMAIN}
         icon: radarr.png
         description: Movies
         widget:

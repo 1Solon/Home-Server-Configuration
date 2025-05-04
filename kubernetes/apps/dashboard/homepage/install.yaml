@@ -23,5 +23,9 @@ spec:
   retryInterval: 1m
   timeout: 5m
   postBuild:
+    substituteFrom:
+      - kind: ConfigMap
+        name: cluster-settings
+        optional: false
     substitute:
       APP: *app

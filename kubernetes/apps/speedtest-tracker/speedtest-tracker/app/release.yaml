@@ -51,6 +51,12 @@ spec:
       app:
         enabled: true
         className: internal
+        annotations:
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/name: Speedtest Tracker
+          gethomepage.dev/description: Speedtest Tracker is a self-hosted speed test tracker.
+          gethomepage.dev/group: Applications
+          gethomepage.dev/icon: speedtest-tracker.png
         hosts:
           - host: &host "{{ .Release.Name }}.${LOCAL_DOMAIN}"
             paths:

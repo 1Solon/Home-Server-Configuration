@@ -39,7 +39,7 @@
         description: Photos
         widget:
             type: immich
-            url: http://immich-server.immich.svc.cluster.local:8081
+            url: http://immich-server.immich.svc.cluster.local:2283
             key: {{IMMICH_VAR_IMMICH_API_KEY}}
             version: 2
 - Calendar:

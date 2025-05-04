@@ -81,7 +81,7 @@ spec:
           gethomepage.dev/enabled: "true"
           gethomepage.dev/name: AdGuard Home
           gethomepage.dev/description: AdGuard Home is a network-wide ads & trackers blocking DNS server.
-          gethomepage.dev/group: Infrastructure
+          gethomepage.dev/group: Applications
           gethomepage.dev/icon: adguard-home.png
         hosts:
           - host: &host "adguard.${LOCAL_DOMAIN}"

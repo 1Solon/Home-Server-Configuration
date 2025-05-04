@@ -9,6 +9,14 @@
             url: http://jellyfin.home-media.svc.cluster.local:8096
             key: {{HOMEPAGE_VAR_JELLYFIN_TOKEN}}
             enableNowPlaying: true
+    - Jellyseerr:
+        icon: jellyseerr.png
+        href: https://jellyseerr.${REMOTE_DOMAIN}
+        description: Requests
+        widget:
+            type: jellyseerr
+            url: http://jellyseerr.home-media.svc.cluster.local:80
+            key: {{HOMEPAGE_VAR_JELLYSEERR_TOKEN}}
     - Sonarr:
         href: https://sonarr.${LOCAL_DOMAIN}
         icon: sonarr.png

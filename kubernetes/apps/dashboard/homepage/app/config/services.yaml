@@ -55,6 +55,12 @@
             password: {{HOMEPAGE_VAR_QBITTORRENT_PASSWORD}}
             enableLeechProgress: true
 
+- Applications:
+    - JetKVM:
+        icon: jetkvm.png
+        href: http://192.168.1.21/
+        description: Prox box KVM
+
 - Calendar:
     - Agenda:
         widget:

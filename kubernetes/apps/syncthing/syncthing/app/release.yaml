@@ -95,6 +95,12 @@ spec:
     ingress:
       main:
         className: "internal"
+        annotations:
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/name: Syncthing
+          gethomepage.dev/description: Syncthing is a continuous file synchronization program.
+          gethomepage.dev/group: Applications
+          gethomepage.dev/icon: syncthing.png
         hosts:
           - host: &host syncthing.${LOCAL_DOMAIN}
             paths:

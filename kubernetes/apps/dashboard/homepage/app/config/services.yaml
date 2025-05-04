@@ -63,6 +63,18 @@
         siteMonitor: http://192.168.1.21/
         statusStyle: basic
 
+- Storage:
+    - TrueNAS:
+        icon: truenas.png
+        href: https://truenas.${LOCAL_DOMAIN}
+        description: NAS Storage
+        widget:
+            type: truenas
+            url: https://truenas.${LOCAL_DOMAIN}
+            key: {{HOMEPAGE_VAR_TRUENAS_TOKEN}}
+            enablePools: true
+            nasType: scale
+
 - Calendar:
     - Agenda:
         widget:

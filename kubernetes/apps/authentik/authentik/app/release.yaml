@@ -56,6 +56,11 @@ spec:
         ingressClassName: external
         annotations:
           external-dns.alpha.kubernetes.io/target: ipv4.solonsstuff.com
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/name: Authentik
+          gethomepage.dev/description: Identity provider and access management.
+          gethomepage.dev/group: Infrastructure
+          gethomepage.dev/icon: authentik.png
         hosts:
           - &host "sso.${REMOTE_DOMAIN}"
         tls:

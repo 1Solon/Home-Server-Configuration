@@ -59,7 +59,7 @@
     - JetKVM:
         icon: jetkvm.png
         href: http://192.168.1.21/
-        description: Prox box KVM
+        description: Proxmox KVM
 
 - Calendar:
     - Agenda:

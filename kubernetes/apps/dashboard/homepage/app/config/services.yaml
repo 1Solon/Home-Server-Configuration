@@ -60,9 +60,7 @@
         icon: jetkvm.png
         href: http://192.168.1.21/
         description: Proxmox KVM
-        widget:
-            type: jetkvm
-            url: http://192.168.1.21/
+        enabled: true
 
 - Calendar:
     - Agenda:

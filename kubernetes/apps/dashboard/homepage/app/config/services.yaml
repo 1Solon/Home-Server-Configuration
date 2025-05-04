@@ -47,7 +47,7 @@
         widget:
           type: calendar
           view: agenda # optional - possible values monthly, agenda
-          maxEvents: 20 # optional - defaults to 10
+          maxEvents: 23 # optional - defaults to 10
           integrations: # optional
             - type: sonarr # active widget type that is currently enabled on homepage - possible values: radarr, sonarr>
               service_group: Media # group name where widget exists

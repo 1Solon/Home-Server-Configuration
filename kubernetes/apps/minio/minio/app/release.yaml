@@ -91,6 +91,12 @@ spec:
       app:
         enabled: true
         className: internal
+        annotations:
+              gethomepage.dev/enabled: "true"
+              gethomepage.dev/name: Minio
+              gethomepage.dev/description: Minio is an open-source object storage server compatible with Amazon S3 cloud storage service.
+              gethomepage.dev/group: Applications
+              gethomepage.dev/icon: minio.png
         hosts:
           - host: &host-console "minio.${LOCAL_DOMAIN}"
             paths:

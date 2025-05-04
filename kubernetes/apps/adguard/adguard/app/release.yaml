@@ -80,7 +80,7 @@ spec:
         annotations:
           gethomepage.dev/enabled: "true"
           gethomepage.dev/name: AdGuard Home
-          gethomepage.dev/description: Add Blocker and DNS server
+          gethomepage.dev/description: Ad Blocker and DNS server
           gethomepage.dev/group: Applications
           gethomepage.dev/icon: adguard-home.png
         hosts:

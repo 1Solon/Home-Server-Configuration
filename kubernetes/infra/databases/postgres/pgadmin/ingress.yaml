@@ -6,7 +6,7 @@ metadata:
   annotations:
     gethomepage.dev/enabled: "true"
     gethomepage.dev/name: pgAdmin
-    gethomepage.dev/description: PostgreSQL management tool.
+    gethomepage.dev/description: PostgreSQL management tool
     gethomepage.dev/group: Applications
     gethomepage.dev/icon: pgadmin.png
     gethomepage.dev/pod-selector: >-

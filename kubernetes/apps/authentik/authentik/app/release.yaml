@@ -58,7 +58,7 @@ spec:
           external-dns.alpha.kubernetes.io/target: ipv4.solonsstuff.com
           gethomepage.dev/enabled: "true"
           gethomepage.dev/name: Authentik
-          gethomepage.dev/description: Identity provider and access management.
+          gethomepage.dev/description: Identity provider and access management
           gethomepage.dev/group: Applications
           gethomepage.dev/icon: authentik.png
           gethomepage.dev/pod-selector: app.kubernetes.io/name=authentik

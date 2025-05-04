@@ -9,10 +9,6 @@ metadata:
     gethomepage.dev/description: PostgreSQL management tool.
     gethomepage.dev/group: Infrastructure
     gethomepage.dev/icon: pgadmin.png
-    gethomepage.dev/pod-selector: >-
-      app in (
-        pgadmin
-      )
 spec:
   ingressClassName: internal
   tls:

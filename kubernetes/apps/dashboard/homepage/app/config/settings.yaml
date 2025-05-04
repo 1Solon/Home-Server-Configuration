@@ -24,6 +24,10 @@ layout:
     columns: 2
     icon: mdi-desktop-tower
     useEqualHeights: true
+  Virtualization:
+    style: row
+    # columns: 3 # Uncomment this later when I have more downloaders
+    icon: mdi-cloud-circle
   Observability:
     style: column
     icon: mdi-chart-line

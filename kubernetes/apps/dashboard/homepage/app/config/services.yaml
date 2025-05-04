@@ -6,7 +6,7 @@
         description: Media Server
         widget:
             type: jellyfin
-            url: http://jellyfin.default.svc.cluster.local:8096
+            url: http://jellyfin.home-media.svc.cluster.local:8096
             key: {{HOMEPAGE_VAR_JELLYFIN_TOKEN}}
             enableNowPlaying: true
     - Sonarr:
@@ -15,7 +15,7 @@
         description: TV Shows
         widget:
             type: sonarr
-            url: http://sonarr.default.svc.cluster.local:8080
+            url: http://sonarr.home-media.svc.cluster.local:8080
             key: {{HOMEPAGE_VAR_SONARR_TOKEN}}
     - Radarr:
         href: https://radarr.${SECRET_EXTERNAL_DOMAIN}
@@ -23,7 +23,7 @@
         description: Movies
         widget:
             type: radarr
-            url: http://radarr.default.svc.cluster.local:8080
+            url: http://radarr.home-media.svc.cluster.local:8080
             key: {{HOMEPAGE_VAR_RADARR_TOKEN}}
 - Calendar:
     - Agenda:

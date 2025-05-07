@@ -27,7 +27,7 @@ spec:
         fsGroupChangePolicy: OnRootMismatch
       containers:
         - name: qbittorrent
-          image: ghcr.io/home-operations/qbittorrent:5.1.0@sha256:d28de21b80e231578b600ce47335733df55ca2058e75361becfb1b252569f0c8
+          image: ghcr.io/home-operations/qbittorrent:5.1.0@sha256:3e7c969139da1eaf8d3ccdebd473eefb4e2550d610b88f5a3c866bc34662d89a
           user: 65534:65534
           imagePullPolicy: Always
           resources: {}

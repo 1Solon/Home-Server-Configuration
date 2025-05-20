@@ -92,6 +92,6 @@ spec:
         enabled: true
         type: nfs
         server: ${TRUENAS_IP}
-        path: /mnt/STORAGE-01/Media-Storage
+        path: /mnt/STORAGE-01/Media-Storage/manga
         globalMounts:
           - path: /home/suwayomi/.local/share/Tachidesk/downloads/mangas

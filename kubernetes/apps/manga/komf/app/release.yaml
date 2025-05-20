@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: &app suwayomi
+  name: &app komf
 spec:
   interval: 30m
   chart:
@@ -12,8 +12,9 @@ spec:
       version: 3.7.3
       sourceRef:
         kind: HelmRepository
-        name: bjw-s-charts
+        name: bjw-s
         namespace: flux-system
+  maxHistory: 2
   install:
     remediation:
       retries: 3
@@ -22,6 +23,10 @@ spec:
     remediation:
       strategy: rollback
       retries: 3
+  uninstall:
+    keepHistory: false
+  dependsOn:
+    - name: komga
   values:
     defaultPodOptions:
       securityContext:
@@ -32,48 +37,42 @@ spec:
         seccompProfile: { type: RuntimeDefault }
 
     controllers:
-      suwayomi:
+      komf:
         annotations:
           reloader.stakater.com/auto: "true"
-
         containers:
           app:
             image:
-              repository: ghcr.io/suwayomi/tachidesk
-              tag: v1.1.1-r1673
+              repository: sndxr/komf
+              tag: 1.3.0@sha256:166e3dbf2a97c65916ad915abecf8d191515d6c7ffa6c7c0e1ab3f4419f9d559
             env:
-              TZ: ${TZ}
-              BIND_PORT: &port 4567
-              WEB_UI_CHANNEL: "preview"
-              AUTO_DOWNLOAD_CHAPTERS: true
-              UPDATE_EXCLUDE_UNREAD: "false"
-              UPDATE_EXCLUDE_STARTED: "false"
-              UPDATE_EXCLUDE_COMPLETED: "false"
-              DOWNLOAD_AS_CBZ: "true"
-              EXTENSION_REPOS: '["https://raw.githubusercontent.com/keiyoushi/extensions/repo/index.min.json"]'
+              KOMF_KOMGA_BASE_URI: http://komga.manga.svc.cluster.local:8080
+              KOMF_LOG_LEVEL: INFO
+            envFrom:
+              - secretRef:
+                  name: komf-secret
             resources:
               requests:
                 cpu: 10m
                 memory: 256Mi
               limits:
                 memory: 2000Mi
-
     service:
       app:
         controller: *app
         ports:
           http:
-            port: *port
+            port: 8085
 
     ingress:
       app:
         className: internal
         annotations:
           gethomepage.dev/enabled: "true"
-          gethomepage.dev/group: Applications
-          gethomepage.dev/name: Suwayomi
-          gethomepage.dev/icon: https://raw.githubusercontent.com/Suwayomi/Suwayomi-Server/master/server/src/main/resources/icon/faviconlogo.png
-          gethomepage.dev/description: Manga Web Reader/Downloader
+          gethomepage.dev/group: Books
+          gethomepage.dev/name: Komf
+          gethomepage.dev/icon: komga.png
+          gethomepage.dev/description: Komga Metadata Analyser
         hosts:
           - host: "{{ .Release.Name }}.${LOCAL_DOMAIN}"
             paths:
@@ -84,14 +83,15 @@ spec:
 
     persistence:
       config:
+        enabled: true
         existingClaim: *app
         globalMounts:
-          - path: /home/suwayomi/.local/share/Tachidesk
+          - path: /config
 
-      media:
-        enabled: true
-        type: nfs
-        server: ${TRUENAS_IP}
-        path: /mnt/STORAGE-01/Media-Storage/manga
+      configmap:
+        type: configMap
+        name: komf-configmap
         globalMounts:
-          - path: /home/suwayomi/.local/share/Tachidesk/downloads/mangas
+          - path: /config/application.yml
+            subPath: application.yml
+            readOnly: true

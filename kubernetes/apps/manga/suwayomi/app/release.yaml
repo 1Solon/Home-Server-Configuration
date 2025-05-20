@@ -1,0 +1,97 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app suwayomi
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: app-template
+      version: 3.7.3
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s-charts
+        namespace: flux-system
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      strategy: rollback
+      retries: 3
+  values:
+    defaultPodOptions:
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+        seccompProfile: { type: RuntimeDefault }
+
+    controllers:
+      suwayomi:
+        annotations:
+          reloader.stakater.com/auto: "true"
+
+        containers:
+          app:
+            image:
+              repository: ghcr.io/suwayomi/tachidesk
+              tag: v1.1.1-r1673
+            env:
+              TZ: ${TZ}
+              BIND_PORT: &port 4567
+              WEB_UI_CHANNEL: "preview"
+              AUTO_DOWNLOAD_CHAPTERS: true
+              UPDATE_EXCLUDE_UNREAD: "false"
+              UPDATE_EXCLUDE_STARTED: "false"
+              UPDATE_EXCLUDE_COMPLETED: "false"
+              DOWNLOAD_AS_CBZ: "true"
+              EXTENSION_REPOS: '["https://raw.githubusercontent.com/keiyoushi/extensions/repo/index.min.json"]'
+            resources:
+              requests:
+                memory: 250Mi
+                cpu: 500m
+              limits:
+                memory: 1500Mi
+
+    service:
+      app:
+        controller: *app
+        ports:
+          http:
+            port: *port
+
+    ingress:
+      app:
+        className: internal
+        annotations:
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/group: Applications
+          gethomepage.dev/name: Suwayomi
+          gethomepage.dev/icon: https://raw.githubusercontent.com/Suwayomi/Suwayomi-Server/master/server/src/main/resources/icon/faviconlogo.png
+          gethomepage.dev/description: Manga Web Reader/Downloader
+        hosts:
+          - host: "{{ .Release.Name }}.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                service:
+                  identifier: app
+                  port: http
+
+    persistence:
+      config:
+        existingClaim: *app
+        globalMounts:
+          - path: /home/suwayomi/.local/share/Tachidesk
+
+      media:
+        enabled: true
+        type: nfs
+        server: ${TRUENAS_IP}
+        path: /mnt/STORAGE-01/Media-Storage
+        globalMounts:
+          - path: /home/suwayomi/.local/share/Tachidesk/downloads/mangas

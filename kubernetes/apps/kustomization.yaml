@@ -3,6 +3,7 @@ kind: Kustomization
 resources:
   - dashboard
   - media
+  - manga
   - ntfy
   - speedtest-tracker
   - authentik

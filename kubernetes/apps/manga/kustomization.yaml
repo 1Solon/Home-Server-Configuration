@@ -4,5 +4,5 @@ kind: Kustomization
 resources:
   - namespace.yaml
   # - komf
-  # - komga
+  - ./komga/install.yaml
   - ./suwayomi/install.yaml

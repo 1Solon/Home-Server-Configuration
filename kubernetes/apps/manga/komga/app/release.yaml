@@ -26,9 +26,9 @@ spec:
   values:
     defaultPodOptions:
       securityContext:
-        runAsUser: &uid 1000
-        runAsGroup: &gid 1000
-        fsGroup: 1000
+        runAsUser: &uid 6470
+        runAsGroup: &gid 6470
+        fsGroup: 6470
         fsGroupChangePolicy: OnRootMismatch
         seccompProfile: { type: RuntimeDefault }
 

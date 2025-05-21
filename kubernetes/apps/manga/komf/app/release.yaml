@@ -28,13 +28,13 @@ spec:
   dependsOn:
     - name: komga
   values:
-    # defaultPodOptions:
-    #   securityContext:
-    #     runAsUser: 1000
-    #     runAsGroup: 1000
-    #     fsGroup: 1000
-    #     fsGroupChangePolicy: OnRootMismatch
-    #     seccompProfile: { type: RuntimeDefault }
+    defaultPodOptions:
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+        seccompProfile: { type: RuntimeDefault }
 
     controllers:
       komf:
@@ -51,12 +51,12 @@ spec:
             envFrom:
               - secretRef:
                   name: komf-secret
-            # resources:
-            #   requests:
-            #     cpu: 10m
-            #     memory: 256Mi
-            #   limits:
-            #     memory: 2000Mi
+            resources:
+              requests:
+                cpu: 10m
+                memory: 256Mi
+              limits:
+                memory: 2000Mi
     service:
       app:
         controller: *app

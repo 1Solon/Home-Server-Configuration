@@ -9,6 +9,6 @@ resources:
 configMapGenerator:
   - name: komf-configmap
     files:
-      - ./config/application.yaml
+      - ./config/application.yml
 generatorOptions:
   disableNameSuffixHash: true

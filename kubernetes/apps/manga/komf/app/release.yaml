@@ -92,6 +92,6 @@ spec:
         type: configMap
         name: komf-configmap
         globalMounts:
-          - path: /config/application.yaml
-            subPath: application.yaml
+          - path: /config/application.yml
+            subPath: application.yml
             readOnly: true

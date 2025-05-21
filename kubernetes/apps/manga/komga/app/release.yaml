@@ -40,7 +40,7 @@ spec:
         containers:
           app:
             image:
-              repository: ghcr.io/gotson
+              repository: ghcr.io/gotson/komga
               tag: "1.21.3@sha256:72dc9f81a0a528752e953028a7d3ca6a83f8eabe2a617e3c7e53cfa594c84256"
             env:
               TZ: ${TZ}

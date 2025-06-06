@@ -87,6 +87,8 @@ spec:
         repo1-bundle: y
         repo1-path: /postgres-cluster
         repo1-retention-full: "7" # days
+        repo1-retention-differential: "7" # days
+        repo1-retention-incremental: "7" # days
         repo1-retention-full-type: time
         repo1-s3-uri-style: path
       manual:

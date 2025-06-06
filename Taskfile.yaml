@@ -1,0 +1,12 @@
+version: '3'
+
+tasks:
+  apply:
+    desc: Apply all cluster configurations in reverse order (kube5 to kube1)
+    cmds:
+      - talosctl apply-config --nodes 192.168.1.105 --file ./talos/clusterconfig/home-cluster-kube5.yaml
+      - talosctl apply-config --nodes 192.168.1.104 --file ./talos/clusterconfig/home-cluster-kube4.yaml
+      - talosctl apply-config --nodes 192.168.1.103 --file ./talos/clusterconfig/home-cluster-kube3.yaml
+      - talosctl apply-config --nodes 192.168.1.102 --file ./talos/clusterconfig/home-cluster-kube2.yaml
+      - talosctl apply-config --nodes 192.168.1.101 --file ./talos/clusterconfig/home-cluster-kube1.yaml
+    silent: false

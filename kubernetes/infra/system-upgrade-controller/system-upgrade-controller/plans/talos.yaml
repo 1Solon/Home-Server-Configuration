@@ -16,15 +16,10 @@ spec:
       ignoreUpdates: true
   nodeSelector:
     matchExpressions:
-      - key: kubernetes.io/os
+      - key: kubernetes.io/hostname
         operator: Exists
   upgrade:
     image: ghcr.io/jfroy/tnu:0.4.3
-    envs:
-      - name: NODE_IP
-        valueFrom:
-          fieldRef:
-            fieldPath: Addresses.InternalIP
     args:
       - --node=$(SYSTEM_UPGRADE_NODE_NAME)
       - --tag=$(SYSTEM_UPGRADE_PLAN_LATEST_VERSION)

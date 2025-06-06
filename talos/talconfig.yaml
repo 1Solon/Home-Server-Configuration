@@ -23,6 +23,12 @@ patches:
               - rshared
               - rw
   - |-
+    machine:
+      features:
+        hostDNS:
+          enabled: true
+          resolveMemberNames: true
+  - |-
     cluster:
       proxy:
         disabled: true

@@ -36,7 +36,7 @@ spec:
           - hostssl all all all md5
         parameters:
           max_connections: 500
-          shared_preload_libraries: "vectors.so"
+          shared_preload_libraries: "vchord.so"
           search_path: '"$user", public, vectors"'
   instances:
     - name: postgres

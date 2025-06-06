@@ -23,7 +23,7 @@ spec:
       - name: NODE_IP
         valueFrom:
           fieldRef:
-            fieldPath: status.hostIP
+            fieldPath: Addresses.InternalIP
     args:
       - --nodes=$(SYSTEM_UPGRADE_NODE_NAME)
       - upgrade-k8s

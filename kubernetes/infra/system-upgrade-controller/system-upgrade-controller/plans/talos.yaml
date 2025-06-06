@@ -24,7 +24,7 @@ spec:
       - name: NODE_IP
         valueFrom:
           fieldRef:
-            fieldPath: status.hostIP
+            fieldPath: Addresses.InternalIP
     args:
       - --node=$(SYSTEM_UPGRADE_NODE_NAME)
       - --tag=$(SYSTEM_UPGRADE_PLAN_LATEST_VERSION)

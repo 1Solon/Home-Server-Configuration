@@ -35,10 +35,8 @@ spec:
             resources:
               requests:
                 cpu: 10m
-                nvidia.com/gpu: 1
                 memory: 512Mi
               limits:
-                nvidia.com/gpu: 1
                 memory: 8000Mi
             securityContext:
               allowPrivilegeEscalation: false

@@ -14,3 +14,4 @@ resources:
 - nginx
 - cilium
 - node-feature-discovery
+- system-upgrade-controller

@@ -15,10 +15,15 @@ spec:
       ignoreUpdates: true
   nodeSelector:
     matchExpressions:
-      - key: node-role.kubernetes.io/control-plane
+      - key: kubernetes.io/os
         operator: Exists
   upgrade:
     image: ghcr.io/siderolabs/talosctl:${TALOS_VERSION}
+    envs:
+      - name: NODE_IP
+        valueFrom:
+          fieldRef:
+            fieldPath: status.hostIP
     args:
       - --nodes=$(SYSTEM_UPGRADE_NODE_NAME)
       - upgrade-k8s

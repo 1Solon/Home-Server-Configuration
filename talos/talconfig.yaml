@@ -32,6 +32,15 @@ controlPlane:
     - |-
       - op: remove
         path: /cluster/apiServer/admissionControl
+    - |-
+      machine:
+        features:
+          kubernetesTalosAPIAccess:
+            enabled: true
+            allowedRoles:
+              - os:admin
+            allowedKubernetesNamespaces:
+              - kube-system
 
 nodes:
   - hostname: kube1

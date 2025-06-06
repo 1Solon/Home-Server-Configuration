@@ -12,7 +12,7 @@ metadata:
       [
         {
           "database": "immich_db",
-          "extension": "vchord"
+          "extension": "vectors"
         },
         {
           "database": "immich_db",
@@ -24,7 +24,7 @@ spec:
   postgresVersion: 16
 
   ## use dragon's image, I should probably bake my own one at some point.
-  image: ghcr.io/zednotdead/cdpgvectorchord:16-0.3.0@sha256:99ffcbc9e887fa4a981f61ff68dcf59bf8bf611f688217ed5f8d0ba07a67eff1
+  image: ghcr.io/drag0n141/cdpgvector:0.3.0@sha256:6bd40ba06b7da1885fbabb66b8b672fea865e6dce7f5c1a1195b4b97a75b43eb
 
   patroni: # turn on sync writes to at least 1 other replica
     dynamicConfiguration:
@@ -36,7 +36,7 @@ spec:
           - hostssl all all all md5
         parameters:
           max_connections: 500
-          shared_preload_libraries: "vchord.so"
+          shared_preload_libraries: "vectors.so"
           search_path: '"$user", public, vectors"'
   instances:
     - name: postgres
@@ -86,8 +86,6 @@ spec:
         repo1-bundle: y
         repo1-path: /postgres-vector-cluster
         repo1-retention-full: "7" # days
-        repo1-retention-differential: "7" # days
-        repo1-retention-incremental: "7" # days
         repo1-retention-full-type: time
         repo1-s3-uri-style: path
       manual:

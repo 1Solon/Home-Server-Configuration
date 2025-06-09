@@ -13,5 +13,5 @@ tasks:
   gen:
     desc: Generate cluster configurations
     cmds:
-      - talhelper genconfig ./talos
+      - talhelper genconfig
     silent: false

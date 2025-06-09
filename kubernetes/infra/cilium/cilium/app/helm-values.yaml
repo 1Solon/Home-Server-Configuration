@@ -12,7 +12,7 @@ cgroup:
     enabled: false
   hostRoot: /sys/fs/cgroup
 # NOTE: devices might need to be set if you have more than one active NIC on your hosts
-# devices: end+ eth+ # For some reason I can't get interfaces (end+) here to bind. Needs more investigation.
+devices: end+
 endpointRoutes:
   enabled: true
 envoy:

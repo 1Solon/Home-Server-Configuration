@@ -10,3 +10,8 @@ tasks:
       - talosctl apply-config --nodes 192.168.1.102 --file ./talos/clusterconfig/home-cluster-kube2.yaml
       - talosctl apply-config --nodes 192.168.1.101 --file ./talos/clusterconfig/home-cluster-kube1.yaml
     silent: false
+  gen:
+    desc: Generate cluster configurations
+    cmds:
+      - talhelper genconfig ./talos
+    silent: false

@@ -24,7 +24,9 @@ ipam:
 ipv4NativeRoutingCIDR: "10.244.0.0/16"
 k8sServiceHost: 127.0.0.1
 k8sServicePort: 7445
-devices: {eth0,end0}
+devices: "{eth0,end0}"
+nodePort:
+  directRoutingDevice: "e+"
 kubeProxyReplacement: true
 kubeProxyReplacementHealthzBindAddr: 0.0.0.0:10256
 policyEnforcementMode: never

@@ -12,6 +12,7 @@ tasks:
     silent: false
   gen:
     desc: Generate cluster configurations
+    dir: talos
     cmds:
       - talhelper genconfig
     silent: false

@@ -24,8 +24,7 @@ ipam:
 ipv4NativeRoutingCIDR: "10.244.0.0/16"
 k8sServiceHost: 127.0.0.1
 k8sServicePort: 7445
-# devices: "{eth0,end0}"
-# Nope!
+# devices: "{eth0,end0}" # Uncomment to specify devices for Cilium to use (you may need this if you have multiple interfaces)
 kubeProxyReplacement: true
 kubeProxyReplacementHealthzBindAddr: 0.0.0.0:10256
 policyEnforcementMode: never

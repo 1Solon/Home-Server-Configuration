@@ -55,6 +55,7 @@ nodes:
     installDisk: /dev/nvme0n1
     nameservers:
       - 192.168.1.155
+      - 8.8.8.8
     networkInterfaces:
       - interface: end0
         addresses:
@@ -80,6 +81,7 @@ nodes:
     installDisk: /dev/nvme0n1
     nameservers:
       - 192.168.1.155
+      - 8.8.8.8
     networkInterfaces:
       - interface: end0
         addresses:
@@ -105,6 +107,7 @@ nodes:
     installDisk: /dev/nvme0n1
     nameservers:
       - 192.168.1.155
+      - 8.8.8.8
     networkInterfaces:
       - interface: end0
         addresses:
@@ -130,6 +133,7 @@ nodes:
     installDisk: /dev/nvme0n1
     nameservers:
       - 192.168.1.155
+      - 8.8.8.8
     networkInterfaces:
       - interface: end0
         addresses:
@@ -153,6 +157,7 @@ nodes:
     installDisk: /dev/sda
     nameservers:
       - 192.168.1.155
+      - 8.8.8.8
     networkInterfaces:
       - interface: eth0
         addresses:

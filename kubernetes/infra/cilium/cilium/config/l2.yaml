@@ -10,18 +10,18 @@ spec:
     - ^eth[0-9]+
   nodeSelector:
     matchLabels:
-      kubernetes.io/os: "amd64"
+      kubernetes.io/arch: "amd64"
 
----
-# yaml-language-server: $schema=https://datreeio.github.io/CRDs-catalog/cilium.io/ciliuml2announcementpolicy_v2alpha1.json
-apiVersion: cilium.io/v2alpha1
-kind: CiliumL2AnnouncementPolicy
-metadata:
-  name: l2-policy-arm64
-spec:
-  loadBalancerIPs: true
-  interfaces:
-    - ^end[0-9]+
-  nodeSelector:
-    matchLabels:
-      kubernetes.io/arch: "arm64"
+# ---
+# # yaml-language-server: $schema=https://datreeio.github.io/CRDs-catalog/cilium.io/ciliuml2announcementpolicy_v2alpha1.json
+# apiVersion: cilium.io/v2alpha1
+# kind: CiliumL2AnnouncementPolicy
+# metadata:
+#   name: l2-policy-arm64
+# spec:
+#   loadBalancerIPs: true
+#   interfaces:
+#     - ^end[0-9]+
+#   nodeSelector:
+#     matchLabels:
+#       kubernetes.io/arch: "arm64"

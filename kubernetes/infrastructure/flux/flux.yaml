@@ -34,7 +34,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 10m
-  path: ./kubernetes/infra/flux/secrets
+  path: ./kubernetes/infrastructure/flux/secrets
   prune: true
   wait: true
   decryption:

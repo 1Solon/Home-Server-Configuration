@@ -9,7 +9,7 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: reflector
-  path: "./kubernetes/infra/reflector/reflector/app"
+  path: "./kubernetes/infrastructure/reflector/reflector/app"
   prune: true
   sourceRef:
     kind: GitRepository

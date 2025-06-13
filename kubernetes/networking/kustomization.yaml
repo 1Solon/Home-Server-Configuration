@@ -7,3 +7,4 @@ resources:
   - nginx
   - external-dns
   - cert-manager
+  - adguard

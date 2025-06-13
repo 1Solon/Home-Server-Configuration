@@ -9,7 +9,7 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: adguard
-  path: "./kubernetes/apps/adguard/adguard/app"
+  path: "./kubernetes/networking/adguard/adguard/app"
   prune: true
   sourceRef:
     kind: GitRepository

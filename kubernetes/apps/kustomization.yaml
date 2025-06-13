@@ -7,7 +7,6 @@ resources:
   - ntfy
   - speedtest-tracker
   - authentik
-  - adguard
   - syncthing
   - Shadow-Empire-PBEM-Bot
   - immich

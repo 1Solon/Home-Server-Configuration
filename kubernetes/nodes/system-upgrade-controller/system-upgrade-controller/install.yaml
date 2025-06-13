@@ -11,7 +11,7 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *appname
-  path: "./kubernetes/infra/system-upgrade-controller/system-upgrade-controller/app"
+  path: "./kubernetes/nodes/system-upgrade-controller/system-upgrade-controller/app"
   prune: true
   sourceRef:
     kind: GitRepository
@@ -34,7 +34,7 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *appname
-  path: "./kubernetes/infra/system-upgrade-controller/system-upgrade-controller/plans"
+  path: "./kubernetes/nodes/system-upgrade-controller/system-upgrade-controller/plans"
   prune: true
   sourceRef:
     kind: GitRepository

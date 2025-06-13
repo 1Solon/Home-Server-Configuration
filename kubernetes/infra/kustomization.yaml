@@ -5,6 +5,3 @@ resources:
 - reflector
 - reloader
 - secrets
-- nvidia-device-plugin
-- node-feature-discovery
-- system-upgrade-controller

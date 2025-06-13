@@ -10,7 +10,7 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   interval: 30m
-  path: ./kubernetes/infra/cilium/cilium/app
+  path: ./kubernetes/networking/cilium/cilium/app
   prune: false # never should be deleted
   sourceRef:
     kind: GitRepository
@@ -31,7 +31,7 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   interval: 30m
-  path: ./kubernetes/infra/cilium/cilium/config
+  path: ./kubernetes/networking/cilium/cilium/config
   prune: false # never should be deleted
   sourceRef:
     kind: GitRepository

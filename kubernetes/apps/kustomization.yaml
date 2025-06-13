@@ -6,7 +6,6 @@ resources:
   - manga
   - ntfy
   - speedtest-tracker
-  - authentik
   - syncthing
   - Shadow-Empire-PBEM-Bot
   - immich

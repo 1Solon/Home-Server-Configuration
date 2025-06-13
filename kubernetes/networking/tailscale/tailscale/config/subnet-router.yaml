@@ -1,7 +1,7 @@
 apiVersion: tailscale.com/v1alpha1
 kind: Connector
 metadata:
-  name: ts-pod-cidrs
+  name: home-cluster-subnet-router
 spec:
   hostname: home-cluster-subnet-router
   subnetRouter:

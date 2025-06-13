@@ -5,3 +5,4 @@ resources:
 - apps
 - observability
 - infra
+- networking

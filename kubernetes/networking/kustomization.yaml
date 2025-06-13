@@ -8,4 +8,4 @@ resources:
   - external-dns
   - cert-manager
   - adguard
-  # - tailscale
+  - tailscale

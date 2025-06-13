@@ -8,3 +8,4 @@ resources:
 - networking
 - storage
 - nodes
+- security

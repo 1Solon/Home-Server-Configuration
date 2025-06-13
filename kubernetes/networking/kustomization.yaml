@@ -6,3 +6,4 @@ resources:
   - pod-gateway
   - nginx
   - external-dns
+  - cert-manager

@@ -9,7 +9,7 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: cert-manager
-  path: "./kubernetes/infra/cert-manager/cert-manager/app"
+  path: "./kubernetes/networking/cert-manager/cert-manager/app"
   prune: true
   sourceRef:
     kind: GitRepository
@@ -30,7 +30,7 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: cert-manager-issuers
-  path: "./kubernetes/infra/cert-manager/cert-manager/issuers"
+  path: "./kubernetes/networking/cert-manager/cert-manager/issuers"
   prune: true
   sourceRef:
     kind: GitRepository
@@ -58,7 +58,7 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: cert-manager-certificates
-  path: "./kubernetes/infra/cert-manager/cert-manager/certs"
+  path: "./kubernetes/networking/cert-manager/cert-manager/certs"
   prune: true
   sourceRef:
     kind: GitRepository

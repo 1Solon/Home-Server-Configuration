@@ -10,6 +10,5 @@ resources:
 - external-dns
 - secrets
 - nvidia-device-plugin
-- nginx
 - node-feature-discovery
 - system-upgrade-controller

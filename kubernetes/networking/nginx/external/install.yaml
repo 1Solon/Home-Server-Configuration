@@ -10,7 +10,7 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
-  path: ./kubernetes/infra/nginx/external/app
+  path: ./kubernetes/networking/nginx/external/app
   prune: true
   sourceRef:
     kind: GitRepository

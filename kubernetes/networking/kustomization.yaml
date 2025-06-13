@@ -4,3 +4,4 @@ kind: Kustomization
 resources:
   - cilium
   - pod-gateway
+  - nginx

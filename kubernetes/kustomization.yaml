@@ -4,7 +4,7 @@ kind: Kustomization
 resources:
 - apps
 - observability
-- infrasturcture
+- infrastructure
 - networking
 - storage
 - nodes

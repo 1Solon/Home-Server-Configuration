@@ -3,7 +3,7 @@ kind: Connector
 metadata:
   name: ts-pod-cidrs
 spec:
-  hostname: ts-pod-cidrs
+  hostname: home-cluster-subnet-router
   subnetRouter:
     advertiseRoutes:
       - "192.168.1.0/24"

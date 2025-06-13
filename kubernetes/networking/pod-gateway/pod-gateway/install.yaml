@@ -9,7 +9,7 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: pod-gateway
-  path: "./kubernetes/infra/pod-gateway/pod-gateway/app"
+  path: "./kubernetes/networking/pod-gateway/pod-gateway/app"
   prune: true
   sourceRef:
     kind: GitRepository

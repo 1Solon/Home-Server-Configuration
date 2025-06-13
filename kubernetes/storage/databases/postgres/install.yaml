@@ -12,7 +12,7 @@ spec:
       app.kubernetes.io/name: *app
   interval: 30m
   timeout: 5m
-  path: ./kubernetes/infra/databases/postgres/operator
+  path: ./kubernetes/storage/databases/postgres/operator
   prune: true
   sourceRef:
     kind: GitRepository
@@ -32,7 +32,7 @@ spec:
       app.kubernetes.io/name: *app
   interval: 30m
   timeout: 5m
-  path: ./kubernetes/infra/databases/postgres/clusters
+  path: ./kubernetes/storage/databases/postgres/clusters
   prune: true
   sourceRef:
     kind: GitRepository
@@ -61,7 +61,7 @@ spec:
       app.kubernetes.io/name: *app
   interval: 30m
   timeout: 5m
-  path: ./kubernetes/infra/databases/postgres/clustersecretstore
+  path: ./kubernetes/storage/databases/postgres/clustersecretstore
   prune: true
   sourceRef:
     kind: GitRepository
@@ -85,7 +85,7 @@ spec:
       app.kubernetes.io/name: *app
   interval: 30m
   timeout: 5m
-  path: ./kubernetes/infra/databases/postgres/userinit-controller
+  path: ./kubernetes/storage/databases/postgres/userinit-controller
   prune: true
   sourceRef:
     kind: GitRepository
@@ -107,7 +107,7 @@ spec:
       app.kubernetes.io/name: *app
   interval: 30m
   timeout: 5m
-  path: ./kubernetes/infra/databases/postgres/pgadmin
+  path: ./kubernetes/storage/databases/postgres/pgadmin
   prune: true
   sourceRef:
     kind: GitRepository

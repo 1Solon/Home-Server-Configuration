@@ -10,7 +10,7 @@ spec:
     labels:
       app.kubernetes.io/name: longhorn
   interval: 10m
-  path: "./kubernetes/infra/longhorn/longhorn/app"
+  path: "./kubernetes/storage/longhorn/longhorn/app"
   prune: false # Longhorn should never prune
   sourceRef:
     kind: GitRepository
@@ -38,7 +38,7 @@ spec:
     labels:
       app.kubernetes.io/name: longhorn
   interval: 10m
-  path: "./kubernetes/infra/longhorn/longhorn/jobs"
+  path: "./kubernetes/storage/longhorn/longhorn/jobs"
   prune: true
   sourceRef:
     kind: GitRepository

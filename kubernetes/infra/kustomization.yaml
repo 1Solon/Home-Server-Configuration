@@ -4,7 +4,6 @@ resources:
 - cert-manager
 - databases
 - flux
-- longhorn
 - reflector
 - reloader
 - secrets

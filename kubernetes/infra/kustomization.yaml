@@ -12,6 +12,5 @@ resources:
 - secrets
 - nvidia-device-plugin
 - nginx
-- cilium
 - node-feature-discovery
 - system-upgrade-controller

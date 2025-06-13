@@ -5,3 +5,4 @@ resources:
   - cilium
   - pod-gateway
   - nginx
+  - external-dns

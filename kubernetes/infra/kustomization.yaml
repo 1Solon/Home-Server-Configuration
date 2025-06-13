@@ -7,7 +7,6 @@ resources:
 - longhorn
 - reflector
 - reloader
-- external-dns
 - secrets
 - nvidia-device-plugin
 - node-feature-discovery

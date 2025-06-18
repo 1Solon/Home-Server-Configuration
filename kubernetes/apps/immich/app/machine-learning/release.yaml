@@ -24,7 +24,7 @@ spec:
           app:
             image:
               repository: ghcr.io/immich-app/immich-machine-learning
-              tag: v1.134.0-cuda@sha256:0a0b9a3769a55bd6f725577902b34123268a74b3affee33536f9b1ac9fe67ddb
+              tag: v1.135.0-cuda@sha256:9b658745e53a3716ec33c32ca8cc01fd60157d3231105baca0da05993a1d8968
             env:
               TZ: ${TIMEZONE}
             envFrom:

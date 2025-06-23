@@ -21,7 +21,7 @@ metadata:
         }
       ]
 spec:
-  postgresVersion: 17
+  # postgresVersion: 16
   shutdown: true # shutdown the cluster before upgrade, otherwise it will fail with "cannot be upgraded while running"
 
   ## use dragon's image, I should probably bake my own one at some point.

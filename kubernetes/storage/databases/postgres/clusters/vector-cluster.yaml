@@ -22,7 +22,7 @@ metadata:
       ]
 spec:
   postgresVersion: 17
-  shutdown: true # shutdown the cluster before upgrade, otherwise it will fail with "cannot be upgraded while running"
+  shutdown: false # shutdown the cluster before upgrade, otherwise it will fail with "cannot be upgraded while running"
 
   ## use zednotdead's image, I should probably bake my own one at some point.
   image: ghcr.io/zednotdead/cdpgvectorchord:17-0.3.0@sha256:aafdb84e89a6cd8e1ad65ed9c556f46f0007e55b5707c764a98fb0a3593577d6
@@ -109,7 +109,7 @@ spec:
             differential: 0 1 * * 1-6 # Mon-Sat at 01:00
             incremental: 0 2-23 * * * # Every hour except 01:00
       restore:
-        enabled: false
+        enabled: true
         repoName: repo1
         options:
         - --type=time

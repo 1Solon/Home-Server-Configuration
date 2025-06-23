@@ -21,8 +21,8 @@ metadata:
         }
       ]
 spec:
-  postgresVersion: 16
-  shutdown: true # shutdown the cluster before upgrade, otherwise it will fail with "cannot be upgraded while running"
+  postgresVersion: 17
+  shutdown: false # shutdown the cluster before upgrade, otherwise it will fail with "cannot be upgraded while running"
 
   ## use dragon's image, I should probably bake my own one at some point.
   image: ghcr.io/zednotdead/cdpgvectorchord:16-0.3.0@sha256:99ffcbc9e887fa4a981f61ff68dcf59bf8bf611f688217ed5f8d0ba07a67eff1

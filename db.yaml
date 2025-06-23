@@ -1,0 +1,9 @@
+apiVersion: postgres-operator.crunchydata.com/v1beta1
+kind: PGUpgrade
+metadata:
+  name: postgres-vector-upgrade
+  namespace: databases
+spec:
+  postgresClusterName: postgres-vector
+  fromPostgresVersion: 16
+  toPostgresVersion: 17

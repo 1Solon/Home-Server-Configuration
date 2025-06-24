@@ -27,6 +27,8 @@ spec:
               tag: v1.135.0-cuda@sha256:9b658745e53a3716ec33c32ca8cc01fd60157d3231105baca0da05993a1d8968
             env:
               TZ: ${TIMEZONE}
+              MACHINE_LEARNING_CACHE_FOLDER: /cache
+              TRANSFORMERS_CACHE: /cache
             envFrom:
               - configMapRef:
                   name: immich-configmap
@@ -89,7 +91,3 @@ spec:
         type: emptyDir
         globalMounts:
           - path: /usr/src/app/.reverse-geocoding-dump
-      tmp:
-        type: emptyDir
-        globalMounts:
-          - path: /tmp

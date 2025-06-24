@@ -91,3 +91,7 @@ spec:
         type: emptyDir
         globalMounts:
           - path: /usr/src/app/.reverse-geocoding-dump
+      tmp:
+        type: emptyDir
+        globalMounts:
+          - path: /tmp

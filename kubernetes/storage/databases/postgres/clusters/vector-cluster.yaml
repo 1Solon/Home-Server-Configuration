@@ -24,8 +24,8 @@ spec:
   postgresVersion: 17
   shutdown: false # shutdown the cluster before upgrade, otherwise it will fail with "cannot be upgraded while running"
 
-  ## use zednotdead's image, I should probably bake my own one at some point.
-  image: ghcr.io/zednotdead/cdpgvectorchord:17-0.3.0@sha256:aafdb84e89a6cd8e1ad65ed9c556f46f0007e55b5707c764a98fb0a3593577d6
+  ## use drag0n141's image, I should probably bake my own one at some point.
+  image: ghcr.io/drag0n141/cdpgvectorchord:0.4.3@sha256:99de325b21fa4b98c9efd2b07a3ced730004bfb0d244ad45b30ef326ad3c8e9d
 
   patroni: # turn on sync writes to at least 1 other replica
     dynamicConfiguration:

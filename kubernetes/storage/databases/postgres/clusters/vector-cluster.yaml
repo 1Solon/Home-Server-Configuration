@@ -14,7 +14,7 @@ spec:
   shutdown: false # shutdown the cluster before upgrade, otherwise it will fail with "cannot be upgraded while running"
 
   ## use benwalio's image, I should probably bake my own one at some point.
-  image: ghcr.io/zednotdead/cdpgvectorchord:17-0.4.0@sha256:8c75cb1461939ae0c9f4cbb0d66f54200dfd2e7828560cfdf1b765ce22de6636
+  image: ghcr.io/zednotdead/cdpgvectorchord:17-0.3.0@sha256:aafdb84e89a6cd8e1ad65ed9c556f46f0007e55b5707c764a98fb0a3593577d6
 
   patroni: # turn on sync writes to at least 1 other replica
     dynamicConfiguration:

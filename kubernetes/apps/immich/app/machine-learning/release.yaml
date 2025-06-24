@@ -68,7 +68,7 @@ spec:
         runAsUser: 1000
         runAsGroup: 1000
         fsGroup: 1000
-        fsGroupChangePolicy: Always
+        fsGroupChangePolicy: OnRootMismatch
         seccompProfile: { type: RuntimeDefault }
     service:
       app:
@@ -84,14 +84,7 @@ spec:
         globalMounts:
           - path: /usr/src/app/upload
       cache:
-        type: emptyDir
+        type: persistentVolumeClaim
+        existingClaim: immich-machine-learning-cache
         globalMounts:
           - path: /cache
-      geocoding-dump:
-        type: emptyDir
-        globalMounts:
-          - path: /usr/src/app/.reverse-geocoding-dump
-      tmp:
-        type: emptyDir
-        globalMounts:
-          - path: /tmp

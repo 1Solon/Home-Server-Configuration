@@ -57,10 +57,6 @@ spec:
               limits:
                 nvidia.com/gpu: 1
                 memory: 4000Mi
-            securityContext:
-              allowPrivilegeEscalation: false
-              readOnlyRootFilesystem: true
-              capabilities: { drop: ["ALL"] }
         pod:
           enableServiceLinks: false
           securityContext:

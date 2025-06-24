@@ -57,13 +57,13 @@ spec:
               limits:
                 nvidia.com/gpu: 1
                 memory: 4000Mi
-        pod:
-          enableServiceLinks: false
-          securityContext:
-            runAsUser: 1000
-            runAsGroup: 1000
-            fsGroup: 1000
-            fsGroupChangePolicy: Always
+        # pod:
+        #   enableServiceLinks: false
+        #   securityContext:
+        #     runAsUser: 1000
+        #     runAsGroup: 1000
+        #     fsGroup: 1000
+        #     fsGroupChangePolicy: Always
     service:
       app:
         controller: *app

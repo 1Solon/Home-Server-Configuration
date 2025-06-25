@@ -8,13 +8,24 @@ metadata:
     crunchy-users.ramblurr.github.com/watch: "true"
   annotations:
     crunchy-users.ramblurr.github.com/superuser: "postgres"
-
+    crunchy-users.ramblurr.github.com/extensions: |
+      [
+        {
+          "database": "immich_db",
+          "extension": "vchord"
+        },
+        {
+          "database": "immich_db",
+          "extension": "earthdistance",
+          "cascade": true
+        }
+      ]
 spec:
-  postgresVersion: 16
+  postgresVersion: 17
   shutdown: false # shutdown the cluster before upgrade, otherwise it will fail with "cannot be upgraded while running"
 
-  ## use benwalio's image, I should probably bake my own one at some point.
-  image: ghcr.io/zednotdead/cdpgvectorchord:16-0.3.0@sha256:99ffcbc9e887fa4a981f61ff68dcf59bf8bf611f688217ed5f8d0ba07a67eff1
+  ## use zednotdead's image, I should probably bake my own one at some point.
+  image: ghcr.io/zednotdead/cdpgvectorchord:17-0.4.0@sha256:8c75cb1461939ae0c9f4cbb0d66f54200dfd2e7828560cfdf1b765ce22de6636
 
   patroni: # turn on sync writes to at least 1 other replica
     dynamicConfiguration:

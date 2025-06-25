@@ -66,7 +66,7 @@
 - Storage:
     - TrueNAS:
         icon: truenas.png
-        href: https://truenas.local
+        href: https://truenas.${LOCAL_DOMAIN}
         description: NAS Storage
         widget:
             type: truenas

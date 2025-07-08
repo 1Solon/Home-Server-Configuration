@@ -66,6 +66,7 @@ spec:
         proxy-ssl-verify: false # This is not good, but it should fix the problem with authentik
         proxy_auth_required: false # This is not good, but it should fix the problem with authentik
         proxy-buffer-size: 16k
+        proxy-busy-buffers-size: 32k
         ssl-protocols: TLSv1.3 TLSv1.2
       extraArgs:
         default-ssl-certificate: "cert-manager/local-solonsstuff-com-live-tls"

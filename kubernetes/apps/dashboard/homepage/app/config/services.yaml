@@ -70,9 +70,9 @@
         description: NAS Storage
         widget:
             type: truenas
-            url: https://${TRUENAS_IP}
+            url: https://truenas.${LOCAL_DOMAIN}
             key: {{HOMEPAGE_VAR_TRUENAS_TOKEN}}
-            # enablePools: true
+            enablePools: true
             nasType: scale
     - Longhorn:
         icon: longhorn.png

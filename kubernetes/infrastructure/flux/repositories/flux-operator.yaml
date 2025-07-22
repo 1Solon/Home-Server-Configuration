@@ -1,0 +1,10 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrepository-source-v1beta2.json
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: HelmRepository
+metadata:
+  name: flux-operator
+  namespace: flux-system
+spec:
+  interval: 12h
+  url: oci://ghcr.io/controlplaneio-fluxcd/charts/flux-operator

@@ -24,3 +24,4 @@ resources:
 - cilium.yaml
 - node-feature-discovery.yaml
 - tailscale.yaml
+- flux-operator.yaml

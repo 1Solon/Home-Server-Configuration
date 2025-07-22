@@ -1,0 +1,23 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cluster-settings
+  namespace: flux-system
+  annotations:
+    reflector.v1.k8s.emberstack.com/reflection-auto-enabled: "true"
+    reflector.v1.k8s.emberstack.com/reflection-allowed: "true"
+    reflector.v1.k8s.emberstack.com/reflection-allowed-namespaces: "flux-system, ansible-semaphore"
+data:
+  TZ: "Europe/Dublin"
+  LOCAL_DOMAIN: "local.solonsstuff.com"
+  REMOTE_DOMAIN: "solonsstuff.com"
+
+  # Ips for services
+  TRUENAS_IP: 192.168.1.111
+  ADGUARD_IP: 192.168.1.155
+  NGINX_INTERNAL_IP: 192.168.1.160
+  NGINX_EXTERNAL_IP: 192.168.1.161
+  PGBOUNCER_IP: 192.168.1.154
+  JELLYFIN_IP: 192.168.1.162
+  SYNCTHING_IP: 192.168.1.156

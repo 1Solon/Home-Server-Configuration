@@ -27,5 +27,5 @@ spec:
     secretRef:
       name: sops-age
   sourceRef:
-    kind: OCIRepository
-    name: flux-manifests
+    kind: GitRepository
+    name: flux-system

@@ -10,7 +10,7 @@ spec:
     labels:
       app.kubernetes.io/name: flood
   path: "./kubernetes/apps/media/flood/app"
-  prune: true
+  prune: false
   sourceRef:
     kind: GitRepository
     name: flux-system

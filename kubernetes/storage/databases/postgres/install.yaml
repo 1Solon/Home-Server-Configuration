@@ -13,7 +13,7 @@ spec:
   interval: 30m
   timeout: 5m
   path: ./kubernetes/storage/databases/postgres/operator
-  prune: true
+  prune: false
   sourceRef:
     kind: GitRepository
     name: flux-system
@@ -33,7 +33,7 @@ spec:
   interval: 30m
   timeout: 5m
   path: ./kubernetes/storage/databases/postgres/clusters
-  prune: true
+  prune: false
   sourceRef:
     kind: GitRepository
     name: flux-system
@@ -62,7 +62,7 @@ spec:
   interval: 30m
   timeout: 5m
   path: ./kubernetes/storage/databases/postgres/clustersecretstore
-  prune: true
+  prune: false
   sourceRef:
     kind: GitRepository
     name: flux-system
@@ -86,7 +86,7 @@ spec:
   interval: 30m
   timeout: 5m
   path: ./kubernetes/storage/databases/postgres/userinit-controller
-  prune: true
+  prune: false
   sourceRef:
     kind: GitRepository
     name: flux-system
@@ -108,7 +108,7 @@ spec:
   interval: 30m
   timeout: 5m
   path: ./kubernetes/storage/databases/postgres/pgadmin
-  prune: true
+  prune: false
   sourceRef:
     kind: GitRepository
     name: flux-system

@@ -10,7 +10,7 @@ spec:
     labels:
       app.kubernetes.io/name: label-studio
   path: "./kubernetes/apps/label-studio/label-studio/app"
-  prune: true
+  prune: false
   sourceRef:
     kind: GitRepository
     name: flux-system

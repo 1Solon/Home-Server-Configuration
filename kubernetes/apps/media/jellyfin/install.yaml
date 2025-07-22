@@ -10,7 +10,7 @@ spec:
     labels:
       app.kubernetes.io/name: jellyfin
   path: "./kubernetes/apps/media/jellyfin/app"
-  prune: true
+  prune: false
   sourceRef:
     kind: GitRepository
     name: flux-system

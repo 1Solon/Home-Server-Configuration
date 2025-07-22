@@ -10,7 +10,7 @@ spec:
     labels:
       app.kubernetes.io/name: jellyseerr
   path: "./kubernetes/apps/media/jellyseer/app"
-  prune: true
+  prune: false
   sourceRef:
     kind: GitRepository
     name: flux-system

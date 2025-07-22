@@ -10,7 +10,7 @@ spec:
     labels:
       app.kubernetes.io/name: speedtest
   path: "./kubernetes/apps/speedtest/speedtest/app"
-  prune: true
+  prune: false
   sourceRef:
     kind: GitRepository
     name: flux-system

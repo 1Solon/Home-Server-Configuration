@@ -13,7 +13,7 @@ spec:
   # dependsOn:
   #   - name: external-secrets-stores
   path: ./kubernetes/storage/databases/dragonfly/app
-  prune: true
+  prune: false
   sourceRef:
     kind: GitRepository
     name: flux-system
@@ -36,7 +36,7 @@ spec:
   dependsOn:
     - name: dragonfly
   path: ./kubernetes/storage/databases/dragonfly/cluster
-  prune: true
+  prune: false
   sourceRef:
     kind: GitRepository
     name: flux-system

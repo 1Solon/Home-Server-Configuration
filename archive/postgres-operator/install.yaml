@@ -10,7 +10,7 @@ spec:
     labels:
       app.kubernetes.io/name: ext-postgres-operator
   path: "./kubernetes/infra/databases/postgres-operator/app"
-  prune: true
+  prune: false
   sourceRef:
     kind: GitRepository
     name: flux-system

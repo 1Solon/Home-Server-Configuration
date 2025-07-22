@@ -10,7 +10,7 @@ spec:
     labels:
       app.kubernetes.io/name: flaresolver
   path: "./kubernetes/apps/media/flaresolver/app"
-  prune: true
+  prune: false
   sourceRef:
     kind: GitRepository
     name: flux-system

@@ -11,7 +11,7 @@ spec:
       app.kubernetes.io/name: reflector
   interval: 10m
   path: "./kubernetes/infrastructure/reloader/reloader/app"
-  prune: true
+  prune: false
   sourceRef:
     kind: GitRepository
     name: flux-system

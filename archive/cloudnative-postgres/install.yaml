@@ -10,7 +10,7 @@ spec:
     labels:
       app.kubernetes.io/name: cloudnative-pg
   path: "./kubernetes/infra/databases/cloudnative-postgres/app"
-  prune: true
+  prune: false
   sourceRef:
     kind: GitRepository
     name: flux-system
@@ -35,7 +35,7 @@ spec:
     labels:
       app.kubernetes.io/name: postgres-cluster
   path: "./kubernetes/infra/databases/cloudnative-postgres/cluster"
-  prune: true
+  prune: false
   sourceRef:
     kind: GitRepository
     name: flux-system

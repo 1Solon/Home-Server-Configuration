@@ -10,7 +10,7 @@ spec:
     labels:
       app.kubernetes.io/name: prowlarr
   path: "./kubernetes/apps/media/prowlarr/app"
-  prune: true
+  prune: false
   sourceRef:
     kind: GitRepository
     name: flux-system

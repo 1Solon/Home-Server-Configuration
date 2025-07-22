@@ -10,7 +10,7 @@ spec:
     labels:
       app.kubernetes.io/name: traefik
   path: "./kubernetes/infra/traefik/traefik/app"
-  prune: true
+  prune: false
   sourceRef:
     kind: GitRepository
     name: flux-system
@@ -43,7 +43,7 @@ spec:
     labels:
       app.kubernetes.io/name: traefik-dashboard
   path: "./kubernetes/infra/traefik/traefik/dashboard"
-  prune: true
+  prune: false
   sourceRef:
     kind: GitRepository
     name: flux-system

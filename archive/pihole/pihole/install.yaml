@@ -10,7 +10,7 @@ spec:
     labels:
       app.kubernetes.io/name: pihole
   path: "./kubernetes/apps/pihole/pihole/app"
-  prune: true
+  prune: false
   sourceRef:
     kind: GitRepository
     name: flux-system

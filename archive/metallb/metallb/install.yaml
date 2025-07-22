@@ -11,7 +11,7 @@ spec:
       app.kubernetes.io/name: metallb
   interval: 10m
   path: "./kubernetes/infra/metallb/metallb/app"
-  prune: true
+  prune: false
   sourceRef:
     kind: GitRepository
     name: flux-system
@@ -29,7 +29,7 @@ spec:
       app.kubernetes.io/name: metallb-config
   interval: 10m
   path: "./kubernetes/infra/metallb/metallb/config"
-  prune: true
+  prune: false
   sourceRef:
     kind: GitRepository
     name: flux-system

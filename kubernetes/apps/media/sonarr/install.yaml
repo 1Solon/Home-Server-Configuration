@@ -10,7 +10,7 @@ spec:
     labels:
       app.kubernetes.io/name: sonarr
   path: "./kubernetes/apps/media/sonarr/app"
-  prune: true
+  prune: false
   sourceRef:
     kind: GitRepository
     name: flux-system

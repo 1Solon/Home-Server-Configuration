@@ -10,7 +10,7 @@ spec:
     labels:
       app.kubernetes.io/name: homarr
   path: "./kubernetes/apps/dashboard/homarr/app"
-  prune: true
+  prune: false
   sourceRef:
     kind: GitRepository
     name: flux-system

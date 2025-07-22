@@ -10,7 +10,7 @@ spec:
     labels:
       app.kubernetes.io/name: cert-manager
   path: "./kubernetes/networking/cert-manager/cert-manager/app"
-  prune: true
+  prune: false
   sourceRef:
     kind: GitRepository
     name: flux-system
@@ -31,7 +31,7 @@ spec:
     labels:
       app.kubernetes.io/name: cert-manager-issuers
   path: "./kubernetes/networking/cert-manager/cert-manager/issuers"
-  prune: true
+  prune: false
   sourceRef:
     kind: GitRepository
     name: flux-system
@@ -59,7 +59,7 @@ spec:
     labels:
       app.kubernetes.io/name: cert-manager-certificates
   path: "./kubernetes/networking/cert-manager/cert-manager/certs"
-  prune: true
+  prune: false
   sourceRef:
     kind: GitRepository
     name: flux-system

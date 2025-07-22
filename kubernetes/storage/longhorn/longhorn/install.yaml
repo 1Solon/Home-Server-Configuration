@@ -39,7 +39,7 @@ spec:
       app.kubernetes.io/name: longhorn
   interval: 10m
   path: "./kubernetes/storage/longhorn/longhorn/jobs"
-  prune: true
+  prune: false
   sourceRef:
     kind: GitRepository
     name: flux-system

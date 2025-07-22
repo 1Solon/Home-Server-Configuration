@@ -7,7 +7,7 @@ metadata:
 spec:
   path: "./kubernetes/apps/Shadow-Empire-PBEM-Bot/Shadow-Empire-PBEM-Bot-2/app"
   targetNamespace: shadow-empire
-  prune: true
+  prune: false
   wait: true
   interval: 30m
   retryInterval: 1m

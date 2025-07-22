@@ -10,7 +10,7 @@ spec:
     labels:
       app.kubernetes.io/name: decluttarr
   path: "./kubernetes/apps/media/decluttarr/app"
-  prune: true
+  prune: false
   sourceRef:
     kind: GitRepository
     name: flux-system

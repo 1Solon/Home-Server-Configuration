@@ -10,7 +10,7 @@ spec:
     labels:
       app.kubernetes.io/name: authentik
   path: "./kubernetes/security/authentik/authentik/app"
-  prune: true
+  prune: false
   sourceRef:
     kind: GitRepository
     name: flux-system

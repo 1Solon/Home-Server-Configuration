@@ -39,7 +39,7 @@ spec:
       app.kubernetes.io/name: samba
   interval: 10m
   path: "./kubernetes/infra/samba/samba/storageclasses"
-  prune: true
+  prune: false
   sourceRef:
     kind: GitRepository
     name: flux-system

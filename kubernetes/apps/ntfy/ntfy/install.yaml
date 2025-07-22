@@ -10,7 +10,7 @@ spec:
     labels:
       app.kubernetes.io/name: ntfy
   path: "./kubernetes/apps/ntfy/ntfy/app"
-  prune: true
+  prune: false
   sourceRef:
     kind: GitRepository
     name: flux-system

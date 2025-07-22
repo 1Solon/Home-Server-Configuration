@@ -10,7 +10,7 @@ metadata:
     gethomepage.dev/group: Applications
     gethomepage.dev/icon: pgadmin.png
     gethomepage.dev/pod-selector: >-
-      app in (
+      postgres-operator.crunchydata.com/pgadmin in (
         pgadmin
       )
 spec:

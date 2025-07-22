@@ -72,7 +72,7 @@
             type: truenas
             url: https://${TRUENAS_IP}
             key: {{HOMEPAGE_VAR_TRUENAS_TOKEN}}
-            enablePools: true
+            # enablePools: true
             nasType: scale
     - Longhorn:
         icon: longhorn.png

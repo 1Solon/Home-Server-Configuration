@@ -6,5 +6,6 @@ metadata:
   name: flux-operator
   namespace: flux-system
 spec:
+  type: oci
   interval: 12h
   url: oci://ghcr.io/controlplaneio-fluxcd/charts/flux-operator

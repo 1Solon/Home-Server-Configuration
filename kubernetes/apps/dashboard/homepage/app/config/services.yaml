@@ -66,11 +66,11 @@
 - Storage:
     - TrueNAS:
         icon: truenas.png
-        href: https://${TRUENAS_IP}
+        href: https://truenas.${LOCAL_DOMAIN}
         description: NAS Storage
         widget:
             type: truenas
-            url: https://truenas.${LOCAL_DOMAIN}
+            url: https://${TRUENAS_IP}
             key: {{HOMEPAGE_VAR_TRUENAS_TOKEN}}
             enablePools: true
             nasType: scale

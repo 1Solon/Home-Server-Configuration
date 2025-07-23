@@ -7,6 +7,6 @@ resources:
 - observability
 - infrastructure
 - networking
-# - storage
+- storage
 - nodes
 - security

@@ -73,8 +73,7 @@ spec:
       work:
         enabled: true
         type: persistentVolumeClaim
-        accessMode: ReadWriteMany
-        size: 5Gi
+        existingClaim: adguard-working
         globalMounts:
           - path: /opt/adguardhome/work
             subPath: work
@@ -82,8 +81,7 @@ spec:
       conf:
         enabled: true
         type: persistentVolumeClaim
-        accessMode: ReadWriteMany
-        size: 10Mi
+        existingClaim: adguard-config
         globalMounts:
           - path: /opt/adguardhome/conf
             subPath: conf

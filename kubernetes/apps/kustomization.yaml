@@ -8,5 +8,5 @@ resources:
   # - speedtest-tracker
   - syncthing
   - Shadow-Empire-PBEM-Bot
-  # - immich
+  - immich
   - minio

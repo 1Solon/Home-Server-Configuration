@@ -28,6 +28,16 @@ spec:
       adguard:
         replicas: 1
         strategy: RollingUpdate
+        
+        pod:
+          dnsPolicy: "None"
+          dnsConfig:
+            nameservers:
+              - "1.1.1.1"
+              - "8.8.8.8"
+            options:
+              - name: ndots
+                value: "1"
 
         containers:
           app:
@@ -36,6 +46,10 @@ spec:
               tag: v0.107.63@sha256:320ab49bd5f55091c7da7d1232ed3875f687769d6bb5e55eb891471528e2e18f
             env:
               TZ: ${TZ}
+              # Configure upstream DNS servers to avoid cluster DNS issues
+              AGH_DNS_ADDRESS: "0.0.0.0"
+              AGH_DNS_PORT: "53"
+              AGH_UPSTREAM_DNS: "1.1.1.1:53,8.8.8.8:53,9.9.9.9:53"
 
     service:
       app:

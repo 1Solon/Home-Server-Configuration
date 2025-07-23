@@ -1,12 +1,12 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - dashboard
-  - media
-  - manga
-  - ntfy
-  - speedtest-tracker
-  - syncthing
-  - Shadow-Empire-PBEM-Bot
-  - immich
+  # - dashboard
+  # - media
+  # - manga
+  # - ntfy
+  # - speedtest-tracker
+  # - syncthing
+  # - Shadow-Empire-PBEM-Bot
+  # - immich
   - minio

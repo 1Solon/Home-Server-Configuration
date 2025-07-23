@@ -5,7 +5,6 @@ kind: Kustomization
 resources:
   - ./externalsecret.yaml
   - ./release.yaml
-  - ./pvc.yaml
 configMapGenerator:
   - name: komf-configmap
     files:

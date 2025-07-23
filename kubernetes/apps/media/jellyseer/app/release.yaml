@@ -101,17 +101,13 @@ spec:
     persistence:
       config:
         enabled: true
-        type: persistentVolumeClaim
-        accessMode: ReadWriteMany
-        size: 1Gi
+        existingClaim: jellyseerr-config
         globalMounts:
           - path: /app/config
 
       config-cache:
         enabled: true
-        type: persistentVolumeClaim
-        accessMode: ReadWriteMany
-        size: 15Gi
+        existingClaim: jellyseerr-config-cache
         globalMounts:
           - path: /app/config/cache
 

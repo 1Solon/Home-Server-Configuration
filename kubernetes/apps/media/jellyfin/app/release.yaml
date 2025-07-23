@@ -93,9 +93,8 @@ spec:
 
     persistence:
       config:
-        type: persistentVolumeClaim
-        accessMode: ReadWriteOnce
-        size: 5Gi
+        enabled: true
+        existingClaim: jellyfin-config
       transcode:
         type: emptyDir
         globalMounts:

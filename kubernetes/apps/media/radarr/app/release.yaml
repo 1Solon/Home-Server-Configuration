@@ -100,9 +100,7 @@ spec:
     persistence:
       config:
         enabled: true
-        type: persistentVolumeClaim
-        accessMode: ReadWriteMany
-        size: 5Gi
+        existingClaim: radarr-config
         globalMounts:
           - path: /config
 

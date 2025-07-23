@@ -2,11 +2,11 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-- cluster-vars.yaml
-- apps
-- observability
+# - cluster-vars.yaml
+# - apps
+# - observability
 - infrastructure
-- networking
-- storage
-- nodes
-- security
+# - networking
+# - storage
+# - nodes
+# - security

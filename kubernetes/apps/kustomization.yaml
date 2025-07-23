@@ -6,7 +6,7 @@ resources:
   # - manga
   # - ntfy
   # - speedtest-tracker
-  # - syncthing
-  # - Shadow-Empire-PBEM-Bot
+  - syncthing
+  - Shadow-Empire-PBEM-Bot
   # - immich
   - minio

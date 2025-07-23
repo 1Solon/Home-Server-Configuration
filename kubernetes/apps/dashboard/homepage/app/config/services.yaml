@@ -78,7 +78,7 @@
         icon: longhorn.png
         href: https://longhorn.${LOCAL_DOMAIN}
         description: Longhorn Storage
-        siteMonitor: http://longhorn-backend.longhorn.svc.cluster.local:9500
+        siteMonitor: http://longhorn-backend.longhorn-system.svc.cluster.local:9500
         statusStyle: basic
 
 - Virtualization:

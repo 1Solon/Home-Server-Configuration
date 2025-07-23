@@ -6,7 +6,7 @@ resources:
 # - apps
 # - observability
 - infrastructure
-# - networking
+- networking
 # - storage
 # - nodes
 # - security

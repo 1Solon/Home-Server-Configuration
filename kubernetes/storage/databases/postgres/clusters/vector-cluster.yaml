@@ -104,12 +104,12 @@ spec:
             full: 0 1 * * 0 # Sunday at 01:00
             differential: 0 1 * * 1-6 # Mon-Sat at 01:00
             incremental: 0 2-23 * * * # Every hour except 01:00
-      # restore:
-      #   enabled: true
-      #   repoName: repo1
-      #   options:
-      #   - --type=time
-      #   - --target="2025-06-23 14:00:00-00"
+      restore:
+        enabled: true
+        repoName: repo1
+        options:
+        - --type=time
+        - --target="2025-07-23 00:00:00-00"
 
   monitoring:
     pgmonitor:

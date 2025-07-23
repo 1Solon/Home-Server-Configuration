@@ -8,6 +8,5 @@ metadata:
 spec:
   type: discord
   username: Flux
-  channel: flux
   secretRef:
     name: discord-webhook-secret

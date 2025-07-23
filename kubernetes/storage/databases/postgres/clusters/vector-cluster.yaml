@@ -87,7 +87,7 @@ spec:
         repo1-bundle: y
         repo1-path: /postgres-vector-cluster
         repo1-retention-full: "7" # days
-        repo1-retention-differential: "7" # days
+        repo1-retention-diff: "7" # days
         repo1-retention-incremental: "7" # days
         repo1-retention-full-type: time
         repo1-s3-uri-style: path
@@ -109,7 +109,7 @@ spec:
         repoName: repo1
         options:
         - --type=time
-        - --target="2025-07-22 00:00:00-00"
+        - --target="2025-07-22 23:00:00-00"
 
   monitoring:
     pgmonitor:

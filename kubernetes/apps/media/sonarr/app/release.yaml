@@ -101,9 +101,7 @@ spec:
     persistence:
       config:
         enabled: true
-        type: persistentVolumeClaim
-        accessMode: ReadWriteMany
-        size: 5Gi
+        existingClaim: sonarr-config
         globalMounts:
           - path: /config
 

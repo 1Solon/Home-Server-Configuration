@@ -6,4 +6,4 @@ resources:
 - namespace.yaml
 - ./litellm/install.yaml
 - ./openwebui/install.yaml
-- ./searxng/install.yaml
+- ./searxng/install.yml

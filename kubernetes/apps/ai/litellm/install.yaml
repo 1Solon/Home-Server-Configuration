@@ -6,7 +6,7 @@ metadata:
   name: &app litllm
   namespace: flux-system
 spec:
-  path: "./kubernetes/apps/ai/litllm/app"
+  path: "./kubernetes/apps/ai/litellm/app"
   targetNamespace: ai
   prune: true
   wait: true

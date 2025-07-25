@@ -73,6 +73,10 @@ spec:
       databases:
         - authentik
       password: *password
+    - name: litellm
+      databases:
+        - litellm
+      password: *password
 
   backups:
     pgbackrest:

@@ -40,7 +40,7 @@ spec:
               LITELLM_DONT_SHOW_FEEDBACK_BOX: "True"
             envFrom: 
               - secretRef:
-                  name: litellm
+                  name: litellm-secret
               - secretRef:
                   name: litellm-db
             args:

@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: &app ai
+  name: &app open-webui
 spec:
   interval: 30m
   chart:
@@ -76,7 +76,7 @@ spec:
       app:
         className: internal
         hosts:
-          - host: "{{ .Release.Name }}.${LOCAL_DOMAIN}"
+          - host: "ai.${LOCAL_DOMAIN}"
             paths: &paths
               - path: /
                 service:

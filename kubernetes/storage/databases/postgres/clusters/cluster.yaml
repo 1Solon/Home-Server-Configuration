@@ -77,6 +77,10 @@ spec:
       databases:
         - litellm
       password: *password
+    - name: open-webui
+      databases:
+        - open-webui
+      password: *password
 
   backups:
     pgbackrest:

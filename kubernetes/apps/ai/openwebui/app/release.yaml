@@ -38,7 +38,7 @@ spec:
               ENABLE_RAG_WEB_SEARCH: true
               ENABLE_SEARCH_QUERY: true
               RAG_WEB_SEARCH_ENGINE: searxng
-              SEARXNG_QUERY_URL: http://searxng.svc.cluster.local:8080/search?q=<query>
+              SEARXNG_QUERY_URL: http://searxng:8080/search?q=<query>
               ENABLE_WEBSOCKET_SUPPORT: "true"
               WEBSOCKET_MANAGER: "redis"
               WEBSOCKET_REDIS_URL: redis://dragonfly.databases.svc.cluster.local:6379

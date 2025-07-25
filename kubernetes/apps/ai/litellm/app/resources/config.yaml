@@ -3,7 +3,7 @@ model_list:
 # Google
   - model_name: gemini-2.0-flash
     litellm_params:
-      model: openrouter/gemini-2.5-flash-lite
+      model: openrouter/google/gemini-2.5-flash
       api_key: os.environ/OPENROUTER_API_KEY
 
 

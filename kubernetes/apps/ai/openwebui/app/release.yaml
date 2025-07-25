@@ -33,20 +33,8 @@ spec:
               repository: ghcr.io/open-webui/open-webui
               tag: v0.6.18@sha256:ff87dd7605720f33411d87ed5550357b665cec4880378176f2f95bfe751f5e32
             env:
-              # Image Generation
               ENABLE_OPENAI_API: True
               ENABLE_OLLAMA_API: False
-              # ENABLE_IMAGE_GENERATION: True
-              # IMAGE_GENERATION_ENGINE: automatic1111
-              # IMAGE_GENERATION_MODEL: dreamshaper_8
-              # IMAGE_SIZE: 400x400
-              # IMAGE_STEPS: 8
-              # AUTOMATIC1111_BASE_URL: http://sdnext:7860/
-              # AUTOMATIC1111_CFG_SCALE: 2
-              # AUTOMATIC1111_SAMPLER: DPM++ SDE
-              # AUTOMATIC1111_SCHEDULER: Karras
-              # Open-webui settings
-              # OLLAMA_BASE_URL: http://ollama:11434
               # ENABLE_RAG_WEB_SEARCH: true
               # ENABLE_SEARCH_QUERY: true
               # RAG_WEB_SEARCH_ENGINE: searxng

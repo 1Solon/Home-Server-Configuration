@@ -42,7 +42,7 @@ spec:
               - secretRef:
                   name: litellm-secret
               - secretRef:
-                  name: litellm-db
+                  name: litellm-db-secret
             args:
               - --port
               - "4000"

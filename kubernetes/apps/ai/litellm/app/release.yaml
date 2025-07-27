@@ -106,7 +106,7 @@ spec:
           gethomepage.dev/name: Litellm
           gethomepage.dev/description: Proxy and Budgeting for LLM providers
           gethomepage.dev/group: Applications
-          gethomepage.dev/icon: litellm.png
+          gethomepage.dev/icon: LiteLLM.png
           gethomepage.dev/pod-selector: app.kubernetes.io/name=litellm
         hosts:
           - host: "{{ .Release.Name }}.${LOCAL_DOMAIN}"

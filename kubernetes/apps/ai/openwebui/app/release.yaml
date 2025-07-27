@@ -63,6 +63,13 @@ spec:
     ingress:
       app:
         className: internal
+        annotations:
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/name: Open WebUI
+          gethomepage.dev/description: A web UI for interacting with LLIMs
+          gethomepage.dev/group: Applications
+          gethomepage.dev/icon: open-webui.png
+          gethomepage.dev/pod-selector: app.kubernetes.io/name=open-webui
         hosts:
           - host: "ai.${LOCAL_DOMAIN}"
             paths: &paths

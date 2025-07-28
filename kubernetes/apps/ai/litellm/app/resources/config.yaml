@@ -17,7 +17,11 @@ model_list:
       model: openrouter/anthropic/claude-sonnet-4
       api_key: os.environ/OPENROUTER_API_KEY
 
-
+# OpenAI
+  - model_name: gpt-4o
+    litellm_params:
+      model: openrouter/openai/gpt-4o
+      api_key: os.environ/OPENROUTER_API_KEY
 
 general_settings:
   proxy_batch_write_at: 60

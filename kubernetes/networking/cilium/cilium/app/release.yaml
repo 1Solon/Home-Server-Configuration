@@ -25,6 +25,3 @@ spec:
   valuesFrom:
     - kind: ConfigMap
       name: cilium-helm-values
-  values:
-    operator:
-      tolerations: []

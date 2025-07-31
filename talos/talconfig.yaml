@@ -182,7 +182,7 @@ nodes:
               - name: nvidia
               - name: nvidia_uvm
               - name: nvidia_drm
-              - name: nvidia_modest
+              - name: nvidia_modeset
           sysctls:
             net.core.bpf_jit_harden: 1
       - |-

@@ -38,6 +38,8 @@ spec:
               LITELLM_LOG: "DEBUG"
               LITELLM_MODE: "production"
               LITELLM_DONT_SHOW_FEEDBACK_BOX: "True"
+              USE_PRISMA_MIGRATE: "True"             
+              LITELLM_MIGRATION_DIR: /var/lib/litellm/migrations
             envFrom: 
               - secretRef:
                   name: litellm-secret
@@ -137,9 +139,3 @@ spec:
             subPath: npm
           - path: /tmp
             subPath: tmp
-
-    prisma-client:
-      type: emptyDir
-      globalMounts:
-        - path: /usr/local/lib/python3.13/site-packages/prisma
-          subPath: prisma

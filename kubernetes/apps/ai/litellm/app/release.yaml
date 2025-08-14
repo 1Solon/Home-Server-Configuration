@@ -40,6 +40,9 @@ spec:
               STORE_MODEL_IN_DB: True
               LITELLM_MODE: "production"
               LITELLM_DONT_SHOW_FEEDBACK_BOX: "True"
+              # Ensure Prisma Python engine caches binaries to a writable location
+              XDG_CACHE_HOME: /.cache
+              HOME: /tmp
             envFrom: 
               - secretRef:
                   name: litellm-secret
@@ -139,6 +142,13 @@ spec:
             subPath: npm
           - path: /tmp
             subPath: tmp
+
+      # Fallback for tools that still try to write to /root/.cache
+      root-cache:
+        type: emptyDir
+        globalMounts:
+          - path: /root/.cache
+            subPath: root-cache
 
       # Writable mount for Prisma baseline/migrations inside litellm_proxy_extras
       prisma-migrations:

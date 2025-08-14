@@ -141,5 +141,5 @@ spec:
     prisma-client:
       type: emptyDir
       globalMounts:
-        - path: /usr/local/lib/python3.13/site-packages/prisma
+        - path: /usr/local/lib/python3.13/site-packages
           subPath: prisma

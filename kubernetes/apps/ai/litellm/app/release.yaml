@@ -35,24 +35,21 @@ spec:
               tag: v1.74.15-stable@sha256:0bd8fa78278fb5fdf3fa2d2d4cf9ec33e3a1c9c67d22c557479664f123479857
             env:
               TZ: ${TZ}
-              LITELLM_LOG: "DEBUG"
               REDIS_URL: redis://dragonfly.databases.svc.cluster.local
               STORE_MODEL_IN_DB: True
-              LITELLM_MODE: "production"
-              LITELLM_DONT_SHOW_FEEDBACK_BOX: "True"
-              # Ensure Prisma Python engine caches binaries to a writable location
-              XDG_CACHE_HOME: /.cache
-              HOME: /tmp
-            envFrom: 
+
+            envFrom:
               - secretRef:
                   name: litellm-secret
               - secretRef:
                   name: litellm-db-secret
+
             args:
               - --port
               - "4000"
               - --config
               - /app/config.yaml
+
             probes:
               liveness:
                 enabled: true
@@ -65,6 +62,7 @@ spec:
                   periodSeconds: 60
                   timeoutSeconds: 10
                   failureThreshold: 3
+
               readiness:
                 enabled: true
                 custom: true
@@ -76,10 +74,12 @@ spec:
                   periodSeconds: 5
                   timeoutSeconds: 5
                   failureThreshold: 3
+
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: false
               capabilities: { drop: ["ALL"] }
+
             resources:
               requests:
                 cpu: 10m
@@ -88,10 +88,6 @@ spec:
 
     defaultPodOptions:
       securityContext:
-        runAsNonRoot: true
-        runAsUser: 1000
-        runAsGroup: 1000
-        fsGroup: 1000
         fsGroupChangePolicy: OnRootMismatch
         seccompProfile: { type: RuntimeDefault }
 
@@ -142,22 +138,3 @@ spec:
             subPath: npm
           - path: /tmp
             subPath: tmp
-
-      # Fallback for tools that still try to write to /root/.cache
-      root-cache:
-        type: emptyDir
-        globalMounts:
-          - path: /root/.cache
-            subPath: root-cache
-
-      # Writable mount for Prisma baseline/migrations inside litellm_proxy_extras
-      prisma-migrations:
-        type: emptyDir
-        globalMounts:
-          - path: /usr/lib/python3.13/site-packages/litellm_proxy_extras/migrations
-
-    prisma-client:
-      type: emptyDir
-      globalMounts:
-        - path: /usr/local/lib/python3.13/site-packages
-          subPath: prisma

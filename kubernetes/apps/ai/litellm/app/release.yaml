@@ -140,6 +140,12 @@ spec:
           - path: /tmp
             subPath: tmp
 
+      # Writable mount for Prisma baseline/migrations inside litellm_proxy_extras
+      prisma-migrations:
+        type: emptyDir
+        globalMounts:
+          - path: /usr/lib/python3.13/site-packages/litellm_proxy_extras/migrations
+
     prisma-client:
       type: emptyDir
       globalMounts:

@@ -32,7 +32,7 @@ l2announcements:
   enabled: true
 loadBalancer:
   algorithm: maglev
-  mode: "snat"
+  mode: "snat" # DSR does not appear to work on Arm nodes
 localRedirectPolicy: true
 operator:
   dashboards:

@@ -20,7 +20,7 @@ metadata:
   name: l2-policy-arm64
 spec:
   loadBalancerIPs: true
-  # interfaces: # I have no flipping idea which interface it is on, so let's just bind all of them, what could possibly go wrong?
+  # interfaces:
   #   - ^end[0-9]+
   nodeSelector:
     matchLabels:

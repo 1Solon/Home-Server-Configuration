@@ -32,7 +32,7 @@ spec:
       app.kubernetes.io/name: *app
   interval: 30m
   path: ./kubernetes/networking/cilium/cilium/config
-  prune: false # never should be deleted
+  prune: true
   sourceRef:
     kind: GitRepository
     name: flux-system

@@ -20,8 +20,8 @@ metadata:
   name: l2-policy-arm64
 spec:
   loadBalancerIPs: true
-  # interfaces:
-  #   - ^end[0-9]+
+  interfaces:
+    - end0
   nodeSelector:
     matchLabels:
       kubernetes.io/arch: "arm64"

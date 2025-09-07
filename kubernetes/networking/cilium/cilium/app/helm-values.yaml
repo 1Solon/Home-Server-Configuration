@@ -30,6 +30,8 @@ kubeProxyReplacementHealthzBindAddr: 0.0.0.0:10256
 policyEnforcementMode: never
 l2announcements:
   enabled: true
+  leaseDuration: 30s
+  leaseRenewalPercent: 80
 loadBalancer:
   algorithm: maglev
   mode: "snat" # DSR does not appear to work on Arm nodes

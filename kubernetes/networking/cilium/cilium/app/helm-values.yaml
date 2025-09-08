@@ -30,7 +30,7 @@ kubeProxyReplacementHealthzBindAddr: 0.0.0.0:10256
 policyEnforcementMode: never
 l2announcements:
   enabled: true
-  leaseDuration: 5m
+  leaseDuration: 30s
   leaseRenewalPercent: 80
 loadBalancer:
   algorithm: maglev

@@ -38,7 +38,7 @@ l2announcements:
   leaseRenewalPercent: 80
 loadBalancer:
   algorithm: maglev
-  mode: "snat" # dsr does not appear to work on arm nodes
+  mode: dsr
 localRedirectPolicy: true
 operator:
   dashboards:

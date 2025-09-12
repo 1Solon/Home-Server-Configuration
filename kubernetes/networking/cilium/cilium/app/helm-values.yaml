@@ -3,7 +3,7 @@ autoDirectNodeRoutes: true
 bpf:
   masquerade: true
   # Ref: https://github.com/siderolabs/talos/issues/10002
-  # hostLegacyRouting: true
+  hostLegacyRouting: true
 bandwidthManager:
   enabled: true
   # rk1's run on 5.10 version of kernel, 5.12 is required

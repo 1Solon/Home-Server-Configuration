@@ -10,6 +10,7 @@ spec:
   chartRef:
     kind: OCIRepository
     name: kube-prometheus-stack
+    namespace: flux-system
   install:
     crds: Skip
   upgrade:

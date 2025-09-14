@@ -99,7 +99,7 @@ spec:
         ingressClassName: internal
         hosts:
           - prometheus.${LOCAL_DOMAIN}
-        pathType: prefix
+        pathType: Prefix
       prometheusSpec:
         image:
           registry: docker.io

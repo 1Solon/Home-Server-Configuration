@@ -26,3 +26,4 @@ resources:
 - tailscale.yaml
 - flux-operator.yaml
 - kube-prometheus-stack.yaml
+- prometheus-node-exporter.yaml

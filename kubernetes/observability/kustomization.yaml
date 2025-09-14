@@ -5,3 +5,4 @@ resources:
 - ./namespace.yaml
 - ./metrics-server/install.yaml
 - ./kube-prometheus-stack/install.yaml
+- ./node-exporter/install.yaml

@@ -48,7 +48,7 @@ spec:
             env:
               DOMAINS: "ipv4.${REMOTE_DOMAIN}"
               IP6_PROVIDER: "none" # My local network doesn't support IPv6
-              PROXIED: "false"
+              PROXIED: "true"
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true

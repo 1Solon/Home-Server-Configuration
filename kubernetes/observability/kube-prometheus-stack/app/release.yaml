@@ -12,12 +12,10 @@ spec:
     name: kube-prometheus-stack
     namespace: flux-system
   install:
-    crds: Skip
+    crds: CreateReplace
   upgrade:
-    crds: Skip
+    crds: CreateReplace
   values:
-    crds:
-      enabled: false
     cleanPrometheusOperatorObjectNames: true
 
     alertmanager:

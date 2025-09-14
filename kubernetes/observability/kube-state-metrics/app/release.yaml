@@ -1,0 +1,17 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: kube-state-metrics
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: kube-state-metrics
+  values:
+    fullnameOverride: kube-state-metrics
+
+    prometheus:
+      monitor:
+        enabled: true
+        honorLabels: true

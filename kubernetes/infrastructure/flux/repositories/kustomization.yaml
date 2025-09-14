@@ -27,3 +27,4 @@ resources:
 - flux-operator.yaml
 - kube-prometheus-stack.yaml
 - prometheus-node-exporter.yaml
+- kube-state-metrics.yaml

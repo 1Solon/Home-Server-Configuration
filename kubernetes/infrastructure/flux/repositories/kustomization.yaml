@@ -25,3 +25,4 @@ resources:
 - node-feature-discovery.yaml
 - tailscale.yaml
 - flux-operator.yaml
+- kube-prometheus-stack.yaml

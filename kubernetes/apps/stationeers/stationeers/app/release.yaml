@@ -38,17 +38,6 @@ spec:
             envFrom:
               - secretRef:
                   name: stationeers-secrets
-            probes:
-              liveness:
-                enabled: true
-                type: TCP
-                spec:
-                  port: 27016
-              readiness:
-                enabled: true
-                type: TCP
-                spec:
-                  port: 27016
             resources:
               requests:
                 memory: 2Gi

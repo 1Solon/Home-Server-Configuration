@@ -23,6 +23,8 @@ spec:
       strategy: rollback
       retries: 3
   values:
+    nodeSelector:
+      kubernetes.io/arch: amd64
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true

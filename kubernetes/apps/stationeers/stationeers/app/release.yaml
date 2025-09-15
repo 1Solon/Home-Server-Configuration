@@ -81,4 +81,4 @@ spec:
         server: ${TRUENAS_IP}
         path: /mnt/STORAGE-01/Stationeers
         globalMounts:
-          - path: /stationeers
+          - path: /data

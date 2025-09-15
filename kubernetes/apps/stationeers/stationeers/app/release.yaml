@@ -25,13 +25,6 @@ spec:
   values:
     nodeSelector:
       kubernetes.io/arch: amd64
-    defaultPodOptions:
-      securityContext:
-        runAsNonRoot: true
-        runAsUser: 568
-        runAsGroup: 568
-        fsGroup: 568
-        fsGroupChangePolicy: OnRootMismatch
 
     controllers:
       main:

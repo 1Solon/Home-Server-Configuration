@@ -72,11 +72,11 @@ spec:
       main:
         className: internal
         hosts:
-          - host: stationeers.${DOMAIN}
+          - host: stationeers.${LOCAL_DOMAIN}
             paths:
               - path: /
                 service:
-                  identifier: webui
+                  identifier: main
                   port: webui
 
     persistence:

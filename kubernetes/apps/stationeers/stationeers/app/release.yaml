@@ -71,6 +71,8 @@ spec:
     ingress:
       main:
         className: internal
+        annotations:
+          nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
         hosts:
           - host: stationeers.${LOCAL_DOMAIN}
             paths:

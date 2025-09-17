@@ -31,7 +31,7 @@ spec:
         runAsUser: &uid 1700
         runAsGroup: &gid 1700
         fsGroup: 1700
-        fsGroupChangePolicy: OnRootMismatch
+        fsGroupChangePolicy: Always
         seccompProfile: { type: RuntimeDefault }
 
     controllers:

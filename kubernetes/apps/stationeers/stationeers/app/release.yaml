@@ -33,16 +33,13 @@ spec:
         containers:
           app:
             image:
-              repository: ghcr.io/1solon/stationeers-dedicated-server-docker
-              tag: 1.0.1
-            envFrom:
-              - secretRef:
-                  name: stationeers-secrets
+              repository: ghcr.io/steamserverui/stationeersserverui
+              tag: 5.6.5@sha256:c2c7fc1fb48cdff8380bdd2aa8ed153bab3f7424cab056a0860f2e163540d63c
             resources:
               requests:
                 memory: 2Gi
               limits:
-                memory: 10Gi
+                memory: 16Gi
 
     service:
       main:
@@ -58,6 +55,29 @@ spec:
             port: 27016
             protocol: UDP
             targetPort: 27016
+          steam-tcp:
+            port: 27015
+            protocol: TCP
+            targetPort: 27015
+          steam-udp:
+            port: 27015
+            protocol: UDP
+            targetPort: 27015
+          webui:
+            port: 8443
+            protocol: TCP
+            targetPort: 8443
+
+    ingress:
+      main:
+        className: internal
+        hosts:
+          - host: stationeers.${DOMAIN}
+            paths:
+              - path: /
+                service:
+                  identifier: webui
+                  port: webui
 
     persistence:
       data:
@@ -65,4 +85,4 @@ spec:
         server: ${TRUENAS_IP}
         path: /mnt/STORAGE-01/Stationeers
         globalMounts:
-          - path: /stationeers
+          - path: /app

@@ -28,15 +28,15 @@ spec:
       backupstorePollInterval: 300
       backupTargetCredentialSecret: minio-secret
     defaultSettings:
-      defaultReplicaCount: 3
+      defaultReplicaCount: "3"
       createDefaultDiskLabeledNodes: true
       restoreVolumeRecurringJobs: true
-      storageOverProvisioningPercentage: 100
-      storageMinimalAvailablePercentage: 1
-      guaranteedEngineManagerCPU: 20
-      guaranteedReplicaManagerCPU: 20
+      storageOverProvisioningPercentage: "100"
+      storageMinimalAvailablePercentage: "1"
+      guaranteedEngineManagerCPU: "20"
+      guaranteedReplicaManagerCPU: "20"
       orphanAutoDeletion: true
-      concurrentAutomaticEngineUpgradePerNodeLimit: 3
+      concurrentAutomaticEngineUpgradePerNodeLimit: "3"
       nodeDownPodDeletionPolicy: delete-both-statefulset-and-deployment-pod
       taintToleration: CriticalAddonsOnly:Exists; node-role.kubernetes.io/control-plane:NoSchedule
     ingress:

@@ -11,5 +11,5 @@ resources:
   - ./jellyfin/install.yaml
   - ./decluttarr/install.yaml
   - ./flaresolver/install.yaml
-  - ./recyclarr/install.yaml#
+  - ./recyclarr/install.yaml
   - ./huntarr/install.yaml

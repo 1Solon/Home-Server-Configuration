@@ -38,12 +38,6 @@ spec:
       main:
         annotations:
           reloader.stakater.com/auto: "true"
-          # Homepage
-          gethomepage.dev/enabled: "true"
-          gethomepage.dev/name: Stationeers Server UI
-          gethomepage.dev/description: Stationeers Server UI is a web-based interface for managing and configuring Stationeers game servers
-          gethomepage.dev/group: Applications
-          gethomepage.dev/icon: https://stationeers-wiki.com/resources/assets/stationeers-wiki.png
         containers:
           app:
             image:
@@ -86,7 +80,14 @@ spec:
       main:
         className: internal
         annotations:
+          # Nginx
           nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+          # Homepage
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/name: Stationeers Server UI
+          gethomepage.dev/description: Stationeers Server UI is a web-based interface for managing and configuring Stationeers game servers
+          gethomepage.dev/group: Applications
+          gethomepage.dev/icon: https://stationeers-wiki.com/resources/assets/stationeers-wiki.png
         hosts:
           - host: stationeers.${LOCAL_DOMAIN}
             paths:

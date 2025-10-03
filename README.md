@@ -23,54 +23,108 @@ The Git repository contains the following directories:
 📁
 └──📁 kubernetes
     ├──📁 apps
-    │   ├──📁 adguard
-    │   │   └──📁 adguard
-    │   ├──📁 authentik
-    │   │   └──📁 authentik
+    │   ├──📁 Shadow-Empire-PBEM-Bot
+    │   │   ├──📁 Shadow-Empire-PBEM-Bot-1
+    │   │   ├──📁 Shadow-Empire-PBEM-Bot-2
+    │   │   └──📁 Shadow-Empire-PBEM-Bot-3
+    │   ├──📁 ai
+    │   │   ├──📁 litellm
+    │   │   ├──📁 openwebui
+    │   │   └──📁 searxng
     │   ├──📁 dashboard
-    │   │   ├──📁 homarr
     │   │   └──📁 homepage
-    │   ├──📁 media
-    │   │   ├──📁 decluttarr
-    │   │   ├──📁 flaresolver
-    │   │   ├──📁 jellyfin
-    │   │   ├──📁 jellyseer
-    │   │   ├──📁 prowlarr
-    │   │   ├──📁 qbittorrent
-    │   │   ├──📁 radarr
-    │   │   ├──📁 recyclarr
-    │   │   └──📁 sonarr
+    │   ├──📁 immich
+    │   │   └──📁 app
+    │   ├──📁 manga
+    │   │   ├──📁 komf
+    │   │   ├──📁 komga
+    │   │   └──📁 suwayomi
+    │   ├──📁 minio
+    │   │   └──📁 minio
     │   ├──📁 ntfy
     │   │   └──📁 ntfy
-    │   └──📁 speedtest-tracker
-    │       └──📁 speedtest-tracker
-    └──📁 infra
-        ├──📁 cert-manager
-        │   └──📁 cert-manager
+    │   ├──📁 speedtest-tracker
+    │   │   └──📁 speedtest-tracker
+    │   ├──📁 stationeers
+    │   │   └──📁 stationeers
+    │   └──📁 syncthing
+    │       └──📁 syncthing
+    ├──📁 infrastructure
+    │   ├──📁 flux
+    │   │   ├──📁 instance
+    │   │   ├──📁 notifications
+    │   │   ├──📁 operator
+    │   │   ├──📁 repositories
+    │   │   └──📁 secrets
+    │   ├──📁 reflector
+    │   │   └──📁 reflector
+    │   └──📁 reloader
+    │       └──📁 reloader
+    ├──📁 media
+    │   ├──📁 decluttarr
+    │   │   └──📁 app
+    │   ├──📁 flaresolver
+    │   │   └──📁 app
+    │   ├──📁 huntarr
+    │   │   └──📁 app
+    │   ├──📁 jellyfin
+    │   │   └──📁 app
+    │   ├──📁 jellyseer
+    │   │   └──📁 app
+    │   ├──📁 prowlarr
+    │   │   └──📁 app
+    │   ├──📁 qbittorrent
+    │   │   └──📁 app
+    │   ├──📁 radarr
+    │   │   └──📁 app
+    │   ├──📁 recyclarr
+    │   │   └──📁 app
+    │   └──📁 sonarr
+    │       └──📁 app
+    ├──📁 networking
+    │   ├──📁 adguard
+    │   │   └──📁 adguard
+    │   ├──📁 cert-manager
+    │   │   └──📁 cert-manager
+    │   ├──📁 cilium
+    │   │   └──📁 cilium
+    │   ├──📁 external-dns
+    │   │   ├──📁 cloudflare
+    │   │   └──📁 cloudflare-ddns
+    │   ├──📁 nginx
+    │   │   ├──📁 external
+    │   │   └──📁 internal
+    │   ├──📁 pod-gateway
+    │   │   └──📁 pod-gateway
+    │   └──📁 tailscale
+    │       └──📁 tailscale
+    ├──📁 nodes
+    │   ├──📁 node-feature-discovery
+    │   │   └──📁 node-feature-discovery
+    │   ├──📁 nvidia-device-plugin
+    │   │   └──📁 nvidia-device-plugin
+    │   └──📁 system-upgrade-controller
+    │       └──📁 system-upgrade-controller
+    ├──📁 observability
+    │   ├──📁 kube-prometheus-stack
+    │   │   └──📁 app
+    │   ├──📁 kube-state-metrics
+    │   │   └──📁 app
+    │   ├──📁 metrics-server
+    │   │   └──📁 app
+    │   └──📁 node-exporter
+    │       └──📁 app
+    ├──📁 security
+    │   ├──📁 authentik
+    │   │   └──📁 authentik
+    │   └──📁 secrets
+    │       └──📁 external-secrets
+    └──📁 storage
         ├──📁 databases
         │   ├──📁 dragonfly
         │   └──📁 postgres
-        ├──📁 external-dns
-        │   ├──📁 cloudflare
-        │   └──📁 cloudflare-ddns
-        ├──📁 flux
-        │   ├──📁 repositories
-        │   ├──📁 sources
-        │   └──📁 vars
-        ├──📁 longhorn
-        │   └──📁 longhorn
-        ├──📁 metallb
-        │   └──📁 metallb
-        ├──📁 pod-gateway
-        │   └──📁 pod-gateway
-        ├──📁 reflector
-        │   └──📁 reflector
-        ├──📁 reloader
-        │   └──📁 reloader
-        ├──📁 secrets
-        │   └──📁 external-secrets
-        └──📁 traefik
-            └──📁 traefik
+        └──📁 longhorn
+            └──📁 longhorn
 ```
 
 ## 🖥️ Software
@@ -87,6 +141,7 @@ The following apps are installed on the clusters.
 | [Jellyfin](https://jellyfin.org)                                                    | Media server.                                                       |
 | [Jellyseer](https://github.com/Fallenbagel/jellyseerr)                              | Media discovery and management for Jellyfin.                        |
 | [Prowlarr](https://github.com/Prowlarr/Prowlarr)                                    | Indexer manager for media automation.                               |
+| [Huntarr](https://github.com/plexguide/Huntarr.io)                                  | Missing media active searcher for the *arr stack                    |
 | [Qbittorrent](https://www.qbittorrent.org)                                          | Torrent client.                                                     |
 | [Radarr](https://radarr.video)                                                      | Automated movie download tool.                                      |
 | [Recyclarr](https://github.com/recyclarr/recyclarr)                                 | Notifications and monitoring tool for media services.               |

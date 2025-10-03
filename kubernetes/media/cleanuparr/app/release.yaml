@@ -1,0 +1,122 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app cleanuparr
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: app-template
+      version: 4.3.0
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s-charts
+        namespace: flux-system
+  maxHistory: 2
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      strategy: rollback
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    defaultPodOptions:
+      securityContext:
+        runAsUser: &user 1238
+        runAsGroup: &group 1238
+        fsGroup: 1238
+        fsGroupChangePolicy: OnRootMismatch
+
+    controllers:
+      cleanuparr:
+        annotations:
+          reloader.stakater.com/auto: "true"
+
+        containers:
+          app:
+            image:
+              repository: ghcr.io/cleanuparr/cleanuparr
+              tag: 2.3.3@sha256:d20efe405d4144e87736c25123cd22992fa4a76c9d80d7467ca5313b92107e4a
+            env:
+              TZ: "${TZ}"
+              PUID: *user
+              PGID: *group
+            resources:
+              requests:
+                cpu: 100m
+                memory: 100Mi
+              limits:
+                memory: 500Mi
+
+    service:
+      app:
+        controller: *app
+        ports:
+          http:
+            port: &port 11011
+
+    probes:
+      liveness:
+        enabled: true
+        custom: true
+        spec:
+          httpGet:
+            path: /health
+            port: *port
+          initialDelaySeconds: 30
+          periodSeconds: 60
+          timeoutSeconds: 10
+          failureThreshold: 3
+
+      readiness:
+        enabled: true
+        custom: true
+        spec:
+          httpGet:
+            path: /health/ready
+            port: *port
+          initialDelaySeconds: 5
+          periodSeconds: 5
+          timeoutSeconds: 5
+          failureThreshold: 3
+
+    ingress:
+      app:
+        enabled: true
+        className: internal
+        annotations:
+          # Authentik
+          nginx.ingress.kubernetes.io/auth-url: |-
+            http://ak-outpost-authentik-embedded-outpost.authentik.svc.cluster.local:9000/outpost.goauthentik.io/auth/nginx
+          nginx.ingress.kubernetes.io/auth-signin: |-
+            https://cleanuparr.${LOCAL_DOMAIN}/outpost.goauthentik.io/start?rd=$scheme://$http_host$escaped_request_uri
+          nginx.ingress.kubernetes.io/auth-response-headers: |-
+            Set-Cookie,X-authentik-username,X-authentik-groups,X-authentik-entitlements,X-authentik-email,X-authentik-name,X-authentik-uid
+          nginx.ingress.kubernetes.io/auth-snippet: |
+            proxy_set_header X-Forwarded-Host $http_host;
+          # Homepage
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/name: cleanuparr
+          gethomepage.dev/description: Automated torrent cleanup
+          gethomepage.dev/group: Applications
+          gethomepage.dev/icon: cleanuperr.png
+        hosts:
+          - host: &host cleanuparr.${LOCAL_DOMAIN}
+            paths:
+              - path: /
+                service:
+                  identifier: app
+                  port: http
+        tls:
+          - hosts:
+              - *host
+
+    persistence:
+      config:
+        existingClaim: cleanuparr-config

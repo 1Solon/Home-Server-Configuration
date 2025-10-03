@@ -12,3 +12,4 @@ resources:
   - ./flaresolver/install.yaml
   - ./recyclarr/install.yaml
   - ./huntarr/install.yaml
+  - ./cleanuparr/install.yaml

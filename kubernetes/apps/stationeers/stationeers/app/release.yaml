@@ -85,7 +85,7 @@ spec:
           # Homepage
           gethomepage.dev/enabled: "true"
           gethomepage.dev/name: Stationeers Server UI
-          gethomepage.dev/description: Interface for managing Stationeers game servers
+          gethomepage.dev/description: Interface for managing Stationeers servers
           gethomepage.dev/group: Applications
           gethomepage.dev/icon: https://stationeers-wiki.com/resources/assets/stationeers-wiki.png
         hosts:

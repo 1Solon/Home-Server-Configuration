@@ -34,7 +34,6 @@ The Git repository contains the following directories:
     │   ├──📁 dashboard
     │   │   └──📁 homepage
     │   ├──📁 immich
-    │   │   └──📁 app
     │   ├──📁 manga
     │   │   ├──📁 komf
     │   │   ├──📁 komga
@@ -61,26 +60,15 @@ The Git repository contains the following directories:
     │   └──📁 reloader
     │       └──📁 reloader
     ├──📁 media
-    │   ├──📁 decluttarr
-    │   │   └──📁 app
     │   ├──📁 flaresolver
-    │   │   └──📁 app
     │   ├──📁 huntarr
-    │   │   └──📁 app
     │   ├──📁 jellyfin
-    │   │   └──📁 app
     │   ├──📁 jellyseer
-    │   │   └──📁 app
     │   ├──📁 prowlarr
-    │   │   └──📁 app
     │   ├──📁 qbittorrent
-    │   │   └──📁 app
     │   ├──📁 radarr
-    │   │   └──📁 app
     │   ├──📁 recyclarr
-    │   │   └──📁 app
     │   └──📁 sonarr
-    │       └──📁 app
     ├──📁 networking
     │   ├──📁 adguard
     │   │   └──📁 adguard
@@ -107,13 +95,9 @@ The Git repository contains the following directories:
     │       └──📁 system-upgrade-controller
     ├──📁 observability
     │   ├──📁 kube-prometheus-stack
-    │   │   └──📁 app
     │   ├──📁 kube-state-metrics
-    │   │   └──📁 app
     │   ├──📁 metrics-server
-    │   │   └──📁 app
     │   └──📁 node-exporter
-    │       └──📁 app
     ├──📁 security
     │   ├──📁 authentik
     │   │   └──📁 authentik

@@ -9,7 +9,6 @@ resources:
   - ./prowlarr/install.yaml
   - ./jellyseer/install.yaml
   - ./jellyfin/install.yaml
-  - ./decluttarr/install.yaml
   - ./flaresolver/install.yaml
   - ./recyclarr/install.yaml
   - ./huntarr/install.yaml

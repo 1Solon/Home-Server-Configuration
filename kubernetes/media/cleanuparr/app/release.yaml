@@ -26,13 +26,6 @@ spec:
   uninstall:
     keepHistory: false
   values:
-    defaultPodOptions:
-      securityContext:
-        runAsUser: &user 1238
-        runAsGroup: &group 1238
-        fsGroup: 1238
-        fsGroupChangePolicy: OnRootMismatch
-
     controllers:
       cleanuparr:
         annotations:
@@ -45,8 +38,8 @@ spec:
               tag: 2.3.3@sha256:d20efe405d4144e87736c25123cd22992fa4a76c9d80d7467ca5313b92107e4a
             env:
               TZ: "${TZ}"
-              PUID: *user
-              PGID: *group
+              PUID: 1238
+              PGID: 1238
             resources:
               requests:
                 cpu: 100m

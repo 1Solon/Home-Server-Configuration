@@ -9,7 +9,7 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: jellyfin
-  path: "./kubernetes/apps/media/jellyfin/app"
+  path: "./kubernetes/media/jellyfin/app"
   prune: false
   sourceRef:
     kind: GitRepository

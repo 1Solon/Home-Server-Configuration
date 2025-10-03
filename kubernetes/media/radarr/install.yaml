@@ -9,7 +9,7 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: radarr
-  path: "./kubernetes/apps/media/radarr/app"
+  path: "./kubernetes/media/radarr/app"
   prune: false
   sourceRef:
     kind: GitRepository

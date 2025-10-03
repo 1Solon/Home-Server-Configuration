@@ -9,7 +9,7 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: prowlarr
-  path: "./kubernetes/apps/media/prowlarr/app"
+  path: "./kubernetes/media/prowlarr/app"
   prune: false
   sourceRef:
     kind: GitRepository

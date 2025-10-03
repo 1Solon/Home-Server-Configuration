@@ -9,7 +9,7 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: qbittorrent
-  path: "./kubernetes/apps/media/qbittorrent/app"
+  path: "./kubernetes/media/qbittorrent/app"
   prune: false
   sourceRef:
     kind: GitRepository

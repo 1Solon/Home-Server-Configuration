@@ -9,7 +9,7 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: decluttarr
-  path: "./kubernetes/apps/media/decluttarr/app"
+  path: "./kubernetes/media/decluttarr/app"
   prune: false
   sourceRef:
     kind: GitRepository

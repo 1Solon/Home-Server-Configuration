@@ -9,7 +9,7 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: jellyseerr
-  path: "./kubernetes/apps/media/jellyseer/app"
+  path: "./kubernetes/media/jellyseer/app"
   prune: false
   sourceRef:
     kind: GitRepository

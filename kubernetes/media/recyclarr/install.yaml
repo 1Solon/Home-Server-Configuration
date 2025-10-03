@@ -9,7 +9,7 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: recyclarr
-  path: "./kubernetes/apps/media/recyclarr/app"
+  path: "./kubernetes/media/recyclarr/app"
   prune: false
   sourceRef:
     kind: GitRepository

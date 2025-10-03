@@ -75,7 +75,7 @@ spec:
             paths:
               - path: /
                 service:
-                  identifier: *app
+                  identifier: app
                   port: http
         tls:
           - hosts:

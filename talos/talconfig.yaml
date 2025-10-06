@@ -166,12 +166,12 @@ nodes:
   - hostname: kube5
     ipAddress: 192.168.1.105
     controlPlane: false
-    installDisk: /dev/sda
+    installDisk: /dev/vda
     nameservers:
       - 192.168.1.155
       - 8.8.8.8
     networkInterfaces:
-      - interface: eth0
+      - interface: ens3
         addresses:
           - 192.168.1.105/24
         routes:

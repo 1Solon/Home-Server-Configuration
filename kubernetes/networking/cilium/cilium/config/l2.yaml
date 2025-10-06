@@ -7,7 +7,7 @@ metadata:
 spec:
   loadBalancerIPs: true
   interfaces:
-    - ^eth[0-9]+
+    - ^ens[0-9]+
   nodeSelector:
     matchLabels:
       kubernetes.io/arch: "amd64"

@@ -43,7 +43,7 @@ sonarr:
           allowed: true
           until_quality: Web-1080p
           until_score: 10000
-        min_format_score: 1995
+        min_format_score: 0
         quality_sort: top
         qualities:
           - name: Bluray-1080p Remux
@@ -187,7 +187,7 @@ sonarr:
           - 47435ece6b99a0b477caf360e79ba0bb # x265 (HD)
         assign_scores_to:
           - name: Remux-1080p - Anime Dub
-            score: 0
+            score: 50
 
 radarr:
   radarr:

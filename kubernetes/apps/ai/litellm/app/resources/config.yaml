@@ -8,13 +8,13 @@ model_list:
 
   - model_name: gemini-2.5-pro
     litellm_params:
-      model: gemini/gemini-pro
+      model: gemini/gemini-2.5-pro
       api_key: os.environ/GOOGLE_API_KEY
 
 # Anthropic
   - model_name: claude-sonnet-4.5
     litellm_params:
-      model: anthropic/claude-sonnet-4.5
+      model: anthropic/claude-sonnet-4-5-20250929
       api_key: os.environ/ANTHROPIC_API_KEY
 
 # OpenAI

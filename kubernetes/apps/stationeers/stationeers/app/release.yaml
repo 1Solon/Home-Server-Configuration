@@ -32,7 +32,7 @@ spec:
         fsGroupChangePolicy: Always
         seccompProfile: { type: RuntimeDefault }
       nodeSelector:
-        kubernetes.io/os: amd64
+        kubernetes.io/arch: amd64
 
     controllers:
       main:

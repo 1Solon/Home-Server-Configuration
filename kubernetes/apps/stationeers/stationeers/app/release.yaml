@@ -23,8 +23,6 @@ spec:
       strategy: rollback
       retries: 3
   values:
-    nodeSelector:
-      kubernetes.io/arch: amd64
 
     defaultPodOptions:
       securityContext:
@@ -33,6 +31,8 @@ spec:
         fsGroup: 1700
         fsGroupChangePolicy: Always
         seccompProfile: { type: RuntimeDefault }
+      nodeSelector:
+        kubernetes.io/os: amd64
 
     controllers:
       main:

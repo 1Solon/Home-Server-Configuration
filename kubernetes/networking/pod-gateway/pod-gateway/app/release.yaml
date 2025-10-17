@@ -28,8 +28,6 @@ spec:
       repository: ghcr.io/angelnu/pod-gateway
       tag: v1.13.0@sha256:a5b032e15f7570493977b330a5a86dcffebb807d35685ad803e47afb62d105f2
 
-    nodeSelector:
-      kubernetes.io/arch: amd64
 
     addons:
       netshoot:
@@ -40,8 +38,6 @@ spec:
         image:
           repository: ghcr.io/qdm12/gluetun
           tag: v3.40.0@sha256:2b42bfa046757145a5155acece417b65b4443c8033fb88661a8e9dcf7fda5a00
-        nodeSelector:
-          kubernetes.io/arch: amd64
         env:
           - name: VPN_SERVICE_PROVIDER
             value: airvpn

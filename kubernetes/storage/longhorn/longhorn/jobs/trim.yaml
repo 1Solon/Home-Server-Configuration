@@ -8,4 +8,5 @@ spec:
   task: "filesystem-trim"
   groups:
     - default
+    - no-backup
   concurrency: 3

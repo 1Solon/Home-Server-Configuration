@@ -61,7 +61,8 @@ spec:
             port: &port 8080
 
     ingress:
-      app:
+      # Legacy ingress for internal access (will remove in future)
+      internal:
         className: internal
         annotations:
           gethomepage.dev/enabled: "true"
@@ -77,6 +78,25 @@ spec:
                 service:
                   identifier: app
                   port: http
+        tls:
+          - hosts:
+              - *app
+      
+      # Ingress for external access
+      external:
+        className: external
+        annotations:
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/name: Open WebUI
+          gethomepage.dev/description: A web UI for interacting with LLMs
+          gethomepage.dev/group: Applications
+          gethomepage.dev/icon: open-webui.png
+          gethomepage.dev/pod-selector: app.kubernetes.io/name=open-webui
+          # Point to DDNS domain
+          external-dns.alpha.kubernetes.io/target: ipv4.${REMOTE_DOMAIN}
+        hosts:
+          - host: "ai.${REMOTE_DOMAIN}"
+            paths: *paths
         tls:
           - hosts:
               - *app

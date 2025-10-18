@@ -99,7 +99,6 @@ spec:
         className: external
         annotations:
           external-dns.alpha.kubernetes.io/target: "ipv4.${REMOTE_DOMAIN}"
-          external-dns.alpha.kubernetes.io/cloudflare-proxied: "false"
         hosts:
           - host: &host "photos.${REMOTE_DOMAIN}"
             paths:

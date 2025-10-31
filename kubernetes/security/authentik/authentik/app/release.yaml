@@ -19,7 +19,7 @@ spec:
   chart:
     spec:
       chart: authentik
-      version: 2025.8.4
+      version: 2025.10.0
       sourceRef:
         kind: HelmRepository
         name: authentik
@@ -44,10 +44,6 @@ spec:
         - secretRef:
             name: authentik-db-secret
 
-    authentik:
-      redis:
-        host: dragonfly.databases.svc.cluster.local
-        db: 1
     server:
       replicas: 1
 

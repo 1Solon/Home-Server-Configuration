@@ -42,7 +42,7 @@ spec:
           app:
             image:
               repository: ghcr.io/steamserverui/stationeersserverui
-              tag: 5.7.1@sha256:50538b880220ca78a173781da9d63fdc8a34939b4b287e23a3799d7f3fc97cd7
+              tag: 5.8.0@sha256:2b4dc68e7823a7bf7e92bb0a1c78171623846da06289387b9dfaab6f85ec4430
             resources:
               requests:
                 memory: 2Gi

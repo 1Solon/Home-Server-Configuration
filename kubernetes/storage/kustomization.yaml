@@ -4,4 +4,4 @@ kind: Kustomization
 resources:
   - longhorn
   - databases
-  - garage
+  - garage/install.yaml

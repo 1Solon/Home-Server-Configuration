@@ -38,7 +38,7 @@ spec:
                 cpu: 100m
               limits:
                 memory: 512Mi
-                
+
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true
@@ -68,7 +68,7 @@ spec:
                 pathType: Prefix
                 service:
                   identifier: app
-                  port: http
+                  port: api
           - host: &host-api s3.${LOCAL_DOMAIN}
             paths:
               - path: /

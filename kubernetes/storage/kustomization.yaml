@@ -5,4 +5,3 @@ resources:
   - longhorn
   - databases
   - garage/install.yaml
-  - namespace.yaml

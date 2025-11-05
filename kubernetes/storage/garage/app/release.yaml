@@ -38,6 +38,7 @@ spec:
                 cpu: 100m
               limits:
                 memory: 512Mi
+                
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true
@@ -47,6 +48,7 @@ spec:
         fsGroupChangePolicy: OnRootMismatch
         supplementalGroups: [10000]
         seccompProfile: { type: RuntimeDefault }
+
     service:
       app:
         ports:
@@ -54,20 +56,31 @@ spec:
             port: &port 3900
           api:
             port: 3903
+
     ingress:
       app:
         enabled: true
         className: internal
         hosts:
-          - host: &host s3.${LOCAL_DOMAIN}
+          - host: &host-console garage.${LOCAL_DOMAIN}
             paths:
               - path: /
+                pathType: Prefix
                 service:
                   identifier: app
                   port: http
+          - host: &host-api s3.${LOCAL_DOMAIN}
+            paths:
+              - path: /
+                pathType: Prefix
+                service:
+                  identifier: app
+                  port: s3
         tls:
           - hosts:
-              - *host
+              - *host-console
+              - *host-api
+
     configMaps:
       config:
         data:
@@ -90,6 +103,7 @@ spec:
 
             [admin]
             api_bind_addr = "[::]:3903"
+
     persistence:
       config:
         enabled: true

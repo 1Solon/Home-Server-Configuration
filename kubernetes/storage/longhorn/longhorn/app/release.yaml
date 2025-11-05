@@ -26,7 +26,7 @@ spec:
     defaultBackupStore:
       backupTarget: s3://longhorn@home/
       backupstorePollInterval: 300
-      backupTargetCredentialSecret: minio-secret
+      backupTargetCredentialSecret: garage-s3-secret
     defaultSettings:
       defaultReplicaCount: "3"
       createDefaultDiskLabeledNodes: true

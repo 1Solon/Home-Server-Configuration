@@ -4,3 +4,4 @@ kind: Kustomization
 resources:
   - longhorn
   - databases
+  - garage

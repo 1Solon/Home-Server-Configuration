@@ -1,0 +1,53 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: &app garage
+spec:
+  path: ./kubernetes/storage/garage/app
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  interval: 30m
+  retryInterval: 1m
+  timeout: 3m
+  targetNamespace: storage
+  postBuild:
+    substituteFrom:
+      - kind: ConfigMap
+        name: cluster-settings
+        optional: false
+  commonMetadata:
+    labels:
+      app.kubernetes.io/name: *app
+
+# ---
+# # yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
+# apiVersion: kustomize.toolkit.fluxcd.io/v1
+# kind: Kustomization
+# metadata:
+#   name: &app garage-webui
+# spec:
+#   path: ./kubernetes/storage/garage/webui
+#   prune: true
+#   dependsOn:
+#     - name: garage
+#   sourceRef:
+#     kind: GitRepository
+#     name: flux-system
+#     namespace: flux-system
+#   interval: 30m
+#   retryInterval: 1m
+#   timeout: 3m
+#   targetNamespace: storage
+#   postBuild:
+#     substituteFrom:
+#       - kind: ConfigMap
+#         name: cluster-settings
+#         optional: false
+#   commonMetadata:
+#     labels:
+#       app.kubernetes.io/name: *app

@@ -24,7 +24,7 @@ spec:
       retries: 3
   values:
     defaultBackupStore:
-      backupTarget: s3://longhorn@home/
+      backupTarget: s3://longhorn@us-east-1/
       backupstorePollInterval: 300
       backupTargetCredentialSecret: garage-s3-secret
     defaultSettings:

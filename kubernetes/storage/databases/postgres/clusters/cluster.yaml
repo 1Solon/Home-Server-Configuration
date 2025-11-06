@@ -110,7 +110,7 @@ spec:
           s3: &minio
             bucket: postgres
             endpoint: "s3.${LOCAL_DOMAIN}"
-            region: home
+            region: us-east-1
           schedules:
             full: 0 1 * * 0 # Sunday at 01:00
             differential: 0 1 * * 1-6 # Mon-Sat at 01:00

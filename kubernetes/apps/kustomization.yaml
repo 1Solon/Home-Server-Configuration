@@ -8,6 +8,5 @@ resources:
   - syncthing
   - Shadow-Empire-PBEM-Bot
   - immich
-  # - minio
   - ai
   - stationeers

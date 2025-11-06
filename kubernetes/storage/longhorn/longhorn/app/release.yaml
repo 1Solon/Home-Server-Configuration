@@ -23,6 +23,8 @@ spec:
       strategy: rollback
       retries: 3
   values:
+    annotations:
+      reloader.stakater.com/auto: "true"
     defaultBackupStore:
       backupTarget: s3://longhorn@us-east-1/
       backupstorePollInterval: 300

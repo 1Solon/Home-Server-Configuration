@@ -13,3 +13,4 @@ resources:
   - ./recyclarr/install.yaml
   - ./huntarr/install.yaml
   - ./cleanuparr/install.yaml
+  - ./dispatcharr/install.yaml

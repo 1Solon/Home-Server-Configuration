@@ -7,7 +7,7 @@ metadata:
 spec:
   path: "./kubernetes/apps/stationeers/stationeers/app"
   targetNamespace: stationeers
-  prune: false
+  prune: true
   wait: true
   interval: 30m
   retryInterval: 1m

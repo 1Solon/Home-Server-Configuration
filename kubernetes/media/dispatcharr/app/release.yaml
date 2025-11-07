@@ -17,8 +17,6 @@ spec:
   values:
     controllers:
       dispatcharr:
-        pod:
-          hostUsers: false
         initContainers:
           chown-dbdir:
             image:

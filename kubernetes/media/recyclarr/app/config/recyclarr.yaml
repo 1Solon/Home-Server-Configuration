@@ -43,7 +43,7 @@ sonarr:
           allowed: true
           until_quality: Web-1080p
           until_score: 10000
-        min_format_score: 0
+        min_format_score: 1995
         quality_sort: top
         qualities:
           - name: Bluray-1080p Remux
@@ -162,13 +162,13 @@ sonarr:
       - trash_ids: [3bc5f395426614e155e585a2f056cdf1] # Season Packs
         assign_scores_to:
           - name: WEBDL-1080p
-            score: 50
+            score: 1
           - name: WEBDL-720p
-            score: 50
+            score: 1
           - name: WEBDL-480p
-            score: 50
+            score: 1
           - name: Remux-1080p - Anime Dub
-            score: 50
+            score: 1
       - trash_ids: [9965a052eb87b0d10313b1cea89eb451] # Remux Tier 01
         assign_scores_to:
           - name: WEBDL-1080p
@@ -187,7 +187,7 @@ sonarr:
           - 47435ece6b99a0b477caf360e79ba0bb # x265 (HD)
         assign_scores_to:
           - name: Remux-1080p - Anime Dub
-            score: 50
+            score: 0
 
 radarr:
   radarr:

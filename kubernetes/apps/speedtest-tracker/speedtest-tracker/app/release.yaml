@@ -22,7 +22,7 @@ spec:
           app:
             image:
               repository: lscr.io/linuxserver/speedtest-tracker
-              tag: 1.7.2@sha256:745eec62c8cd2fa70d13926237e154d5d0ddf5201b427c497906620fcb6744b0
+              tag: 1.7.3@sha256:d45d54ec3836f487817fb42d44a8b7ac73e3442cb66fd142bb795cbc19592745
             envFrom:
               - secretRef:
                   name: speedtest-tracker-db-secret

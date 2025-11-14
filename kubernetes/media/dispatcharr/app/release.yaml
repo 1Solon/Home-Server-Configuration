@@ -17,6 +17,8 @@ spec:
   values:
     controllers:
       dispatcharr:
+        annotations:
+          setGateway: "true" # This should use the VPN
         initContainers:
           chown-dbdir:
             image:

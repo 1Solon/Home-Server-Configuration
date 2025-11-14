@@ -17,8 +17,9 @@ spec:
   values:
     controllers:
       dispatcharr:
-        annotations:
-          setGateway: "true" # This should use the VPN
+        pod:
+          annotations:
+            setGateway: "true" # Enable VPN gateway for this pod
         initContainers:
           chown-dbdir:
             image:

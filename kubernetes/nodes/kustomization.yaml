@@ -5,3 +5,4 @@ resources:
   - node-feature-discovery
   - nvidia-device-plugin
   - system-upgrade-controller
+  - tuppr/install.yaml

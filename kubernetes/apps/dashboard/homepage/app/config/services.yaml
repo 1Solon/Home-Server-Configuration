@@ -54,6 +54,7 @@
             username: {{HOMEPAGE_VAR_QBITTORRENT_USERNAME}}
             password: {{HOMEPAGE_VAR_QBITTORRENT_PASSWORD}}
             enableLeechProgress: true
+            enableLeechSize: true
 
 - Applications:
     - JetKVM:

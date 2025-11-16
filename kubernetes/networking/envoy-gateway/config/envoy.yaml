@@ -47,7 +47,7 @@ kind: Gateway
 metadata:
   name: envoy-external
   annotations:
-    external-dns.alpha.kubernetes.io/target: &hostname ipv4.${REMOTE_DOMAIN}
+    external-dns.alpha.kubernetes.io/target: &hostname ${REMOTE_DOMAIN}
 spec:
   gatewayClassName: envoy
   infrastructure:
@@ -77,10 +77,13 @@ apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
   name: envoy-internal
+  annotations:
+    external-dns.alpha.kubernetes.io/target: &hostname ${LOCAL_DOMAIN}
 spec:
   gatewayClassName: envoy
   infrastructure:
     annotations:
+      external-dns.alpha.kubernetes.io/hostname: *hostname
       lbipam.cilium.io/ips: ${GATEWAY_INTERNAL_IP}
   listeners:
     - name: http

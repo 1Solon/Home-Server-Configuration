@@ -9,3 +9,4 @@ resources:
   - cert-manager
   - adguard
   - tailscale
+  - envoy-gateway/install.yaml

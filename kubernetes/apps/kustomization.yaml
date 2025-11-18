@@ -3,7 +3,7 @@ kind: Kustomization
 resources:
   - dashboard
   - manga
-  - ntfy
+  # - ntfy
   - speedtest-tracker
   - syncthing
   - Shadow-Empire-PBEM-Bot

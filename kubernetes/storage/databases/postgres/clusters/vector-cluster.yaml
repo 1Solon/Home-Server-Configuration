@@ -101,7 +101,7 @@ spec:
         - name: repo1 # Minio
           s3: &minio
             bucket: postgres
-            endpoint: "s3.${LOCAL_DOMAIN}"
+            endpoint: "garage.garage.svc.cluster.local:3900"
             region: us-east-1
           schedules:
             full: 0 1 * * 0 # Sunday at 01:00

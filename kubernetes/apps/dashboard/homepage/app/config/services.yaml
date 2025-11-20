@@ -71,7 +71,7 @@
         description: NAS Storage
         widget:
             type: truenas
-            url: https://truenas.local
+            url: http://192.168.1.111
             key: {{HOMEPAGE_VAR_TRUENAS_TOKEN}}
             enablePools: true
             nasType: scale

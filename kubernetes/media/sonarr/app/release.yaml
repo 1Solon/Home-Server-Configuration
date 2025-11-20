@@ -98,19 +98,19 @@ spec:
           - hosts:
               - *host
     
-    route:
-      app:
-        enabled: true
-        parentRefs:
-          - name: envoy-internal
-            namespace: networking
-            sectionName: https
-        hostnames:
-          - "sonarr.${LOCAL_DOMAIN}"
-        rules:
-          - backendRefs:
-              - port: *port
-                name: *app
+    # route:
+    #   app:
+    #     enabled: true
+    #     parentRefs:
+    #       - name: envoy-internal
+    #         namespace: networking
+    #         sectionName: https
+    #     hostnames:
+    #       - "sonarr.${LOCAL_DOMAIN}"
+    #     rules:
+    #       - backendRefs:
+    #           - port: *port
+    #             name: *app
       
 
     persistence:

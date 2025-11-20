@@ -97,6 +97,20 @@ spec:
         tls:
           - hosts:
               - *host
+    
+    route:
+      app:
+        enabled: true
+        parentRefs:
+          - name: envoy-internal
+            namespace: networking
+        hostnames:
+          - "sonarr.${LOCAL_DOMAIN}"
+        rules:
+          - backendRefs:
+              - port: *port
+                name: *app
+      
 
     persistence:
       config:

@@ -90,7 +90,6 @@ spec:
         repo1-retention-diff: "7" # days
         repo1-retention-full-type: time
         repo1-s3-uri-style: path
-        repo1-storage-verify-tls: "n"
       manual:
         repoName: repo1
         options:
@@ -102,7 +101,7 @@ spec:
         - name: repo1 # Minio
           s3: &minio
             bucket: postgres
-            endpoint: "garage.garage.svc.cluster.local:3900"
+            endpoint: "s3.${LOCAL_DOMAIN}"
             region: us-east-1
           schedules:
             full: 0 1 * * 0 # Sunday at 01:00

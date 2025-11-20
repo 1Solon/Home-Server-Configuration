@@ -14,4 +14,4 @@ spec:
     annotations:
       reflector.v1.k8s.emberstack.com/reflection-auto-enabled: "true"
       reflector.v1.k8s.emberstack.com/reflection-allowed: "true"
-      reflector.v1.k8s.emberstack.com/reflection-allowed-namespaces: "home-dashboard, home-media, traefik, pihole, speedtest, ansible-semaphore, longhorn, authentik, secrets, databases, adguard"
+      reflector.v1.k8s.emberstack.com/reflection-allowed-namespaces: "networking"

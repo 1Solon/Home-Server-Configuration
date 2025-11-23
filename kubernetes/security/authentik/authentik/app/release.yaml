@@ -77,8 +77,8 @@ spec:
           gethomepage.dev/icon: authentik.png
           gethomepage.dev/pod-selector: app.kubernetes.io/name=authentik
         parentRefs:
-          - name: internal
-            namespace: kube-system
+          - name: envoy-external
+            namespace: networking
             sectionName: https
         rules:
           - backendRefs:

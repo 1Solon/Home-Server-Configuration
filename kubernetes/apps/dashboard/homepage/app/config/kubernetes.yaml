@@ -1,3 +1,4 @@
 ---
 mode: cluster
 gateway: true
+ingress: false

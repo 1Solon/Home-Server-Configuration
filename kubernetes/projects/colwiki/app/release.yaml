@@ -31,6 +31,21 @@ spec:
         annotations:
           reloader.stakater.com/auto: "true"
 
+        initContainers:
+          init-permissions:
+            image:
+              repository: redimp/otterwiki
+              tag: 2.14.2-slim@sha256:244d01f5c3338dd9afd26f0393fdb9c0b246b37a4a5f171faadc9f5e85eb7a2a
+            command:
+              - sh
+              - -c
+              - |
+                chown -R 33:33 /app-data
+                chmod -R 755 /app-data
+            securityContext:
+              runAsUser: 0
+              runAsGroup: 0
+
         containers:
           app:
             image:

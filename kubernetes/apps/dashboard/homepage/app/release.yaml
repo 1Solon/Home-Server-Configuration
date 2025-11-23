@@ -59,22 +59,9 @@ spec:
         ports:
           http:
             port: 3000
+            
     serviceAccount:
       homepage: {}
-    ingress:
-      app:
-        enabled: true
-        className: internal
-        hosts:
-          - host: &host "{{ .Release.Name }}.local.solonsstuff.com"
-            paths:
-              - path: /
-                service:
-                  identifier: app
-                  port: http
-        tls:
-          - hosts:
-              - *host
 
     route:
       app:

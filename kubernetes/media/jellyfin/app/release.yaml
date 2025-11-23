@@ -75,22 +75,6 @@ spec:
           http:
             port: 8096
 
-    ingress:
-      main:
-        enabled: true
-        className: external
-        annotations:
-          external-dns.alpha.kubernetes.io/target: ipv4.${REMOTE_DOMAIN}
-        hosts:
-          - host: &host "{{ .Release.Name }}.${REMOTE_DOMAIN}"
-            paths:
-              - path: /
-                service:
-                  identifier: app
-                  port: http
-        tls:
-          - hosts: [*host]
-
     route:
       main:
         enabled: true

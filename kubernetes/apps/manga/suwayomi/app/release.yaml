@@ -65,23 +65,6 @@ spec:
           http:
             port: *port
 
-    ingress:
-      app:
-        className: internal
-        annotations:
-          gethomepage.dev/enabled: "true"
-          gethomepage.dev/group: Applications
-          gethomepage.dev/name: Suwayomi
-          gethomepage.dev/icon: https://raw.githubusercontent.com/Suwayomi/Suwayomi-Server/master/server/src/main/resources/icon/faviconlogo.png
-          gethomepage.dev/description: Manga Web Reader/Downloader
-        hosts:
-          - host: "{{ .Release.Name }}.${LOCAL_DOMAIN}"
-            paths:
-              - path: /
-                service:
-                  identifier: app
-                  port: http
-
     route:
       app:
         enabled: true

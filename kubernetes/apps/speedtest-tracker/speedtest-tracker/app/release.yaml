@@ -47,27 +47,6 @@ spec:
           http:
             port: 80
 
-    ingress:
-      app:
-        enabled: true
-        className: internal
-        annotations:
-          gethomepage.dev/enabled: "true"
-          gethomepage.dev/name: Speedtest Tracker
-          gethomepage.dev/description: Time-series speedtest tracking
-          gethomepage.dev/group: Applications
-          gethomepage.dev/icon: speedtest-tracker.png
-        hosts:
-          - host: &host "{{ .Release.Name }}.${LOCAL_DOMAIN}"
-            paths:
-              - path: /
-                service:
-                  identifier: app
-                  port: http
-        tls:
-          - hosts:
-              - *host
-
     route:
       app:
         enabled: true

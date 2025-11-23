@@ -99,27 +99,6 @@ spec:
             primary: true
             port: *port
 
-    ingress:
-      app:
-        className: internal
-        annotations:
-          gethomepage.dev/enabled: "true"
-          gethomepage.dev/name: Litellm
-          gethomepage.dev/description: Proxy and Budgeting for LLM providers
-          gethomepage.dev/group: Applications
-          gethomepage.dev/icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/litellm.png
-          gethomepage.dev/pod-selector: app.kubernetes.io/name=litellm
-        hosts:
-          - host: "{{ .Release.Name }}.${LOCAL_DOMAIN}"
-            paths: &paths
-              - path: /
-                service:
-                  identifier: app
-                  port: http
-        tls:
-          - hosts:
-              - *app
-
     route:
       app:
         enabled: true

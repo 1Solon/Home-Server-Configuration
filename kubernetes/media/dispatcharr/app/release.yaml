@@ -78,27 +78,6 @@ spec:
               - path: /tmp
                 subPath: tmp
 
-    ingress:
-      app:
-        enabled: true
-        className: internal
-        annotations:
-          gethomepage.dev/enabled: "true"
-          gethomepage.dev/name: Dispatcharr
-          gethomepage.dev/description: IPTV management and automation tool
-          gethomepage.dev/group: Applications
-          gethomepage.dev/icon: dispatcharr.svg
-        hosts:
-          - host: &host "dispatcharr.${LOCAL_DOMAIN}"
-            paths:
-              - path: /
-                service:
-                  identifier: app
-                  port: http
-        tls:
-          - hosts:
-              - *host
-
     route:
       app:
         enabled: true

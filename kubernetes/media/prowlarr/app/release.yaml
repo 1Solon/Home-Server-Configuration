@@ -74,35 +74,6 @@ spec:
           http:
             port: *port
 
-    ingress:
-      app:
-        enabled: true
-        className: internal
-        annotations:
-          nginx.ingress.kubernetes.io/auth-url: |-
-            http://ak-outpost-authentik-embedded-outpost.authentik.svc.cluster.local:9000/outpost.goauthentik.io/auth/nginx
-          nginx.ingress.kubernetes.io/auth-signin: |-
-            https://prowlarr.local.solonsstuff.com/outpost.goauthentik.io/start?rd=$scheme://$http_host$escaped_request_uri
-          nginx.ingress.kubernetes.io/auth-response-headers: |-
-            Set-Cookie,X-authentik-username,X-authentik-groups,X-authentik-entitlements,X-authentik-email,X-authentik-name,X-authentik-uid
-          nginx.ingress.kubernetes.io/auth-snippet: |
-            proxy_set_header X-Forwarded-Host $http_host;
-          gethomepage.dev/enabled: "true"
-          gethomepage.dev/name: Prowlarr
-          gethomepage.dev/description: Indexer manager for Radarr and Sonarr
-          gethomepage.dev/group: Applications
-          gethomepage.dev/icon: prowlarr.png
-        hosts:
-          - host: &host "prowlarr.${LOCAL_DOMAIN}"
-            paths:
-              - path: /
-                service:
-                  identifier: app
-                  port: http
-        tls:
-          - hosts:
-              - *host
-
     route:
       app:
         enabled: true

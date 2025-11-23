@@ -65,23 +65,6 @@ spec:
           http:
             port: 8085
 
-    ingress:
-      app:
-        className: internal
-        annotations:
-          gethomepage.dev/enabled: "true"
-          gethomepage.dev/group: Applications
-          gethomepage.dev/name: Komf
-          gethomepage.dev/icon: komga.png
-          gethomepage.dev/description: Komga Metadata Analyser
-        hosts:
-          - host: "{{ .Release.Name }}.${LOCAL_DOMAIN}"
-            paths:
-              - path: /
-                service:
-                  identifier: app
-                  port: http
-
     route:
       app:
         enabled: true

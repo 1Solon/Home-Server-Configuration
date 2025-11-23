@@ -62,23 +62,6 @@ spec:
           http:
             port: *port
 
-    ingress:
-      app:
-        className: internal
-        annotations:
-          gethomepage.dev/enabled: "true"
-          gethomepage.dev/group: Applications
-          gethomepage.dev/name: Komga
-          gethomepage.dev/icon: komga.png
-          gethomepage.dev/description: Comic/Ebook Web Reader
-        hosts:
-          - host: "{{ .Release.Name }}.${LOCAL_DOMAIN}"
-            paths:
-              - path: /
-                service:
-                  identifier: app
-                  port: http
-
     route:
       app:
         enabled: true

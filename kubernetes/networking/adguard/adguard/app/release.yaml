@@ -86,27 +86,6 @@ spec:
           - path: /opt/adguardhome/conf
             subPath: conf
 
-    ingress:
-      app:
-        className: internal
-        annotations:
-          gethomepage.dev/enabled: "true"
-          gethomepage.dev/name: AdGuard Home
-          gethomepage.dev/description: Ad Blocker and DNS server
-          gethomepage.dev/group: Applications
-          gethomepage.dev/icon: adguard-home.png
-        hosts:
-          - host: &host "adguard.${LOCAL_DOMAIN}"
-            paths:
-              - path: /
-                pathType: Prefix
-                service:
-                  identifier: app
-                  port: http
-        tls:
-          - hosts:
-              - *host
-
     route:
       app:
         enabled: true

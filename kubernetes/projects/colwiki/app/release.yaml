@@ -114,30 +114,6 @@ spec:
           timeoutSeconds: 5
           failureThreshold: 3
 
-    ingress:
-      app:
-        enabled: true
-        className: external
-        annotations:
-          # External dns
-          external-dns.alpha.kubernetes.io/target: ipv4.${REMOTE_DOMAIN}
-          # Homepage
-          gethomepage.dev/enabled: "true"
-          gethomepage.dev/name: OtterWiki
-          gethomepage.dev/description: Wiki for documentation
-          gethomepage.dev/group: Applications
-          gethomepage.dev/icon: otterwiki.png
-        hosts:
-          - host: &host col-wiki.${REMOTE_DOMAIN}
-            paths:
-              - path: /
-                service:
-                  identifier: app
-                  port: http
-        tls:
-          - hosts:
-              - *host
-
     route:
       app:
         enabled: true

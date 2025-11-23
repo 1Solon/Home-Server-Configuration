@@ -91,15 +91,16 @@ spec:
             memory: 32M
 
     ###
-    ### Prometheus instance values
+    ### Prometheus instance values   prometheus.${LOCAL_DOMAIN}
     ###
     prometheus:
-      ingress:
-        enabled: true
-        ingressClassName: internal
-        hosts:
-          - prometheus.${LOCAL_DOMAIN}
-        pathType: Prefix
+      route:
+        main:
+          enabled: true
+          hostnames: ["prometheus.${LOCAL_DOMAIN}"]
+          parentRefs:
+            - name: envoy-internal
+              namespace: networking
       prometheusSpec:
         image:
           registry: docker.io

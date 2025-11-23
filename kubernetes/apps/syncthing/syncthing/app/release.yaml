@@ -92,26 +92,6 @@ spec:
             port: 21027
             protocol: UDP
 
-    ingress:
-      main:
-        className: "internal"
-        annotations:
-          gethomepage.dev/enabled: "true"
-          gethomepage.dev/name: Syncthing
-          gethomepage.dev/description: File Synchronization
-          gethomepage.dev/group: Applications
-          gethomepage.dev/icon: syncthing.png
-        hosts:
-          - host: &host syncthing.${LOCAL_DOMAIN}
-            paths:
-              - path: /
-                service:
-                  identifier: main
-                  port: http
-        tls:
-          - hosts:
-              - *host
-
     route:
       main:
         enabled: true

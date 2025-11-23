@@ -79,28 +79,6 @@ spec:
           http:
             port: *port
 
-    ingress:
-      app:
-        className: internal
-        annotations:
-          gethomepage.dev/enabled: "true"
-          gethomepage.dev/name: SearXNG
-          gethomepage.dev/description: A privacy-respecting search engine
-          gethomepage.dev/group: Applications
-          gethomepage.dev/icon: searxng.png
-          gethomepage.dev/pod-selector: app.kubernetes.io/name=searxng
-
-        hosts:
-          - host: "search.${LOCAL_DOMAIN}"
-            paths: &paths
-              - path: /
-                service:
-                  identifier: app
-                  port: http
-        tls:
-          - hosts:
-              - *app
-
     route:
       app:
         enabled: true

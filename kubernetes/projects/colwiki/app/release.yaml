@@ -116,7 +116,7 @@ spec:
     ingress:
       app:
         enabled: true
-        className: internal
+        className: external
         annotations:
           # Homepage
           gethomepage.dev/enabled: "true"

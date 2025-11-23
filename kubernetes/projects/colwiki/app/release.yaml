@@ -1,0 +1,125 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app otterwiki
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: app-template
+      version: 4.4.0
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s-charts
+        namespace: flux-system
+  maxHistory: 2
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      strategy: rollback
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    controllers:
+      otterwiki:
+        annotations:
+          reloader.stakater.com/auto: "true"
+
+        containers:
+          app:
+            image:
+              repository: redimp/otterwiki
+              tag: 2.14.2-slim@sha256:244d01f5c3338dd9afd26f0393fdb9c0b246b37a4a5f171faadc9f5e85eb7a2a
+            env:
+              TZ: "${TZ}"
+              SITE_NAME: "Collective-Wiki"
+              SITE_LOGO: "https://media.discordapp.net/attachments/1067380196547772488/1067391844608135198/col_logo_cyan_glow5.png?ex=69223a5e&is=6920e8de&hm=9c833a9710a9bdfd8e51b4853448dc0da72bfa64f26db677563c4a4c9da1c025&=&format=webp&quality=lossless&width=1206&height=1080"
+              READ_ACCESS: "ANONYMOUS"
+              WRITE_ACCESS: "APPROVED"
+              ATTACHMENT_ACCESS: "APPROVED"
+              DISABLE_REGISTRATION: "false"
+              AUTO_APPROVAL: "false"
+              SIDEBAR_MENUTREE_MODE: "SORTED"
+              SIDEBAR_MENUTREE_MAXDEPTH: "unlimited"
+              GIT_WEB_SERVER: "true"
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              runAsNonRoot: true
+              runAsUser: 33
+              runAsGroup: 33
+              capabilities:
+                drop:
+                  - ALL
+            resources:
+              requests:
+                cpu: 10m
+                memory: 100Mi
+              limits:
+                memory: 500Mi
+
+    service:
+      app:
+        controller: *app
+        ports:
+          http:
+            port: &port 8080
+
+    probes:
+      liveness:
+        enabled: true
+        custom: true
+        spec:
+          httpGet:
+            path: /
+            port: *port
+          initialDelaySeconds: 30
+          periodSeconds: 60
+          timeoutSeconds: 10
+          failureThreshold: 3
+
+      readiness:
+        enabled: true
+        custom: true
+        spec:
+          httpGet:
+            path: /
+            port: *port
+          initialDelaySeconds: 5
+          periodSeconds: 5
+          timeoutSeconds: 5
+          failureThreshold: 3
+
+    ingress:
+      app:
+        enabled: true
+        className: internal
+        annotations:
+          # Homepage
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/name: OtterWiki
+          gethomepage.dev/description: Wiki for documentation
+          gethomepage.dev/group: Applications
+          gethomepage.dev/icon: otterwiki.png
+        hosts:
+          - host: &host otterwiki.${REMOTE_DOMAIN}
+            paths:
+              - path: /
+                service:
+                  identifier: app
+                  port: http
+        tls:
+          - hosts:
+              - *host
+
+    persistence:
+      app-data:
+        existingClaim: otterwiki
+        globalMounts:
+          - path: /app-data

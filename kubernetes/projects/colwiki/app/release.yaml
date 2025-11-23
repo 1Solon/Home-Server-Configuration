@@ -63,7 +63,6 @@ spec:
               DISABLE_REGISTRATION: "false"
               AUTO_APPROVAL: "false"
               SIDEBAR_MENUTREE_MODE: "SORTED"
-              SIDEBAR_MENUTREE_MAXDEPTH: "unlimited"
               GIT_WEB_SERVER: "true"
             securityContext:
               allowPrivilegeEscalation: false

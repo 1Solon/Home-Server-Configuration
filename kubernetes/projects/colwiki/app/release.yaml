@@ -118,6 +118,8 @@ spec:
         enabled: true
         className: external
         annotations:
+          # External dns
+          external-dns.alpha.kubernetes.io/target: ipv4.${REMOTE_DOMAIN}
           # Homepage
           gethomepage.dev/enabled: "true"
           gethomepage.dev/name: OtterWiki

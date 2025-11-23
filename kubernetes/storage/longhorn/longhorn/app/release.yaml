@@ -41,8 +41,6 @@ spec:
       concurrentAutomaticEngineUpgradePerNodeLimit: "3"
       nodeDownPodDeletionPolicy: delete-both-statefulset-and-deployment-pod
       taintToleration: CriticalAddonsOnly:Exists; node-role.kubernetes.io/control-plane:NoSchedule
-    ingress:
-      enabled: false
     longhornDriver:
       tolerations: &tolerations
         - key: CriticalAddonsOnly

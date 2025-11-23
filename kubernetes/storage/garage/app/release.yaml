@@ -81,6 +81,32 @@ spec:
               - *host-console
               - *host-api
 
+    route:
+      api:
+        enabled: true
+        parentRefs:
+          - name: envoy-internal
+            namespace: networking
+            sectionName: https
+        hostnames:
+          - "garage.${LOCAL_DOMAIN}"
+        rules:
+          - backendRefs:
+              - port: 3903
+                name: *app
+      s3:
+        enabled: true
+        parentRefs:
+          - name: envoy-internal
+            namespace: networking
+            sectionName: https
+        hostnames:
+          - "s3.${LOCAL_DOMAIN}"
+        rules:
+          - backendRefs:
+              - port: 3900
+                name: *app
+
     configMaps:
       config:
         data:

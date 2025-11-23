@@ -106,3 +106,23 @@ spec:
         tls:
           - hosts:
               - *host
+
+    route:
+      app:
+        enabled: true
+        annotations:
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/name: AdGuard Home
+          gethomepage.dev/description: Ad Blocker and DNS server
+          gethomepage.dev/group: Applications
+          gethomepage.dev/icon: adguard-home.png
+        parentRefs:
+          - name: envoy-internal
+            namespace: networking
+            sectionName: https
+        hostnames:
+          - "adguard.${LOCAL_DOMAIN}"
+        rules:
+          - backendRefs:
+              - port: 3000
+                name: adguard

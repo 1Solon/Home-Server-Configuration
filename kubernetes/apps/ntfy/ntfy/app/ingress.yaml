@@ -1,6 +1,7 @@
 ---
-apiVersion: networking.k8s.io/v1
-kind: Ingress
+# yaml-language-server: $schema=https://kube-schemas.pages.dev/gateway.networking.k8s.io/httproute_v1.json
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
 metadata:
   name: ntfy
   annotations:
@@ -12,18 +13,17 @@ metadata:
     gethomepage.dev/icon: ntfy.png
     gethomepage.dev/pod-selector: app=ntfy
 spec:
-  ingressClassName: external
+  parentRefs:
+    - name: envoy-external
+      namespace: networking
+      sectionName: https
+  hostnames:
+    - ntfy.solonsstuff.com
   rules:
-    - host: &host ntfy.solonsstuff.com
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: ntfy
-                port:
-                  number: 80
-  tls:
-    - hosts:
-        - *host
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /
+      backendRefs:
+        - name: ntfy
+          port: 80

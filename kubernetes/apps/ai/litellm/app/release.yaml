@@ -120,6 +120,27 @@ spec:
           - hosts:
               - *app
 
+    route:
+      app:
+        enabled: true
+        annotations:
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/name: Litellm
+          gethomepage.dev/description: Proxy and Budgeting for LLM providers
+          gethomepage.dev/group: Applications
+          gethomepage.dev/icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/litellm.png
+          gethomepage.dev/pod-selector: app.kubernetes.io/name=litellm
+        parentRefs:
+          - name: envoy-internal
+            namespace: networking
+            sectionName: https
+        hostnames:
+          - "{{ .Release.Name }}.${LOCAL_DOMAIN}"
+        rules:
+          - backendRefs:
+              - port: *port
+                name: *app
+
     persistence:
       config:
         type: configMap

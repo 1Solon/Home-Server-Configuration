@@ -138,6 +138,27 @@ spec:
           - hosts:
               - *host
 
+    route:
+      app:
+        enabled: true
+        annotations:
+          external-dns.alpha.kubernetes.io/target: ipv4.${REMOTE_DOMAIN}
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/name: OtterWiki
+          gethomepage.dev/description: Wiki for documentation
+          gethomepage.dev/group: Applications
+          gethomepage.dev/icon: otterwiki.png
+        parentRefs:
+          - name: envoy-external
+            namespace: networking
+            sectionName: https
+        hostnames:
+          - "col-wiki.${REMOTE_DOMAIN}"
+        rules:
+          - backendRefs:
+              - port: *port
+                name: *app
+
     persistence:
       app-data:
         existingClaim: otterwiki

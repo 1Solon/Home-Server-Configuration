@@ -101,6 +101,27 @@ spec:
           - hosts:
               - *app
 
+    route:
+      app:
+        enabled: true
+        annotations:
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/name: SearXNG
+          gethomepage.dev/description: A privacy-respecting search engine
+          gethomepage.dev/group: Applications
+          gethomepage.dev/icon: searxng.png
+          gethomepage.dev/pod-selector: app.kubernetes.io/name=searxng
+        parentRefs:
+          - name: envoy-internal
+            namespace: networking
+            sectionName: https
+        hostnames:
+          - "search.${LOCAL_DOMAIN}"
+        rules:
+          - backendRefs:
+              - port: *port
+                name: *app
+
     persistence:
       config:
         type: configMap

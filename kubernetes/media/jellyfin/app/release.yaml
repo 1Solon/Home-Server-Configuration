@@ -91,6 +91,22 @@ spec:
         tls:
           - hosts: [*host]
 
+    route:
+      main:
+        enabled: true
+        annotations:
+          external-dns.alpha.kubernetes.io/target: ipv4.${REMOTE_DOMAIN}
+        parentRefs:
+          - name: envoy-external
+            namespace: networking
+            sectionName: https
+        hostnames:
+          - "{{ .Release.Name }}.${REMOTE_DOMAIN}"
+        rules:
+          - backendRefs:
+              - port: 8096
+                name: jellyfin
+
     persistence:
       config:
         enabled: true

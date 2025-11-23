@@ -87,6 +87,27 @@ spec:
         tls:
           - hosts:
               - *host
+
+    route:
+      app:
+        enabled: true
+        annotations:
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/name: Garage WebUI
+          gethomepage.dev/description: S3 Object Storage
+          gethomepage.dev/group: Applications
+          gethomepage.dev/icon: garage.svg
+        parentRefs:
+          - name: envoy-internal
+            namespace: networking
+            sectionName: https
+        hostnames:
+          - "garage.${LOCAL_DOMAIN}"
+        rules:
+          - backendRefs:
+              - port: *port
+                name: *app
+
     persistence:
       config:
         enabled: true

@@ -82,6 +82,26 @@ spec:
                   identifier: app
                   port: http
 
+    route:
+      app:
+        enabled: true
+        annotations:
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/group: Applications
+          gethomepage.dev/name: Suwayomi
+          gethomepage.dev/icon: https://raw.githubusercontent.com/Suwayomi/Suwayomi-Server/master/server/src/main/resources/icon/faviconlogo.png
+          gethomepage.dev/description: Manga Web Reader/Downloader
+        parentRefs:
+          - name: envoy-internal
+            namespace: networking
+            sectionName: https
+        hostnames:
+          - "{{ .Release.Name }}.${LOCAL_DOMAIN}"
+        rules:
+          - backendRefs:
+              - port: *port
+                name: *app
+
     persistence:
       config:
         existingClaim: *app

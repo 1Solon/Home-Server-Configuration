@@ -112,6 +112,26 @@ spec:
           - hosts:
               - *host
 
+    route:
+      main:
+        enabled: true
+        annotations:
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/name: Syncthing
+          gethomepage.dev/description: File Synchronization
+          gethomepage.dev/group: Applications
+          gethomepage.dev/icon: syncthing.png
+        parentRefs:
+          - name: envoy-internal
+            namespace: networking
+            sectionName: https
+        hostnames:
+          - "syncthing.${LOCAL_DOMAIN}"
+        rules:
+          - backendRefs:
+              - port: 8384
+                name: syncthing
+
     persistence:
       data:
         type: nfs

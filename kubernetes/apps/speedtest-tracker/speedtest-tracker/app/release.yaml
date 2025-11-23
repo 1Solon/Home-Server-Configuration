@@ -67,3 +67,23 @@ spec:
         tls:
           - hosts:
               - *host
+
+    route:
+      app:
+        enabled: true
+        annotations:
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/name: Speedtest Tracker
+          gethomepage.dev/description: Time-series speedtest tracking
+          gethomepage.dev/group: Applications
+          gethomepage.dev/icon: speedtest-tracker.png
+        parentRefs:
+          - name: envoy-internal
+            namespace: networking
+            sectionName: https
+        hostnames:
+          - "{{ .Release.Name }}.${LOCAL_DOMAIN}"
+        rules:
+          - backendRefs:
+              - port: 80
+                name: *app

@@ -63,3 +63,24 @@ spec:
         tls:
           - hosts:
               - *host
+
+      route:
+      app:
+        hostnames:
+          - sso.${REMOTE_DOMAIN}
+        annotations:
+          external-dns.alpha.kubernetes.io/target: ipv4.solonsstuff.com
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/name: Authentik
+          gethomepage.dev/description: Identity provider and access management
+          gethomepage.dev/group: Applications
+          gethomepage.dev/icon: authentik.png
+          gethomepage.dev/pod-selector: app.kubernetes.io/name=authentik
+        parentRefs:
+          - name: internal
+            namespace: kube-system
+            sectionName: https
+        rules:
+          - backendRefs:
+              - identifier: app
+                port: 9443

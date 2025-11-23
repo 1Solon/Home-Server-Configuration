@@ -129,7 +129,7 @@ spec:
           - "syncthing.${LOCAL_DOMAIN}"
         rules:
           - backendRefs:
-              - port: 8384
+              - port: http
                 name: syncthing
 
     persistence:

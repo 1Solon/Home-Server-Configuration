@@ -102,8 +102,17 @@ spec:
             namespace: networking
             sectionName: https
         hostnames:
-          - "garage.${LOCAL_DOMAIN}"
+          - "garage-webui.${LOCAL_DOMAIN}"
         rules:
           - backendRefs:
               - port: *port
                 name: *app
+
+    persistence:
+      config:
+        enabled: true
+        type: configMap
+        name: garage
+        globalMounts:
+          - path: /etc/garage.toml
+            subPath: configuration.toml

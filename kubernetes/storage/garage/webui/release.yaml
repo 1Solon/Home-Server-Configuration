@@ -106,13 +106,4 @@ spec:
         rules:
           - backendRefs:
               - port: *port
-                name: garage-webui
-
-    persistence:
-      config:
-        enabled: true
-        type: configMap
-        name: garage
-        globalMounts:
-          - path: /etc/garage.toml
-            subPath: configuration.toml
+                name: *app

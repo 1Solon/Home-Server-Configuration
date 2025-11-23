@@ -56,8 +56,8 @@ spec:
               PUID: 33
               PGID: 33
               SITE_NAME: "Collective-Wiki"
-              SITE_LOGO: "https://imgbox.com/vKCjFW8u"
-              SITE_ICON: "https://imgbox.com/vKCjFW8u"
+              SITE_LOGO: "/app-data/repository/home/col_logo_cyan_glow5.jpg"
+              SITE_ICON: "/app-data/repository/home/col_logo_cyan_glow5.jpg"
               SITE_DESCRIPTION: "Wiki for Collective multi-game community"
               READ_ACCESS: "APPROVED"
               WRITE_ACCESS: "APPROVED"

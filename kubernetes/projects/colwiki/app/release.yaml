@@ -125,7 +125,7 @@ spec:
           gethomepage.dev/group: Applications
           gethomepage.dev/icon: otterwiki.png
         hosts:
-          - host: &host otterwiki.${REMOTE_DOMAIN}
+          - host: &host col-wiki.${REMOTE_DOMAIN}
             paths:
               - path: /
                 service:

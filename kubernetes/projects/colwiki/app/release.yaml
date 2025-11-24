@@ -123,7 +123,7 @@ spec:
           gethomepage.dev/name: OtterWiki
           gethomepage.dev/description: Wiki for documentation
           gethomepage.dev/group: Applications
-          gethomepage.dev/icon: otterwiki.png
+          gethomepage.dev/icon: otter-wiki-dark.svg
         parentRefs:
           - name: envoy-external
             namespace: networking

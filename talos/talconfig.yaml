@@ -32,18 +32,18 @@ patches:
     cluster:
       proxy:
         disabled: true
-  - |-
-    machine:
-      files:
-        - op: overwrite
-          path: /etc/nfsmount.conf
-          permissions: 0o644
-          content: |
-            [ NFSMount_Global_Options ]
-            nfsvers=4.2
-            hard=True
-            nconnect=1
-            noatime=True
+  # - |-
+  #   machine:
+  #     files:
+  #       - op: overwrite
+  #         path: /etc/nfsmount.conf
+  #         permissions: 0o644
+  #         content: |
+  #           [ NFSMount_Global_Options ]
+  #           nfsvers=4.2
+  #           hard=True
+  #           nconnect=1
+  #           noatime=True
 
 controlPlane:
   patches:

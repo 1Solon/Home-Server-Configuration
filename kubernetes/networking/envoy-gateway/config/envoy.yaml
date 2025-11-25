@@ -50,7 +50,7 @@ kind: Gateway
 metadata:
   name: envoy-external
   annotations:
-    external-dns.alpha.kubernetes.io/target: &hostname ${REMOTE_DOMAIN}
+    external-dns.alpha.kubernetes.io/target: &hostname ipv4.${REMOTE_DOMAIN}
 spec:
   gatewayClassName: envoy
   infrastructure:

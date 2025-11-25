@@ -78,8 +78,6 @@ spec:
     route:
       main:
         enabled: true
-        annotations:
-          external-dns.alpha.kubernetes.io/target: ipv4.${REMOTE_DOMAIN}
         parentRefs:
           - name: envoy-external
             namespace: networking

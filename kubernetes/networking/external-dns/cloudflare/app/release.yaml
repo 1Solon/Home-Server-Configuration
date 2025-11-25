@@ -40,7 +40,8 @@ spec:
       - --crd-source-kind=DNSEndpoint
       - --ignore-ingress-tls-spec
       - --ingress-class=external
-      - --label-filter=gateway-name=envoy-external
+      - --gateway-namespace=networking
+      - --gateway-name=envoy-external
     triggerLoopOnEvent: true
     policy: sync
     sources: ["crd", "ingress", "gateway-httproute"]

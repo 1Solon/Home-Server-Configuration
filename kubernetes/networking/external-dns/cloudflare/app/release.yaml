@@ -42,7 +42,7 @@ spec:
       - --ingress-class=external
     triggerLoopOnEvent: true
     policy: sync
-    sources: ["crd", "ingress"]
+    sources: ["crd", "ingress", "gateway-httproute"]
     txtOwnerId: main
     txtPrefix: k8s.main.
     domainFilters: ["solonsstuff.com"]

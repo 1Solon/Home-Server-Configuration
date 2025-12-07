@@ -10,7 +10,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 4.4.0
+      version: 4.5.0
       sourceRef:
         kind: HelmRepository
         name: bjw-s-charts
@@ -22,7 +22,7 @@ spec:
           app:
             image:
               repository: lscr.io/linuxserver/speedtest-tracker
-              tag: 1.8.0@sha256:8f7d7e5e0fe7c9bda8bd1f08094032b292ca5957bd05459473a88f71016b7154
+              tag: 1.12.0@sha256:005ec623508758228f9e856174a100be1bc4a9e3b7af9e00ae3215b0afde3d05
             envFrom:
               - secretRef:
                   name: speedtest-tracker-db-secret

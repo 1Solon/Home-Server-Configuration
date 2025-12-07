@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 4.4.0
+      version: 4.5.0
       sourceRef:
         kind: HelmRepository
         name: bjw-s-charts
@@ -35,7 +35,7 @@ spec:
           init-permissions:
             image:
               repository: redimp/otterwiki
-              tag: 2.14.2-slim@sha256:244d01f5c3338dd9afd26f0393fdb9c0b246b37a4a5f171faadc9f5e85eb7a2a
+              tag: 2.14.3-slim@sha256:f8fdfdda43e836090d2f1b20686b7a3025b75b64ff064ec355b1dc393d6195bc
             command:
               - sh
               - -c
@@ -50,7 +50,7 @@ spec:
           app:
             image:
               repository: redimp/otterwiki
-              tag: 2.14.2-slim@sha256:244d01f5c3338dd9afd26f0393fdb9c0b246b37a4a5f171faadc9f5e85eb7a2a
+              tag: 2.14.3-slim@sha256:f8fdfdda43e836090d2f1b20686b7a3025b75b64ff064ec355b1dc393d6195bc
             env:
               TZ: "${TZ}"
               PUID: 33

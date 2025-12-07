@@ -120,7 +120,7 @@ spec:
         repoName: repo1
         options:
           - --type=time
-          - --target="2025-12-07 02:03:00-00"
+          - --target="2025-12-07 01:00:00-00"
 
   monitoring:
     pgmonitor:

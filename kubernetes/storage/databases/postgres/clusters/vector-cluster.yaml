@@ -85,7 +85,7 @@ spec:
         # Minio
         repo1-block: "y"
         repo1-bundle: "y"
-        repo1-path: /postgres-general-cluster
+        repo1-path: /postgres-vector-cluster
         repo1-retention-full: "7" # days
         repo1-retention-diff: "7" # days
         repo1-retention-full-type: time

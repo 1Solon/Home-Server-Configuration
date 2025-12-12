@@ -51,6 +51,8 @@ spec:
 
     service:
       app:
+        annotations:
+          tailscale.com/expose: "true"
         ports:
           s3:
             port: &port 3900

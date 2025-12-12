@@ -6,5 +6,9 @@ metadata:
     tailscale.com/tailnet-fqdn: chrisms-garage.tail9542f6.ts.net
   name: chrisms-garage
 spec:
+  ports:
+    - port: 3903
+      protocol: TCP
+      targetPort: 3903
   externalName: chrisms-garage    # any value - will be overwritten by operator
   type: ExternalName

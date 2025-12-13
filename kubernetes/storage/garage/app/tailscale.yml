@@ -15,5 +15,9 @@ spec:
       name: s3
       protocol: TCP
       targetPort: 3900
+    - port: 3901
+      name: rpc
+      protocol: TCP
+      targetPort: 3901
   externalName: chrisms-garage    # any value - will be overwritten by operator
   type: ExternalName

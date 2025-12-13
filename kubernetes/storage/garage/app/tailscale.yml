@@ -10,5 +10,8 @@ spec:
     - port: 3903
       protocol: TCP
       targetPort: 3903
+    - port: 3900
+      protocol: TCP
+      targetPort: 3900
   externalName: chrisms-garage    # any value - will be overwritten by operator
   type: ExternalName

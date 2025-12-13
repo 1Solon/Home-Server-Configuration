@@ -57,6 +57,8 @@ spec:
         ports:
           s3:
             port: &port 3900
+          rpc:
+            port: 3901
           api:
             port: 3903
 

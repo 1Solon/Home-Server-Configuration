@@ -51,9 +51,6 @@ spec:
 
     service:
       app:
-        annotations:
-          tailscale.com/expose: "true"
-          tailscale.com/hostname: "solons-garage"
         ports:
           s3:
             port: &port 3900

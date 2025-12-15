@@ -38,14 +38,10 @@ The Git repository contains the following directories:
     │   │   ├──📁 komf
     │   │   ├──📁 komga
     │   │   └──📁 suwayomi
-    │   ├──📁 minio
-    │   │   └──📁 minio
     │   ├──📁 ntfy
     │   │   └──📁 ntfy
     │   ├──📁 speedtest-tracker
     │   │   └──📁 speedtest-tracker
-    │   ├──📁 stationeers
-    │   │   └──📁 stationeers
     │   └──📁 syncthing
     │       └──📁 syncthing
     ├──📁 infrastructure
@@ -53,6 +49,7 @@ The Git repository contains the following directories:
     │   │   ├──📁 instance
     │   │   ├──📁 notifications
     │   │   ├──📁 operator
+    │   │   ├──📁 reciever
     │   │   ├──📁 repositories
     │   │   └──📁 secrets
     │   ├──📁 reflector
@@ -60,6 +57,8 @@ The Git repository contains the following directories:
     │   └──📁 reloader
     │       └──📁 reloader
     ├──📁 media
+    │   ├──📁 cleanuparr
+    │   ├──📁 dispatcharr
     │   ├──📁 flaresolver
     │   ├──📁 huntarr
     │   ├──📁 jellyfin
@@ -76,12 +75,11 @@ The Git repository contains the following directories:
     │   │   └──📁 cert-manager
     │   ├──📁 cilium
     │   │   └──📁 cilium
+    │   ├──📁 envoy-gateway
+    │   │   └──📁 config
     │   ├──📁 external-dns
     │   │   ├──📁 cloudflare
     │   │   └──📁 cloudflare-ddns
-    │   ├──📁 nginx
-    │   │   ├──📁 external
-    │   │   └──📁 internal
     │   ├──📁 pod-gateway
     │   │   └──📁 pod-gateway
     │   └──📁 tailscale
@@ -91,13 +89,15 @@ The Git repository contains the following directories:
     │   │   └──📁 node-feature-discovery
     │   ├──📁 nvidia-device-plugin
     │   │   └──📁 nvidia-device-plugin
-    │   └──📁 system-upgrade-controller
-    │       └──📁 system-upgrade-controller
+    │   └──📁 tuppr
+    │       └──📁 upgrades
     ├──📁 observability
     │   ├──📁 kube-prometheus-stack
     │   ├──📁 kube-state-metrics
     │   ├──📁 metrics-server
     │   └──📁 node-exporter
+    ├──📁 projects
+    │   └──📁 colwiki
     ├──📁 security
     │   ├──📁 authentik
     │   │   └──📁 authentik
@@ -107,6 +107,8 @@ The Git repository contains the following directories:
         ├──📁 databases
         │   ├──📁 dragonfly
         │   └──📁 postgres
+        ├──📁 garage
+        │   └──📁 webui
         └──📁 longhorn
             └──📁 longhorn
 ```
@@ -115,37 +117,92 @@ The Git repository contains the following directories:
 
 The following apps are installed on the clusters.
 
-| Software                                                                            | Purpose                                                             |
-| ----------------------------------------------------------------------------------- | ------------------------------------------------------------------- |
-| [Authentik](https://goauthentik.io)                                                 | Modern identity provider for authentication and access management.  |
-| [Homarr](https://github.com/ajnart/homarr)                                          | Sleek, modern dashboard for managing services.                      |
-| [Homepage](https://github.com/gethomepage/homepage)                                 | Customizable homepage dashboard for service management.             |
-| [Decluttarr](https://github.com/ManiMatter/decluttarr)                              | Automated media organization and decluttering tool.                 |
-| [Flaresolverr](https://github.com/FlareSolverr/FlareSolverr)                        | Bypasses Cloudflare and DDoS protections.                           |
-| [Jellyfin](https://jellyfin.org)                                                    | Media server.                                                       |
-| [Jellyseer](https://github.com/Fallenbagel/jellyseerr)                              | Media discovery and management for Jellyfin.                        |
-| [Prowlarr](https://github.com/Prowlarr/Prowlarr)                                    | Indexer manager for media automation.                               |
-| [Huntarr](https://github.com/plexguide/Huntarr.io)                                  | Missing media active searcher for the *arr stack                    |
-| [Qbittorrent](https://www.qbittorrent.org)                                          | Torrent client.                                                     |
-| [Radarr](https://radarr.video)                                                      | Automated movie download tool.                                      |
-| [Recyclarr](https://github.com/recyclarr/recyclarr)                                 | Notifications and monitoring tool for media services.               |
-| [Sonarr](https://sonarr.tv)                                                         | Automated TV show download tool.                                    |
-| [Ntfy](https://ntfy.sh)                                                             | Push notifications.                                                 |
-| [Adguard](https://github.com/AdguardTeam/AdGuardHome)                               | Network-wide ad blocker and DNS service.                            |
-| [Speedtest Tracker](https://github.com/sivel/speedtest-tracker)                     | Internet speed tracking tool.                                       |
-| [Flux](https://fluxcd.io)                                                           | GitOps tool managing the cluster.                                   |
-| [Cert-Manager](https://cert-manager.io)                                             | Manages Let's Encrypt certificates with Cloudflare DNS integration. |
-| [Cloudflare DDNS](https://github.com/wouterdebie/cloudflare-ddns)                   | Dynamic DNS updater for Cloudflare.                                 |
-| [Dragonfly](https://dragonflydb.io)                                                 | High-performance in-memory datastore.                               |
-| [Crunchy PG Operator](https://github.com/CrunchyData/postgres-operator)             | Operator for managing PostgreSQL clusters.                          |
-| [External DNS](https://github.com/kubernetes-sigs/external-dns)                     | Automates DNS record management for Kubernetes resources.           |
-| [Longhorn](https://longhorn.io)                                                     | Persistent block storage provisioner.                               |
-| [MetalLB](https://metallb.universe.tf)                                              | Bare metal load balancer.                                           |
-| [Pod-gateway](https://github.com/angelnu/pod-gateway)                               | Routes traffic from pods to a gateway for VPN access.               |
-| [Reflector](https://github.com/werwolfby/reflector)                                 | Proxies and mirrors Docker registries.                              |
-| [Reloader](https://github.com/stakater/Reloader)                                    | Watches changes in ConfigMaps and Secrets to trigger pod restarts.  |
-| [External Secrets](https://github.com/external-secrets/kubernetes-external-secrets) | Integrates external secret management systems into Kubernetes.      |
-| [Traefik](https://traefik.io)                                                       | Edge router and load balancer.                                      |
+### Applications
+
+| Software                                                                   | Purpose                                                 |
+| -------------------------------------------------------------------------- | ------------------------------------------------------- |
+| [Homepage](https://github.com/gethomepage/homepage)                        | Customizable homepage dashboard for service management. |
+| [Immich](https://immich.app)                                               | Self-hosted photo and video backup solution.            |
+| [LiteLLM](https://github.com/BerriAI/litellm)                              | Proxy server for LLM API calls with unified interface.  |
+| [Open WebUI](https://github.com/open-webui/open-webui)                     | User-friendly web interface for AI models.              |
+| [SearXNG](https://github.com/searxng/searxng)                              | Privacy-respecting metasearch engine.                   |
+| [Komga](https://komga.org)                                                 | Media server for comics and manga.                      |
+| [Komf](https://github.com/Snd-R/komf)                                      | Metadata fetcher for Komga.                             |
+| [Suwayomi](https://github.com/Suwayomi/Suwayomi-Server)                    | Free and open source manga reader server.               |
+| [Ntfy](https://ntfy.sh)                                                    | Simple pub-sub notification service.                    |
+| [Speedtest Tracker](https://github.com/alexjustesen/speedtest-tracker)     | Internet speed tracking and monitoring tool.            |
+| [Syncthing](https://syncthing.net)                                         | Continuous file synchronization program.                |
+| [Shadow Empire PBEM Bot](https://github.com/1Solon/Shadow-Empire-PBEM-Bot) | Discord bot for Shadow Empire play-by-email games.      |
+| [Colwiki](https://github.com/1Solon/colwiki)                               | Personal wiki project.                                  |
+
+### Media Automation
+
+| Software                                                     | Purpose                                                  |
+| ------------------------------------------------------------ | -------------------------------------------------------- |
+| [Jellyfin](https://jellyfin.org)                             | Media server for movies, TV shows, and music.            |
+| [Jellyseerr](https://github.com/Fallenbagel/jellyseerr)      | Media discovery and request management for Jellyfin.     |
+| [Sonarr](https://sonarr.tv)                                  | Automated TV show download and management.               |
+| [Radarr](https://radarr.video)                               | Automated movie download and management.                 |
+| [Prowlarr](https://github.com/Prowlarr/Prowlarr)             | Indexer manager/proxy for media automation.              |
+| [Qbittorrent](https://www.qbittorrent.org)                   | BitTorrent client with web interface.                    |
+| [Recyclarr](https://github.com/recyclarr/recyclarr)          | Quality profiles and custom formats sync for \*arr apps. |
+| [Huntarr](https://github.com/Ravencentric/huntarr)           | Missing media searcher for Radarr and Sonarr.            |
+| [Cleanuparr](https://github.com/Just-Insane/cleanuparr)      | Automated media cleanup tool for \*arr apps.             |
+| [Dispatcharr](https://github.com/dkoz/dispatcharr)           | Discord notifications for \*arr apps.                    |
+| [Flaresolverr](https://github.com/FlareSolverr/FlareSolverr) | Proxy server to bypass Cloudflare protection.            |
+
+### Infrastructure
+
+| Software                                                        | Purpose                                            |
+| --------------------------------------------------------------- | -------------------------------------------------- |
+| [Flux CD](https://fluxcd.io)                                    | GitOps continuous delivery for Kubernetes.         |
+| [Reflector](https://github.com/emberstack/kubernetes-reflector) | Mirrors ConfigMaps and Secrets across namespaces.  |
+| [Reloader](https://github.com/stakater/Reloader)                | Triggers pod restarts on ConfigMap/Secret changes. |
+
+### Networking
+
+| Software                                                        | Purpose                                              |
+| --------------------------------------------------------------- | ---------------------------------------------------- |
+| [Cilium](https://cilium.io)                                     | eBPF-based networking, security, and observability.  |
+| [Cert-Manager](https://cert-manager.io)                         | Automated certificate management for Kubernetes.     |
+| [External DNS](https://github.com/kubernetes-sigs/external-dns) | Synchronizes Kubernetes services with DNS providers. |
+| [AdGuard Home](https://github.com/AdguardTeam/AdGuardHome)      | Network-wide ad blocker and DNS server.              |
+| [Pod Gateway](https://github.com/angelnu/pod-gateway)           | Routes pod traffic through VPN gateway.              |
+| [Tailscale](https://tailscale.com)                              | Zero-config VPN built on WireGuard.                  |
+| [Envoy Gateway](https://gateway.envoyproxy.io)                  | Kubernetes-native API gateway powered by Envoy.      |
+
+### Security
+
+| Software                                                 | Purpose                                            |
+| -------------------------------------------------------- | -------------------------------------------------- |
+| [Authentik](https://goauthentik.io)                      | Identity provider for SSO and authentication.      |
+| [External Secrets Operator](https://external-secrets.io) | Integrates external secret stores with Kubernetes. |
+
+### Storage
+
+| Software                                                                      | Purpose                                                   |
+| ----------------------------------------------------------------------------- | --------------------------------------------------------- |
+| [Longhorn](https://longhorn.io)                                               | Distributed block storage for Kubernetes.                 |
+| [Crunchy Postgres Operator](https://github.com/CrunchyData/postgres-operator) | PostgreSQL operator for Kubernetes.                       |
+| [Dragonfly](https://dragonflydb.io)                                           | Modern in-memory datastore (Redis/Memcached alternative). |
+| [Garage](https://garagehq.deuxfleurs.fr)                                      | Distributed object storage service (S3-compatible).       |
+
+### Observability
+
+| Software                                                                              | Purpose                                                |
+| ------------------------------------------------------------------------------------- | ------------------------------------------------------ |
+| [Kube Prometheus Stack](https://github.com/prometheus-operator/kube-prometheus-stack) | Complete monitoring stack with Prometheus and Grafana. |
+| [Metrics Server](https://github.com/kubernetes-sigs/metrics-server)                   | Cluster-wide aggregator of resource usage data.        |
+| [Node Exporter](https://github.com/prometheus/node_exporter)                          | Prometheus exporter for hardware and OS metrics.       |
+| [Kube State Metrics](https://github.com/kubernetes/kube-state-metrics)                | Exposes cluster-level Kubernetes object metrics.       |
+
+### Node Management
+
+| Software                                                                            | Purpose                                           |
+| ----------------------------------------------------------------------------------- | ------------------------------------------------- |
+| [Tuppr](https://github.com/siderolabs/talos-cloud-controller-manager)               | Talos Linux system upgrade controller.            |
+| [NVIDIA Device Plugin](https://github.com/NVIDIA/k8s-device-plugin)                 | Exposes NVIDIA GPUs to Kubernetes.                |
+| [Node Feature Discovery](https://github.com/kubernetes-sigs/node-feature-discovery) | Detects hardware features available on each node. |
 
 ## 📦 Hardware
 

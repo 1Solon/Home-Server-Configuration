@@ -6,4 +6,4 @@ resources:
 - operator
 - instance
 - notifications
-- reciever
+- receiver

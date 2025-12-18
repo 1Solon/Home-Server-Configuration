@@ -10,7 +10,7 @@ spec:
     labels:
       app.kubernetes.io/name: qbittorrent
   path: "./kubernetes/media/qbittorrent/app"
-  prune: false
+  prune: true
   sourceRef:
     kind: GitRepository
     name: flux-system

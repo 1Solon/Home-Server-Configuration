@@ -231,7 +231,7 @@ spec:
     route:
       app:
         parentRefs:
-          - name: cilium-internal
+          - name: envoy-internal
             namespace: kube-system
         hostnames:
           - qbittorrent.${LOCAL_DOMAIN}

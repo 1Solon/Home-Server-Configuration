@@ -260,8 +260,10 @@ spec:
         type: nfs
         server: ${TRUENAS_IP}
         path: /mnt/STORAGE-01/Media-Storage
-        globalMounts:
-          - path: /downloads
+        advancedMounts:
+          qbittorrent:
+            app:
+              - path: /downloads
 
       tmp:
         type: emptyDir

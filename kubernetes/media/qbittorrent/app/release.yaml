@@ -1,0 +1,288 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: qbittorrent
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: app-template
+      version: 4.5.0
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s-charts
+        namespace: flux-system
+  values:
+    controllers:
+      qbittorrent:
+        type: statefulset
+        annotations:
+          reloader.stakater.com/auto: "true"
+        pod:
+          dnsPolicy: None
+          dnsConfig:
+            nameservers:
+              - 127.0.0.2
+            searches:
+              - home-media.svc.cluster.local
+              - svc.cluster.local
+              - cluster.local
+            options:
+              - name: ndots
+                value: "5"
+          securityContext:
+            fsGroup: 1000
+            fsGroupChangePolicy: OnRootMismatch
+            supplementalGroups:
+              - 10000
+            seccompProfile:
+              type: RuntimeDefault
+        containers:
+          coredns:
+            image:
+              repository: mirror.gcr.io/coredns/coredns
+              tag: 1.13.2
+            args:
+              - -conf
+              - /etc/coredns/Corefile
+            securityContext:
+              runAsUser: 0
+              runAsGroup: 0
+              runAsNonRoot: false
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities:
+                add:
+                  - NET_BIND_SERVICE
+                drop:
+                  - ALL
+            resources:
+              requests:
+                cpu: 10m
+              limits:
+                memory: 64Mi
+
+          gluetun:
+            dependsOn: coredns
+            image:
+              repository: ghcr.io/qdm12/gluetun
+              tag: v3.40.3
+            env:
+              TZ: "${TZ}"
+              VPN_SERVICE_PROVIDER: airvpn
+              VPN_TYPE: wireguard
+              SERVER_COUNTRIES: "Ireland"
+              FIREWALL_INPUT_PORTS: "80,9999"
+              FIREWALL_OUTBOUND_SUBNETS: "10.244.0.0/16,10.96.0.0/12"
+              VPN_PORT_FORWARDING: "on"
+              HEALTH_SERVER_ADDRESS: ":9999"
+              DOT: "off"
+              DNS_ADDRESS: "127.0.0.2"
+            envFrom:
+              - secretRef:
+                  name: qbittorrent-vpn
+            securityContext:
+              runAsUser: 0
+              runAsGroup: 0
+              runAsNonRoot: false
+              capabilities:
+                add:
+                  - NET_ADMIN
+              allowPrivilegeEscalation: false
+            probes:
+              liveness:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /
+                    port: 9999
+                  periodSeconds: 30
+                  failureThreshold: 3
+              startup:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /
+                    port: 9999
+                  failureThreshold: 30
+                  periodSeconds: 10
+            resources:
+              requests:
+                cpu: 10m
+              limits:
+                memory: 256Mi
+
+          port-forward:
+            dependsOn: gluetun
+            image:
+              repository: ghcr.io/bjw-s-labs/gluetun-qb-port-sync
+              tag: 0.0.4
+            env:
+              GLUETUN_CONTROL_SERVER_HOST: localhost
+              GLUETUN_CONTROL_SERVER_PORT: "8000"
+              QBITTORRENT_HOST: localhost
+              QBITTORRENT_WEBUI_PORT: "80"
+              CRON_ENABLED: "true"
+              CRON_SCHEDULE: "*/5 * * * *"
+              LOG_TIMESTAMP: "false"
+            securityContext:
+              runAsUser: 1000
+              runAsGroup: 1000
+              runAsNonRoot: true
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities:
+                drop:
+                  - ALL
+            resources:
+              requests:
+                cpu: 10m
+              limits:
+                memory: 64Mi
+
+          app:
+            dependsOn: gluetun
+            image:
+              repository: ghcr.io/home-operations/qbittorrent
+              tag: 5.1.4@sha256:25fc7caf22101f85276ede9b1f76a46b7a93971bb6b70b6c58d14d6ab7f51415
+            env:
+              TZ: "${TZ}"
+              QBT_WEBUI_PORT: &port 80
+              QBT_TORRENTING_PORT: "20508"
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /api/v2/app/version
+                    port: *port
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+              readiness: *probes
+              startup:
+                enabled: true
+                spec:
+                  httpGet:
+                    path: /api/v2/app/version
+                    port: *port
+                  failureThreshold: 30
+                  periodSeconds: 10
+            securityContext:
+              runAsUser: 1000
+              runAsGroup: 1000
+              runAsNonRoot: true
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities:
+                drop:
+                  - ALL
+            resources:
+              requests:
+                cpu: 100m
+              limits:
+                memory: 18Gi
+
+    service:
+      app:
+        controller: qbittorrent
+        ports:
+          http:
+            port: *port
+
+    configMaps:
+      config:
+        data:
+          .qbt.toml: |-
+            [qbittorrent]
+            addr = "http://localhost:80"
+      port-forward:
+        data:
+          crontab: |-
+            */5 * * * * /app/script.sh
+      coredns:
+        data:
+          Corefile: |-
+            cluster.local:53 {
+              bind 127.0.0.2
+              forward . 10.96.0.10
+              cache 30
+              errors
+            }
+            .:53 {
+              bind 127.0.0.2
+              forward . tls://1.1.1.1 tls://1.0.0.1
+              cache 30
+              errors
+            }
+
+    route:
+      app:
+        parentRefs:
+          - name: cilium-internal
+            namespace: kube-system
+        hostnames:
+          - qbittorrent.${LOCAL_DOMAIN}
+        rules:
+          - backendRefs:
+              - identifier: app
+                port: *port
+
+    persistence:
+      config:
+        existingClaim: qbittorrent-config
+        advancedMounts:
+          qbittorrent:
+            app:
+              - path: /config
+      config-file:
+        type: configMap
+        identifier: config
+        advancedMounts:
+          qbittorrent:
+            app:
+              - path: /config/.qbt.toml
+                subPath: .qbt.toml
+      media:
+        type: nfs
+        server: ${TRUENAS_IP}
+        path: /mnt/STORAGE-01/Media-Storage
+        globalMounts:
+          - path: /downloads
+
+      tmp:
+        type: emptyDir
+        advancedMounts:
+          qbittorrent:
+            app:
+              - path: /tmp
+      gluetun-data:
+        type: emptyDir
+        advancedMounts:
+          qbittorrent:
+            gluetun:
+              - path: /tmp/gluetun
+      port-forward-config:
+        type: configMap
+        identifier: port-forward
+        advancedMounts:
+          qbittorrent:
+            port-forward:
+              - path: /config/crontab
+                subPath: crontab
+                readOnly: true
+      coredns-config:
+        type: configMap
+        identifier: coredns
+        advancedMounts:
+          qbittorrent:
+            coredns:
+              - path: /etc/coredns/Corefile
+                subPath: Corefile
+                readOnly: true

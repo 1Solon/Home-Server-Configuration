@@ -175,15 +175,15 @@ spec:
                     port: *port
                   failureThreshold: 30
                   periodSeconds: 10
-            securityContext:
-              runAsUser: 1000
-              runAsGroup: 1000
-              runAsNonRoot: true
-              allowPrivilegeEscalation: false
-              readOnlyRootFilesystem: true
-              capabilities:
-                drop:
-                  - ALL
+            # securityContext:
+            #   runAsUser: 1000
+            #   runAsGroup: 1000
+            #   runAsNonRoot: true
+            #   allowPrivilegeEscalation: false
+            #   readOnlyRootFilesystem: true
+            #   capabilities:
+            #     drop:
+            #       - ALL
             resources:
               requests:
                 cpu: 100m

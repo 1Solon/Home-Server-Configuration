@@ -232,7 +232,8 @@ spec:
       app:
         parentRefs:
           - name: envoy-internal
-            namespace: kube-system
+            namespace: networking
+            sectionName: https
         hostnames:
           - qbittorrent.${LOCAL_DOMAIN}
         rules:

@@ -4,6 +4,7 @@ apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: qbittorrent
+  namespace: home-media
 spec:
   interval: 30m
   chart:
@@ -154,6 +155,8 @@ spec:
               TZ: "${TZ}"
               QBT_WEBUI_PORT: &port 80
               QBT_TORRENTING_PORT: "20508"
+              QBT_PREFERENCES__WEB_UI_HOST_HEADER_VALIDATION_ENABLED: "false"
+              QBT_PREFERENCES__WEB_UI_CSRF_PROTECTION_ENABLED: "false"
             probes:
               liveness: &probes
                 enabled: true

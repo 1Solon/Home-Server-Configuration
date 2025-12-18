@@ -262,6 +262,7 @@ spec:
         path: /mnt/STORAGE-01/Media-Storage
         globalMounts:
           - path: /downloads
+            subPath: downloads
 
       tmp:
         type: emptyDir

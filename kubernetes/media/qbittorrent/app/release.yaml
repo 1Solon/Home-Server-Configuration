@@ -158,27 +158,27 @@ spec:
               QBT_PREFERENCES__WEB_UI_HOST_HEADER_VALIDATION_ENABLED: "false"
               QBT_PREFERENCES__WEB_UI_CSRF_PROTECTION_ENABLED: "false"
               QBT_PREFERENCES__BYPASS_LOCAL_AUTH: "true"
-            probes:
-              liveness: &probes
-                enabled: true
-                custom: true
-                spec:
-                  httpGet:
-                    path: /api/v2/app/version
-                    port: *port
-                  initialDelaySeconds: 0
-                  periodSeconds: 10
-                  timeoutSeconds: 1
-                  failureThreshold: 3
-              readiness: *probes
-              startup:
-                enabled: true
-                spec:
-                  httpGet:
-                    path: /api/v2/app/version
-                    port: *port
-                  failureThreshold: 30
-                  periodSeconds: 10
+            # probes:
+            #   liveness: &probes
+            #     enabled: true
+            #     custom: true
+            #     spec:
+            #       httpGet:
+            #         path: /api/v2/app/version
+            #         port: *port
+            #       initialDelaySeconds: 0
+            #       periodSeconds: 10
+            #       timeoutSeconds: 1
+            #       failureThreshold: 3
+            #   readiness: *probes
+            #   startup:
+            #     enabled: true
+            #     spec:
+            #       httpGet:
+            #         path: /api/v2/app/version
+            #         port: *port
+            #       failureThreshold: 30
+            #       periodSeconds: 10
             # securityContext:
             #   runAsUser: 1000
             #   runAsGroup: 1000

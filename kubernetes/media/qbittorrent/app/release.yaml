@@ -143,8 +143,7 @@ spec:
                 enabled: true
                 custom: true
                 spec:
-                  httpGet:
-                    path: /api/v2/app/version
+                  tcpSocket:
                     port: *port
                   initialDelaySeconds: 0
                   periodSeconds: 10
@@ -153,9 +152,9 @@ spec:
               readiness: *probes
               startup:
                 enabled: true
+                custom: true
                 spec:
-                  httpGet:
-                    path: /api/v2/app/version
+                  tcpSocket:
                     port: *port
                   failureThreshold: 30
                   periodSeconds: 10

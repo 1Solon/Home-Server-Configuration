@@ -138,26 +138,6 @@ spec:
                 192.168.0.0/16, 0.0.0.0/0
               QBT_Preferences__WebUI__LocalHostAuth: false
 
-            # probes:
-            #   liveness: &probes
-            #     enabled: true
-            #     custom: true
-            #     spec:
-            #       tcpSocket:
-            #         port: *port
-            #       initialDelaySeconds: 0
-            #       periodSeconds: 10
-            #       timeoutSeconds: 1
-            #       failureThreshold: 3
-            #   readiness: *probes
-            #   startup:
-            #     enabled: true
-            #     custom: true
-            #     spec:
-            #       tcpSocket:
-            #         port: *port
-            #       failureThreshold: 30
-            #       periodSeconds: 10
             securityContext:
               runAsUser: 1000
               runAsGroup: 1000

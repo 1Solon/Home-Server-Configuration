@@ -75,10 +75,8 @@ spec:
               VPN_SERVICE_PROVIDER: airvpn
               VPN_TYPE: wireguard
               SERVER_COUNTRIES: "Ireland"
-              FIREWALL_INPUT_PORTS: "80,9999"
+              FIREWALL_INPUT_PORTS: "80,9999,20508"
               FIREWALL_OUTBOUND_SUBNETS: "10.244.0.0/16,10.96.0.0/12"
-              VPN_PORT_FORWARDING: "on"
-              VPN_PORT_FORWARDING_PROVIDER: "airvpn"
               HEALTH_SERVER_ADDRESS: ":9999"
               DOT: "off"
               DNS_ADDRESS: "127.0.0.2"

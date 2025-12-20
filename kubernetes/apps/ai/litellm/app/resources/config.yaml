@@ -1,14 +1,14 @@
 
 model_list:
 # Google
-  - model_name: gemini-2.5-flash
+  - model_name: gemini-flash
     litellm_params:
-      model: gemini/gemini-flash-latest
+      model: gemini/gemini-3-flash-preview
       api_key: os.environ/GOOGLE_API_KEY
 
-  - model_name: gemini-2.5-pro
+  - model_name: gemini-pro
     litellm_params:
-      model: gemini/gemini-2.5-pro
+      model: gemini/gemini-3-pro-preview
       api_key: os.environ/GOOGLE_API_KEY
 
 # Anthropic

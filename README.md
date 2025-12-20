@@ -23,10 +23,6 @@ The Git repository contains the following directories:
 📁
 └──📁 kubernetes
     ├──📁 apps
-    │   ├──📁 Shadow-Empire-PBEM-Bot
-    │   │   ├──📁 Shadow-Empire-PBEM-Bot-1
-    │   │   ├──📁 Shadow-Empire-PBEM-Bot-2
-    │   │   └──📁 Shadow-Empire-PBEM-Bot-3
     │   ├──📁 ai
     │   │   ├──📁 litellm
     │   │   ├──📁 openwebui
@@ -49,7 +45,7 @@ The Git repository contains the following directories:
     │   │   ├──📁 instance
     │   │   ├──📁 notifications
     │   │   ├──📁 operator
-    │   │   ├──📁 reciever
+    │   │   ├──📁 receiver
     │   │   ├──📁 repositories
     │   │   └──📁 secrets
     │   ├──📁 reflector
@@ -80,8 +76,6 @@ The Git repository contains the following directories:
     │   ├──📁 external-dns
     │   │   ├──📁 cloudflare
     │   │   └──📁 cloudflare-ddns
-    │   ├──📁 pod-gateway
-    │   │   └──📁 pod-gateway
     │   └──📁 tailscale
     │       └──📁 tailscale
     ├──📁 nodes

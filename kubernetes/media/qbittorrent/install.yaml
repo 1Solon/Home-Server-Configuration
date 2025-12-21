@@ -14,10 +14,34 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
-  decryption:
-    provider: sops
-    secretRef:
-      name: sops-age
+  wait: true
+  interval: 30m
+  retryInterval: 1m
+  timeout: 5m
+  postBuild:
+    substituteFrom:
+      - kind: ConfigMap
+        name: cluster-settings
+        optional: false
+
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: qui
+  namespace: flux-system
+spec:
+  targetNamespace: home-media
+  dependsOn:
+    - name: qbittorrent
+  commonMetadata:
+    labels:
+      app.kubernetes.io/name: qui
+  path: "./kubernetes/media/qbittorrent/ui"
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
   wait: true
   interval: 30m
   retryInterval: 1m

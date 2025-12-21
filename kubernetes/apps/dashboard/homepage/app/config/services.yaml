@@ -46,7 +46,7 @@
 - Downloads:
     - qBittorrent:
         icon: qbittorrent.png
-        href: https://qui.local.${LOCAL_DOMAIN}/instances/1
+        href: https://qui.${LOCAL_DOMAIN}/instances/1
         description: Torrent Client
         widget:
             type: qbittorrent

@@ -16,7 +16,7 @@ spec:
       namespace: networking
       sectionName: https
   hostnames:
-    - longhorn.${LOCAL_DOMAIN}
+    - flux-operator.local.solonsstuff.com
   rules:
     - matches:
         - path:

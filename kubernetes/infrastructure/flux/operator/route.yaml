@@ -4,17 +4,17 @@ kind: HTTPRoute
 metadata:
   name: flux-operator
   namespace: flux-system
+annotations:
+  gethomepage.dev/enabled: "true"
+  gethomepage.dev/group: Applications
+  gethomepage.dev/name: Flux Operator
+  gethomepage.dev/icon: flux-cd.svg
+  gethomepage.dev/description: Flux Operator for Kubernetes
 spec:
   parentRefs:
     - name: envoy-internal
       namespace: networking
       sectionName: https
-  annotations:
-    gethomepage.dev/enabled: "true"
-    gethomepage.dev/group: Applications
-    gethomepage.dev/name: Flux Operator
-    gethomepage.dev/icon: flux-cd.svg
-    gethomepage.dev/description: Flux Operator for Kubernetes
   hostnames:
     - longhorn.${LOCAL_DOMAIN}
   rules:

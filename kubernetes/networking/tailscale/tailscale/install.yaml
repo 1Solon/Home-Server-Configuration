@@ -31,6 +31,8 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
+  dependsOn:
+    - name: tailscale
   interval: 30m
   path: ./kubernetes/networking/tailscale/tailscale/config
   prune: false # never should be deleted

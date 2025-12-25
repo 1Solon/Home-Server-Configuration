@@ -1,0 +1,81 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: abiotic-factor
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: app-template
+      version: 4.5.0
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s-charts
+        namespace: flux-system
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      strategy: rollback
+      retries: 3
+  values:
+    controllers:
+      abiotic-factor:
+        type: statefulset
+        annotations:
+          reloader.stakater.com/auto: "true"
+        pod:
+          nodeSelector:
+            kubernetes.io/arch: amd64
+        containers:
+          app:
+            image:
+              repository: ghcr.io/pleut/abiotic-factor-linux-docker
+              tag: latest@sha256:bfcfc96c7f02336390afee8662b38ed430bb56f601df72fa8f27a48d4d2ea3f1
+            env:
+              TZ: ${TZ}
+              MaxServerPlayers: "6"
+              Port: "7777"
+              QueryPort: "27015"
+              SteamServerName: "Collective Abiotic Factor"
+              UsePerfThreads: "true"
+              NoAsyncLoadingThread: "true"
+              WorldSaveName: "collective_abiotic_factor"
+              ServerPassword:
+                valueFrom:
+                  secretKeyRef:
+                    name: abiotic-factor-secret
+                    key: ServerPassword
+            resources:
+              requests:
+                cpu: 500m
+                memory: 2Gi
+              limits:
+                memory: 8Gi
+
+    service:
+      app:
+        controller: abiotic-factor
+        type: LoadBalancer
+        annotations:
+          lbipam.cilium.io/ips: ${ABIOTIC_FACTOR_IP}
+        ports:
+          game:
+            port: 7777
+            protocol: UDP
+            targetPort: 7777
+          query:
+            port: 27015
+            protocol: UDP
+            targetPort: 27015
+
+    persistence:
+      data:
+        enabled: true
+        existingClaim: abiotic-factor-data
+        globalMounts:
+          - path: /server

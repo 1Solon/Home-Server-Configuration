@@ -45,6 +45,7 @@ spec:
               UsePerfThreads: "true"
               NoAsyncLoadingThread: "true"
               WorldSaveName: "collective_abiotic_factor"
+              AdditionalArgs: -SandboxIniPath=Config/WindowsServer/Server1Sandbox.ini
               ServerPassword:
                 valueFrom:
                   secretKeyRef:

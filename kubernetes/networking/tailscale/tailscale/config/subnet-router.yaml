@@ -1,10 +1,26 @@
-apiVersion: tailscale.com/v1alpha1
-kind: Connector
+---
+apiVersion: v1
+kind: Service
 metadata:
   name: home-cluster-subnet-router
+  annotations:
+    tailscale.com/hostname: "home-cluster-subnet-router"
+    tailscale.com/tags: "tag:k8s"
 spec:
-  hostname: home-cluster-subnet-router
-  exitNode: true
-  subnetRouter:
-    advertiseRoutes:
-      - "192.168.1.0/24"
+  type: LoadBalancer
+  loadBalancerClass: tailscale
+  ports:
+    - port: 443
+      protocol: TCP
+      targetPort: 443
+  selector:
+    app: placeholder
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: subnet-router-config
+data:
+  TS_ROUTES: "192.168.1.0/24"
+  TS_EXTRA_ARGS: "--advertise-exit-node"

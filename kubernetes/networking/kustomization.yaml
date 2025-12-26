@@ -6,6 +6,6 @@ resources:
   - cilium
   - external-dns
   - cert-manager
-  - adguard
+  # - adguard
   - tailscale
   - envoy-gateway/install.yaml

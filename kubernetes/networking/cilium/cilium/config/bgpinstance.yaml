@@ -5,6 +5,7 @@ metadata:
   name: cilium-unifi
 spec:
   nodeSelector:
+    matchLabels: {}
   bgpInstances:
     - name: "65200"
       localASN: 65200

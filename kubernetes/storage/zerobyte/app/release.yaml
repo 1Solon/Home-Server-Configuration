@@ -27,11 +27,7 @@ spec:
             env:
               TZ: "${TZ}"
             securityContext:
-              allowPrivilegeEscalation: true
-              readOnlyRootFilesystem: false
-              capabilities:
-                drop: [ALL]
-                add: [SYS_ADMIN]
+              privileged: true
             resources:
               requests:
                 cpu: 100m

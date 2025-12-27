@@ -1,0 +1,81 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app zerobyte
+spec:
+  interval: 1h
+  chart:
+    spec:
+      chart: app-template
+      version: 4.5.0
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s-charts
+        namespace: flux-system
+  values:
+    controllers:
+      zerobyte:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          app:
+            image:
+              repository: ghcr.io/nicotsx/zerobyte
+              tag: v0.20.0@sha256:4c539c237430972df651fe253aaa8d12b47d58fd4b139540f6e619fa1a1c7b3d
+            env:
+              TZ: "${TZ}"
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: false
+              capabilities: { drop: [ALL] }
+            resources:
+              requests:
+                cpu: 100m
+                memory: 128Mi
+              limits:
+                memory: 512Mi
+
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+        seccompProfile: { type: RuntimeDefault }
+
+    service:
+      app:
+        controller: zerobyte
+        ports:
+          http:
+            port: &port 4096
+
+    route:
+      app:
+        enabled: true
+        annotations:
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/name: Zerobyte
+          gethomepage.dev/description: Remote backup automation tool.
+          gethomepage.dev/group: Applications
+          gethomepage.dev/icon: zerobyte.png
+        parentRefs:
+          - name: envoy-internal
+            namespace: networking
+            sectionName: https
+        hostnames:
+          - "zerobyte.${LOCAL_DOMAIN}"
+        rules:
+          - backendRefs:
+              - port: *port
+                name: *app
+
+    persistence:
+      data:
+        enabled: true
+        existingClaim: zerobyte-data
+        globalMounts:
+          - path: /var/lib/zerobyte

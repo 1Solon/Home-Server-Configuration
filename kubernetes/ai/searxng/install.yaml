@@ -3,10 +3,10 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app openwebui
+  name: &app searxng
   namespace: flux-system
 spec:
-  path: "./kubernetes/apps/ai/openwebui/app"
+  path: "./kubernetes/ai/searxng/app"
   targetNamespace: ai
   prune: true
   wait: true

@@ -3,7 +3,6 @@ kind: Kustomization
 resources:
   - dashboard
   - manga
-  # - ntfy
   - speedtest-tracker
   - syncthing
   - immich

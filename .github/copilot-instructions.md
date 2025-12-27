@@ -4,24 +4,28 @@
 
 This is a **GitOps-managed Kubernetes home server** running on Talos Linux with Flux CD. The cluster consists of:
 - **5 nodes**: 4x Turing RK1 (ARM64), 1x AMD-7940HS (x86_64)
-- **OS**: Talos Linux (immutable, API-configured)
+- **OS**: Talos Linux v1.12.0 (immutable, API-configured)
+- **Kubernetes**: v1.35.0
 - **GitOps**: Flux CD manages all workloads from this Git repository
-- **Storage**: Longhorn for persistent volumes
-- **Networking**: Cilium CNI, dual NGINX (internal/external), Cloudflare DNS/DDNS
-- **Secrets**: SOPS with AGE encryption for all sensitive data
+- **Storage**: Longhorn for persistent volumes, Crunchy Postgres for databases, Dragonfly for caching
+- **Networking**: Cilium CNI, Envoy Gateway (replaces NGINX), Cloudflare DNS/DDNS, Tailscale VPN
+- **Secrets**: SOPS with AGE encryption + 1Password via External Secrets Operator
 
 ## Repository Structure
 
 ```
 kubernetes/
-├── apps/          # User-facing applications (Immich, AI, dashboards)
-├── media/         # *arr stack (Sonarr, Radarr, Jellyfin, etc.)
-├── infrastructure/ # Core platform (Flux, Reflector, Reloader)
-├── networking/    # Ingress, DNS, certificates, VPN gateway
-├── storage/       # Longhorn, databases (Postgres, Dragonfly)
-├── security/      # Authentik, External Secrets operator
-├── nodes/         # Node-level workloads (NVIDIA, NFD, system upgrades)
-├── observability/ # Monitoring stack (Prometheus, Grafana)
+├── ai/            # AI/ML workloads (LiteLLM, Open WebUI, SearXNG)
+├── games/         # Game servers (Abiotic Factor, etc.)
+├── infra/         # Core platform (Flux, Reflector, Reloader, NFD, NVIDIA, Tuppr)
+├── manga/         # Manga/comic stack (Komga, Komf, Suwayomi)
+├── media/         # *arr stack (Sonarr, Radarr, Jellyfin, Prowlarr, qBittorrent)
+├── misc/          # Misc apps (Immich, Speedtest Tracker, Syncthing)
+├── networking/    # Cilium, Envoy Gateway, cert-manager, external-dns, Tailscale
+├── observability/ # Monitoring (kube-prometheus-stack, metrics-server, dashboards)
+├── projects/      # Personal projects (Colwiki)
+├── security/      # Authentik, External Secrets operator, 1Password integration
+├── storage/       # Longhorn, databases (Postgres, Dragonfly), Garage (S3)
 └── cluster-vars.yaml # Global config (IPs, domains, timezone)
 
 talos/
@@ -70,19 +74,46 @@ spec:
 
 ### Multi-Component Apps (Immich Pattern)
 Complex apps split into multiple Flux Kustomizations in single `install.yaml`:
-- `immich-server` (base component)
-- `immich-machine-learning` (depends on server)
-- `immich-microservices` (depends on server)
+- `immich-server` (base component, path: `app/server/`)
+- `immich-machine-learning` (depends on server, path: `app/machine-learning/`)
+- `immich-microservices` (depends on server, path: `app/microservices/`)
 
-Each targets a different subdirectory: `app/server/`, `app/machine-learning/`, etc.
+Each Kustomization targets a different subdirectory and uses `dependsOn` for orchestration.
+
+**Example** (`kubernetes/misc/immich/app/install.yaml`):
+```yaml
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: immich-server
+  namespace: flux-system
+spec:
+  targetNamespace: immich
+  path: "./kubernetes/misc/immich/app/server"
+  # ... standard config ...
+
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: immich-machine-learning
+  namespace: flux-system
+spec:
+  targetNamespace: immich
+  dependsOn:
+    - name: immich-server  # Wait for server first
+  path: "./kubernetes/misc/immich/app/machine-learning"
+  # ... standard config ...
+```
 
 ## Key Conventions
 
 ### Helm Releases
-- **Primary chart**: `bjw-s/app-template` (v3.x for most apps)
-- **Schema validation**: Use `# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/...`
-- **Repositories**: Defined in `kubernetes/infrastructure/flux/repositories/`
-- **Reloader annotation**: Add `reloader.stakater.com/auto: "true"` to auto-restart on ConfigMap/Secret changes
+- **Primary chart**: `bjw-s/app-template` (v4.x for most apps, v3.x for some legacy)
+- **Schema validation**: Add `# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2beta2.schema.json`
+- **Repositories**: Defined in `kubernetes/infra/flux/repositories/` (e.g., `bjw-s.yaml`, `crunchydata.yaml`)
+- **Reloader annotation**: Add `reloader.stakater.com/auto: "true"` to controller annotations for auto-restart on ConfigMap/Secret changes
 
 ### Secrets Management
 - **All secrets encrypted** with SOPS + AGE (`age13arp4yu8k7s9ck59ryj4vzedkggkp8eph6hq9ukdtcpdvnf8f9uqypjty6`)
@@ -102,8 +133,12 @@ dependsOn:
 ### Variable Substitution
 Reference `cluster-vars.yaml` variables in manifests:
 - `${TZ}` → `Europe/Dublin`
-- `${NGINX_INTERNAL_IP}` → `192.168.1.160`
+- `${GATEWAY_INTERNAL_IP}` → `192.168.5.163`
+- `${GATEWAY_EXTERNAL_IP}` → `192.168.5.161`
 - `${LOCAL_DOMAIN}` → `local.solonsstuff.com`
+- `${REMOTE_DOMAIN}` → `solonsstuff.com`
+- `${PGBOUNCER_IP}` → `192.168.5.154`
+- `${JELLYFIN_IP}` → `192.168.5.162`
 
 All variables available via `cluster-settings` ConfigMap (reflected to other namespaces via Reflector).
 
@@ -124,8 +159,14 @@ All variables available via `cluster-settings` ConfigMap (reflected to other nam
 cd talos
 talhelper genconfig
 
-# Apply to nodes (reverse order: kube5→kube1)
+# Apply to nodes using Taskfile (applies in reverse order: kube5→kube1)
 task apply
+
+# Apply to specific node
+task apply-kube1  # or kube2, kube3, kube4, kube5
+
+# Generate configs only
+task gen
 
 # Decrypt secrets for local viewing
 sops -d talsecret.sops.yaml
@@ -176,18 +217,19 @@ flux get all -A
 - **1Password**: Secrets source (via `onepassword-connect` ClusterSecretStore)
 - **Cloudflare**: DNS, DDNS, external-dns, cert-manager ACME
 - **Longhorn**: Backed by `/var/lib/longhorn` on each node (see `talconfig.yaml` extraMounts)
-- **Crunchy Postgres Operator**: Multi-cluster Postgres with pgBouncer (`192.168.1.154`)
+- **Crunchy Postgres Operator**: Multi-cluster Postgres with pgBouncer (`192.168.5.154`)
 
 ## Quick Reference
 
 | Component | Location | Purpose |
 |-----------|----------|---------|
-| Flux core | `infrastructure/flux/` | GitOps engine |
-| Helm repos | `infrastructure/flux/repositories/` | HelmRepository CRDs |
+| Flux core | `infra/flux/` | GitOps engine |
+| Helm repos | `infra/flux/repositories/` | HelmRepository CRDs |
 | Global vars | `cluster-vars.yaml` | ConfigMap with IPs/domains |
-| SOPS key secret | `infrastructure/flux/secrets/` | AGE private key for decryption |
+| SOPS key secret | `infra/flux/secrets/` | AGE private key for decryption |
 | Database operator | `storage/databases/postgres/` | Crunchy Postgres (4 Kustomizations) |
-| Ingress controllers | `networking/nginx/` | Internal + external NGINX |
+| Ingress gateway | `networking/envoy-gateway/` | Envoy Gateway (replaces NGINX) |
+| External Secrets | `security/secrets/` | 1Password integration |
 
 ---
 

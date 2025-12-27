@@ -11,6 +11,3 @@ spec:
       service:
         addresses:
           - LoadBalancerIP
-      selector:
-        matchLabels:
-          bgp.cilium.io/advertise-service: default

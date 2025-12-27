@@ -5,7 +5,8 @@ metadata:
   name: cilium-unifi
 spec:
   nodeSelector:
-    matchLabels: {}
+    matchLabels:
+      kubernetes.io/os: linux
   bgpInstances:
     - name: "65200"
       localASN: 65200

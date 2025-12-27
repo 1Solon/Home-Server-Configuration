@@ -9,6 +9,7 @@ spec:
   bgpInstances:
     - name: "65200"
       localASN: 65200
+      localPort: 179
       peers:
         - name: "ucg-max-65100"
           peerASN: 65100

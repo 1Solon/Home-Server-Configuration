@@ -2,17 +2,19 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: reloader
+  name: reflector
   namespace: flux-system
 spec:
-  targetNamespace: kube-system
+  targetNamespace: default
   commonMetadata:
     labels:
       app.kubernetes.io/name: reflector
-  interval: 10m
-  path: "./kubernetes/infrastructure/reloader/reloader/app"
+  path: "./kubernetes/infra/reflector/reflector/app"
   prune: false
   sourceRef:
     kind: GitRepository
     name: flux-system
   wait: true
+  interval: 30m
+  retryInterval: 1m
+  timeout: 5m

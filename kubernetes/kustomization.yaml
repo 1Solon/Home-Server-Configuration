@@ -6,7 +6,7 @@ resources:
 - apps
 - games
 - observability
-- infrastructure
+- infra
 - networking
 - storage
 - nodes

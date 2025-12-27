@@ -37,7 +37,7 @@ l2announcements:
 bgpControlPlane:
   enabled: true
   secretsNamespace:
-    name: cilium-secrets
+    name: kube-system
 loadBalancer:
   algorithm: maglev
   mode: dsr

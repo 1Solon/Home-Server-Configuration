@@ -4,7 +4,7 @@ kind: CiliumBGPPeerConfig
 metadata:
   name: peer-config
 spec:
-  authSecretRef: kube-system/bgp-peer-password
+  authSecretRef: bgp-peer-password
   gracefulRestart:
     enabled: true
   families:

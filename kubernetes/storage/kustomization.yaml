@@ -6,4 +6,3 @@ resources:
   - longhorn
   - databases
   - garage/install.yaml
-  - zerobyte/install.yaml

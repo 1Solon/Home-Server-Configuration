@@ -116,9 +116,9 @@ spec:
 - **Reloader annotation**: Add `reloader.stakater.com/auto: "true"` to controller annotations for auto-restart on ConfigMap/Secret changes
 
 ### Secrets Management
-- **All secrets encrypted** with SOPS + AGE (`age13arp4yu8k7s9ck59ryj4vzedkggkp8eph6hq9ukdtcpdvnf8f9uqypjty6`)
-- **ExternalSecrets**: Pull from 1Password via `ClusterSecretStore/onepassword-connect`
+- **Prefer ExternalSecrets** for application credentials: Pull from 1Password via `ClusterSecretStore/onepassword-connect`
 - **Database credentials**: Use `ClusterSecretStore/crunchy-pgo-secrets` for Postgres user secrets
+- **SOPS encryption**: Only use for infrastructure secrets (Flux, Talos). Application secrets should use ExternalSecret
 - **Talos secrets**: Stored in `talos/talsecret.sops.yaml`
 
 ### Dependency Orchestration
@@ -148,10 +148,9 @@ All variables available via `cluster-settings` ConfigMap (reflected to other nam
 1. Create directory structure: `kubernetes/<category>/<app>/app/`
 2. Add `install.yaml` (Flux Kustomization) in `kubernetes/<category>/<app>/`
 3. Create `app/kustomization.yaml`, `app/release.yaml` (HelmRelease), ConfigMaps
-4. Add ExternalSecret if credentials needed (reference ClusterSecretStore)
+4. Add `app/externalsecret.yaml` if credentials needed (reference `ClusterSecretStore/onepassword-connect`)
 5. Update parent `kustomization.yaml` (e.g., `kubernetes/media/kustomization.yaml`)
-6. If using SOPS: Add `decryption.secretRef.name: sops-age` to `install.yaml`
-7. Commit and push (Flux auto-reconciles every 30m or use `flux reconcile kustomization flux-system --with-source`)
+6. Commit and push (Flux auto-reconciles every 30m or use `flux reconcile kustomization flux-system --with-source`)
 
 ### Talos Node Management
 ```powershell
@@ -198,7 +197,7 @@ flux get all -A
 
 ## Common Gotchas
 
-1. **SOPS decryption failures**: Ensure `decryption.secretRef.name: sops-age` in Flux Kustomization
+1. **ExternalSecret not syncing**: Check ClusterSecretStore is available and 1Password vault has the secret key
 2. **Variable substitution not working**: Check `postBuild.substituteFrom` references `cluster-settings`
 3. **HelmRelease suspended**: Renovate PRs may set `suspend: true` - remove before merging
 4. **Namespace mismatch**: `install.yaml` `targetNamespace` must match app resources

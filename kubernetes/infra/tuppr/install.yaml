@@ -6,7 +6,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 1h
-  path: ./kubernetes/nodes/tuppr/app
+  path: ./kubernetes/infra/tuppr/app
   prune: true
   sourceRef:
     kind: GitRepository
@@ -24,7 +24,7 @@ spec:
   dependsOn:
     - name: tuppr
   interval: 1h
-  path: ./kubernetes/nodes/tuppr/upgrades
+  path: ./kubernetes/infra/tuppr/upgrades
   prune: true
   sourceRef:
     kind: GitRepository

@@ -9,7 +9,6 @@ resources:
 - infra
 - networking
 - storage
-- nodes
 - security
 - media
 - projects

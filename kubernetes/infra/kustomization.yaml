@@ -4,3 +4,6 @@ resources:
 - flux
 - reflector
 - reloader
+- node-feature-discovery
+- nvidia-device-plugin
+- tuppr/install.yaml

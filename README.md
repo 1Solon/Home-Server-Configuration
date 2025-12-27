@@ -21,90 +21,66 @@ The Git repository contains the following directories:
 
 ```sh
 📁
-└──📁 kubernetes
-    ├──📁 apps
-    │   ├──📁 ai
-    │   │   ├──📁 litellm
-    │   │   ├──📁 openwebui
-    │   │   └──📁 searxng
-    │   ├──📁 dashboard
-    │   │   └──📁 homepage
-    │   ├──📁 immich
-    │   ├──📁 manga
-    │   │   ├──📁 komf
-    │   │   ├──📁 komga
-    │   │   └──📁 suwayomi
-    │   ├──📁 ntfy
-    │   │   └──📁 ntfy
-    │   ├──📁 speedtest-tracker
-    │   │   └──📁 speedtest-tracker
-    │   └──📁 syncthing
-    │       └──📁 syncthing
-    ├──📁 infrastructure
-    │   ├──📁 flux
-    │   │   ├──📁 instance
-    │   │   ├──📁 notifications
-    │   │   ├──📁 operator
-    │   │   ├──📁 receiver
-    │   │   ├──📁 repositories
-    │   │   └──📁 secrets
-    │   ├──📁 reflector
-    │   │   └──📁 reflector
-    │   └──📁 reloader
-    │       └──📁 reloader
-    ├──📁 media
-    │   ├──📁 cleanuparr
-    │   ├──📁 dispatcharr
-    │   ├──📁 flaresolver
-    │   ├──📁 huntarr
-    │   ├──📁 jellyfin
-    │   ├──📁 jellyseer
-    │   ├──📁 prowlarr
-    │   ├──📁 qbittorrent
-    │   ├──📁 radarr
-    │   ├──📁 recyclarr
-    │   └──📁 sonarr
-    ├──📁 networking
-    │   ├──📁 adguard
-    │   │   └──📁 adguard
-    │   ├──📁 cert-manager
-    │   │   └──📁 cert-manager
-    │   ├──📁 cilium
-    │   │   └──📁 cilium
-    │   ├──📁 envoy-gateway
-    │   │   └──📁 config
-    │   ├──📁 external-dns
-    │   │   ├──📁 cloudflare
-    │   │   └──📁 cloudflare-ddns
-    │   └──📁 tailscale
-    │       └──📁 tailscale
-    ├──📁 nodes
-    │   ├──📁 node-feature-discovery
-    │   │   └──📁 node-feature-discovery
-    │   ├──📁 nvidia-device-plugin
-    │   │   └──📁 nvidia-device-plugin
-    │   └──📁 tuppr
-    │       └──📁 upgrades
-    ├──📁 observability
-    │   ├──📁 kube-prometheus-stack
-    │   ├──📁 kube-state-metrics
-    │   ├──📁 metrics-server
-    │   └──📁 node-exporter
-    ├──📁 projects
-    │   └──📁 colwiki
-    ├──📁 security
-    │   ├──📁 authentik
-    │   │   └──📁 authentik
-    │   └──📁 secrets
-    │       └──📁 external-secrets
-    └──📁 storage
-        ├──📁 databases
-        │   ├──📁 dragonfly
-        │   └──📁 postgres
-        ├──📁 garage
-        │   └──📁 webui
-        └──📁 longhorn
-            └──📁 longhorn
+├──📁 kubernetes            # Main Kubernetes manifests directory
+│   ├──📁 ai                # AI/ML applications
+│   │   ├──📁 litellm
+│   │   ├──📁 openwebui
+│   │   └──📁 searxng
+│   ├──📁 games             # Game servers
+│   │   └──📁 abiotic-factor
+│   ├──📁 infra             # Core infrastructure components
+│   │   ├──📁 flux
+│   │   ├──📁 node-feature-discovery
+│   │   ├──📁 nvidia-device-plugin
+│   │   ├──📁 reflector
+│   │   ├──📁 reloader
+│   │   └──📁 tuppr
+│   ├──📁 manga             # Manga/comic management
+│   │   ├──📁 komf
+│   │   ├──📁 komga
+│   │   └──📁 suwayomi
+│   ├──📁 media             # Media automation (*arr stack)
+│   │   ├──📁 cleanuparr
+│   │   ├──📁 dispatcharr
+│   │   ├──📁 flaresolver
+│   │   ├──📁 huntarr
+│   │   ├──📁 jellyfin
+│   │   ├──📁 jellyseer
+│   │   ├──📁 prowlarr
+│   │   ├──📁 qbittorrent
+│   │   ├──📁 radarr
+│   │   ├──📁 recyclarr
+│   │   └──📁 sonarr
+│   ├──📁 misc              # Miscellaneous applications
+│   │   ├──📁 immich
+│   │   ├──📁 speedtest-tracker
+│   │   └──📁 syncthing
+│   ├──📁 networking        # Network services and ingress
+│   │   ├──📁 cert-manager
+│   │   ├──📁 cilium
+│   │   ├──📁 envoy-gateway
+│   │   ├──📁 external-dns
+│   │   └──📁 tailscale
+│   ├──📁 observability     # Monitoring and dashboards
+│   │   ├──📁 dashboard
+│   │   ├──📁 kube-prometheus-stack
+│   │   ├──📁 kube-state-metrics
+│   │   ├──📁 metrics-server
+│   │   └──📁 node-exporter
+│   ├──📁 projects          # Personal projects
+│   │   └──📁 colwiki
+│   ├──📁 security          # Authentication and secrets
+│   │   ├──📁 authentik
+│   │   └──📁 secrets
+│   └──📁 storage           # Storage solutions
+│       ├──📁 databases
+│       ├──📁 garage
+│       └──📁 longhorn
+├──📁 talos                 # Talos Linux configuration
+│   ├── talconfig.yaml      # Talos cluster configuration
+│   ├── talsecret.sops.yaml # Encrypted Talos secrets
+│   └──📁 clusterconfig     # Generated node configurations
+└──📁 archive               # Archived/unused configurations
 ```
 
 ## 🖥️ Software
@@ -160,8 +136,6 @@ The following apps are installed on the clusters.
 | [Cilium](https://cilium.io)                                     | eBPF-based networking, security, and observability.  |
 | [Cert-Manager](https://cert-manager.io)                         | Automated certificate management for Kubernetes.     |
 | [External DNS](https://github.com/kubernetes-sigs/external-dns) | Synchronizes Kubernetes services with DNS providers. |
-| [AdGuard Home](https://github.com/AdguardTeam/AdGuardHome)      | Network-wide ad blocker and DNS server.              |
-| [Pod Gateway](https://github.com/angelnu/pod-gateway)           | Routes pod traffic through VPN gateway.              |
 | [Tailscale](https://tailscale.com)                              | Zero-config VPN built on WireGuard.                  |
 | [Envoy Gateway](https://gateway.envoyproxy.io)                  | Kubernetes-native API gateway powered by Envoy.      |
 
@@ -205,17 +179,3 @@ The following apps are installed on the clusters.
 | [Turing RK1](https://turingpi.com/product/turing-rk1/?attribute_ram=16+GB)                   | 4     | 2TB NVMe     | -              | 16GB | Talos            | Cluster Nodes     |
 | [Turing Pi 2](https://turingpi.com/product/turing-pi-2-5/)                                   | 1     | -            | -              | -    | -                | Baseboard and KVM |
 | [CWWK AMD-7940HS](https://www.amazon.com/CWWK-NAS-display-network-motherboard/dp/B0D5M2M3Y5) | 1     | 1TB NVMe     | 8TB HDD (2x)   | 32GB | Proxmox          | NAS/Cluster Nodes |
-
-## 🤖 Automation
-
-[Renovate](https://www.whitesourcesoftware.com/free-developer-tools/renovate) Bot makes sure the components are never outdated.
-
-It creates PullRequests when Helm charts or Docker images have newer versions available and even keeps Flux and k3s up-to-date.
-
-## 📝 Secrets
-
-Flux supports [SOPS](https://github.com/getsops/sops) in particular [AGE](https://github.com/FiloSottile/age), you can encrypt your secrets locally with `age` and then flux will decrypt them when it applies the manifests. All my secrets are encrypted on my local machine and decrypted by Flux when it applies the manifests.
-
-## 🌐 DNS
-
-I'm using Cloudflare for external DNS and have a wildcard A record pointing to my traefik instance. Internally I'm using PiHole for DNS resolution, these are injected into the pods via the `hosts` configmap.

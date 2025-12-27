@@ -6,3 +6,4 @@ resources:
   - bgpadvertisement.yaml
   - bgpinstance.yaml
   - bgpeerconfig.yaml
+  - pool.yaml

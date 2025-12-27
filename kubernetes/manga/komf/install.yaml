@@ -2,14 +2,14 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app komga
+  name: &app komf
   namespace: flux-system
 spec:
   targetNamespace: manga
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
-  path: "./kubernetes/apps/manga/komga/app"
+  path: "./kubernetes/manga/komf/app"
   prune: false
   sourceRef:
     kind: GitRepository

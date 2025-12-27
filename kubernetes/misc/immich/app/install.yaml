@@ -9,7 +9,7 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
-  path: "./kubernetes/apps/immich/app/server"
+  path: "./kubernetes/misc/immich/app/server"
   prune: false
   sourceRef:
     kind: GitRepository
@@ -37,7 +37,7 @@ spec:
       app.kubernetes.io/name: *app
   dependsOn:
     - name: immich-server
-  path: "./kubernetes/apps/immich/app/machine-learning"
+  path: "./kubernetes/misc/immich/app/machine-learning"
   prune: false
   sourceRef:
     kind: GitRepository
@@ -65,7 +65,7 @@ spec:
       app.kubernetes.io/name: *app
   dependsOn:
     - name: immich-server
-  path: "./kubernetes/apps/immich/app/microservices"
+  path: "./kubernetes/misc/immich/app/microservices"
   prune: false
   sourceRef:
     kind: GitRepository

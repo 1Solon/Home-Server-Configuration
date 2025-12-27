@@ -2,22 +2,22 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app speedtest-tracker
+  name: &app syncthing
   namespace: flux-system
 spec:
-  targetNamespace: speedtest-tracker
-  commonMetadata:
-    labels:
-      app.kubernetes.io/name: *app
-  path: "./kubernetes/apps/speedtest-tracker/speedtest-tracker/app"
+  path: "./kubernetes/misc/syncthing/syncthing/app"
+  targetNamespace: syncthing
   prune: false
-  sourceRef:
-    kind: GitRepository
-    name: flux-system
-  wait: false
+  wait: true
   interval: 30m
   retryInterval: 1m
   timeout: 5m
+  commonMetadata:
+    labels:
+      app.kubernetes.io/name: *app
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
   postBuild:
     substituteFrom:
       - kind: ConfigMap

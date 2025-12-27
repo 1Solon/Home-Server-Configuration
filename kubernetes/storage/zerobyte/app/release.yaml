@@ -81,3 +81,10 @@ spec:
         existingClaim: zerobyte-data
         globalMounts:
           - path: /var/lib/zerobyte
+      dev-fuse:
+        enabled: true
+        type: hostPath
+        hostPath: /dev/fuse
+        hostPathType: CharDevice
+        globalMounts:
+          - path: /dev/fuse

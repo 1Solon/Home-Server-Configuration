@@ -80,7 +80,7 @@ spec:
         controller: main
         type: LoadBalancer
         loadBalancerIP: "${SYNCTHING_IP}"
-        externalTrafficPolicy: Cluster
+        externalTrafficPolicy: Local 
         ports:
           transfer:
             port: 22000

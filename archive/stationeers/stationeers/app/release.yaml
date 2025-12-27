@@ -53,7 +53,7 @@ spec:
       main:
         controller: main
         type: LoadBalancer
-        externalTrafficPolicy: Cluster
+        externalTrafficPolicy: Local 
         ports:
           game-tcp:
             port: 27016

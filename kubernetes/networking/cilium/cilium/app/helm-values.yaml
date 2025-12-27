@@ -33,7 +33,11 @@ kubeProxyReplacement: true
 kubeProxyReplacementHealthzBindAddr: 0.0.0.0:10256
 policyEnforcementMode: never
 l2announcements:
+  enabled: false
+bgpControlPlane:
   enabled: true
+  secretsNamespace:
+    name: cilium-secrets
 loadBalancer:
   algorithm: maglev
   mode: dsr

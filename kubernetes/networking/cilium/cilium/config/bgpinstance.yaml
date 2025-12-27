@@ -1,0 +1,16 @@
+# cilium/bgp-cluster-config.yaml
+apiVersion: cilium.io/v2
+kind: CiliumBGPClusterConfig
+metadata:
+  name: cilium-unifi
+spec:
+  nodeSelector:
+  bgpInstances:
+    - name: "65200"
+      localASN: 65200
+      peers:
+        - name: "ucg-max-65100"
+          peerASN: 65100
+          peerAddress: 192.168.1.1
+          peerConfigRef:
+            name: peer-config

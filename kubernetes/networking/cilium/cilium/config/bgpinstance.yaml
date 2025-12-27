@@ -6,7 +6,7 @@ metadata:
 spec:
   nodeSelector:
     matchLabels:
-      node-role.kubernetes.io/control-plane: ""
+      kubernetes.io/os: linux  
   bgpInstances:
     - name: "65200"
       localASN: 65200

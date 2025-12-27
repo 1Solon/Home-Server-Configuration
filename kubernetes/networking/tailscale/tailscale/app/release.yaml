@@ -15,6 +15,7 @@ spec:
         name: tailscale
         namespace: flux-system
   values:
+    installCRDs: true
     operatorConfig:
       hostname: "home-cluster-tailscale-operator"
     apiServerProxyConfig:

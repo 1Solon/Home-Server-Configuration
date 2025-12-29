@@ -52,8 +52,6 @@ spec:
         fsGroupChangePolicy: OnRootMismatch
         supplementalGroups: [44]
         seccompProfile: { type: RuntimeDefault }
-      nodeSelector:
-        feature.node.kubernetes.io/pci-10de.present: "true" # NVIDIA GPU node selector
     persistence:
       library:
         type: nfs

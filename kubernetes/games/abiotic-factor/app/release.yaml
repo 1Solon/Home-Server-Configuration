@@ -45,7 +45,7 @@ spec:
               SteamServerName: "Collective Abiotic Factor"
               UsePerfThreads: "true"
               NoAsyncLoadingThread: "true"
-              WorldSaveName: "collective_abiotic_factor"
+              WorldSaveName: "CollectiveFactor"
               AdditionalArgs: -SandboxIniPath=Config/WindowsServer/Server1Sandbox.ini
               ServerPassword:
                 valueFrom:

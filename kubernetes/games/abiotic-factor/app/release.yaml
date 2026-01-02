@@ -25,7 +25,7 @@ spec:
   values:
     controllers:
       abiotic-factor:
-        replicas: 0
+        replicas: 1
         type: statefulset
         annotations:
           reloader.stakater.com/auto: "true"
@@ -77,7 +77,8 @@ spec:
 
     persistence:
       data:
-        enabled: true
-        existingClaim: abiotic-factor-data
+        type: nfs
+        server: "${TRUENAS_IP}"
+        path: /mnt/STORAGE-01/Abiotic-Factor
         globalMounts:
           - path: /server

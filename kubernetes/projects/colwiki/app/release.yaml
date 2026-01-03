@@ -68,7 +68,7 @@ spec:
               GIT_WEB_SERVER: "true"
             securityContext:
               allowPrivilegeEscalation: false
-              readOnlyRootFilesystem: true
+              readOnlyRootFilesystem: false
               runAsNonRoot: true
               runAsUser: 33
               runAsGroup: 33
@@ -140,11 +140,6 @@ spec:
         existingClaim: otterwiki
         globalMounts:
           - path: /app-data
-
-      app:
-        type: emptyDir
-        globalMounts:
-          - path: /app
 
       tmp:
         type: emptyDir

@@ -141,6 +141,11 @@ spec:
         globalMounts:
           - path: /app-data
 
+      app:
+        type: emptyDir
+        globalMounts:
+          - path: /app
+
       tmp:
         type: emptyDir
         globalMounts:

@@ -25,7 +25,7 @@ spec:
   values:
     controllers:
       abiotic-factor:
-        replicas: 1
+        replicas: 0
         type: statefulset
         annotations:
           reloader.stakater.com/auto: "true"

@@ -81,6 +81,15 @@ nodes:
           officialExtensions:
             - siderolabs/iscsi-tools
             - siderolabs/util-linux-tools
+    patches:
+      - |-
+        machine:
+          files:
+            - path: /etc/cri/conf.d/20-customization.part
+              op: create
+              content: |
+                [plugins."io.containerd.cri.v1.images"]
+                  discard_unpacked_layers = false
 
   - hostname: kube2
     ipAddress: 192.168.1.102
@@ -104,6 +113,15 @@ nodes:
           officialExtensions:
             - siderolabs/iscsi-tools
             - siderolabs/util-linux-tools
+    patches:
+      - |-
+        machine:
+          files:
+            - path: /etc/cri/conf.d/20-customization.part
+              op: create
+              content: |
+                [plugins."io.containerd.cri.v1.images"]
+                  discard_unpacked_layers = false
 
   - hostname: kube3
     ipAddress: 192.168.1.103
@@ -127,6 +145,15 @@ nodes:
           officialExtensions:
             - siderolabs/iscsi-tools
             - siderolabs/util-linux-tools
+    patches:
+      - |-
+        machine:
+          files:
+            - path: /etc/cri/conf.d/20-customization.part
+              op: create
+              content: |
+                [plugins."io.containerd.cri.v1.images"]
+                  discard_unpacked_layers = false
 
   - hostname: kube4
     ipAddress: 192.168.1.104
@@ -150,6 +177,15 @@ nodes:
           officialExtensions:
             - siderolabs/iscsi-tools
             - siderolabs/util-linux-tools
+    patches:
+      - |-
+        machine:
+          files:
+            - path: /etc/cri/conf.d/20-customization.part
+              op: create
+              content: |
+                [plugins."io.containerd.cri.v1.images"]
+                  discard_unpacked_layers = false
 
   - hostname: kube5
     ipAddress: 192.168.1.105
@@ -191,6 +227,8 @@ nodes:
             - path: /etc/cri/conf.d/20-customization.part
               op: create
               content: |
+                [plugins."io.containerd.cri.v1.images"]
+                  discard_unpacked_layers = false
                 [plugins]
                   [plugins."io.containerd.cri.v1.runtime"]
                     [plugins."io.containerd.cri.v1.runtime".containerd]

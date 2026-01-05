@@ -7,3 +7,4 @@ resources:
   - bgpinstance.yaml
   - bgpeerconfig.yaml
   - pool.yaml
+  - cluster-api-lb.yaml

@@ -7,3 +7,4 @@ resources:
 - node-feature-discovery
 - nvidia-device-plugin
 - tuppr/install.yaml
+- spegel/install.yaml

@@ -4,7 +4,7 @@
 
 ## Solon's Home Server Config
 
-_A k8's cluster managed with Talos, Flux and Renovate_
+_GitOps-managed Kubernetes cluster running on Talos Linux with Flux CD and Renovate_
 
 </div>
 
@@ -15,72 +15,108 @@ _A k8's cluster managed with Talos, Flux and Renovate_
 
 </div>
 
+## 🏗️ Architecture Overview
+
+This is a **GitOps-managed Kubernetes home server** with the following stack:
+
+- **Nodes**: 5-node hybrid cluster (4x ARM64, 1x x86_64)
+- **OS**: Talos Linux v1.12.1 (immutable, API-configured)
+- **Kubernetes**: v1.35.0
+- **GitOps**: Flux CD manages all workloads from this repository
+- **Storage**: Longhorn for persistent volumes, Crunchy Postgres for databases, Dragonfly for caching
+- **Networking**: Cilium CNI, Envoy Gateway, Cloudflare DNS/DDNS, Tailscale VPN
+- **Secrets**: SOPS with AGE encryption + 1Password via External Secrets Operator
+
 ## 📂 Repository structure
 
 The Git repository contains the following directories:
 
 ```sh
 📁
-├──📁 kubernetes            # Main Kubernetes manifests directory
-│   ├──📁 ai                # AI/ML applications
-│   │   ├──📁 litellm
-│   │   ├──📁 openwebui
-│   │   └──📁 searxng
-│   ├──📁 games             # Game servers
-│   │   └──📁 abiotic-factor
-│   ├──📁 infra             # Core infrastructure components
-│   │   ├──📁 flux
-│   │   ├──📁 node-feature-discovery
-│   │   ├──📁 nvidia-device-plugin
-│   │   ├──📁 reflector
-│   │   ├──📁 reloader
-│   │   └──📁 tuppr
-│   ├──📁 manga             # Manga/comic management
-│   │   ├──📁 komf
-│   │   ├──📁 komga
-│   │   └──📁 suwayomi
-│   ├──📁 media             # Media automation (*arr stack)
-│   │   ├──📁 cleanuparr
-│   │   ├──📁 dispatcharr
-│   │   ├──📁 flaresolver
-│   │   ├──📁 huntarr
-│   │   ├──📁 jellyfin
-│   │   ├──📁 jellyseer
-│   │   ├──📁 prowlarr
-│   │   ├──📁 qbittorrent
-│   │   ├──📁 radarr
-│   │   ├──📁 recyclarr
-│   │   └──📁 sonarr
-│   ├──📁 misc              # Miscellaneous applications
-│   │   ├──📁 immich
-│   │   ├──📁 speedtest-tracker
-│   │   └──📁 syncthing
-│   ├──📁 networking        # Network services and ingress
-│   │   ├──📁 cert-manager
-│   │   ├──📁 cilium
-│   │   ├──📁 envoy-gateway
-│   │   ├──📁 external-dns
-│   │   └──📁 tailscale
-│   ├──📁 observability     # Monitoring and dashboards
-│   │   ├──📁 dashboard
-│   │   ├──📁 kube-prometheus-stack
-│   │   ├──📁 kube-state-metrics
-│   │   ├──📁 metrics-server
-│   │   └──📁 node-exporter
-│   ├──📁 projects          # Personal projects
-│   │   └──📁 colwiki
-│   ├──📁 security          # Authentication and secrets
-│   │   ├──📁 authentik
-│   │   └──📁 secrets
-│   └──📁 storage           # Storage solutions
-│       ├──📁 databases
-│       ├──📁 garage
-│       └──📁 longhorn
-├──📁 talos                 # Talos Linux configuration
-│   ├── talconfig.yaml      # Talos cluster configuration
-│   ├── talsecret.sops.yaml # Encrypted Talos secrets
-│   └──📁 clusterconfig     # Generated node configurations
-└──📁 archive               # Archived/unused configurations
+└──📁 kubernetes
+    ├──📁 ai
+    │   ├──📁 litellm
+    │   ├──📁 openwebui
+    │   └──📁 searxng
+    ├──📁 games
+    │   └──📁 abiotic-factor
+    ├──📁 infra
+    │   ├──📁 flux
+    │   │   ├──📁 instance
+    │   │   ├──📁 notifications
+    │   │   ├──📁 operator
+    │   │   ├──📁 receiver
+    │   │   ├──📁 repositories
+    │   │   └──📁 secrets
+    │   ├──📁 node-feature-discovery
+    │   │   └──📁 node-feature-discovery
+    │   ├──📁 nvidia-device-plugin
+    │   │   └──📁 nvidia-device-plugin
+    │   ├──📁 reflector
+    │   │   └──📁 reflector
+    │   ├──📁 reloader
+    │   │   └──📁 reloader
+    │   ├──📁 spegel
+    │   └──📁 tuppr
+    │       └──📁 upgrades
+    ├──📁 manga
+    │   ├──📁 komf
+    │   ├──📁 komga
+    │   └──📁 suwayomi
+    ├──📁 media
+    │   ├──📁 cleanuparr
+    │   ├──📁 decluttarr
+    │   ├──📁 dispatcharr
+    │   ├──📁 flaresolver
+    │   ├──📁 huntarr
+    │   ├──📁 jellyfin
+    │   ├──📁 jellyseer
+    │   ├──📁 prowlarr
+    │   ├──📁 qbittorrent
+    │   │   └──📁 ui
+    │   ├──📁 radarr
+    │   ├──📁 recyclarr
+    │   └──📁 sonarr
+    ├──📁 misc
+    │   ├──📁 immich
+    │   ├──📁 speedtest-tracker
+    │   │   └──📁 speedtest-tracker
+    │   └──📁 syncthing
+    │       └──📁 syncthing
+    ├──📁 networking
+    │   ├──📁 cert-manager
+    │   │   └──📁 cert-manager
+    │   ├──📁 cilium
+    │   │   └──📁 cilium
+    │   ├──📁 envoy-gateway
+    │   │   └──📁 config
+    │   ├──📁 external-dns
+    │   │   ├──📁 cloudflare
+    │   │   └──📁 cloudflare-ddns
+    │   └──📁 tailscale
+    │       └──📁 tailscale
+    ├──📁 observability
+    │   ├──📁 dashboard
+    │   │   └──📁 homepage
+    │   ├──📁 kube-prometheus-stack
+    │   ├──📁 kube-state-metrics
+    │   ├──📁 metrics-server
+    │   └──📁 node-exporter
+    ├──📁 projects
+    │   └──📁 colwiki
+    ├──📁 security
+    │   ├──📁 authentik
+    │   │   └──📁 authentik
+    │   └──📁 secrets
+    │       └──📁 external-secrets
+    └──📁 storage
+        ├──📁 databases
+        │   ├──📁 dragonfly
+        │   └──📁 postgres
+        ├──📁 garage
+        │   └──📁 webui
+        └──📁 longhorn
+            └──📁 longhorn
 ```
 
 ## 🖥️ Software
@@ -99,10 +135,8 @@ The following apps are installed on the clusters.
 | [Komga](https://komga.org)                                                 | Media server for comics and manga.                      |
 | [Komf](https://github.com/Snd-R/komf)                                      | Metadata fetcher for Komga.                             |
 | [Suwayomi](https://github.com/Suwayomi/Suwayomi-Server)                    | Free and open source manga reader server.               |
-| [Ntfy](https://ntfy.sh)                                                    | Simple pub-sub notification service.                    |
 | [Speedtest Tracker](https://github.com/alexjustesen/speedtest-tracker)     | Internet speed tracking and monitoring tool.            |
 | [Syncthing](https://syncthing.net)                                         | Continuous file synchronization program.                |
-| [Shadow Empire PBEM Bot](https://github.com/1Solon/Shadow-Empire-PBEM-Bot) | Discord bot for Shadow Empire play-by-email games.      |
 | [Colwiki](https://github.com/1Solon/colwiki)                               | Personal wiki project.                                  |
 
 ### Media Automation
@@ -118,6 +152,7 @@ The following apps are installed on the clusters.
 | [Recyclarr](https://github.com/recyclarr/recyclarr)          | Quality profiles and custom formats sync for \*arr apps. |
 | [Huntarr](https://github.com/Ravencentric/huntarr)           | Missing media searcher for Radarr and Sonarr.            |
 | [Cleanuparr](https://github.com/Just-Insane/cleanuparr)      | Automated media cleanup tool for \*arr apps.             |
+| [Decluttarr](https://github.com/ManiMatter/decluttarr)       | Removes stalled torrents from qBittorrent.               |
 | [Dispatcharr](https://github.com/dkoz/dispatcharr)           | Discord notifications for \*arr apps.                    |
 | [Flaresolverr](https://github.com/FlareSolverr/FlareSolverr) | Proxy server to bypass Cloudflare protection.            |
 
@@ -128,6 +163,7 @@ The following apps are installed on the clusters.
 | [Flux CD](https://fluxcd.io)                                    | GitOps continuous delivery for Kubernetes.         |
 | [Reflector](https://github.com/emberstack/kubernetes-reflector) | Mirrors ConfigMaps and Secrets across namespaces.  |
 | [Reloader](https://github.com/stakater/Reloader)                | Triggers pod restarts on ConfigMap/Secret changes. |
+| [Spegel](https://github.com/spegel-org/spegel)                  | Stateless cluster-local OCI registry mirror.       |
 
 ### Networking
 
@@ -176,6 +212,6 @@ The following apps are installed on the clusters.
 
 | Device                                                                                       | Count | OS Disk Size | Data Disk Size | Ram  | Operating System | Purpose           |
 | -------------------------------------------------------------------------------------------- | ----- | ------------ | -------------- | ---- | ---------------- | ----------------- |
-| [Turing RK1](https://turingpi.com/product/turing-rk1/?attribute_ram=16+GB)                   | 4     | 2TB NVMe     | -              | 16GB | Talos            | Cluster Nodes     |
+| [Turing RK1](https://turingpi.com/product/turing-rk1/?attribute_ram=16+GB)                   | 4     | 2TB NVMe     | -              | 16GB | Talos v1.12.1    | ARM64 Cluster Nodes |
 | [Turing Pi 2](https://turingpi.com/product/turing-pi-2-5/)                                   | 1     | -            | -              | -    | -                | Baseboard and KVM |
-| [CWWK AMD-7940HS](https://www.amazon.com/CWWK-NAS-display-network-motherboard/dp/B0D5M2M3Y5) | 1     | 1TB NVMe     | 8TB HDD (2x)   | 32GB | Proxmox          | NAS/Cluster Nodes |
+| [CWWK AMD-7940HS](https://www.amazon.com/CWWK-NAS-display-network-motherboard/dp/B0D5M2M3Y5) | 1     | 1TB NVMe     | 8TB HDD (2x)   | 32GB | Talos v1.12.1    | x86_64 Cluster Node |

@@ -10,11 +10,11 @@
             key: {{HOMEPAGE_VAR_JELLYFIN_TOKEN}}
             enableNowPlaying: true
     - Seerr:
-        icon: jellyseer.png
+        icon: jellyseerr.png
         href: https://seerr.${REMOTE_DOMAIN}
         description: Requests
         widget:
-            type: jellyseer
+            type: jellyseerr
             url: http://seerr.home-media.svc.cluster.local:80
             key: {{HOMEPAGE_VAR_SEERR_TOKEN}}
     - Sonarr:

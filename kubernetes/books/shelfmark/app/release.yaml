@@ -33,14 +33,9 @@ spec:
             image:
               repository: ghcr.io/calibrain/shelfmark-lite
               tag: 1.0.1@sha256:6a7a6415826b0378d5a338c6b0a5f688711861309a494a18386f2f7e3c48c3db
-            env:
-              TZ: ${TZ}
-              FLASK_PORT: &port 8084
-              INGEST_DIR: /downloads/shelfmark-ingest/books
-              PUID: "1000"
-              PGID: "1000"
-              SEARCH_MODE: "universal"
-              EXT_BYPASSER_URL: http://flaresolverr.home-media.svc.cluster.local:8191
+            envFrom:
+              - secretRef:
+                  name: shelfmark-secret
             probes:
               liveness: &probe
                 enabled: true
@@ -48,7 +43,7 @@ spec:
                 spec:
                   httpGet:
                     path: /request/api/status
-                    port: *port
+                    port: 8084
               readiness: *probe
               startup: *probe
             resources:
@@ -63,7 +58,7 @@ spec:
         controller: *app
         ports:
           http:
-            port: *port
+            port: 8084
 
     route:
       app:
@@ -82,7 +77,7 @@ spec:
           - "shelfmark.${LOCAL_DOMAIN}"
         rules:
           - backendRefs:
-              - port: *port
+              - port: 8084
                 name: *app
 
     persistence:

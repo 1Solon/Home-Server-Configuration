@@ -1,0 +1,25 @@
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: opds-proxy
+  namespace: flux-system
+spec:
+  targetNamespace: books
+  commonMetadata:
+    labels:
+      app.kubernetes.io/name: opds-proxy
+  path: "./kubernetes/books/opds-proxy/app"
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  wait: true
+  interval: 30m
+  retryInterval: 1m
+  timeout: 5m
+  postBuild:
+    substituteFrom:
+      - kind: ConfigMap
+        name: cluster-settings
+        optional: false

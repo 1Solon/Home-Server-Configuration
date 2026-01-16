@@ -6,3 +6,4 @@ resources:
   - ./shelfmark/install.yaml
   - ./audiobookshelf/install.yaml
   - ./booklore/install.yaml
+  - ./opds-proxy/install.yaml

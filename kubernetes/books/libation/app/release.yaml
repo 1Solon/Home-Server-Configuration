@@ -42,7 +42,7 @@ spec:
               tag: 13.1.3@sha256:bedadd56246707a09133458dae198b77ca30bd8275c198a5bee64910169c2965
             env:
               SLEEP_TIME: "30m"  # Scan every 30 minutes
-              LIBATION_BOOKS_DIR: "/data/audiobooks"  # Same as audiobookshelf
+              LIBATION_BOOKS_DIR: "/audiobooks"
               LIBATION_CONFIG_DIR: "/config"
             securityContext:
               allowPrivilegeEscalation: false
@@ -89,6 +89,6 @@ spec:
         enabled: true
         type: nfs
         server: ${TRUENAS_IP}
-        path: /mnt/STORAGE-01/Media-Storage
+        path: /mnt/STORAGE-01/Media-Storage/media/audiobooks
         globalMounts:
-          - path: /data
+          - path: /audiobooks

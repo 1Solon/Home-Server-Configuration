@@ -1,0 +1,25 @@
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: calibre-web-automated
+  namespace: flux-system
+spec:
+  targetNamespace: books
+  commonMetadata:
+    labels:
+      app.kubernetes.io/name: calibre-web-automated
+  path: "./kubernetes/books/calibre-web-automated/app"
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  wait: true
+  interval: 30m
+  retryInterval: 1m
+  timeout: 5m
+  postBuild:
+    substituteFrom:
+      - kind: ConfigMap
+        name: cluster-settings
+        optional: false

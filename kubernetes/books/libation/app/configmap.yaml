@@ -33,11 +33,11 @@ data:
       "DownloadCoverArt": false,
       "StripAudibleBrandAudio": true,
       "StripUnabridged": true,
-      "UseWidevine": false,
-      "Request_xHE_AAC": false,
+      "UseWidevine": true,
+      "Request_xHE_AAC": true,
       "FirstLaunch": false,
       "DownloadEpisodes": false,
       "FolderTemplate": "<first author>",
-      "FileTemplate": "<title>",
-      "ChapterFileTemplate": "<title> - <ch# 0> - <ch title>"
+      "FileTemplate": "<title short>",
+      "ChapterFileTemplate": "<title short> - <ch# 0> - <ch title>"
     }

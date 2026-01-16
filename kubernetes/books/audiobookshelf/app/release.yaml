@@ -115,13 +115,10 @@ spec:
                 subPath: logs
               - path: /tmp
                 subPath: tmp
-      media:
+      downloads:
         enabled: true
         type: nfs
         server: ${TRUENAS_IP}
-        path: /mnt/STORAGE-01/Media-Storage/media
-        advancedMounts:
-          audiobookshelf:
-            app:
-              - path: /books
-                subPath: books
+        path: /mnt/STORAGE-01/Media-Storage/downloads
+        globalMounts:
+          - path: /downloads

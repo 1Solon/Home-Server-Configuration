@@ -42,29 +42,15 @@ spec:
               SEARCH_MODE: "universal"
               EXT_BYPASSER_URL: http://flaresolverr.home-media.svc.cluster.local:8191
             probes:
-              liveness: &probes
+              liveness: &probe
                 enabled: true
                 custom: true
                 spec:
                   httpGet:
-                    path: /api/health
+                    path: /request/api/status
                     port: *port
-                  initialDelaySeconds: 30
-                  periodSeconds: 30
-                  timeoutSeconds: 10
-                  failureThreshold: 3
-              readiness: *probes
-              startup:
-                enabled: true
-                custom: true
-                spec:
-                  httpGet:
-                    path: /api/health
-                    port: *port
-                  initialDelaySeconds: 0
-                  periodSeconds: 10
-                  timeoutSeconds: 10
-                  failureThreshold: 30
+              readiness: *probe
+              startup: *probe
             resources:
               requests:
                 cpu: 100m
@@ -112,4 +98,3 @@ spec:
         path: /mnt/STORAGE-01/Media-Storage/downloads
         globalMounts:
           - path: /downloads
-

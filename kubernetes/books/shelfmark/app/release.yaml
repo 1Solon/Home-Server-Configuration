@@ -36,7 +36,7 @@ spec:
             env:
               TZ: ${TZ}
               FLASK_PORT: &port 8084
-              INGEST_DIR: /books/ingest
+              INGEST_DIR: /books/ingest/books
               PUID: "1000"
               PGID: "1000"
               SEARCH_MODE: "universal"

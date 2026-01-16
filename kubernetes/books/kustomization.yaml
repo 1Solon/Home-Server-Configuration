@@ -4,3 +4,4 @@ kind: Kustomization
 resources:
   - ./namespace.yaml
   - ./shelfmark/install.yaml
+  - ./audiobookshelf/install.yaml

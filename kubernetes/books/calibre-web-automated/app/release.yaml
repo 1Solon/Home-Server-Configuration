@@ -113,14 +113,14 @@ spec:
       ingest:
         enabled: true
         type: nfs
-        server: truenas.rafaribe.com
+        server: ${TRUENAS_IP}
         path: /mnt/STORAGE-01/Media-Storage/downloads/shelfmark-ingest/books
         globalMounts:
           - path: /ingest
       library:
         enabled: true
         type: nfs
-        server: truenas.rafaribe.com
+        server: ${TRUENAS_IP}
         path: /mnt/STORAGE-01/Media-Storage/books
         globalMounts:
           - path: /library

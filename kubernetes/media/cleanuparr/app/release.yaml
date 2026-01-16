@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 4.5.0
+      version: 4.6.1
       sourceRef:
         kind: HelmRepository
         name: bjw-s-charts
@@ -35,7 +35,7 @@ spec:
           app:
             image:
               repository: ghcr.io/cleanuparr/cleanuparr
-              tag: 2.4.7@sha256:4d387adbb67b8c181a6a71e07a9093a250a3d7b6c70570a95077e45037f62738
+              tag: 2.5.1@sha256:47bb76b03676d5b9bb3c7a01f1a9005066d60db63b3f8379057d77f89daa6c37
             env:
               TZ: "${TZ}"
               PUID: 1238

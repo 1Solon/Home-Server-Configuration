@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 4.5.0
+      version: 4.6.1
       sourceRef:
         kind: HelmRepository
         name: bjw-s-charts
@@ -32,7 +32,7 @@ spec:
           app:
             image:
               repository: ghcr.io/berriai/litellm
-              tag: v1.80.8-stable@sha256:9005bc060d495917bc901b2d34a720a58035f284ef7a375d561dffab6f5e59f5
+              tag: v1.80.11-stable@sha256:cc442e450cf1401563f0a9aa3c1e11c15f67f2a4dda0e0cf085e3ec37161d3d3
             env:
               TZ: ${TZ}
               REDIS_URL: redis://dragonfly.databases.svc.cluster.local

@@ -42,7 +42,7 @@ spec:
               repository: ghcr.io/evan-buss/opds-proxy
               tag: v0.3.1@sha256:398d67ebe2b098c890e71732920e2ab1e82df5d1d2f2014f335be61b851c85e8
             env:
-              OPDS__PORT: "8080"
+              OPDS__PORT: "80"
             envFrom:
               - secretRef:
                   name: opds-proxy-secret
@@ -53,7 +53,7 @@ spec:
                 spec:
                   httpGet:
                     path: /
-                    port: &port 8080
+                    port: &port 80
                   initialDelaySeconds: 0
                   periodSeconds: 10
                   timeoutSeconds: 1
@@ -78,9 +78,12 @@ spec:
     service:
       app:
         controller: opds-proxy
+        type: LoadBalancer
+        annotations:
+          io.cilium/lb-ipam-ips: "${OPDS_PROXY_IP}"
         ports:
           http:
-            port: 8080
+            port: 80
 
     route:
       app:

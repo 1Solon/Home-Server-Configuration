@@ -23,13 +23,6 @@ spec:
       strategy: rollback
       retries: 3
   values:
-    defaultPodOptions:
-      securityContext:
-        runAsUser: 1000
-        runAsGroup: 1000
-        fsGroup: 1000
-        fsGroupChangePolicy: OnRootMismatch
-
     controllers:
       shelfmark:
         annotations:

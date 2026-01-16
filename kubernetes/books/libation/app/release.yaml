@@ -1,0 +1,87 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app libation
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: app-template
+      version: 4.6.1
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s-charts
+        namespace: flux-system
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      strategy: rollback
+      retries: 3
+  values:
+    controllers:
+      libation:
+        annotations:
+          reloader.stakater.com/auto: "true"
+
+        containers:
+          app:
+            image:
+              repository: rmcrackan/libation
+              tag: 13.1.3@sha256:bedadd56246707a09133458dae198b77ca30bd8275c198a5bee64910169c2965
+            env:
+              SLEEP_TIME: "30m"  # Scan every 30 minutes
+              LIBATION_BOOKS_DIR: "/data/audiobooks"  # Same as audiobookshelf
+              LIBATION_CONFIG_DIR: "/config"
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: false
+              capabilities:
+                drop:
+                  - ALL
+            resources:
+              requests:
+                cpu: 10m
+                memory: 100Mi
+              limits:
+                memory: 1Gi
+
+    persistence:
+      config:
+        enabled: true
+        existingClaim: libation-config
+        advancedMounts:
+          libation:
+            app:
+              - path: /config
+      accounts-settings:
+        enabled: true
+        type: secret
+        name: libation-secret
+        advancedMounts:
+          libation:
+            app:
+              - path: /config/AccountsSettings.json
+                subPath: AccountsSettings.json
+                readOnly: true
+      settings:
+        enabled: true
+        type: configMap
+        name: libation-config
+        advancedMounts:
+          libation:
+            app:
+              - path: /config/Settings.json
+                subPath: Settings.json
+                readOnly: true
+      media:
+        enabled: true
+        type: nfs
+        server: ${TRUENAS_IP}
+        path: /mnt/STORAGE-01/Media-Storage
+        globalMounts:
+          - path: /data

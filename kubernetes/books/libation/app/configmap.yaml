@@ -1,0 +1,39 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: libation-config
+data:
+  Settings.json: |
+    {
+      "Books": "/data",
+      "Serilog": {
+        "MinimumLevel": "Information",
+        "WriteTo": [
+          {
+            "Name": "File",
+            "Args": {
+              "path": "/config/Log.log",
+              "rollingInterval": "Month",
+              "outputTemplate": "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level:u3}] (at {Caller}) {Message:lj}{NewLine}{Exception} {Properties:j}",
+              "hooks": "LibationFileManager.FileSinkHook, LibationFileManager, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
+            }
+          }
+        ],
+        "Using": [
+          "Dinah.Core",
+          "Serilog.Exceptions"
+        ],
+        "Enrich": [
+          "WithCaller",
+          "WithExceptionDetails"
+        ]
+      },
+      "AutoScan": true,
+      "DownloadCoverArt": true,
+      "StripAudibleBrandAudio": true,
+      "StripUnabridged": true,
+      "UseWidevine": true,
+      "Request_xHE_AAC": true,
+      "FirstLaunch": false
+    }

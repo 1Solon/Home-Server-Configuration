@@ -40,7 +40,6 @@ spec:
               PUID: "1000"
               PGID: "1000"
               SEARCH_MODE: "universal"
-              EXT_BYPASSER_URL: http://flaresolverr.home-media.svc.cluster.local:8191
             probes:
               liveness: &probe
                 enabled: true

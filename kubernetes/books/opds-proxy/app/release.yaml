@@ -42,7 +42,7 @@ spec:
           app:
             image:
               repository: ghcr.io/evan-buss/opds-proxy
-              tag: 0.3.1
+              tag: 0.3.1@sha256:e393b7753671b7c58abfbdd6d0b3c63037277789c3c483bf8c4122dc7e2ce6b9
             env:
               OPDS__PORT: "80"
             envFrom:

@@ -5,4 +5,4 @@ resources:
   - ./namespace.yaml
   - ./shelfmark/install.yaml
   - ./audiobookshelf/install.yaml
-  - ./calibre-web-automated/install.yaml
+  - ./booklore/install.yaml

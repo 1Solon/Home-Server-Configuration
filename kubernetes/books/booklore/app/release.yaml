@@ -1,0 +1,132 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app booklore
+spec:
+  interval: 1h
+  chart:
+    spec:
+      chart: app-template
+      version: 4.6.1
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s-charts
+        namespace: flux-system
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      strategy: rollback
+      retries: 3
+  values:
+    controllers:
+      booklore:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          app:
+            image:
+              repository: ghcr.io/booklore-app/booklore
+              tag: v1.17.0@sha256:5b594a607fb0d9533d06a850156e2b54877ed0ddd0da8cd1f0240cb38bb6ac70
+            env:
+              TZ: ${TZ}
+              USER_ID: "1000"
+              GROUP_ID: "1000"
+              BOOKLORE_PORT: &port 6060
+              SWAGGER_ENABLED: "false"
+            envFrom:
+              - secretRef:
+                  name: booklore-secret
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /
+                    port: *port
+                  initialDelaySeconds: 30
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+              readiness: *probes
+            resources:
+              requests:
+                cpu: 10m
+                memory: 256Mi
+              limits:
+                memory: 1Gi
+          mariadb:
+            image:
+              repository: lscr.io/linuxserver/mariadb
+              tag: 11.4.8@sha256:be3f20a91c64ca3aee56ccbd66e27cc50ab90b54e4e74a1c8d19b7c42aaee45c
+            env:
+              TZ: ${TZ}
+              MYSQL_USER: booklore
+              MYSQL_PASSWORD:
+                valueFrom:
+                  secretKeyRef:
+                    name: booklore-secret
+                    key: DATABASE_PASSWORD
+              MYSQL_DATABASE: booklore
+              MYSQL_ROOT_PASSWORD:
+                valueFrom:
+                  secretKeyRef:
+                    name: booklore-secret
+                    key: DATABASE_ROOT_PASSWORD
+    service:
+      app:
+        controller: *app
+        ports:
+          http:
+            port: *port
+    route:
+      app:
+        annotations:
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/name: Booklore
+          gethomepage.dev/description: Book management and library system
+          gethomepage.dev/group: Applications
+          gethomepage.dev/icon: booklore.svg
+        hostnames: ["booklore.${LOCAL_DOMAIN}"]
+        parentRefs:
+          - name: envoy-internal
+            namespace: networking
+            sectionName: https
+        rules:
+          - backendRefs:
+              - name: *app
+                port: *port
+            timeouts:
+              request: 0s
+    persistence:
+      data:
+        existingClaim: booklore
+        advancedMounts:
+          booklore:
+            app:
+              - path: /app/data
+                subPath: app
+            mariadb:
+              - path: /config
+                subPath: db
+      library:
+        type: nfs
+        server: ${TRUENAS_IP}
+        path: /mnt/STORAGE-01/Media-Storage/books
+        advancedMounts:
+          booklore:
+            app:
+              - path: /books
+      bookdrop:
+        type: nfs
+        server: ${TRUENAS_IP}
+        path: /mnt/STORAGE-01/Media-Storage/downloads/shelfmark-ingest/books
+        advancedMounts:
+          booklore:
+            app:
+              - path: /bookdrop

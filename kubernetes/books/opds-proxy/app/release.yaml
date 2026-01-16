@@ -29,8 +29,6 @@ spec:
           reloader.stakater.com/auto: "true"
 
         pod:
-          nodeSelector:
-            kubernetes.io/arch: amd64
           securityContext:
             runAsUser: 65534
             runAsGroup: 65534
@@ -42,7 +40,7 @@ spec:
           app:
             image:
               repository: ghcr.io/evan-buss/opds-proxy
-              tag: 0.3.1@sha256:e393b7753671b7c58abfbdd6d0b3c63037277789c3c483bf8c4122dc7e2ce6b9
+              tag: 0.3.1@sha256:398d67ebe2b098c890e71732920e2ab1e82df5d1d2f2014f335be61b851c85e8
             env:
               OPDS__PORT: "80"
             envFrom:

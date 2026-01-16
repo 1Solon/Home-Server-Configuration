@@ -123,7 +123,5 @@ spec:
         advancedMounts:
           audiobookshelf:
             app:
-              - path: /audiobooks
-                subPath: audiobooks
-              - path: /podcasts
-                subPath: podcasts
+              - path: /books
+                subPath: books

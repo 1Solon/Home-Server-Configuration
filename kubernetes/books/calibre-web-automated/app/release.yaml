@@ -123,7 +123,7 @@ spec:
         server: ${TRUENAS_IP}
         path: /mnt/STORAGE-01/Media-Storage/books
         globalMounts:
-          - path: /library
+          - path: /calibre-library
       tmpfs:
         type: emptyDir
         globalMounts:

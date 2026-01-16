@@ -89,6 +89,6 @@ spec:
         enabled: true
         type: nfs
         server: ${TRUENAS_IP}
-        path: /mnt/STORAGE-01/Media-Storage/media/audiobooks
+        path: /mnt/STORAGE-01/Media-Storage/media/downloads/shelfmark-ingest/audiobooks # yes, this sucks, I'll fix it later
         globalMounts:
           - path: /audiobooks

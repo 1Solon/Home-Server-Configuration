@@ -30,10 +30,14 @@ data:
         ]
       },
       "AutoScan": true,
-      "DownloadCoverArt": true,
+      "DownloadCoverArt": false,
       "StripAudibleBrandAudio": true,
       "StripUnabridged": true,
-      "UseWidevine": true,
-      "Request_xHE_AAC": true,
-      "FirstLaunch": false
+      "UseWidevine": false,
+      "Request_xHE_AAC": false,
+      "FirstLaunch": false,
+      "DownloadEpisodes": false,
+      "FolderTemplate": "<first author>",
+      "FileTemplate": "<title>",
+      "ChapterFileTemplate": "<title> - <ch# 0> - <ch title>"
     }

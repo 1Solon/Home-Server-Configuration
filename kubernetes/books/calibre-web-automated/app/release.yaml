@@ -107,7 +107,7 @@ spec:
       config:
         existingClaim: calibre-web
         advancedMounts:
-          calibre-web:
+          calibre-web-automated:
             app:
               - path: /config
       ingest:

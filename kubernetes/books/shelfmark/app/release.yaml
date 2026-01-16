@@ -36,7 +36,7 @@ spec:
             env:
               TZ: ${TZ}
               FLASK_PORT: &port 8084
-              INGEST_DIR: /downloads/ingest/books
+              INGEST_DIR: /books/ingest/books
               PUID: "1000"
               PGID: "1000"
               SEARCH_MODE: "universal"
@@ -110,6 +110,13 @@ spec:
         type: nfs
         server: ${TRUENAS_IP}
         path: /mnt/STORAGE-01/Media-Storage/
+        globalMounts:
+          - path: /books
+      downloads:
+        enabled: true
+        type: nfs
+        server: ${TRUENAS_IP}
+        path: /mnt/STORAGE-01/Media-Storage/downloads
         globalMounts:
           - path: /downloads
 

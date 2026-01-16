@@ -7,4 +7,3 @@ resources:
   - ./externalsecret.yaml
   - ./configmap.yaml
   - ./release.yaml
-  - ./pvc.yaml

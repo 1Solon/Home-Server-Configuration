@@ -39,5 +39,5 @@ data:
       "DownloadEpisodes": false,
       "FolderTemplate": "<first author>",
       "FileTemplate": "<year> - <title> - <first series> - <series#>",
-      "ChapterFileTemplate": "<year> - <title> - <first series> - <series#> - <ch# 0> - <ch title>",
+      "ChapterFileTemplate": "<year> - <title> - <first series> - <series#> - <ch# 0> - <ch title>"
     }

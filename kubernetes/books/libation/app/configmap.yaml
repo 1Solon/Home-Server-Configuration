@@ -37,7 +37,7 @@ data:
       "Request_xHE_AAC": true,
       "FirstLaunch": false,
       "DownloadEpisodes": false,
-      "FolderTemplate": "<first author>/<title short>",
-      "FileTemplate": "<title short>",
-      "ChapterFileTemplate": "<title short> - <ch# 0> - <ch title>"
+      "FolderTemplate": "<first author>",
+      "FileTemplate": "<year> - <title> - <first series> - <series#>",
+      "ChapterFileTemplate": "<year> - <title> - <first series> - <series#> - <ch# 0> - <ch title>",
     }

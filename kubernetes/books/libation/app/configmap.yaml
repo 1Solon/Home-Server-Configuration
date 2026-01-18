@@ -38,6 +38,6 @@ data:
       "FirstLaunch": false,
       "DownloadEpisodes": false,
       "FolderTemplate": "<first author>",
-      "FileTemplate": "<year> - <title> - <first series> - <series#>",
-      "ChapterFileTemplate": "<year> - <title> - <first series> - <series#> - <ch# 0> - <ch title>"
+      "FileTemplate": "<series> <series#> - <year> -  <title short>",
+      "ChapterFileTemplate": "<series> <series#> - <year> -  <title short> - <ch# 0>"
     }

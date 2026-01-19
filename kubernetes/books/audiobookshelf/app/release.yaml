@@ -82,12 +82,6 @@ spec:
     route:
       app:
         enabled: true
-        annotations:
-          gethomepage.dev/enabled: "true"
-          gethomepage.dev/name: Audiobookshelf
-          gethomepage.dev/description: Audiobook and podcast server
-          gethomepage.dev/group: Applications
-          gethomepage.dev/icon: audiobookshelf.png
         parentRefs:
           - name: envoy-internal
             namespace: networking

@@ -31,3 +31,7 @@ layout:
   Observability:
     style: column
     icon: mdi-chart-line
+  Books:
+    style: row
+    columns: 3
+    icon: mdi-book-open-page-variant

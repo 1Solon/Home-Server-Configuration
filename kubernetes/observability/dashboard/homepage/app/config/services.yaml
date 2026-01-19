@@ -43,6 +43,16 @@
             key: {{HOMEPAGE_VAR_IMMICH_TOKEN}}
             version: 2
 
+- Books:
+    - Audiobookshelf:
+        icon: audiobookshelf.svg
+        href: https://audiobookshelf.${LOCAL_DOMAIN}
+        description: Audiobooks Server
+        widget:
+            type: audiobookshelf
+            url: http://audiobookshelf.books.svc.cluster.local
+            key: {{HOMEPAGE_VAR_AUDIOBOOKSHELF_TOKEN}}
+
 - Downloads:
     - qBittorrent:
         icon: qbittorrent.png

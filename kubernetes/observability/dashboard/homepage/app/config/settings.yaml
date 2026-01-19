@@ -10,12 +10,10 @@ color: neutral
 headerStyle: clean
 layout:
   Calendar:
-    style: row
-    columns: 2
+    style: column
     icon: mdi-calendar
   Media:
-    style: row
-    columns: 2
+    style: column
     icon: mdi-play-circle
   Photos:
     style: row

@@ -5,12 +5,12 @@ kind: HTTPRoute
 metadata:
   name: longhorn
   namespace: longhorn-system
-annotations:
-  gethomepage.dev/enabled: "true"
-  gethomepage.dev/name: longhorn
-  gethomepage.dev/description: ICsI-backed storage for Kubernetes
-  gethomepage.dev/group: Storage
-  gethomepage.dev/icon: longhorn.png
+  annotations:
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/name: longhorn
+    gethomepage.dev/description: ICsI-backed storage for Kubernetes
+    gethomepage.dev/group: Storage
+    gethomepage.dev/icon: longhorn.png
 spec:
   parentRefs:
     - name: envoy-internal

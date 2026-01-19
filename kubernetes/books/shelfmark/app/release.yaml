@@ -66,8 +66,8 @@ spec:
         annotations:
           gethomepage.dev/enabled: "true"
           gethomepage.dev/name: Shelfmark
-          gethomepage.dev/description: Book downloader and library manager
-          gethomepage.dev/group: Applications
+          gethomepage.dev/description: Book & Audiobook Downloader
+          gethomepage.dev/group: Books
           gethomepage.dev/icon: https://raw.githubusercontent.com/calibrain/shelfmark/main/src/frontend/public/logo.png
         parentRefs:
           - name: envoy-internal

@@ -31,7 +31,7 @@ layout:
   Manga:
     style: row
     columns: 2
-    icon: mdi-book-multiple-variant
+    icon: mdi-ideogram-cjk
     useEqualHeights: true
   Applications:
     style: row

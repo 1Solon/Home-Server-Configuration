@@ -49,5 +49,5 @@ layout:
     style: column
     icon: mdi-chart-line
   Networking:
-    style: column
+    style: row
     icon: mdi-router-wireless

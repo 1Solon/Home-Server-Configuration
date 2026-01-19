@@ -63,6 +63,16 @@
             url: http://audiobookshelf.books.svc.cluster.local
             key: {{HOMEPAGE_VAR_AUDIOBOOKSHELF_TOKEN}}
 
+- Manga:
+    - Komga:
+        icon: komga.png
+        href: https://komga.${LOCAL_DOMAIN}
+        description: Manga Server
+        widget:
+            type: komga
+            url: http://komga.manga.svc.cluster.local:8080
+            key: {{HOMEPAGE_VAR_KOMGA_TOKEN}}
+
 - Downloads:
     - qBittorrent:
         icon: qbittorrent.png

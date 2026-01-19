@@ -65,12 +65,6 @@ spec:
     route:
       app:
         enabled: true
-        annotations:
-          gethomepage.dev/enabled: "true"
-          gethomepage.dev/group: Applications
-          gethomepage.dev/name: Komga
-          gethomepage.dev/icon: komga.png
-          gethomepage.dev/description: Comic/Ebook Web Reader
         parentRefs:
           - name: envoy-internal
             namespace: networking

@@ -28,6 +28,11 @@ layout:
     style: row
     columns: 3
     icon: mdi-robot
+  Manga:
+    style: row
+    columns: 3
+    icon: mdi-book-multiple-variant
+    useEqualHeights: true
   Applications:
     style: row
     columns: 3

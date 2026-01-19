@@ -24,6 +24,10 @@ layout:
     style: row
     columns: 1
     icon: mdi-image-multiple
+  AI:
+    style: row
+    columns: 3
+    icon: mdi-robot
   Applications:
     style: row
     columns: 3

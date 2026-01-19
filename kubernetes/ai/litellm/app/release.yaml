@@ -106,7 +106,7 @@ spec:
           gethomepage.dev/enabled: "true"
           gethomepage.dev/name: Litellm
           gethomepage.dev/description: Proxy and Budgeting for LLM providers
-          gethomepage.dev/group: Applications
+          gethomepage.dev/group: AI
           gethomepage.dev/icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/litellm.png
           gethomepage.dev/pod-selector: app.kubernetes.io/name=litellm
         parentRefs:

@@ -82,7 +82,7 @@ spec:
           gethomepage.dev/enabled: "true"
           gethomepage.dev/name: Open WebUI
           gethomepage.dev/description: A web UI for interacting with LLMs
-          gethomepage.dev/group: Applications
+          gethomepage.dev/group: AI
           gethomepage.dev/icon: open-webui.png
           gethomepage.dev/pod-selector: app.kubernetes.io/name=open-webui
           external-dns.alpha.kubernetes.io/target: ipv4.${REMOTE_DOMAIN}

@@ -48,3 +48,6 @@ layout:
   Observability:
     style: column
     icon: mdi-chart-line
+  Networking:
+    style: column
+    icon: mdi-router-wireless

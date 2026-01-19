@@ -95,8 +95,8 @@ spec:
           gethomepage.dev/enabled: "true"
           gethomepage.dev/name: Booklore
           gethomepage.dev/description: Book management and library system
-          gethomepage.dev/group: Applications
-          gethomepage.dev/icon: booklore.svg
+          gethomepage.dev/group: Books
+          gethomepage.dev/icon: https://booklore.org/img/logo.svg
         hostnames: ["booklore.${LOCAL_DOMAIN}"]
         parentRefs:
           - name: envoy-internal

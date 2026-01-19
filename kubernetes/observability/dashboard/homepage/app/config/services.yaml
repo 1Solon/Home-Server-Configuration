@@ -121,7 +121,7 @@
         description: Network Controller
         widget:
             type: unifi
-            url: http://unif.local.solonsstuff.com
+            url: https://unifi.local.solonsstuff.com
             key: {{HOMEPAGE_VAR_UNIFI_TOKEN}}
     
 

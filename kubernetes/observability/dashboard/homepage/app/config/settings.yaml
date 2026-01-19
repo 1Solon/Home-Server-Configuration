@@ -37,8 +37,7 @@ layout:
     # columns: 3 # Uncomment this later when I have more downloaders
     icon: mdi-download-circle
   Storage:
-    style: row
-    columns: 2
+    style: column
     icon: mdi-desktop-tower
     useEqualHeights: true
   Observability:

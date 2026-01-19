@@ -85,7 +85,7 @@ spec:
           gethomepage.dev/enabled: "true"
           gethomepage.dev/name: Dispatcharr
           gethomepage.dev/description: IPTV management and automation tool
-          gethomepage.dev/group: Media
+          gethomepage.dev/group: Applications
           gethomepage.dev/icon: dispatcharr.svg
         parentRefs:
           - name: envoy-internal

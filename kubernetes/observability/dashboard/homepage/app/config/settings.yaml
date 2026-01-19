@@ -15,15 +15,15 @@ layout:
   Media:
     style: column
     icon: mdi-play-circle
-  Photos:
-    style: row
-    columns: 1
-    icon: mdi-image-multiple
   Books:
     style: row
     columns: 3
     icon: mdi-book-open-page-variant
     useEqualHeights: true
+  Photos:
+    style: row
+    columns: 1
+    icon: mdi-image-multiple
   Applications:
     style: row
     columns: 3

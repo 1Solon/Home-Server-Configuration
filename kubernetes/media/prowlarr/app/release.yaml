@@ -77,12 +77,6 @@ spec:
     route:
       app:
         enabled: true
-        annotations:
-          gethomepage.dev/enabled: "true"
-          gethomepage.dev/name: Prowlarr
-          gethomepage.dev/description: Indexer manager for Radarr and Sonarr
-          gethomepage.dev/group: Applications
-          gethomepage.dev/icon: prowlarr.png
         parentRefs:
           - name: envoy-internal
             namespace: networking

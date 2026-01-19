@@ -67,11 +67,19 @@
     - Komga:
         icon: komga.png
         href: https://komga.${LOCAL_DOMAIN}
-        description: Manga Server
+        description: Manga Reader
         widget:
             type: komga
             url: http://komga.manga.svc.cluster.local:8080
             key: {{HOMEPAGE_VAR_KOMGA_TOKEN}}
+    - Suwayomi:
+        icon: suwayomi.png
+        href: https://suwayomi.${LOCAL_DOMAIN}
+        description: Manga Downloader
+        widget:
+            type: suwayomi
+            url: http://suwayomi.manga.svc.cluster.local:4567
+            category: 0
 
 - Downloads:
     - qBittorrent:

@@ -117,7 +117,7 @@
 - Networking:
     - Unifi:
         icon: unifi.png
-        href: https://unifi.${LOCAL_DOMAIN}
+        href: http://unifi.${LOCAL_DOMAIN}
         description: Network Controller
         widget:
             type: unifi

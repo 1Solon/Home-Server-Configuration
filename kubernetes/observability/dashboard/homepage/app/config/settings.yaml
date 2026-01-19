@@ -19,6 +19,7 @@ layout:
     style: row
     columns: 3
     icon: mdi-book-open-page-variant
+    useEqualHeights: true
   Applications:
     style: row
     columns: 3

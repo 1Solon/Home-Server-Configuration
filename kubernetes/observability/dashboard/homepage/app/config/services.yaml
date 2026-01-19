@@ -33,6 +33,8 @@
             type: radarr
             url: http://radarr.home-media.svc.cluster.local:8080
             key: {{HOMEPAGE_VAR_RADARR_TOKEN}}
+
+- Photos:
     - Immich:
         icon: immich.png
         href: https://photos.${REMOTE_DOMAIN}

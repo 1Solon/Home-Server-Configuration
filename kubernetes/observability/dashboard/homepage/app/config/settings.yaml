@@ -15,6 +15,10 @@ layout:
   Media:
     style: column
     icon: mdi-play-circle
+  Photos:
+    style: row
+    columns: 1
+    icon: mdi-image-multiple
   Books:
     style: row
     columns: 3

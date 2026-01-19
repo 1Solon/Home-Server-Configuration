@@ -33,6 +33,14 @@
             type: radarr
             url: http://radarr.home-media.svc.cluster.local:8080
             key: {{HOMEPAGE_VAR_RADARR_TOKEN}}
+    - Prowlarr:
+        href: https://prowlarr.${LOCAL_DOMAIN}
+        icon: prowlarr.png
+        description: Indexers
+        widget:
+            type: prowlarr
+            url: http://prowlarr.home-media.svc.cluster.local:8080
+            key: {{HOMEPAGE_VAR_PROWLARR_TOKEN}}
 
 - Photos:
     - Immich:

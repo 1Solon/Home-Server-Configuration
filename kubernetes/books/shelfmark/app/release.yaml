@@ -32,7 +32,7 @@ spec:
           app:
             image:
               repository: ghcr.io/calibrain/shelfmark-lite
-              tag: dev@sha256:8aa71ecad3340863f21f38343c3312510cbb3eac9878d63a229a9f380547e6ba
+              tag: dev@sha256:6f7c886a6bcabbce04365f6c812f608cc15adfe25b3ca0a3103646a56eb0234e
             envFrom:
               - secretRef:
                   name: shelfmark-secret

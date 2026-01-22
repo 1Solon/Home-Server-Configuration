@@ -154,6 +154,33 @@ spec:
               limits:
                 memory: 10Gi
 
+          seedboxapi:
+            dependsOn: gluetun
+            image:
+              repository: myanonamouse/seedboxapi
+              tag: latest@sha256:4712ede49e8c17ca1aee4cf61a145e249ddbb9498390b469c64b0b3086628259
+            env:
+              DEBUG: "1"
+              interval: "1"
+            envFrom:
+              - secretRef:
+                  name: seedboxapi-secret
+            securityContext:
+              runAsUser: 1001
+              runAsGroup: 1001
+              runAsNonRoot: true
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: false
+              capabilities:
+                drop:
+                  - ALL
+            resources:
+              requests:
+                cpu: 10m
+                memory: 64Mi
+              limits:
+                memory: 128Mi
+
     service:
       app:
         controller: qbittorrent
@@ -253,3 +280,9 @@ spec:
               - path: /etc/coredns/Corefile
                 subPath: Corefile
                 readOnly: true
+      seedboxapi-config:
+        existingClaim: seedboxapi-config
+        advancedMounts:
+          qbittorrent:
+            seedboxapi:
+              - path: /config

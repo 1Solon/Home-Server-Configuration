@@ -5,3 +5,5 @@ kind: Kustomization
 resources:
   - release.yaml
   - externalsecret.yaml
+  - seedboxapi-secret.yaml
+  - pvc.yaml

@@ -47,7 +47,6 @@ spec:
               PORT: &port 8080
               APP_ENV: production
               SECURE_COOKIES: false
-              ALLOWED_ORIGINS: https://scriberr.${LOCAL_DOMAIN}
               PUID: 1000
               PGID: 1000
               NVIDIA_VISIBLE_DEVICES: all
@@ -73,6 +72,7 @@ spec:
               requests:
                 cpu: 500m
                 memory: 2Gi
+                nvidia.com/gpu: 1
               limits:
                 memory: 8Gi
                 nvidia.com/gpu: 1

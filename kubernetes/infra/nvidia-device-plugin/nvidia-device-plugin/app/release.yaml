@@ -36,7 +36,7 @@ spec:
             timeSlicing:
               resources:
               - name: nvidia.com/gpu
-                replicas: 3
+                replicas: 10
         mig-single: |-
           version: v1
           flags:
@@ -45,7 +45,7 @@ spec:
               timeSlicing:
                 resources:
                 - name: nvidia.com/gpu
-                  replicas: 3
+                  replicas: 10
         mig-mixed: |-
           version: v1
           flags:
@@ -54,7 +54,7 @@ spec:
               timeSlicing:
                 resources:
                 - name: nvidia.com/gpu
-                  replicas: 3
+                  replicas: 10
 
       # Default config name within the ConfigMap
       default: "default"

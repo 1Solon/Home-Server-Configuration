@@ -46,7 +46,7 @@ spec:
               TZ: ${TZ}
               PORT: &port 8080
               APP_ENV: production
-              SECURE_COOKIES: true
+              SECURE_COOKIES: false
               ALLOWED_ORIGINS: https://scriberr.${LOCAL_DOMAIN}
               PUID: 1000
               PGID: 1000

@@ -47,6 +47,7 @@ spec:
               PORT: &port 8080
               HOST: 0.0.0.0
               APP_ENV: production
+              SECURE_COOKIES: false
               DATABASE_PATH: /app/data/scriberr.db
               UPLOAD_DIR: /app/data/uploads
               TRANSCRIPTS_DIR: /app/data/transcripts

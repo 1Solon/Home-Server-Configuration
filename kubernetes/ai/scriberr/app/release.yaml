@@ -45,13 +45,11 @@ spec:
             env:
               TZ: ${TZ}
               PORT: &port 8080
-              HOST: 0.0.0.0
               APP_ENV: production
-              SECURE_COOKIES: false
-              DATABASE_PATH: /app/data/scriberr.db
-              UPLOAD_DIR: /app/data/uploads
-              TRANSCRIPTS_DIR: /app/data/transcripts
-              WHISPERX_ENV: /app/whisperx-env
+              SECURE_COOKIES: true
+              ALLOWED_ORIGINS: https://scriberr.${LOCAL_DOMAIN}
+              PUID: 1000
+              PGID: 1000
               NVIDIA_VISIBLE_DEVICES: all
               NVIDIA_DRIVER_CAPABILITIES: compute,utility
             probes:
@@ -118,4 +116,9 @@ spec:
         server: ${TRUENAS_IP}
         path: /mnt/STORAGE-01/scriberr/whisperx-env
         globalMounts:
+          - path: /tmp
+            subPath: tmp
           - path: /app/whisperx-env
+            subPath: whisperx-env
+          - path: /home/appuser
+            subPath: appuser-home

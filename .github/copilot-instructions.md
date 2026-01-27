@@ -131,17 +131,7 @@ dependsOn:
 ```
 
 ### Persistent Storage
-- **Always use `existingClaim`** for PersistentVolumeClaims in HelmReleases instead of creating new PVCs inline
-- PVC naming convention: `<app-name>-config` for config volumes
-- Example:
-```yaml
-persistence:
-  config:
-    enabled: true
-    existingClaim: jellyfin-config  # NOT: type: persistentVolumeClaim + size/storageClass
-    globalMounts:
-      - path: /config
-```
+- **Always use `existingClaim`** for PersistentVolumeClaims in HelmReleases instead of creating new PVCs inline, this will be created via Longhorn beforehand.
 
 ### Variable Substitution
 Reference `cluster-vars.yaml` variables in manifests:

@@ -81,7 +81,6 @@ spec:
 
     service:
       app:
-        controller: *app
         ports:
           http:
             port: *port
@@ -103,10 +102,6 @@ spec:
             sectionName: https
         hostnames:
           - "scriberr.${LOCAL_DOMAIN}"
-        rules:
-          - backendRefs:
-              - port: *port
-                name: *app
 
     persistence:
       data:

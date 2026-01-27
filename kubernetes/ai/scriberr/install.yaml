@@ -12,7 +12,7 @@ spec:
   wait: true
   interval: 30m
   retryInterval: 1m
-  timeout: 5m
+  timeout: 10m # Downloading the container and starting the app can take some time
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app

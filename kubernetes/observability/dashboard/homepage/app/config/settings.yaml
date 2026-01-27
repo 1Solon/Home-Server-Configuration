@@ -26,7 +26,7 @@ layout:
     icon: mdi-image-multiple
   AI:
     style: row
-    columns: 3
+    columns: 4
     icon: mdi-robot
   Manga:
     style: row

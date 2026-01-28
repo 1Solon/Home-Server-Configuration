@@ -4,15 +4,19 @@ model_list:
     litellm_params:
       model: gemini/gemini-3-flash-preview
       api_key: os.environ/GOOGLE_API_KEY
+      max_tokens: 1000000
     model_info:
       max_input_tokens: 1000000
+      max_output_tokens: 8192
 
   - model_name: Gemini-Pro
     litellm_params:
       model: gemini/gemini-3-pro-preview
       api_key: os.environ/GOOGLE_API_KEY
+      max_tokens: 2000000
     model_info:
       max_input_tokens: 2000000
+      max_output_tokens: 8192
 
   - model_name: Gemini-Image-Flash
     litellm_params:
@@ -33,16 +37,20 @@ model_list:
     litellm_params:
       model: anthropic/claude-sonnet-4-5-20250929
       api_key: os.environ/ANTHROPIC_API_KEY
+      max_tokens: 200000
     model_info:
       max_input_tokens: 200000
+      max_output_tokens: 8192
 
   # OpenAI
   - model_name: ChatGPT
     litellm_params:
       model: openai/gpt-5.2
       api_key: os.environ/OPENAI_API_KEY
+      max_tokens: 128000
     model_info:
       max_input_tokens: 128000
+      max_output_tokens: 16384
 
 general_settings:
   proxy_batch_write_at: 60

@@ -41,6 +41,7 @@ layout:
     style: row
     columns: 2
     icon: mdi-download-circle
+    useEqualHeights: true
   Storage:
     style: row
     columns: 2

@@ -37,6 +37,11 @@ spec:
       autobrr:
         annotations:
           reloader.stakater.com/auto: "true"
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/name: Autobrr
+          gethomepage.dev/description: IRC Based Torrent Automation Tool
+          gethomepage.dev/group: Applications
+          gethomepage.dev/icon: autobrr.png
         containers:
           app:
             image:

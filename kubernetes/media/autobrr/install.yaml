@@ -5,7 +5,7 @@ metadata:
   name: autobrr
   namespace: flux-system
 spec:
-  targetNamespace: media
+  targetNamespace: home-media
   commonMetadata:
     labels:
       app.kubernetes.io/name: autobrr

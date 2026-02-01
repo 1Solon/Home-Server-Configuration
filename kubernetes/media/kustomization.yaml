@@ -14,3 +14,4 @@ resources:
   - ./huntarr/install.yaml
   - ./cleanuparr/install.yaml
   - ./dispatcharr/install.yaml
+  - ./autobrr/install.yaml

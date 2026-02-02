@@ -56,7 +56,7 @@
 - Books:
     - Audiobookshelf:
         icon: audiobookshelf.svg
-        href: https://audiobookshelf.${LOCAL_DOMAIN}
+        href: https://audiobookshelf.${REMOTE_DOMAIN}
         description: Audiobooks Server
         widget:
             type: audiobookshelf

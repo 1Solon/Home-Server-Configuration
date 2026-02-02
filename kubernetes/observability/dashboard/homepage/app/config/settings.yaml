@@ -39,7 +39,7 @@ layout:
     icon: mdi-server
   Downloads:
     style: row
-    columns: 2
+    columns: 1
     icon: mdi-download-circle
     useEqualHeights: true
   Storage:

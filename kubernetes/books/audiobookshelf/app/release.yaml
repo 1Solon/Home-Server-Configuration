@@ -83,11 +83,11 @@ spec:
       app:
         enabled: true
         parentRefs:
-          - name: envoy-internal
+          - name: envoy-external
             namespace: networking
             sectionName: https
         hostnames:
-          - "audiobookshelf.${LOCAL_DOMAIN}"
+          - "audiobookshelf.${REMOTE_DOMAIN}"
 
     persistence:
       config:

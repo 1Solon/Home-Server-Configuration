@@ -86,7 +86,7 @@ spec:
           gethomepage.dev/enabled: "true"
           gethomepage.dev/name: cleanuparr
           gethomepage.dev/description: Automated torrent cleanup
-          gethomepage.dev/group: Downloads
+          gethomepage.dev/group: Applications
           gethomepage.dev/icon: cleanuperr.png
         parentRefs:
           - name: envoy-internal

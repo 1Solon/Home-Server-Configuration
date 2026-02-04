@@ -19,5 +19,7 @@ metadata:
   name: tailscale-lb
 spec:
   type: LoadBalancer
-  annotations:
-    lbipam.cilium.io/ips: ${TAILSCALE_LB_IP}
+  serviceConfig:
+    metadata:
+      annotations:
+        lbipam.cilium.io/ips: ${TAILSCALE_LB_IP}

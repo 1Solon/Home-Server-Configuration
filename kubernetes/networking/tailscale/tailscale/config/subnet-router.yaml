@@ -23,3 +23,5 @@ spec:
       ports:
         - port: 31667
           endPort: 31680
+      selector:
+        kubernetes.io/os: linux

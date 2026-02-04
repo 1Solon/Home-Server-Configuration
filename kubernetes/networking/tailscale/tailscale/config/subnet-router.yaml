@@ -16,9 +16,9 @@ spec:
 apiVersion: tailscale.com/v1alpha1
 kind: ProxyClass
 metadata:
- name: prod
+  name: prod
 spec:
- staticEndpoints:
-  nodePort:
-   ports:
-   - "31667-31680"
+  staticEndpoints:
+    nodePort:
+      ports:
+        - "31667-31680"

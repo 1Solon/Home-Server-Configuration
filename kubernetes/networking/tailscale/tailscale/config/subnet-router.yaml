@@ -18,8 +18,7 @@ kind: ProxyClass
 metadata:
   name: tailscale-lb
 spec:
-  type: LoadBalancer
-  serviceConfig:
-    metadata:
-      annotations:
-        lbipam.cilium.io/ips: ${TAILSCALE_LB_IP}
+  service:
+    type: LoadBalancer
+    annotations:
+      lbipam.cilium.io/ips: ${TAILSCALE_LB_IP}

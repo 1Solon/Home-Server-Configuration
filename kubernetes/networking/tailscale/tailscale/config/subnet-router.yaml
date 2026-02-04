@@ -16,10 +16,9 @@ spec:
 apiVersion: tailscale.com/v1alpha1
 kind: ProxyClass
 metadata:
-  name: tailscale-lb
+ name: prod
 spec:
-  staticEndpoints:
-    createService: true
-    serviceMetadata:
-      annotations:
-        lbipam.cilium.io/ips:  ${TAILSCALE_LB_IP}
+ staticEndpoints:
+  nodePort:
+   ports:
+   - "31667-31680"

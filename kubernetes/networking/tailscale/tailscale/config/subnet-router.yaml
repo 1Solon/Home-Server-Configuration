@@ -6,20 +6,7 @@ metadata:
 spec:
   hostname: home-cluster-subnet-router
   exitNode: true
-  proxyClass: prod
   subnetRouter:
     advertiseRoutes:
       - "192.168.1.0/24"
       - "192.168.5.0/24"
-
----
-apiVersion: tailscale.com/v1alpha1
-kind: ProxyClass
-metadata:
-  name: prod
-spec:
-  staticEndpoints:
-    nodePort:
-      ports:
-        - port: 31667
-          endPort: 31680

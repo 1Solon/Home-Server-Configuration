@@ -1,3 +1,4 @@
+---
 apiVersion: tailscale.com/v1alpha1
 kind: Connector
 metadata:
@@ -5,7 +6,18 @@ metadata:
 spec:
   hostname: home-cluster-subnet-router
   exitNode: true
+  proxyClass: tailscale-lb
   subnetRouter:
     advertiseRoutes:
       - "192.168.1.0/24"
       - "192.168.5.0/24"
+
+---
+apiVersion: tailscale.com/v1alpha1
+kind: ProxyClass
+metadata:
+  name: tailscale-lb
+annotations:
+  lbipam.cilium.io/ips: ${TAILSCALE_LB_IP}
+spec:
+  type: LoadBalancer

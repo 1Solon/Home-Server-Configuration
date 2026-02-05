@@ -79,7 +79,7 @@ spec:
         annotations:
           gethomepage.dev/enabled: "true"
           gethomepage.dev/name: Bazarr
-          gethomepage.dev/description: Subtitle management system for movies and TV shows
+          gethomepage.dev/description: Subtitle management system
           gethomepage.dev/group: Applications
           gethomepage.dev/icon: bazarr.png
         parentRefs:

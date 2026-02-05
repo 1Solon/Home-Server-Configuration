@@ -76,6 +76,12 @@ spec:
       app:
         hostnames:
           - "{{ .Release.Name }}.${LOCAL_DOMAIN}"
+        annotations:
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/name: Bazarr
+          gethomepage.dev/description: Subtitle management system for movies and TV shows
+          gethomepage.dev/group: Applications
+          gethomepage.dev/icon: bazarr.png
         parentRefs:
           - name: envoy-internal
             namespace: networking

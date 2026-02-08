@@ -73,6 +73,12 @@ spec:
               limits:
                 memory: 512Mi
 
+    persistence:
+      cache:
+        type: emptyDir
+        globalMounts:
+          - path: /app
+
     service:
       app:
         controller: opds-proxy

@@ -39,10 +39,8 @@ spec:
         containers:
           app:
             image:
-              repository: ghcr.io/evan-buss/opds-proxy
-              tag: 0.3.1@sha256:398d67ebe2b098c890e71732920e2ab1e82df5d1d2f2014f335be61b851c85e8
-            env:
-              OPDS__PORT: "80"
+              repository: ghcr.io/chrisms150/kindle-opds-proxy
+              tag: 0.1.0
             envFrom:
               - secretRef:
                   name: opds-proxy-secret
@@ -53,7 +51,7 @@ spec:
                 spec:
                   httpGet:
                     path: /
-                    port: &port 80
+                    port: &port 5000
                   initialDelaySeconds: 0
                   periodSeconds: 10
                   timeoutSeconds: 1
@@ -61,7 +59,7 @@ spec:
               readiness: *probe
             securityContext:
               allowPrivilegeEscalation: false
-              readOnlyRootFilesystem: true
+              readOnlyRootFilesystem: false
               runAsNonRoot: true
               capabilities:
                 drop:
@@ -73,7 +71,7 @@ spec:
                 cpu: 1m
                 memory: 128Mi
               limits:
-                memory: 256Mi
+                memory: 512Mi
 
     service:
       app:
@@ -83,15 +81,15 @@ spec:
           io.cilium/lb-ipam-ips: "${OPDS_PROXY_IP}"
         ports:
           http:
-            port: 80
+            port: 5000
 
     route:
       app:
         enabled: true
         annotations:
           gethomepage.dev/enabled: "true"
-          gethomepage.dev/name: OPDS Proxy
-          gethomepage.dev/description: OPDS feed proxy for eReaders
+          gethomepage.dev/name: Kindle OPDS Proxy
+          gethomepage.dev/description: Kindle OPDS proxy with EPUB to MOBI conversion
           gethomepage.dev/group: Applications
           gethomepage.dev/icon: mdi-book-open-page-variant
         parentRefs:

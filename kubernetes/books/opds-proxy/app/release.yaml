@@ -77,7 +77,7 @@ spec:
       cache:
         type: emptyDir
         globalMounts:
-          - path: /app
+          - path: /app/cache
 
     service:
       app:

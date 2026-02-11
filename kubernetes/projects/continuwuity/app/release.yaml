@@ -58,7 +58,7 @@ spec:
                     fieldPath: status.podIP
               CONDUWUIT_PORT: &http 8080
               CONDUWUIT_DATABASE_PATH: &data /data
-              CONDUWUIT_DATABASE_BACKUP_PATH: &backup /backups
+              CONDUWUIT_DATABASE_BACKUP_PATH: &backup /data/backups
               CONDUWUIT_DATABASE_BACKUPS_TO_KEEP: 2
               CONDUWUIT_NEW_USER_DISPLAYNAME_SUFFIX: ""
               CONDUWUIT_WELL_KNOWN__CLIENT: "https://matrix.solonsstuff.com"
@@ -159,4 +159,4 @@ spec:
         server: ${TRUENAS_IP}
         path: /mnt/STORAGE-01/Matrix/Backups
         globalMounts:
-          - path: *backup
+          - path: /data/backups

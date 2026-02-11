@@ -154,11 +154,9 @@ spec:
         path: /mnt/STORAGE-01/Matrix/Media
         globalMounts:
           - path: /data/media
-            subPath: matrix/media
       backups:
         type: nfs
         server: ${TRUENAS_IP}
         path: /mnt/STORAGE-01/Matrix/Backups
         globalMounts:
           - path: *backup
-            subPath: matrix/backups

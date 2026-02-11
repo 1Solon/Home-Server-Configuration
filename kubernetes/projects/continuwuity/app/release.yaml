@@ -160,5 +160,5 @@ spec:
         server: ${TRUENAS_IP}
         path: /mnt/STORAGE-01/Matrix/Backups
         globalMounts:
-          - path: /data/backups
+          - path: *backup
             subPath: matrix/backups

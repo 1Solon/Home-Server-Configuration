@@ -148,12 +148,17 @@ spec:
         existingClaim: continuwuity
         globalMounts:
           - path: *data
-      extra:
+      media:
         type: nfs
         server: ${TRUENAS_IP}
-        path: /mnt/STORAGE-01/Matrix
+        path: /mnt/STORAGE-01/Matrix/Media
         globalMounts:
           - path: /data/media
             subPath: matrix/media
-          - path: *backup
+      backups:
+        type: nfs
+        server: ${TRUENAS_IP}
+        path: /mnt/STORAGE-01/Matrix/Backups
+        globalMounts:
+          - path: /data/backups
             subPath: matrix/backups

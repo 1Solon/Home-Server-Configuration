@@ -1,0 +1,159 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.ok8.sh/source.toolkit.fluxcd.io/ocirepository_v1.json
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: OCIRepository
+metadata:
+  name: continuwuity
+spec:
+  interval: 15m
+  layerSelector:
+    mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
+    operation: copy
+  ref:
+    tag: 4.6.2
+  url: oci://ghcr.io/bjw-s-labs/helm/app-template
+
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/app-template-4.4.0/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app continuwuity
+spec:
+  interval: 5m
+  chartRef:
+    kind: OCIRepository
+    name: continuwuity
+  values:
+    defaultPodOptions:
+      automountServiceAccountToken: false
+      enableServiceLinks: false
+      dnsConfig:
+        options:
+          - name: ndots
+            value: "1"
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: &uid 1000
+        runAsGroup: *uid
+        fsGroup: *uid
+        fsGroupChangePolicy: Always
+        seccompProfile: { type: "RuntimeDefault" }
+    controllers:
+      app:
+        type: deployment
+        replicas: 1
+        containers:
+          app:
+            image:
+              repository: forgejo.ellis.link/continuwuation/continuwuity
+              tag: v0.5.3-maxperf@sha256:30b6873828afab9929edd7f577bc5990fa88ba867eb4b469d708923982f7fbe4
+            env:
+              TZ: "${TZ}"
+              CONDUWUIT_SERVER_NAME: solonsstuff.com
+              CONDUWUIT_ADDRESS:
+                valueFrom:
+                  fieldRef:
+                    apiVersion: v1
+                    fieldPath: status.podIP
+              CONDUWUIT_PORT: &http 8080
+              CONDUWUIT_DATABASE_PATH: &data /data
+              CONDUWUIT_DATABASE_BACKUP_PATH: &backup /backups
+              CONDUWUIT_DATABASE_BACKUPS_TO_KEEP: 2
+              CONDUWUIT_NEW_USER_DISPLAYNAME_SUFFIX: ""
+              CONDUWUIT_WELL_KNOWN__CLIENT: "https://matrix.solonsstuff.com"
+              CONDUWUIT_WELL_KNOWN__SERVER: "federation.solonsstuff.com:443"
+              CONDUWUIT_WELL_KNOWN__SUPPORT_EMAIL: "uwu@svcs.solonsstuff.com"
+              CONDUWUIT_ALLOW_ENCRYPTION: true
+              CONDUWUIT_ALLOW_FEDERATION: true
+              CONDUWUIT_CONFIG_RELOAD_SIGNAL: true
+              CONDUWUIT_ALLOW_REGISTRATION: true
+              # CoreDNS Settings
+              CONDUWUIT_QUERY_OVER_TCP_ONLY: true
+              CONDUWUIT_IP_LOOKUP_STRATEGY: "1"
+              # JJ's personal settings
+              #CONDUWUIT_ALLOW_OUTGOING_READ_RECEIPTS: false
+              CONDUWUIT_ALLOW_ANNOUNCEMENTS_CHECK: false
+              CONDUWUIT_SUSPEND_ON_REGISTER: true
+              CONDUWUIT_FORGET_FORCED_UPON_LEAVE: true
+              CONDUWUIT_REQUIRE_AUTH_FOR_PROFILE_REQUESTS: true
+              CONDUWUIT_ALLOW_PUBLIC_ROOM_DIRECTORY_WITHOUT_AUTH: false
+              CONDUWUIT_ALLOW_PUBLIC_ROOM_DIRECTORY_OVER_FEDERATION: false
+              CONDUWUIT_LOCKDOWN_PUBLIC_ROOM_DIRECTORY: true
+              CONDUWUIT_QUERY_TRUSTED_KEY_SERVERS_FIRST: false
+              CONDUWUIT_QUERY_TRUSTED_KEY_SERVERS_FIRST_ON_JOIN: false
+              CONDUWUIT_ALLOW_LEGACY_MEDIA: false # unauthenticated
+              #CONDUWUIT_FORBIDDEN_REMOTE_SERVER_NAMES: |
+              #  ["matrix.org"]
+              #CONDUWUIT_FORBIDDEN_REMOTE_ROOM_DIRECTORY_SERVER_NAMES: |
+              #  ["matrix.org"]
+              #CONDUWUIT_URL_PREVIEW_DOMAIN_EXPLICIT_DENYLIST: |
+              #  ["matrix.org"]
+              #CONDUWUIT_TURN_URIS: |
+              #  ["turns:turn.ok8.sh:5349?transport=tcp","turn:turn.ok8.sh:3478?transport=udp","turn:turn.ok8.sh:3478?transport=tcp"]
+            envFrom:
+              - secretRef:
+                  name: continuwuity-secret
+            securityContext:
+              readOnlyRootFilesystem: true
+              allowPrivilegeEscalation: false
+              capabilities:
+                drop: ["ALL"]
+            resources:
+              requests:
+                cpu: "200m"
+              limits:
+                cpu: "1.5"
+                memory: "1Gi"
+            probes:
+              liveness:
+                enabled: true
+              readiness:
+                enabled: true
+    service:
+      app:
+        controller: app
+        ports:
+          http:
+            port: *http
+    route:
+      app:
+        annotations:
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/name: Continuwuity
+          gethomepage.dev/description: Self-hosted Matrix homeserver
+          gethomepage.dev/group: Applications
+          gethomepage.dev/icon: continuwuity.png
+        hostnames: ["matrix.solonsstuff.com"]
+        parentRefs: &envoyParents
+          - name: envoy-external
+            namespace: networking
+            sectionName: https
+      federation:
+        hostnames: ["federation.solonsstuff.com"]
+        parentRefs: *envoyParents
+      well-known:
+        hostnames: ["solonsstuff.com"]
+        parentRefs: *envoyParents
+        rules:
+          - backendRefs:
+             - name: *app
+               port: *http
+            matches:
+              - path:
+                  type: PathPrefix
+                  value: /.well-known/matrix/
+    persistence:
+      data:
+        existingClaim: continuwuity
+        globalMounts:
+          - path: *data
+      extra:
+        type: nfs
+        server: ${TRUENAS_IP}
+        path: /mnt/STORAGE-01/Matrix
+        globalMounts:
+          - path: /data/media
+            subPath: matrix/media
+          - path: *backup
+            subPath: matrix/backups

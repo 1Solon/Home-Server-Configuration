@@ -95,7 +95,7 @@ spec:
         annotations:
           gethomepage.dev/enabled: "true"
           gethomepage.dev/name: Kindle OPDS Proxy
-          gethomepage.dev/description: Kindle OPDS proxy with EPUB to MOBI conversion
+          gethomepage.dev/description: Serves books to kindles
           gethomepage.dev/group: Applications
           gethomepage.dev/icon: mdi-book-open-page-variant
         parentRefs:

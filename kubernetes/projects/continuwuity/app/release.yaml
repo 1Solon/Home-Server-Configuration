@@ -123,7 +123,7 @@ spec:
           gethomepage.dev/name: Continuwuity
           gethomepage.dev/description: Self-hosted Matrix homeserver
           gethomepage.dev/group: Applications
-          gethomepage.dev/icon: continuwuity.png
+          gethomepage.dev/icon: matrix.svg
         hostnames: ["matrix.solonsstuff.com"]
         parentRefs: &envoyParents
           - name: envoy-external

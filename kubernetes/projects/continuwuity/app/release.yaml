@@ -124,6 +124,7 @@ spec:
           gethomepage.dev/description: Self-hosted Matrix homeserver
           gethomepage.dev/group: Applications
           gethomepage.dev/icon: https://continuwuity.org/assets/logo.svg
+          gethomepage.dev/pod-selector: app.kubernetes.io/name=continuwuity
         hostnames: ["matrix.solonsstuff.com"]
         parentRefs: &envoyParents
           - name: envoy-external

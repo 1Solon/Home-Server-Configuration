@@ -32,7 +32,7 @@ spec:
           app:
             image:
               repository: ghcr.io/berriai/litellm
-              tag: v1.81.9-stable@sha256:1ecd7561f7e0349fbf5ab3355e0258dd724395ec18ffc91297c5d958f866855c
+              tag: v1.81.12-stable@sha256:bbe33922e37bb76a065f85b847cb34744e98b408df66c6c4b4425e48b9e8c573
             env:
               TZ: ${TZ}
               REDIS_URL: redis://dragonfly.databases.svc.cluster.local

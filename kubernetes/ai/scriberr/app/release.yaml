@@ -41,7 +41,7 @@ spec:
           app:
             image:
               repository: ghcr.io/rishikanthc/scriberr-cuda
-              tag: v1.2.0@sha256:3babe419f7eb543a69de59071867aa8e6c7415dfb652683f39c4b355513a70e9
+              tag: v1.2.0
             env:
               TZ: ${TZ}
               PORT: &port 8080

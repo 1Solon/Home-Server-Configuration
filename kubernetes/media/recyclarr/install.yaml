@@ -10,7 +10,7 @@ spec:
     labels:
       app.kubernetes.io/name: recyclarr
   path: "./kubernetes/media/recyclarr/app"
-  prune: false
+  prune: true
   sourceRef:
     kind: GitRepository
     name: flux-system

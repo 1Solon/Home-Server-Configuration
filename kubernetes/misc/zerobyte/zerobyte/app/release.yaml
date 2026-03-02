@@ -1,0 +1,108 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app zerobyte
+  namespace: zerobyte
+spec:
+  interval: 30m
+  maxHistory: 3
+  chart:
+    spec:
+      chart: app-template
+      version: 4.6.2
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s-charts
+        namespace: flux-system
+  values:
+    controllers:
+      zerobyte:
+        containers:
+          app:
+            image:
+              repository: ghcr.io/nicotsx/zerobyte
+              tag: v0.29.2@sha256:828f2cfb30183c0d5198dd3afc8b0ad4b5e856359aab622c5c563eaf677f0bfa
+            env:
+              - name: TZ
+                value: "${TZ}"
+              - name: BASE_URL
+                value: "https://zerobyte.${LOCAL_DOMAIN}"
+              - name: APP_SECRET
+                valueFrom:
+                  secretKeyRef:
+                    name: zerobyte-secret
+                    key: app-secret
+              - name: PORT
+                value: "4096"
+            securityContext:
+              capabilities:
+                add:
+                  - SYS_ADMIN
+            resources:
+              requests:
+                cpu: 100m
+                memory: 256Mi
+              limits:
+                memory: 512Mi
+            probes:
+              liveness:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /
+                    port: 4096
+                  initialDelaySeconds: 30
+                  periodSeconds: 30
+                  timeoutSeconds: 10
+              readiness:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /
+                    port: 4096
+                  initialDelaySeconds: 15
+                  periodSeconds: 10
+                  timeoutSeconds: 5
+
+    service:
+      app:
+        controller: *app
+        ports:
+          http:
+            port: 4096
+
+    route:
+      app:
+        enabled: true
+        annotations:
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/name: Zerobyte
+          gethomepage.dev/description: Backup automation with Restic
+          gethomepage.dev/group: Applications
+          gethomepage.dev/icon: restic.png
+        parentRefs:
+          - name: envoy-internal
+            namespace: networking
+            sectionName: https
+        hostnames:
+          - "zerobyte.${LOCAL_DOMAIN}"
+        rules:
+          - backendRefs:
+              - port: 4096
+                name: *app
+
+    persistence:
+      data:
+        enabled: true
+        existingClaim: *app
+        globalMounts:
+          - path: /var/lib/zerobyte
+      dev-fuse:
+        enabled: true
+        type: hostPath
+        hostPath: /dev/fuse
+        globalMounts:
+          - path: /dev/fuse

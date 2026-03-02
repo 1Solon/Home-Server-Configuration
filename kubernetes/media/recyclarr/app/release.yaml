@@ -5,7 +5,7 @@ kind: HelmRelease
 metadata:
   name: &app recyclarr
 spec:
-  interval: 30m
+  interval: 1h
   chart:
     spec:
       chart: app-template
@@ -14,55 +14,62 @@ spec:
         kind: HelmRepository
         name: bjw-s-charts
         namespace: flux-system
-  maxHistory: 2
-  install:
-    createNamespace: true
-    remediation:
-      retries: 3
-  upgrade:
-    cleanupOnFail: true
-    remediation:
-      strategy: rollback
-      retries: 3
-  uninstall:
-    keepHistory: false
   values:
     controllers:
       recyclarr:
-        annotations:
-          reloader.stakater.com/auto: "true"
+        type: cronjob
+        cronjob:
+          schedule: "@daily"
+          timeZone: ${TZ}
+          concurrencyPolicy: Forbid
+          successfulJobsHistory: 1
+          failedJobsHistory: 1
         containers:
           app:
             image:
               repository: ghcr.io/recyclarr/recyclarr
               tag: 8.3.2@sha256:55afe316d3e4e4e3b9120cef7c79436b1b5311f6a18d4ef4b7653e720499c90a
+            args:
+              - sync
             env:
-              TZ: Dublin/Europe
+              RECYCLARR_DATA_DIR: /tmp
             envFrom:
               - secretRef:
-                  name: recyclarr-secret
+                  name: "{{ .Release.Name }}-secret"
             resources:
+              requests:
+                cpu: 10m
               limits:
-                memory: 128M
-        pod:
-          securityContext:
-            runAsNonRoot: true
-            runAsUser: 65534
-            runAsGroup: 65534
-            fsGroup: 65534
-            fsGroupChangePolicy: OnRootMismatch
-    service:
-      app:
-        controller: *app
-        enabled: false
+                memory: 128Mi
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: { drop: ["ALL"] }
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
     persistence:
       config:
-        enabled: true
-        existingClaim: recyclarr
+        existingClaim: "{{ .Release.Name }}"
       config-file:
         type: configMap
-        name: recyclarr-configmap
+        name: "{{ .Release.Name }}-configmap"
         globalMounts:
-          - path: /config/recyclarr.yaml
-            subPath: recyclarr.yaml
+          - path: /config/recyclarr.yml
+            subPath: recyclarr.yml
             readOnly: true
+      tmpfs:
+        type: emptyDir
+        advancedMounts:
+          recyclarr:
+            app:
+              - path: /config/logs
+                subPath: logs
+              - path: /config/repositories
+                subPath: repositories
+              - path: /tmp
+                subPath: tmp

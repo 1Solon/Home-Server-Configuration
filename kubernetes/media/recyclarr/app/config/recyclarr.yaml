@@ -32,7 +32,7 @@ sonarr:
           - 82d40da2bc6923f41e14394075dd4b03 # No-RlsGroup
           - e1a997ddb54e3ecbfe06341ad323c458 # Obfuscated
           - 06d66ab109d4d2eddb2794d21526d140 # Retags
-          - d920fd959d220306888f40b6f38e1578 # Season Packs
+          - 3bc5f395426614e155e585a2f056cdf1 # Season Packs
         assign_scores_to:
           - name: WEB-1080p
           - name: Remux-1080p - Anime

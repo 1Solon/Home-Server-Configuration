@@ -1,7 +1,7 @@
 ---
 sonarr:
   series-1080p:
-    base_url: http://sonarr.media.svc.cluster.local
+    base_url: http://sonarr.media.svc.cluster.local:8080
     api_key: !env_var SONARR_API_KEY
     delete_old_custom_formats: true
     media_management:
@@ -49,7 +49,7 @@ sonarr:
 
 radarr:
   movies-1080p:
-    base_url: http://radarr.media.svc.cluster.local
+    base_url: http://radarr.home-media.svc.cluster.local:8080
     api_key: !env_var RADARR_API_KEY
     delete_old_custom_formats: true
     media_management:

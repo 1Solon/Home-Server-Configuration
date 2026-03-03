@@ -101,7 +101,7 @@ spec:
         globalMounts:
           - path: /var/lib/zerobyte
       rclone-config:
-        type: configMap
+        type: secret
         name: zerobyte-rclone-config
         defaultMode: 0400
         globalMounts:

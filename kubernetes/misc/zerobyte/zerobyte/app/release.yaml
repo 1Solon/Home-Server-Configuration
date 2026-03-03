@@ -85,7 +85,7 @@ spec:
           gethomepage.dev/name: Zerobyte
           gethomepage.dev/description: Backup automation with Restic
           gethomepage.dev/group: Applications
-          gethomepage.dev/icon: restic.png
+          gethomepage.dev/icon: zerobyte.png
         parentRefs:
           - name: envoy-internal
             namespace: networking

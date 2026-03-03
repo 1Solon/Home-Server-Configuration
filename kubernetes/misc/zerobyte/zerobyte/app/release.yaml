@@ -100,6 +100,14 @@ spec:
         existingClaim: *app
         globalMounts:
           - path: /var/lib/zerobyte
+      rclone-config:
+        type: configMap
+        name: zerobyte-rclone-config
+        defaultMode: 0400
+        globalMounts:
+          - subPath: rclone.conf
+            path: /root/.config/rclone/rclone.conf
+            readOnly: true
       dev-fuse:
         enabled: true
         type: hostPath

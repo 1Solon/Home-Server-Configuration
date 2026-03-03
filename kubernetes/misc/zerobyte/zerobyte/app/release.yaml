@@ -98,6 +98,7 @@ spec:
                 name: *app
 
     persistence:
+    # Functional mounts
       data:
         enabled: true
         existingClaim: *app
@@ -117,3 +118,9 @@ spec:
         hostPath: /dev/fuse
         globalMounts:
           - path: /dev/fuse
+      
+      # Mounts to be backed up
+      immich: 
+        type: nfs
+        server: ${TRUENAS_IP}
+        path: /mnt/STORAGE-01/Immich

@@ -38,6 +38,7 @@ spec:
               - name: PORT
                 value: "4096"
             securityContext:
+              privileged: true
               capabilities:
                 add:
                   - SYS_ADMIN

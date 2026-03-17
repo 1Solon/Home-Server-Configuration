@@ -61,8 +61,6 @@ spec:
                     port: &port 4000
                   initialDelaySeconds: 30
                   periodSeconds: 60
-                  timeoutSeconds: 10
-                  failureThreshold: 3
 
               readiness:
                 enabled: true
@@ -71,10 +69,8 @@ spec:
                   httpGet:
                     path: /health/readiness
                     port: *port
-                  initialDelaySeconds: 5
-                  periodSeconds: 5
-                  timeoutSeconds: 5
-                  failureThreshold: 3
+                  initialDelaySeconds: 15
+                  periodSeconds: 10
 
             securityContext:
               allowPrivilegeEscalation: false

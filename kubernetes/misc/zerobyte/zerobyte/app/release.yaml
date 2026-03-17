@@ -37,6 +37,8 @@ spec:
                     key: app-secret
               - name: PORT
                 value: "4096"
+              - name: TRUST_PROXY
+                value: "true"
             securityContext:
               privileged: true
               capabilities:

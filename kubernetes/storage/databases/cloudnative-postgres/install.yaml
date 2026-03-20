@@ -16,7 +16,7 @@ spec:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
-  targetNamespace: *namespace
+  targetNamespace: databases
   timeout: 3m
   wait: true
 ---
@@ -31,7 +31,6 @@ spec:
       app.kubernetes.io/name: *app
   dependsOn:
     - name: cloudnative-pg
-      namespace: *namespace
   interval: 30m
   path: ./kubernetes/storage/databases/cloudnative-postgres/cluster
   prune: true
@@ -40,7 +39,7 @@ spec:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
-  targetNamespace: *namespace
+  targetNamespace: databases
   timeout: 3m
   wait: true
   postBuild:

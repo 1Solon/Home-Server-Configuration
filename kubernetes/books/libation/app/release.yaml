@@ -39,7 +39,7 @@ spec:
           app:
             image:
               repository: rmcrackan/libation
-              tag: 13.3.0@sha256:0d313146134deaa7f71d39f6beffdf57cc455800acc4f05f67e2e3aac2d31d40
+              tag: 13.3.2@sha256:d1c45260f3ba34b0fb1432c2b51763e00c5174864961856c1c31e7f2b0c3a39e
             env:
               SLEEP_TIME: "30m"  # Scan every 30 minutes
               LIBATION_BOOKS_DIR: "/audiobooks"

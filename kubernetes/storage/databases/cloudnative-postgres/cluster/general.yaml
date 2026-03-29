@@ -21,22 +21,6 @@ spec:
       max_locks_per_transaction: "128"
       shared_buffers: 256MB
       timescaledb.telemetry_level: "off"
-    roles:
-      # We define ALL roles here. CNPG creates these before the import.
-      - name: prowlarr
-        login: true
-      - name: radarr
-        login: true
-      - name: sonarr
-        login: true
-      - name: speedtest-tracker
-        login: true
-      - name: authentik
-        login: true
-      - name: litellm
-        login: true
-      - name: open-webui
-        login: true
   nodeMaintenanceWindow:
     inProgress: false
     reusePVC: true
@@ -80,28 +64,3 @@ spec:
   #     barmanObjectStore:
   #       <<: *barmanObjectStore
   #       serverName: *previousCluster
-  bootstrap:
-    initdb:
-      database: postgres
-      import:
-        type: monolith
-        databases:
-          - prowlarr_main
-          - radarr_main
-          - sonarr_main
-          - speedtest_tracker
-          - authentik
-          - litellm
-          - open-webui
-        source:
-          externalCluster: crunchy-source
-
-  externalClusters:
-    - name: crunchy-source
-      connectionParameters:
-        host: postgres-primary
-        user: postgres
-        sslmode: prefer
-      password:
-        name: postgres-pguser-postgres
-        key: password

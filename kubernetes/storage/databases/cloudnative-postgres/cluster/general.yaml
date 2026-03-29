@@ -67,9 +67,10 @@ spec:
   bootstrap:
     initdb:
       import:
-        type: microservice
+        type: monolith
         databases:
-          - "*"  # Or list specific DBs
+          - "*"
+        importRoles: false # Optional: brings over your users/roles too
         source:
           externalCluster: crunchy-source
 

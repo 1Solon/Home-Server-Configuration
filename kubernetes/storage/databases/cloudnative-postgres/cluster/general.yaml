@@ -16,6 +16,8 @@ spec:
     name: cloudnative-pg-secret
   enableSuperuserAccess: true
   postgresql:
+    shared_preload_libraries:
+      - pgaudit
     parameters:
       max_connections: "400"
       max_locks_per_transaction: "128"
@@ -78,6 +80,7 @@ spec:
           - litellm
           - open-webui
         roles:
+          - _crunchypgbouncer
           - prowlarr
           - radarr
           - sonarr

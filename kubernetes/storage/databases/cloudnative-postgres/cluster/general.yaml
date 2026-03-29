@@ -64,3 +64,37 @@ spec:
   #     barmanObjectStore:
   #       <<: *barmanObjectStore
   #       serverName: *previousCluster
+
+  bootstrap:
+    initdb:
+      import:
+        type: monolith
+        databases:
+          - prowlarr_main
+          - radarr_main
+          - sonarr_main
+          - speedtest_tracker
+          - authentik
+          - litellm
+          - open-webui
+        roles:
+          - prowlarr
+          - radarr
+          - sonarr
+          - speedtest-tracker
+          - authentik
+          - litellm
+          - open-webui
+        source:
+          externalCluster: crunchy-source
+
+  externalClusters:
+    - name: crunchy-source
+      connectionParameters:
+        host: postgres-primary
+        user: postgres
+        dbname: postgres
+        sslmode: prefer
+      password:
+        name: postgres-pguser-postgres
+        key: password

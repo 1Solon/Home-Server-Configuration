@@ -4,4 +4,5 @@ kind: Kustomization
 resources:
   - ./namespace.yaml
   - ./dragonfly/install.yaml
+  - ./postgres/install.yaml
   - ./cloudnative-postgres/install.yaml

@@ -16,15 +16,16 @@ spec:
     initdb:
       postInitSQL:
         - CREATE EXTENSION IF NOT EXISTS vchord CASCADE;
-      import:
-        type: monolith
-        databases:
-          - immich_db
-        roles:
-          - _crunchypgbouncer
-          - immich
-        source:
-          externalCluster: crunchy-vector-source
+      # Note: This is the path I used to port from crunchy-postgres to cloudnative-pg.
+      # import:
+      #   type: monolith
+      #   databases:
+      #     - immich_db
+      #   roles:
+      #     - _crunchypgbouncer
+      #     - immich
+      #   source:
+      #     externalCluster: crunchy-vector-source
   superuserSecret:
     name: cloudnative-pg-secret
   enableSuperuserAccess: true
@@ -69,13 +70,14 @@ spec:
           name: cloudnative-pg-secret
           key: aws-secret-access-key
 
-  externalClusters:
-    - name: crunchy-vector-source
-      connectionParameters:
-        host: postgres-vector-primary
-        user: postgres
-        dbname: postgres
-        sslmode: prefer
-      password:
-        name: postgres-vector-pguser-postgres
-        key: password
+  # Note: This is the path I used to port from crunchy-postgres to cloudnative-pg.
+  # externalClusters:
+  #   - name: crunchy-vector-source
+  #     connectionParameters:
+  #       host: postgres-vector-primary
+  #       user: postgres
+  #       dbname: postgres
+  #       sslmode: prefer
+  #     password:
+  #       name: postgres-vector-pguser-postgres
+  #       key: password

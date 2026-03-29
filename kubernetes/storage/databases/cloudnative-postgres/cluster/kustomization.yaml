@@ -4,3 +4,4 @@ kind: Kustomization
 resources:
   - ./general.yaml
   - ./service.yaml
+  - ./vector.yaml

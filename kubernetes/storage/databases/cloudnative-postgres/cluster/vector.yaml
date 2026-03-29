@@ -3,21 +3,35 @@
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
-  name: postgres17
+  name: pgvector17
 spec:
   instances: 3
-  imageName: ghcr.io/cloudnative-pg/postgresql:17
+  imageName: ghcr.io/tensorchord/cloudnative-vectorchord:17.9
   primaryUpdateStrategy: unsupervised
   primaryUpdateMethod: switchover
   storage:
     size: 20Gi
     storageClass: longhorn
+  bootstrap:
+    initdb:
+      postInitSQL:
+        - CREATE EXTENSION IF NOT EXISTS vchord CASCADE;
+      import:
+        type: monolith
+        databases:
+          - immich_db
+        roles:
+          - _crunchypgbouncer
+          - immich
+        source:
+          externalCluster: crunchy-vector-source
   superuserSecret:
     name: cloudnative-pg-secret
   enableSuperuserAccess: true
   postgresql:
     shared_preload_libraries:
       - pgaudit
+      - vchord.so
     parameters:
       max_connections: "400"
       max_locks_per_transaction: "128"
@@ -55,50 +69,13 @@ spec:
           name: cloudnative-pg-secret
           key: aws-secret-access-key
 
-  # Note: previousCluster needs to be set to the name of the previous
-  # cluster when recovering from an existing cnpg cluster
-  # bootstrap:
-  #   recovery:
-  #     source: &previousCluster postgres17-v1
-  # Note: externalClusters is needed when recovering from an existing cnpg cluster
-  # externalClusters:
-  #   - name: *previousCluster
-  #     barmanObjectStore:
-  #       <<: *barmanObjectStore
-  #       serverName: *previousCluster
-
-  # Note: This is the path I used to port from crunchy-postgres to cloudnative-pg.
-  # bootstrap:
-  #   initdb:
-  #     import:
-  #       type: monolith
-  #       databases:
-  #         - prowlarr_main
-  #         - radarr_main
-  #         - sonarr_main
-  #         - speedtest_tracker
-  #         - authentik
-  #         - litellm
-  #         - open-webui
-  #       roles:
-  #         - _crunchypgbouncer
-  #         - prowlarr
-  #         - radarr
-  #         - sonarr
-  #         - speedtest-tracker
-  #         - authentik
-  #         - litellm
-  #         - open-webui
-  #       source:
-  #         externalCluster: crunchy-source
-
-  # externalClusters:
-  #   - name: crunchy-source
-  #     connectionParameters:
-  #       host: postgres-primary
-  #       user: postgres
-  #       dbname: postgres
-  #       sslmode: prefer
-  #     password:
-  #       name: postgres-pguser-postgres
-  #       key: password
+  externalClusters:
+    - name: crunchy-vector-source
+      connectionParameters:
+        host: postgres-vector-primary
+        user: postgres
+        dbname: postgres
+        sslmode: prefer
+      password:
+        name: postgres-vector-pguser-postgres
+        key: password

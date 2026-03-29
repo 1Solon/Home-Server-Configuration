@@ -64,6 +64,10 @@ spec:
   #     barmanObjectStore:
   #       <<: *barmanObjectStore
   #       serverName: *previousCluster
+  bootstrap:
+    pg_basebackup:
+      source: crunchy-source
+
   externalClusters:
     - name: crunchy-source
       connectionParameters:

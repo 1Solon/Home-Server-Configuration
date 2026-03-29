@@ -5,3 +5,5 @@ resources:
   - ./general.yaml
   - ./service.yaml
   - ./vector.yaml
+  - ./backup.yaml
+  - ./prometheusrule.yaml

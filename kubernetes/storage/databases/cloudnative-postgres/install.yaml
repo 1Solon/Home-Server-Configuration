@@ -19,31 +19,31 @@ spec:
   targetNamespace: databases
   timeout: 3m
   wait: true
-# ---
-# apiVersion: kustomize.toolkit.fluxcd.io/v1
-# kind: Kustomization
-# metadata:
-#   name: &app cloudnative-pg-cluster
-#   namespace: flux-system
-# spec:
-#   commonMetadata:
-#     labels:
-#       app.kubernetes.io/name: *app
-#   dependsOn:
-#     - name: cloudnative-pg
-#   interval: 30m
-#   path: ./kubernetes/storage/databases/cloudnative-postgres/cluster
-#   prune: true
-#   retryInterval: 1m
-#   sourceRef:
-#     kind: GitRepository
-#     name: flux-system
-#     namespace: flux-system
-#   targetNamespace: databases
-#   timeout: 3m
-#   wait: true
-#   postBuild:
-#     substituteFrom:
-#       - kind: ConfigMap
-#         name: cluster-settings
-#         optional: false
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: &app cloudnative-pg-cluster
+  namespace: flux-system
+spec:
+  commonMetadata:
+    labels:
+      app.kubernetes.io/name: *app
+  dependsOn:
+    - name: cloudnative-pg
+  interval: 30m
+  path: ./kubernetes/storage/databases/cloudnative-postgres/cluster
+  prune: true
+  retryInterval: 1m
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  targetNamespace: databases
+  timeout: 3m
+  wait: true
+  postBuild:
+    substituteFrom:
+      - kind: ConfigMap
+        name: cluster-settings
+        optional: false

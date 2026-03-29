@@ -21,6 +21,22 @@ spec:
       max_locks_per_transaction: "128"
       shared_buffers: 256MB
       timescaledb.telemetry_level: "off"
+    roles:
+      # We define ALL roles here. CNPG creates these before the import.
+      - name: prowlarr
+        login: true
+      - name: radarr
+        login: true
+      - name: sonarr
+        login: true
+      - name: speedtest-tracker
+        login: true
+      - name: authentik
+        login: true
+      - name: litellm
+        login: true
+      - name: open-webui
+        login: true
   nodeMaintenanceWindow:
     inProgress: false
     reusePVC: true

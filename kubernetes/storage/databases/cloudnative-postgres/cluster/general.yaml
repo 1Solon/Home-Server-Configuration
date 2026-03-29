@@ -42,11 +42,11 @@ spec:
       wal:
         compression: bzip2
         maxParallel: 8
-      destinationPath: s3://cloudnative-pg/general/
+      destinationPath: s3://cloudnative-pg/
       endpointURL: https://s3.${LOCAL_DOMAIN}
       # Note: serverName version needs to be incremented
       # when recovering from an existing cnpg cluster
-      serverName: &currentCluster postgres17-v1
+      serverName: postgres17
       s3Credentials:
         accessKeyId:
           name: cloudnative-pg-secret

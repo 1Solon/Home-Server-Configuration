@@ -65,8 +65,13 @@ spec:
   #       <<: *barmanObjectStore
   #       serverName: *previousCluster
   bootstrap:
-    pg_basebackup:
-      source: crunchy-source
+    initdb:
+      import:
+        type: microservice
+        databases:
+          - "*"  # Or list specific DBs
+        source:
+          externalCluster: crunchy-source
 
   externalClusters:
     - name: crunchy-source

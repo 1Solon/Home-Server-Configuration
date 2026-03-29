@@ -66,11 +66,17 @@ spec:
   #       serverName: *previousCluster
   bootstrap:
     initdb:
-      database: postgres  # Or your preferred default database name
+      database: postgres
       import:
-        type: monolith
+        type: microservice
         databases:
-          - "*"
+          - prowlarr_main
+          - radarr_main
+          - sonarr_main
+          - speedtest_tracker
+          - authentik
+          - litellm
+          - open-webui
         source:
           externalCluster: crunchy-source
 

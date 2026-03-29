@@ -66,14 +66,13 @@ spec:
   #       serverName: *previousCluster
   bootstrap:
     initdb:
-      database: app_db  # This initializes the primary DB for the new cluster
+      database: postgres  # Or your preferred default database name
       import:
         type: monolith
         databases:
           - "*"
         source:
           externalCluster: crunchy-source
-          importRoles: false # MOVED INSIDE THE SOURCE BLOCK
 
   externalClusters:
     - name: crunchy-source

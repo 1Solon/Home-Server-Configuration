@@ -29,7 +29,6 @@ spec:
         runAsGroup: 6470
         fsGroup: 6470
         fsGroupChangePolicy: OnRootMismatch
-        seccompProfile: { type: RuntimeDefault }
 
     controllers:
       suwayomi:
@@ -51,6 +50,8 @@ spec:
               UPDATE_EXCLUDE_COMPLETED: "false"
               DOWNLOAD_AS_CBZ: "true"
               EXTENSION_REPOS: '["https://raw.githubusercontent.com/keiyoushi/extensions/repo/index.min.json"]'
+              FLARESOLVERR_ENABLED: true
+              FLARESOLVERR_URL: "http://flaresolverr.home-media.svc.cluster.local:8191"
             resources:
               requests:
                 cpu: 10m

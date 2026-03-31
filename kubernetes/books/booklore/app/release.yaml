@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: &app booklore
+  name: &app grimmory
 spec:
   interval: 1h
   chart:
@@ -29,7 +29,7 @@ spec:
         fsGroupChangePolicy: OnRootMismatch
         seccompProfile: { type: RuntimeDefault }
     controllers:
-      booklore:
+      grimmory:
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
@@ -45,7 +45,7 @@ spec:
               SWAGGER_ENABLED: "false"
             envFrom:
               - secretRef:
-                  name: booklore-secret
+                  name: grimmory-secret
             probes:
               liveness: &probes
                 enabled: true
@@ -75,13 +75,13 @@ spec:
               MYSQL_PASSWORD:
                 valueFrom:
                   secretKeyRef:
-                    name: booklore-secret
+                    name: grimmory-secret
                     key: DATABASE_PASSWORD
               MYSQL_DATABASE: booklore
               MYSQL_ROOT_PASSWORD:
                 valueFrom:
                   secretKeyRef:
-                    name: booklore-secret
+                    name: grimmory-secret
                     key: DATABASE_ROOT_PASSWORD
     service:
       app:
@@ -93,11 +93,11 @@ spec:
       app:
         annotations:
           gethomepage.dev/enabled: "true"
-          gethomepage.dev/name: Booklore
+          gethomepage.dev/name: Grimmory
           gethomepage.dev/description: Book management and library system
           gethomepage.dev/group: Books
-          gethomepage.dev/icon: https://booklore.org/img/logo.svg
-        hostnames: ["booklore.${LOCAL_DOMAIN}"]
+          gethomepage.dev/icon: https://grimmory.org/img/logo.svg
+        hostnames: ["grimmory.${LOCAL_DOMAIN}"]
         parentRefs:
           - name: envoy-internal
             namespace: networking
@@ -112,7 +112,7 @@ spec:
       data:
         existingClaim: booklore
         advancedMounts:
-          booklore:
+          grimmory:
             app:
               - path: /app/data
                 subPath: app
@@ -124,7 +124,7 @@ spec:
         server: ${TRUENAS_IP}
         path: /mnt/STORAGE-01/Media-Storage/books
         advancedMounts:
-          booklore:
+          grimmory:
             app:
               - path: /books
       bookdrop:
@@ -132,6 +132,6 @@ spec:
         server: ${TRUENAS_IP}
         path: /mnt/STORAGE-01/Media-Storage/downloads/shelfmark-ingest/books
         advancedMounts:
-          booklore:
+          grimmory:
             app:
               - path: /bookdrop

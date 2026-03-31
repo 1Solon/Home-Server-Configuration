@@ -7,3 +7,4 @@ resources:
   - ./audiobookshelf/install.yaml
   - ./libation/install.yaml
   - ./opds-proxy/install.yaml
+  - ./grimmory/install.yaml

@@ -24,7 +24,7 @@ spec:
           app:
             image:
               repository: ghcr.io/nicotsx/zerobyte
-              tag: v0.32.4@sha256:c3e12e0f3b89a819074d92d1b6bb8a9e8a49d8a2f870739234a3fc7fb3d99f42
+              tag: v0.33.0@sha256:3c75b3888965ce737faee502452d2b7672fc4cf709cb769fbcce4d7b3cf8d3c5
             env:
               - name: TZ
                 value: "${TZ}"

@@ -202,6 +202,9 @@ nodes:
             gateway: 192.168.1.1
     schematic:
       customization:
+        extraKernelArgs:
+          - "pci=realloc"
+          - "nvidia-drm.modeset=1"
         systemExtensions:
           officialExtensions:
             - siderolabs/iscsi-tools
@@ -227,9 +230,11 @@ nodes:
             - path: /etc/cri/conf.d/20-customization.part
               op: create
               content: |
+                [plugins."io.containerd.cri.v1.runtime"]
+                  default_runtime_name = "nvidia"
+                [plugins."io.containerd.cri.v1.runtime".containerd.runtimes.nvidia]
+                  runtime_type = "io.containerd.runc.v2"
+                  [plugins."io.containerd.cri.v1.runtime".containerd.runtimes.nvidia.options]
+                    BinaryName = "/usr/local/nvidia/bin/nvidia-container-runtime"
                 [plugins."io.containerd.cri.v1.images"]
                   discard_unpacked_layers = false
-                [plugins]
-                  [plugins."io.containerd.cri.v1.runtime"]
-                    [plugins."io.containerd.cri.v1.runtime".containerd]
-                      default_runtime_name = "nvidia"

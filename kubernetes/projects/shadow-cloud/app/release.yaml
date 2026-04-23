@@ -1,0 +1,248 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app shadow-cloud
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: app-template
+      version: 4.6.2
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s-charts
+        namespace: flux-system
+  maxHistory: 2
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      strategy: rollback
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    defaultPodOptions:
+      automountServiceAccountToken: false
+      enableServiceLinks: false
+      dnsConfig:
+        options:
+          - name: ndots
+            value: "1"
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: &uid 1000
+        runAsGroup: *uid
+        fsGroup: *uid
+        fsGroupChangePolicy: Always
+        seccompProfile: { type: RuntimeDefault }
+
+    controllers:
+      api:
+        type: deployment
+        annotations:
+          reloader.stakater.com/auto: "true"
+        replicas: 1
+        containers:
+          app:
+            image:
+              repository: ghcr.io/replace-me/shadow-cloud-api
+              tag: 0.1.0@sha256:3789a2599faea4abef981753017917a4cf645e633e1f59ebf5ed36c0f4cab944
+            env:
+              NODE_ENV: production
+              PORT: &apiPort 3001
+              DATABASE_URL: file:/data/shadow-cloud.db
+              SHADOW_CLOUD_SAVE_DIR: &dataPath /data
+              SHADOW_CLOUD_BOT_NOTIFY_BASE_URL: http://shadow-cloud-bot:3011
+            envFrom:
+              - secretRef:
+                  name: shadow-cloud-secret
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: false
+              capabilities:
+                drop: ["ALL"]
+            probes:
+              liveness: &apiProbe
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /v1
+                    port: *apiPort
+                  initialDelaySeconds: 20
+                  periodSeconds: 15
+                  timeoutSeconds: 5
+                  failureThreshold: 5
+              readiness: *apiProbe
+              startup:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /v1
+                    port: *apiPort
+                  failureThreshold: 10
+                  periodSeconds: 5
+                  timeoutSeconds: 5
+            resources:
+              requests:
+                cpu: 10m
+                memory: 128Mi
+              limits:
+                memory: 512Mi
+
+      web:
+        type: deployment
+        annotations:
+          reloader.stakater.com/auto: "true"
+        replicas: 1
+        containers:
+          app:
+            image:
+              repository: ghcr.io/replace-me/shadow-cloud-web
+              tag: 0.1.0@sha256:016b6a7d80ed3d716c8472e9aa26060687c82a5ad1d32859421ca918b5189c6a
+            env:
+              NODE_ENV: production
+              AUTH_URL: &externalUrl https://shadow-cloud.${REMOTE_DOMAIN}
+              SHADOW_CLOUD_API_URL: http://shadow-cloud-api:3001
+            envFrom:
+              - secretRef:
+                  name: shadow-cloud-secret
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: false
+              capabilities:
+                drop: ["ALL"]
+            probes:
+              liveness: &webProbe
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /
+                    port: &webPort 3000
+                  initialDelaySeconds: 15
+                  periodSeconds: 15
+                  timeoutSeconds: 5
+                  failureThreshold: 5
+              readiness: *webProbe
+              startup:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /
+                    port: *webPort
+                  failureThreshold: 10
+                  periodSeconds: 5
+                  timeoutSeconds: 5
+            resources:
+              requests:
+                cpu: 10m
+                memory: 128Mi
+              limits:
+                memory: 512Mi
+
+      bot:
+        type: deployment
+        annotations:
+          reloader.stakater.com/auto: "true"
+        replicas: 1
+        containers:
+          app:
+            image:
+              repository: ghcr.io/replace-me/shadow-cloud-bot
+              tag: 0.1.0@sha256:b949ca7ee4d0688aae571e8035a69cdd47cf4bac2da541bdbeb8cf3f06a290ec
+            env:
+              NODE_ENV: production
+              AUTH_URL: *externalUrl
+              SHADOW_CLOUD_API_URL: http://shadow-cloud-api:3001
+            envFrom:
+              - secretRef:
+                  name: shadow-cloud-secret
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: false
+              capabilities:
+                drop: ["ALL"]
+            probes:
+              liveness: &botProbe
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /health
+                    port: &botPort 3011
+                  initialDelaySeconds: 30
+                  periodSeconds: 15
+                  timeoutSeconds: 5
+                  failureThreshold: 5
+              readiness: *botProbe
+              startup:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /health
+                    port: *botPort
+                  failureThreshold: 12
+                  periodSeconds: 5
+                  timeoutSeconds: 5
+            resources:
+              requests:
+                cpu: 25m
+                memory: 64Mi
+              limits:
+                memory: 256Mi
+
+    service:
+      api:
+        controller: api
+        ports:
+          http:
+            port: *apiPort
+      web:
+        controller: web
+        ports:
+          http:
+            port: *webPort
+      bot:
+        controller: bot
+        ports:
+          http:
+            port: *botPort
+
+    route:
+      web:
+        enabled: true
+        annotations:
+          external-dns.alpha.kubernetes.io/target: ipv4.${REMOTE_DOMAIN}
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/name: Shadow Cloud
+          gethomepage.dev/description: Save management and Discord integration for Shadow Empire campaigns
+          gethomepage.dev/group: Applications
+          gethomepage.dev/icon: game-icons:pointing
+          gethomepage.dev/pod-selector: app.kubernetes.io/name=shadow-cloud
+        parentRefs:
+          - name: envoy-external
+            namespace: networking
+            sectionName: https
+        hostnames:
+          - shadow-cloud.${REMOTE_DOMAIN}
+        rules:
+          - backendRefs:
+              - name: shadow-cloud-web
+                port: *webPort
+
+    persistence:
+      data:
+        existingClaim: shadow-cloud
+        advancedMounts:
+          api:
+            app:
+              - path: *dataPath

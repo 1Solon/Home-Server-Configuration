@@ -101,6 +101,18 @@ spec:
         annotations:
           reloader.stakater.com/auto: "true"
         replicas: 1
+        initContainers:
+          wait-for-api:
+            image:
+              repository: busybox
+              tag: 1.36.1
+            command:
+              - sh
+              - -c
+              - |
+                until wget -q -O - http://shadow-cloud-api:3001/v1 > /dev/null; do
+                  sleep 5
+                done
         containers:
           app:
             image:
@@ -153,6 +165,18 @@ spec:
         annotations:
           reloader.stakater.com/auto: "true"
         replicas: 1
+        initContainers:
+          wait-for-api:
+            image:
+              repository: busybox
+              tag: 1.36.1
+            command:
+              - sh
+              - -c
+              - |
+                until wget -q -O - http://shadow-cloud-api:3001/v1 > /dev/null; do
+                  sleep 5
+                done
         containers:
           app:
             image:

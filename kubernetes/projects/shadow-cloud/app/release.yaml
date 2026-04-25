@@ -51,7 +51,7 @@ spec:
           app:
             image:
               repository: ghcr.io/1solon/shadow-cloud/api
-              tag: 0.5.0
+              tag: 0.6.0
             env:
               NODE_ENV: production
               PORT: &apiPort 3001
@@ -117,7 +117,7 @@ spec:
           app:
             image:
               repository: ghcr.io/1solon/shadow-cloud/web
-              tag: 0.5.0
+              tag: 0.6.0
             env:
               NODE_ENV: production
               AUTH_URL: &externalUrl https://shadow-cloud.${REMOTE_DOMAIN}
@@ -181,7 +181,7 @@ spec:
           app:
             image:
               repository: ghcr.io/1solon/shadow-cloud/bot
-              tag: 0.5.0
+              tag: 0.6.0
             env:
               NODE_ENV: production
               AUTH_URL: *externalUrl

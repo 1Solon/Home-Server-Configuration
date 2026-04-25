@@ -51,7 +51,7 @@ spec:
           app:
             image:
               repository: ghcr.io/1solon/shadow-cloud/api
-              tag: 0.5.1
+              tag: 0.5.0
             env:
               NODE_ENV: production
               PORT: &apiPort 3001

@@ -6,4 +6,4 @@ resources:
   - ./namespace.yaml
   - ./colwiki/install.yaml
   - ./continuwuity/install.yaml
-  - ./shadow-cloud/install.yaml
+  # - ./shadow-cloud/install.yaml

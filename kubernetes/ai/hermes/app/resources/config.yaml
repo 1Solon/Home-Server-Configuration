@@ -1,0 +1,50 @@
+---
+model:
+  provider: openrouter
+  default: openai/gpt-5.5
+  base_url: https://openrouter.ai/api/v1
+  api_mode: chat_completions
+
+terminal:
+  backend: local
+  cwd: /opt/data
+  timeout: 180
+
+compression:
+  enabled: true
+  threshold: 0.50
+  target_ratio: 0.20
+  protect_last_n: 20
+
+auxiliary:
+  vision:
+    provider: openrouter
+    model: google/gemini-2.5-flash
+    timeout: 120
+    download_timeout: 30
+  web_extract:
+    provider: openrouter
+    model: google/gemini-2.5-flash
+    timeout: 360
+  compression:
+    provider: openrouter
+    model: google/gemini-3-flash-preview
+
+agent:
+  tool_use_enforcement: auto
+  gateway_timeout: 1800
+  gateway_timeout_warning: 900
+  gateway_notify_interval: 180
+
+display:
+  streaming: true
+  show_reasoning: false
+  tool_progress: all
+  interim_assistant_messages: true
+
+memory:
+  memory_enabled: true
+  user_profile_enabled: true
+
+platform_toolsets:
+  cli: [hermes-cli]

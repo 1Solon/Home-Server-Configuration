@@ -1,0 +1,146 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app hermes
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: app-template
+      version: 5.0.0
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s-charts
+        namespace: flux-system
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      strategy: rollback
+      retries: 3
+  values:
+    defaultPodOptions:
+      securityContext:
+        runAsUser: 10000
+        runAsGroup: 10000
+        fsGroup: 10000
+        fsGroupChangePolicy: OnRootMismatch
+        seccompProfile: { type: RuntimeDefault }
+
+    controllers:
+      hermes:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        initContainers:
+          init-config:
+            image:
+              repository: docker.io/library/alpine
+              tag: "3.23"
+            command:
+              - sh
+              - -c
+              - |
+                set -euo pipefail
+                mkdir -p /opt/data
+                cp /tmp/config.yaml /opt/data/config.yaml
+                chown 10000:10000 /opt/data/config.yaml
+            securityContext:
+              runAsUser: 0
+              runAsGroup: 0
+              runAsNonRoot: false
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities:
+                drop:
+                  - ALL
+                add:
+                  - CHOWN
+        containers:
+          app:
+            image:
+              repository: nousresearch/hermes-agent
+              tag: v2026.4.30@sha256:900e1f8076662a20a685142321808085cc0b2935bb904b234c6828b4d7fb0f77
+            args: ["gateway", "run"]
+            env:
+              TZ: "${TZ}"
+              HERMES_HOME: /opt/data
+              HOME: /opt/data
+              HERMES_DASHBOARD: "1"
+              HERMES_DASHBOARD_HOST: "0.0.0.0"
+              HERMES_DASHBOARD_PORT: &dashboardPort 9119
+              API_SERVER_ENABLED: "true"
+              API_SERVER_HOST: "0.0.0.0"
+              API_SERVER_PORT: &apiPort 8642
+              API_SERVER_CORS_ORIGINS: "https://hermes.${LOCAL_DOMAIN}"
+            envFrom:
+              - secretRef:
+                  name: *app
+            ports:
+              - name: api
+                containerPort: *apiPort
+                protocol: TCP
+              - name: dashboard
+                containerPort: *dashboardPort
+                protocol: TCP
+            resources:
+              requests:
+                cpu: 500m
+                memory: 1Gi
+              limits:
+                memory: 4Gi
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: false
+              capabilities:
+                drop:
+                  - ALL
+                add:
+                  - CHOWN
+
+    service:
+      app:
+        controller: *app
+        ports:
+          api:
+            port: *apiPort
+          dashboard:
+            port: *dashboardPort
+
+    route:
+      app:
+        enabled: true
+        annotations:
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/name: Hermes
+          gethomepage.dev/description: Personal AI agent dashboard
+          gethomepage.dev/group: AI
+          gethomepage.dev/icon: https://raw.githubusercontent.com/NousResearch/hermes-agent/main/assets/hermes-logo.png
+          gethomepage.dev/pod-selector: app.kubernetes.io/name=hermes
+        parentRefs:
+          - name: envoy-internal
+            namespace: networking
+            sectionName: https
+        hostnames:
+          - "hermes.${LOCAL_DOMAIN}"
+        rules:
+          - backendRefs:
+              - identifier: app
+                port: *dashboardPort
+
+    persistence:
+      config:
+        existingClaim: *app
+        globalMounts:
+          - path: /opt/data
+
+      config-file:
+        type: configMap
+        name: hermes-config
+        globalMounts:
+          - path: /tmp/config.yaml
+            subPath: config.yaml
+            readOnly: true

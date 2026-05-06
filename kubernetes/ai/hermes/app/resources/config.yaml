@@ -28,7 +28,7 @@ streaming:
 security:
   redact_secrets: true
 privacy:
-redact_pii: true
+  redact_pii: true
 platform_toolsets:
   cli:
     - hermes-cli

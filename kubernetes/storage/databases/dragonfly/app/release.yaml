@@ -90,5 +90,7 @@ spec:
             port: *port
           metrics:
             port: 8080
+    defaultPodOptions:
+      automountServiceAccountToken: true
     serviceAccount:
-      dragonfly-operator: {} 
+      dragonfly-operator: {}

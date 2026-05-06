@@ -59,7 +59,10 @@ spec:
         ports:
           http:
             port: 3000
-            
+
+    defaultPodOptions:
+      automountServiceAccountToken: true
+
     serviceAccount:
       homepage: {}
 

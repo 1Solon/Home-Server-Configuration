@@ -9,5 +9,6 @@ configMapGenerator:
   - name: hermes-config
     files:
       - ./resources/config.yaml
+      - ./resources/SOUL.md
 generatorOptions:
   disableNameSuffixHash: true

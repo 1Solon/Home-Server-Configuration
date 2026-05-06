@@ -47,7 +47,8 @@ spec:
                 set -euo pipefail
                 mkdir -p /opt/data
                 cp /tmp/config.yaml /opt/data/config.yaml
-                chown 10000:10000 /opt/data/config.yaml
+                cp /tmp/SOUL.md /opt/data/SOUL.md
+                chown 10000:10000 /opt/data/config.yaml /opt/data/SOUL.md
             securityContext:
               runAsUser: 0
               runAsGroup: 0
@@ -171,4 +172,7 @@ spec:
         globalMounts:
           - path: /tmp/config.yaml
             subPath: config.yaml
+            readOnly: true
+          - path: /tmp/SOUL.md
+            subPath: SOUL.md
             readOnly: true

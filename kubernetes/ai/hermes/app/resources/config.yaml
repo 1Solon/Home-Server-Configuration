@@ -10,6 +10,8 @@ terminal:
   cwd: /opt/data
   timeout: 180
 
+timezone: "${TZ}"
+
 compression:
   enabled: true
   threshold: 0.50
@@ -43,9 +45,21 @@ display:
   tool_progress: all
   interim_assistant_messages: true
 
+dashboard:
+  theme: MONO
+
+human_delay:
+  mode: typing
+
 memory:
   memory_enabled: true
   user_profile_enabled: true
+
+sessions:
+  auto_prune: true
+  retention_days: 90
+  vacuum_after_prune: true
+  min_interval_hours: 24
 
 platform_toolsets:
   cli: [hermes-cli]

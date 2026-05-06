@@ -49,7 +49,7 @@ dashboard:
   theme: mono
 
 human_delay:
-  mode: typing
+  mode: off
 
 memory:
   memory_enabled: true

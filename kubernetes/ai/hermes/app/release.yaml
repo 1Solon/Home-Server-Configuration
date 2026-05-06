@@ -48,9 +48,10 @@ spec:
               - -c
               - |
                 set -euo pipefail
-                mkdir -p /opt/data
+                mkdir -p /opt/data/workspace
                 cp /tmp/config.yaml /opt/data/config.yaml
                 cp /tmp/SOUL.md /opt/data/SOUL.md
+                chown -R 10000:10000 /opt/data/workspace
                 chown 10000:10000 /opt/data/config.yaml /opt/data/SOUL.md
             securityContext:
               runAsUser: 0

@@ -4,65 +4,31 @@ model:
   default: gpt-5.5
   base_url: ""
   api_mode: chat_completions
-
+toolsets:
+  - hermes-cli
 terminal:
   backend: local
-  cwd: /opt/data
+  cwd: /opt/data/workspace
   timeout: 180
-
-delegation:
-  reasoning_effort: low
-
-timezone: "${TZ}"
-
+  persistent_shell: true
+memory:
+  auto_migrate: true
+  auto_summarize:
+    threshold: 50
 compression:
   enabled: true
-  threshold: 0.50
-  target_ratio: 0.20
-  protect_last_n: 20
-
-# Let's try this default for a bit before I tinker with auxiliaries
-# auxiliary:
-#   vision:
-#     provider: openrouter
-#     model: google/gemini-2.5-flash
-#     timeout: 120
-#     download_timeout: 30
-#   web_extract:
-#     provider: openrouter
-#     model: google/gemini-2.5-flash
-#     timeout: 360
-#   compression:
-#     provider: openrouter
-#     model: google/gemini-3-flash-preview
-
 agent:
-  tool_use_enforcement: auto
+  max_turns: 90
   gateway_timeout: 1800
-  gateway_timeout_warning: 900
-  gateway_notify_interval: 180
-
-display:
-  streaming: true
-  show_reasoning: true
-  tool_progress: all
-  interim_assistant_messages: true
-
-dashboard:
-  theme: mono
-
-human_delay:
-  mode: off
-
-memory:
-  memory_enabled: true
-  user_profile_enabled: true
-
-sessions:
-  auto_prune: true
-  retention_days: 90
-  vacuum_after_prune: true
-  min_interval_hours: 24
-
+  restart_drain_timeout: 60
+  api_max_retries: 3
+  reasoning_effort: low
+streaming:
+  enabled: false
+security:
+  redact_secrets: true
+privacy:
+redact_pii: true
 platform_toolsets:
-  cli: [hermes-cli]
+  cli:
+    - hermes-cli

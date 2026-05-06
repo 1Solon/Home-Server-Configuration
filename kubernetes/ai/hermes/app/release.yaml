@@ -24,6 +24,7 @@ spec:
       retries: 3
   values:
     defaultPodOptions:
+      automountServiceAccountToken: true
       securityContext:
         runAsUser: 10000
         runAsGroup: 10000
@@ -35,6 +36,8 @@ spec:
       hermes:
         annotations:
           reloader.stakater.com/auto: "true"
+        serviceAccount:
+          identifier: *app
         initContainers:
           init-config:
             image:
@@ -176,3 +179,186 @@ spec:
           - path: /tmp/SOUL.md
             subPath: SOUL.md
             readOnly: true
+
+    serviceAccount:
+      hermes: {}
+
+    rbac:
+      roles:
+        # Broad read-only cluster access for diagnostics. Secrets are intentionally excluded.
+        hermes-read-all:
+          type: ClusterRole
+          rules:
+            - apiGroups: [""]
+              resources:
+                - configmaps
+                - endpoints
+                - events
+                - limitranges
+                - namespaces
+                - nodes
+                - persistentvolumeclaims
+                - persistentvolumes
+                - pods
+                - pods/log
+                - resourcequotas
+                - serviceaccounts
+                - services
+              verbs: &readOnlyVerbs ["get", "list", "watch"]
+            - apiGroups: ["apps"]
+              resources:
+                - controllerrevisions
+                - daemonsets
+                - deployments
+                - replicasets
+                - statefulsets
+              verbs: *readOnlyVerbs
+            - apiGroups: ["batch"]
+              resources:
+                - cronjobs
+                - jobs
+              verbs: *readOnlyVerbs
+            - apiGroups: ["networking.k8s.io"]
+              resources:
+                - ingressclasses
+                - ingresses
+                - networkpolicies
+              verbs: *readOnlyVerbs
+            - apiGroups: ["gateway.networking.k8s.io"]
+              resources:
+                - gatewayclasses
+                - gateways
+                - httproutes
+                - referencegrants
+              verbs: *readOnlyVerbs
+            - apiGroups: ["storage.k8s.io"]
+              resources:
+                - csidrivers
+                - csinodes
+                - storageclasses
+                - volumeattachments
+              verbs: *readOnlyVerbs
+            - apiGroups: ["autoscaling"]
+              resources:
+                - horizontalpodautoscalers
+              verbs: *readOnlyVerbs
+            - apiGroups: ["policy"]
+              resources:
+                - poddisruptionbudgets
+              verbs: *readOnlyVerbs
+            - apiGroups: ["coordination.k8s.io"]
+              resources:
+                - leases
+              verbs: *readOnlyVerbs
+            - apiGroups: ["rbac.authorization.k8s.io"]
+              resources:
+                - clusterrolebindings
+                - clusterroles
+                - rolebindings
+                - roles
+              verbs: *readOnlyVerbs
+            - apiGroups: ["apiextensions.k8s.io"]
+              resources:
+                - customresourcedefinitions
+              verbs: *readOnlyVerbs
+            - apiGroups: ["apiregistration.k8s.io"]
+              resources:
+                - apiservices
+              verbs: *readOnlyVerbs
+            - apiGroups: ["metrics.k8s.io"]
+              resources:
+                - nodes
+                - pods
+              verbs: *readOnlyVerbs
+            - apiGroups: ["helm.toolkit.fluxcd.io"]
+              resources:
+                - helmreleases
+              verbs: *readOnlyVerbs
+            - apiGroups: ["kustomize.toolkit.fluxcd.io"]
+              resources:
+                - kustomizations
+              verbs: *readOnlyVerbs
+            - apiGroups: ["source.toolkit.fluxcd.io"]
+              resources:
+                - buckets
+                - gitrepositories
+                - helmcharts
+                - helmrepositories
+                - ocirepositories
+              verbs: *readOnlyVerbs
+            - apiGroups: ["notification.toolkit.fluxcd.io"]
+              resources:
+                - alerts
+                - providers
+                - receivers
+              verbs: *readOnlyVerbs
+            - apiGroups: ["external-secrets.io"]
+              resources:
+                - clustersecretstores
+                - externalsecrets
+                - secretstores
+              verbs: *readOnlyVerbs
+            - apiGroups: ["monitoring.coreos.com"]
+              resources:
+                - alertmanagers
+                - podmonitors
+                - probes
+                - prometheuses
+                - prometheusrules
+                - servicemonitors
+                - thanosrulers
+              verbs: *readOnlyVerbs
+            - apiGroups: ["snapshot.storage.k8s.io"]
+              resources:
+                - volumesnapshotclasses
+                - volumesnapshotcontents
+                - volumesnapshots
+              verbs: *readOnlyVerbs
+            - apiGroups: ["cert-manager.io"]
+              resources:
+                - certificates
+                - certificaterequests
+                - clusterissuers
+                - issuers
+              verbs: *readOnlyVerbs
+            - apiGroups: ["acme.cert-manager.io"]
+              resources:
+                - challenges
+                - orders
+              verbs: *readOnlyVerbs
+            - apiGroups: ["longhorn.io"]
+              resources:
+                - backups
+                - recurringjobs
+                - volumes
+              verbs: *readOnlyVerbs
+            - apiGroups: ["postgresql.cnpg.io"]
+              resources:
+                - backups
+                - clusters
+                - poolers
+                - scheduledbackups
+              verbs: *readOnlyVerbs
+            - apiGroups: ["dragonflydb.io"]
+              resources:
+                - dragonflies
+              verbs: *readOnlyVerbs
+            - apiGroups: ["tailscale.com"]
+              resources:
+                - connectors
+                - dnsconfigs
+                - proxyclasses
+                - proxygroups
+              verbs: *readOnlyVerbs
+            - apiGroups: ["node.k8s.io"]
+              resources:
+                - runtimeclasses
+              verbs: *readOnlyVerbs
+      bindings:
+        hermes-read-all:
+          type: ClusterRoleBinding
+          roleRef:
+            identifier: hermes-read-all
+          subjects:
+            - identifier: *app
+              serviceAccount: *app

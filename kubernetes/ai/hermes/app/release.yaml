@@ -69,9 +69,6 @@ spec:
               TZ: "${TZ}"
               HERMES_HOME: /opt/data
               HOME: /opt/data
-              HERMES_DASHBOARD: "1"
-              HERMES_DASHBOARD_HOST: "0.0.0.0"
-              HERMES_DASHBOARD_PORT: &dashboardPort 9119
               GATEWAY_ALLOW_ALL_USERS: "true"
               API_SERVER_ENABLED: "true"
               API_SERVER_HOST: "0.0.0.0"
@@ -83,9 +80,6 @@ spec:
             ports:
               - name: api
                 containerPort: *apiPort
-                protocol: TCP
-              - name: dashboard
-                containerPort: *dashboardPort
                 protocol: TCP
             resources:
               requests:
@@ -101,6 +95,39 @@ spec:
                   - ALL
                 add:
                   - CHOWN
+          dashboard:
+            image:
+              repository: nousresearch/hermes-agent
+              tag: v2026.4.30@sha256:900e1f8076662a20a685142321808085cc0b2935bb904b234c6828b4d7fb0f77
+            args:
+              - dashboard
+              - --host
+              - "0.0.0.0"
+              - --port
+              - "9119"
+              - --insecure
+              - --no-open
+            env:
+              TZ: "${TZ}"
+              HERMES_HOME: /opt/data
+              HOME: /opt/data
+              GATEWAY_HEALTH_URL: http://localhost:8642
+            ports:
+              - name: dashboard
+                containerPort: 9119
+                protocol: TCP
+            resources:
+              requests:
+                cpu: 100m
+                memory: 256Mi
+              limits:
+                memory: 1Gi
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: false
+              capabilities:
+                drop:
+                  - ALL
 
     service:
       app:
@@ -109,7 +136,7 @@ spec:
           api:
             port: *apiPort
           dashboard:
-            port: *dashboardPort
+            port: 9119
 
     route:
       app:
@@ -130,7 +157,7 @@ spec:
         rules:
           - backendRefs:
               - identifier: app
-                port: *dashboardPort
+                port: 9119
 
     persistence:
       config:

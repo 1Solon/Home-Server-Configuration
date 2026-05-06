@@ -10,6 +10,9 @@ terminal:
   cwd: /opt/data
   timeout: 180
 
+delegation:
+  reasoning_effort: low
+
 timezone: "${TZ}"
 
 compression:

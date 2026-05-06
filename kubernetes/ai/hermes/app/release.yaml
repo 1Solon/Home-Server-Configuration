@@ -72,6 +72,7 @@ spec:
               HERMES_DASHBOARD: "1"
               HERMES_DASHBOARD_HOST: "0.0.0.0"
               HERMES_DASHBOARD_PORT: &dashboardPort 9119
+              GATEWAY_ALLOW_ALL_USERS: "true"
               API_SERVER_ENABLED: "true"
               API_SERVER_HOST: "0.0.0.0"
               API_SERVER_PORT: &apiPort 8642

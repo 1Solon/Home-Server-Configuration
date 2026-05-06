@@ -41,7 +41,7 @@ agent:
 
 display:
   streaming: true
-  show_reasoning: false
+  show_reasoning: true
   tool_progress: all
   interim_assistant_messages: true
 

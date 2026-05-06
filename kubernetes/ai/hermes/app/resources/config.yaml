@@ -1,8 +1,8 @@
 ---
 model:
-  provider: openrouter
-  default: openai/gpt-5.5
-  base_url: https://openrouter.ai/api/v1
+  provider: openai-codex
+  default: gpt-5.5
+  base_url: ""
   api_mode: chat_completions
 
 terminal:
@@ -16,19 +16,20 @@ compression:
   target_ratio: 0.20
   protect_last_n: 20
 
-auxiliary:
-  vision:
-    provider: openrouter
-    model: google/gemini-2.5-flash
-    timeout: 120
-    download_timeout: 30
-  web_extract:
-    provider: openrouter
-    model: google/gemini-2.5-flash
-    timeout: 360
-  compression:
-    provider: openrouter
-    model: google/gemini-3-flash-preview
+# Let's try this default for a bit before I tinker with auxiliaries
+# auxiliary:
+#   vision:
+#     provider: openrouter
+#     model: google/gemini-2.5-flash
+#     timeout: 120
+#     download_timeout: 30
+#   web_extract:
+#     provider: openrouter
+#     model: google/gemini-2.5-flash
+#     timeout: 360
+#   compression:
+#     provider: openrouter
+#     model: google/gemini-3-flash-preview
 
 agent:
   tool_use_enforcement: auto

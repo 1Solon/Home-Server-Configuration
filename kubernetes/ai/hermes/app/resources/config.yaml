@@ -46,7 +46,7 @@ display:
   interim_assistant_messages: true
 
 dashboard:
-  theme: MONO
+  theme: mono
 
 human_delay:
   mode: typing

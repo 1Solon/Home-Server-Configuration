@@ -17,6 +17,9 @@ memory:
     threshold: 50
 compression:
   enabled: true
+display:
+  tool_progress: true
+  show_reasoning: true
 agent:
   max_turns: 90
   gateway_timeout: 1800

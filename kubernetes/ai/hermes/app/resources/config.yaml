@@ -26,8 +26,9 @@ agent:
   restart_drain_timeout: 60
   api_max_retries: 3
   reasoning_effort: low
+  service_tier: fast
 streaming:
-  enabled: false
+  enabled: true
 security:
   redact_secrets: true
 privacy:

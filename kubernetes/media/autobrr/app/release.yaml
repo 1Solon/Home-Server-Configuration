@@ -41,7 +41,7 @@ spec:
           app:
             image:
               repository: ghcr.io/autobrr/autobrr
-              tag: v1.78.0@sha256:5641009f9d83b602bb455426e28a67d928960d26f173bccc886cbbb024cbfbab
+              tag: v1.77.1@sha256:26796bb64ad4cd5956def3e171d485daf7353e952b603f9602d44836e4c9b314
             env:
               AUTOBRR__HOST: 0.0.0.0
               AUTOBRR__PORT: &port 80
@@ -53,19 +53,19 @@ spec:
             envFrom:
               - secretRef:
                   name: autobrr-secret
-            probes:
-              liveness: &probes
-                enabled: true
-                custom: true
-                spec:
-                  httpGet:
-                    path: /api/healthz/liveness
-                    port: *port
-                  initialDelaySeconds: 60 # Will remove this later, fixes a startup process issue
-                  periodSeconds: 10
-                  timeoutSeconds: 1
-                  failureThreshold: 3
-              readiness: *probes
+            # probes:
+            #   liveness: &probes
+            #     enabled: true
+            #     custom: true
+            #     spec:
+            #       httpGet:
+            #         path: /api/healthz/liveness
+            #         port: *port
+            #       initialDelaySeconds: 0
+            #       periodSeconds: 10
+            #       timeoutSeconds: 1
+            #       failureThreshold: 3
+            #   readiness: *probes
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true

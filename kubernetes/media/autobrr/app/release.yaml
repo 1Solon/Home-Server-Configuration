@@ -61,7 +61,7 @@ spec:
                   httpGet:
                     path: /api/healthz/liveness
                     port: *port
-                  initialDelaySeconds: 0
+                  initialDelaySeconds: 60 # Will remove this later, fixes a startup process issue
                   periodSeconds: 10
                   timeoutSeconds: 1
                   failureThreshold: 3

@@ -21,6 +21,7 @@ metadata:
   name: &app autobrr
 spec:
   interval: 1h
+  timeout: 10m
   chartRef:
     kind: OCIRepository
     name: autobrr
@@ -66,6 +67,18 @@ spec:
                   timeoutSeconds: 1
                   failureThreshold: 3
               readiness: *probes
+              # Autobrr can spend several minutes checking SQLite integrity before serving health checks.
+              startup:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /api/healthz/liveness
+                    port: *port
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 5
+                  failureThreshold: 60
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true

@@ -39,7 +39,7 @@ spec:
           app:
             image:
               repository: ghcr.io/suwayomi/tachidesk
-              tag: v2.2.2142@sha256:be2105ff427ec16b9b359fe9c0c56d74d2463996fd1c5d0bdbaabc15be431164
+              tag: v2.2.2159@sha256:020807c710522201f470c5747bcca5e4f244b6d92b2d4a6a4fbb8792aa016fba
             env:
               TZ: ${TZ}
               BIND_PORT: &port 4567

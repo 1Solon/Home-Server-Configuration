@@ -113,6 +113,7 @@
             key: {{HOMEPAGE_VAR_TRUENAS_TOKEN}}
             enablePools: true
             nasType: scale
+            version: 2
 
 - Networking:
     - Unifi:

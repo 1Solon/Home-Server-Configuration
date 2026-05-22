@@ -8,4 +8,20 @@ spec:
     # renovate: datasource=docker depName=ghcr.io/siderolabs/installer
     version: v1.13.2
   policy:
+    placement: hard
     rebootMode: powercycle
+  healthChecks:
+    - apiVersion: longhorn.io/v1beta2
+      kind: Node
+      namespace: longhorn-system
+      description: Longhorn nodes are ready
+      timeout: 45m
+      expr: |-
+        status.conditions.exists(condition, condition.type == 'Ready' && condition.status == 'True')
+    - apiVersion: longhorn.io/v1beta2
+      kind: Volume
+      namespace: longhorn-system
+      description: Longhorn attached volumes are healthy
+      timeout: 45m
+      expr: |-
+        status.state == 'detached' || status.robustness == 'healthy'

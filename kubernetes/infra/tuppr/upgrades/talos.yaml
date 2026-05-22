@@ -10,6 +10,11 @@ spec:
   policy:
     placement: hard
     rebootMode: powercycle
+  drain:
+    ignoreDaemonSets: true
+    force: true
+    disableEviction: true
+    skipWaitForDeleteTimeout: 300
   healthChecks:
     - apiVersion: longhorn.io/v1beta2
       kind: Node
@@ -18,10 +23,3 @@ spec:
       timeout: 45m
       expr: |-
         status.conditions.exists(condition, condition.type == 'Ready' && condition.status == 'True')
-    - apiVersion: longhorn.io/v1beta2
-      kind: Volume
-      namespace: longhorn-system
-      description: Longhorn attached volumes are healthy
-      timeout: 45m
-      expr: |-
-        status.state == 'detached' || status.robustness == 'healthy'

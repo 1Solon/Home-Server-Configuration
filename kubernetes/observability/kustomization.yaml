@@ -3,8 +3,18 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
 - ./namespace.yaml
-- ../observability-v2/dashboard
+- ./homepage/namespace.yaml
+- ./homepage/install.yaml
 - ./metrics-server/install.yaml
 - ./kube-prometheus-stack/install.yaml
 - ./node-exporter/install.yaml
 - ./kube-state-metrics/install.yaml
+- ./grafana/operator/install.yaml
+- ./grafana/instance/install.yaml
+- ./grafana/mcp/install.yaml
+- ./victoria-logs/install.yaml
+- ./karma/install.yaml
+- ./kromgo/install.yaml
+- ./promxy/install.yaml
+- ./prometheus-adapter/install.yaml
+- ./silence-operator/install.yaml

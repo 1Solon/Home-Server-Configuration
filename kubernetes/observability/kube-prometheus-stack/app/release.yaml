@@ -19,7 +19,17 @@ spec:
     cleanPrometheusOperatorObjectNames: true
 
     alertmanager:
-      enabled: false
+      enabled: true
+      route:
+        main:
+          enabled: true
+          hostnames: ["alertmanager.${LOCAL_DOMAIN}"]
+          parentRefs:
+            - name: envoy-internal
+              namespace: networking
+              sectionName: https
+      alertmanagerSpec:
+        externalUrl: https://alertmanager.${LOCAL_DOMAIN}
 
     kubeApiServer:
       enabled: true

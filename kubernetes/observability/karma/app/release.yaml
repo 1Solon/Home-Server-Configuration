@@ -1,0 +1,87 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app karma
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: app-template
+      version: 5.0.1
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s-charts
+        namespace: flux-system
+  maxHistory: 2
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      strategy: rollback
+      retries: 3
+  values:
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+    controllers:
+      karma:
+        replicas: 1
+        strategy: RollingUpdate
+        annotations:
+          configmap.reloader.stakater.com/reload: karma-config
+        containers:
+          app:
+            image:
+              repository: ghcr.io/prymitive/karma
+              tag: v0.131
+            env:
+              CONFIG_FILE: /config/config.yaml
+            resources:
+              requests:
+                cpu: 50m
+                memory: 100Mi
+              limits:
+                memory: 500Mi
+    persistence:
+      config-file:
+        type: configMap
+        name: karma-config
+        globalMounts:
+          - path: /config/config.yaml
+            subPath: config.yaml
+            readOnly: true
+    service:
+      app:
+        controller: *app
+        ports:
+          http:
+            port: 8080
+    route:
+      app:
+        enabled: true
+        parentRefs:
+          - name: envoy-internal
+            namespace: networking
+            sectionName: https
+        hostnames:
+          - karma.${LOCAL_DOMAIN}
+        rules:
+          - backendRefs:
+              - name: *app
+                port: 8080
+    serviceMonitor:
+      app:
+        serviceName: *app
+        endpoints:
+          - port: http
+            scheme: http
+            path: /metrics
+            interval: 1m
+            scrapeTimeout: 10s

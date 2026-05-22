@@ -1,0 +1,97 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app kromgo
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: app-template
+      version: 5.0.1
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s-charts
+        namespace: flux-system
+  maxHistory: 2
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      strategy: rollback
+      retries: 3
+  values:
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+    controllers:
+      kromgo:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          app:
+            image:
+              repository: ghcr.io/kashalls/kromgo
+              tag: v0.10.0@sha256:965ecc92d68dc1a4a969397855367bbc70da03227a941ea607b73bb7e0b78fd6
+            env:
+              PROMETHEUS_URL: http://prometheus-operated.observability.svc.cluster.local:9090
+              SERVER_PORT: &port 80
+              HEALTH_PORT: &healthPort 8080
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /readyz
+                    port: *healthPort
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+              readiness: *probes
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities:
+                drop:
+                  - ALL
+            resources:
+              requests:
+                cpu: 10m
+              limits:
+                memory: 64Mi
+    persistence:
+      config-file:
+        type: configMap
+        name: kromgo-config
+        globalMounts:
+          - path: /kromgo/config.yaml
+            subPath: config.yaml
+            readOnly: true
+    service:
+      app:
+        controller: *app
+        ports:
+          http:
+            port: *port
+          health:
+            port: *healthPort
+    route:
+      app:
+        enabled: true
+        parentRefs:
+          - name: envoy-internal
+            namespace: networking
+            sectionName: https
+        hostnames:
+          - kromgo.${LOCAL_DOMAIN}
+        rules:
+          - backendRefs:
+              - name: *app
+                port: *port

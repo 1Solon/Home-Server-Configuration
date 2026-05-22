@@ -2,30 +2,23 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app homepage
+  name: &appname grafana-operator
   namespace: flux-system
 spec:
-  targetNamespace: home-dashboard
   commonMetadata:
     labels:
-      app.kubernetes.io/name: *app
-  path: "./kubernetes/observability-v2/dashboard/homepage/app"
-  prune: false
+      app.kubernetes.io/name: *appname
+  interval: 1h
+  path: "./kubernetes/observability/grafana/operator/app"
+  prune: true
   sourceRef:
     kind: GitRepository
     name: flux-system
-  decryption:
-    provider: sops
-    secretRef:
-      name: sops-age
-  wait: false
-  interval: 30m
-  retryInterval: 1m
+  targetNamespace: observability
   timeout: 5m
+  wait: true
   postBuild:
     substituteFrom:
       - kind: ConfigMap
         name: cluster-settings
         optional: false
-    substitute:
-      APP: *app

@@ -1,0 +1,16 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: silence-operator
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: silence-operator
+    namespace: flux-system
+  values:
+    alertmanagerAddress: http://kube-prometheus-stack-alertmanager.observability.svc.cluster.local:9093
+    networkPolicy:
+      enabled: false

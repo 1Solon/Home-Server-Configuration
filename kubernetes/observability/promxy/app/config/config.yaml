@@ -1,0 +1,9 @@
+---
+promxy:
+  server_groups:
+    - static_configs:
+        - targets:
+            - prometheus-operated.observability.svc.cluster.local:9090
+      labels:
+        cluster: main
+      scheme: http

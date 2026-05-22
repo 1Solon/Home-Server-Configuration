@@ -13,6 +13,7 @@ resources:
 - ./grafana/instance/install.yaml
 - ./grafana/mcp/install.yaml
 - ./victoria-logs/install.yaml
+- ./fluent-bit/install.yaml
 - ./karma/install.yaml
 - ./kromgo/install.yaml
 - ./promxy/install.yaml

@@ -30,5 +30,6 @@ resources:
 - kube-state-metrics.yaml
 - grafana-operator.yaml
 - victoria-logs.yaml
+- fluent-bit.yaml
 - prometheus-adapter.yaml
 - silence-operator.yaml

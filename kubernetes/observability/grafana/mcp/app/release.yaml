@@ -42,7 +42,7 @@ spec:
               pullPolicy: Always
             args:
               - "-t"
-              - "sse"
+              - "streamable-http"
             env:
               GRAFANA_URL: "http://grafana-service.observability.svc.cluster.local:3000"
             envFrom:

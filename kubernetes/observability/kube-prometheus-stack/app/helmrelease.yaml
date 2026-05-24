@@ -157,7 +157,6 @@ spec:
                   storage: 55Gi
     prometheus-node-exporter:
       fullnameOverride: node-exporter
-      enabled: false
   valuesFrom:
   - kind: ConfigMap
     name: flux-metrics-configmap

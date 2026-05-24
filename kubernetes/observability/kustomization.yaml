@@ -8,6 +8,7 @@ resources:
 - ./grafana/operator/install.yaml
 - ./grafana/instance/install.yaml
 - ./kube-prometheus-stack/install.yaml
+- ./metrics-server/install.yaml
 - ./victoria-logs/install.yaml
 - ./victoria-logs/collector/install.yaml
 - ./grafana/mcp/install.yaml

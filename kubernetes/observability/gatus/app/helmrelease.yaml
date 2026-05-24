@@ -54,7 +54,7 @@ spec:
             env:
               GATUS_DELAY_START_SECONDS: 5
               GATUS_CONFIG_PATH: /config
-              GATUS_WEB_PORT: &port 80
+              GATUS_WEB_PORT: &port 8080
               TZ: ${TZ}
             probes:
               liveness: &probes
@@ -112,7 +112,7 @@ spec:
       app:
         # annotations:
         #   gatus.home-operations.com/enabled: "false"
-        hostnames: ["{{ .Release.Name }}.${LOCAL_DOMAIN}"]
+        hostnames: ["gatus.${LOCAL_DOMAIN}"]
         parentRefs:
         - name: envoy-internal
           namespace: networking

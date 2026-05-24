@@ -7,3 +7,9 @@ resources:
   - ./helmrelease.yaml
   - ./prometheusrule.yaml
   - ./dashboard
+configMapGenerator:
+  - name: gatus-configmap
+    files:
+      - config.yaml=./resources/config.yaml
+generatorOptions:
+  disableNameSuffixHash: true

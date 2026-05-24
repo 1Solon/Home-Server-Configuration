@@ -75,6 +75,9 @@ spec:
     route:
       app:
         enabled: true
+        annotations:
+          gatus.home-operations.com/endpoint: |
+            url: https://grafana-mcp.${LOCAL_DOMAIN}/mcp
         parentRefs:
           - name: envoy-internal
             namespace: networking

@@ -62,6 +62,9 @@ spec:
     route:
       api:
         enabled: true
+        annotations:
+          gatus.home-operations.com/endpoint: |
+            url: https://garage.${LOCAL_DOMAIN}/health
         parentRefs:
           - name: envoy-internal
             namespace: networking
@@ -74,6 +77,10 @@ spec:
                 name: *app
       s3:
         enabled: true
+        annotations:
+          gatus.home-operations.com/endpoint: |
+            conditions:
+              - "[STATUS] == 403"
         parentRefs:
           - name: envoy-internal
             namespace: networking

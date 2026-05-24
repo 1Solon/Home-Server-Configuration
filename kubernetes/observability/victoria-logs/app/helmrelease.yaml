@@ -31,6 +31,7 @@ spec:
       persistentVolume:
         enabled: true
         size: 20Gi
+        storageClassName: longhorn
       route:
         enabled: true
         hostnames:

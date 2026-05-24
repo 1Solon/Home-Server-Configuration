@@ -1,4 +1,5 @@
 ---
+metrics: true
 storage:
   type: sqlite
   path: /config/data.db

@@ -53,28 +53,37 @@ spec:
             envFrom:
               - secretRef:
                   name: autobrr-secret
-            # probes:
-            #   liveness:
-            #     enabled: true
-            #     spec:
-            #       periodSeconds: 30
-            #       timeoutSeconds: 5
-            #       failureThreshold: 5
-            #   readiness:
-            #     enabled: true
-            #     custom: true
-            #     spec:
-            #       httpGet:
-            #         path: /api/healthz/readiness
-            #         port: *port
-            #       periodSeconds: 10
-            #       timeoutSeconds: 5
-            #       failureThreshold: 5
-            #   startup:
-            #     enabled: true
-            #     spec:
-            #       failureThreshold: 30
-            #       periodSeconds: 10
+            probes:
+              liveness:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /api/healthz/liveness
+                    port: *port
+                  periodSeconds: 30
+                  timeoutSeconds: 5
+                  failureThreshold: 5
+              readiness:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /api/healthz/readiness
+                    port: *port
+                  periodSeconds: 10
+                  timeoutSeconds: 5
+                  failureThreshold: 5
+              startup:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /api/healthz/readiness
+                    port: *port
+                  periodSeconds: 10
+                  timeoutSeconds: 5
+                  failureThreshold: 720
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
@@ -82,8 +91,9 @@ spec:
             resources:
               requests:
                 cpu: 10m
-              limits:
                 memory: 256Mi
+              limits:
+                memory: 1Gi
 
     defaultPodOptions:
       securityContext:

@@ -2,12 +2,10 @@
 # yaml-language-server: $schema=https://json.schemastore.org/kustomization
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-resources:
-  - ./helmrelease.yaml
 configMapGenerator:
-  - name: kromgo-configmap
+  - name: gatus
     files:
-      - config.yaml=./resources/config.yaml
+      - gatus.json
 generatorOptions:
   disableNameSuffixHash: true
   annotations:

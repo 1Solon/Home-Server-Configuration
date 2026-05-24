@@ -1,0 +1,56 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/source.toolkit.fluxcd.io/ocirepository_v1.json
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: OCIRepository
+metadata:
+  name: victoria-logs
+spec:
+  interval: 15m
+  layerSelector:
+    mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
+    operation: copy
+  ref:
+    tag: 0.12.5
+  url: oci://ghcr.io/victoriametrics/helm-charts/victoria-logs-single
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/helm.toolkit.fluxcd.io/helmrelease_v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: victoria-logs
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: victoria-logs
+  interval: 1h
+  values:
+    dashboards:
+      enabled: true
+    fullnameOverride: victoria-logs
+    server:
+      persistentVolume:
+        enabled: true
+        size: 20Gi
+      route:
+        enabled: true
+        hostnames:
+        - victoria-logs.${LOCAL_DOMAIN}
+        parentRefs:
+        - name: envoy-internal
+          namespace: networking
+          sectionName: https
+        extraRules:
+        - filters:
+          - type: RequestRedirect
+            requestRedirect:
+              path:
+                type: ReplaceFullPath
+                replaceFullPath: /select/vmui/
+              statusCode: 302
+          matches:
+          - path:
+              type: Exact
+              value: /
+      serviceMonitor:
+        enabled: true
+      retentionPeriod: 14d

@@ -5,6 +5,8 @@ metadata:
   name: &appname kube-prometheus-stack
   namespace: flux-system
 spec:
+  dependsOn:
+    - name: grafana-operator
   commonMetadata:
     labels:
       app.kubernetes.io/name: *appname

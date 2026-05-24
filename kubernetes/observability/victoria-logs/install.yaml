@@ -5,6 +5,9 @@ metadata:
   name: &appname victoria-logs
   namespace: flux-system
 spec:
+  dependsOn:
+    - name: kube-prometheus-stack
+    - name: grafana-operator
   commonMetadata:
     labels:
       app.kubernetes.io/name: *appname

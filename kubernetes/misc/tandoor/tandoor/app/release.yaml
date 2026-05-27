@@ -29,7 +29,7 @@ spec:
         runAsUser: 1000
         runAsGroup: 1000
         fsGroup: 1000
-        fsGroupChangePolicy: OnRootMismatch
+        fsGroupChangePolicy: Always
 
     controllers:
       tandoor:
@@ -74,6 +74,9 @@ spec:
                   httpGet:
                     path: /
                     port: *port
+                    httpHeaders:
+                      - name: Host
+                        value: recipes.${REMOTE_DOMAIN}
                   initialDelaySeconds: 30
                   periodSeconds: 10
                   timeoutSeconds: 1

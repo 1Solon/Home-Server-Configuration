@@ -60,8 +60,6 @@
         description: Book management and library system
         namespace: books
         app: grimmory
-        siteMonitor: http://grimmory.books.svc.cluster.local:6060
-        statusStyle: basic
         widget:
             type: booklore
             url: http://grimmory.books.svc.cluster.local:6060

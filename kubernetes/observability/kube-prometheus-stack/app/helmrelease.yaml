@@ -98,13 +98,14 @@ spec:
         matchLabels:
           dashboards: grafana
     kube-state-metrics:
+      enabled: true
       fullnameOverride: kube-state-metrics
       metricLabelsAllowlist:
       - pods=[*]
       - deployments=[*]
       - persistentvolumeclaims=[*]
     kubeStateMetrics:
-      enabled: false
+      enabled: true
     kubeEtcd:
       service:
         selector:

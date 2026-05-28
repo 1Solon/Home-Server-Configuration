@@ -115,6 +115,51 @@
             nasType: scale
             version: 2
 
+- Observability:
+    - Grafana:
+        icon: grafana.png
+        href: https://grafana.${LOCAL_DOMAIN}
+        description: Metrics and dashboards
+        widget:
+            type: grafana
+            version: 2
+            alerts: alertmanager
+            url: http://grafana-service.observability.svc.cluster.local:3000
+            username: {{HOMEPAGE_VAR_GRAFANA_USERNAME}}
+            password: {{HOMEPAGE_VAR_GRAFANA_PASSWORD}}
+    - Prometheus:
+        icon: prometheus.png
+        href: https://prometheus.${LOCAL_DOMAIN}
+        description: Metrics database
+        widget:
+            type: prometheus
+            url: http://prometheus-operated.observability.svc.cluster.local:9090
+    - Gatus:
+        icon: gatus.png
+        href: https://gatus.${LOCAL_DOMAIN}
+        description: Status checks
+        widget:
+            type: gatus
+            url: http://gatus.observability.svc.cluster.local:8080
+    - Alertmanager:
+        icon: prometheus.png
+        href: https://alertmanager.${LOCAL_DOMAIN}
+        description: Alert routing and silences
+        siteMonitor: http://alertmanager-operated.observability.svc.cluster.local:9093
+        statusStyle: basic
+    - Karma:
+        icon: mdi-bell-alert
+        href: https://karma.${LOCAL_DOMAIN}
+        description: Alert dashboard
+        siteMonitor: http://karma.observability.svc.cluster.local:8080
+        statusStyle: basic
+    - Victoria Logs:
+        icon: victoriametrics.png
+        href: https://victoria-logs.${LOCAL_DOMAIN}
+        description: Log exploration
+        siteMonitor: http://victoria-logs-server.observability.svc.cluster.local:9428/select/vmui/
+        statusStyle: basic
+
 - Networking:
     - Unifi:
         icon: unifi.png

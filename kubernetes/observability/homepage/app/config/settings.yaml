@@ -63,5 +63,7 @@ layout:
     icon: mdi-router-wireless
   Observability:
     tab: Infrastructure
-    style: column
+    style: row
+    columns: 2
     icon: mdi-chart-line
+    useEqualHeights: true

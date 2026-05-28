@@ -17,23 +17,19 @@ layout:
     tab: Home
     style: column
     icon: mdi-play-circle
-  Books:
-    tab: Home
-    style: row
-    columns: 3
-    icon: mdi-book-open-page-variant
-    useEqualHeights: true
   Photos:
     tab: Home
     style: row
     columns: 1
     icon: mdi-image-multiple
+  Books:
+    tab: Home
+    style: column
+    icon: mdi-book-open-page-variant
   AI:
     tab: Home
-    style: row
-    columns: 2
+    style: column
     icon: mdi-robot
-    useEqualHeights: true
   Manga:
     tab: Home
     style: row

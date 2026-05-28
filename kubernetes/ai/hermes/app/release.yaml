@@ -150,7 +150,7 @@ spec:
           gethomepage.dev/enabled: "true"
           gethomepage.dev/name: Hermes
           gethomepage.dev/description: Personal AI agent dashboard
-          gethomepage.dev/group: Applications
+          gethomepage.dev/group: AI
           gethomepage.dev/icon: https://cdn.jsdelivr.net/npm/@lobehub/icons-static-svg@latest/icons/hermesagent.svg
           gethomepage.dev/pod-selector: app.kubernetes.io/name=hermes
         parentRefs:

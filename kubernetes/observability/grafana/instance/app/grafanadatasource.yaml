@@ -26,6 +26,7 @@ spec:
   datasource:
     type: alertmanager
     name: *name
+    uid: *name
     access: proxy
     jsonData:
       implementation: prometheus

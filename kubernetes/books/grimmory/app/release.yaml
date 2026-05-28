@@ -97,6 +97,10 @@ spec:
           gethomepage.dev/description: Book management and library system
           gethomepage.dev/group: Books
           gethomepage.dev/icon: https://grimmory.org/img/logo.svg
+          gethomepage.dev/widget.type: booklore
+          gethomepage.dev/widget.url: http://grimmory.books.svc.cluster.local:6060
+          gethomepage.dev/widget.username: "{{HOMEPAGE_VAR_BOOKLORE_USERNAME}}"
+          gethomepage.dev/widget.password: "{{HOMEPAGE_VAR_BOOKLORE_PASSWORD}}"
         hostnames: ["grimmory.${LOCAL_DOMAIN}"]
         parentRefs:
           - name: envoy-internal

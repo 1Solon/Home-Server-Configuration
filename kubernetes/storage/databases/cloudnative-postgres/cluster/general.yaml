@@ -9,6 +9,9 @@ spec:
   imageName: ghcr.io/cloudnative-pg/postgresql:17
   primaryUpdateStrategy: unsupervised
   primaryUpdateMethod: switchover
+  bootstrap:
+    initdb:
+      database: postgres
   storage:
     size: 20Gi
     storageClass: longhorn

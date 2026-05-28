@@ -14,6 +14,7 @@ spec:
     storageClass: longhorn
   bootstrap:
     initdb:
+      database: postgres
       postInitSQL:
         - CREATE EXTENSION IF NOT EXISTS vchord CASCADE;
       # Note: This is the path I used to port from crunchy-postgres to cloudnative-pg.

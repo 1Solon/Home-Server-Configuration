@@ -47,9 +47,9 @@ layout:
     columns: 2
     icon: mdi-desktop-tower
     useEqualHeights: true
-  Observability:
-    style: column
-    icon: mdi-chart-line
   Networking:
     style: row
     icon: mdi-router-wireless
+  Observability:
+    style: column
+    icon: mdi-chart-line

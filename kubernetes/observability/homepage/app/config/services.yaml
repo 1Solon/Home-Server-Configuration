@@ -115,6 +115,30 @@
             nasType: scale
             version: 2
 
+- Networking:
+    - Unifi:
+        icon: unifi.png
+        href: http://unifi.${LOCAL_DOMAIN}
+        description: Network Controller
+        widget:
+            type: unifi
+            url: https://unifi.local.solonsstuff.com
+            key: {{HOMEPAGE_VAR_UNIFI_TOKEN}}
+
+- Calendar:
+    - Agenda:
+        widget:
+          type: calendar
+          view: agenda # optional - possible values monthly, agenda
+          maxEvents: 23 # optional - defaults to 10
+          integrations: # optional
+            - type: sonarr # active widget type that is currently enabled on homepage - possible values: radarr, sonarr>
+              service_group: Media # group name where widget exists
+              service_name: Sonarr # service name for that widget
+            - type: radarr # active widget type that is currently enabled on homepage - possible values: radarr, sonarr>
+              service_group: Media # group name where widget exists
+              service_name: Radarr # service name for that widget
+
 - Observability:
     - Grafana:
         icon: grafana.png
@@ -159,28 +183,3 @@
         description: Log exploration
         siteMonitor: http://victoria-logs-server.observability.svc.cluster.local:9428/select/vmui/
         statusStyle: basic
-
-- Networking:
-    - Unifi:
-        icon: unifi.png
-        href: http://unifi.${LOCAL_DOMAIN}
-        description: Network Controller
-        widget:
-            type: unifi
-            url: https://unifi.local.solonsstuff.com
-            key: {{HOMEPAGE_VAR_UNIFI_TOKEN}}
-    
-
-- Calendar:
-    - Agenda:
-        widget:
-          type: calendar
-          view: agenda # optional - possible values monthly, agenda
-          maxEvents: 23 # optional - defaults to 10
-          integrations: # optional
-            - type: sonarr # active widget type that is currently enabled on homepage - possible values: radarr, sonarr>
-              service_group: Media # group name where widget exists
-              service_name: Sonarr # service name for that widget
-            - type: radarr # active widget type that is currently enabled on homepage - possible values: radarr, sonarr>
-              service_group: Media # group name where widget exists
-              service_name: Radarr # service name for that widget

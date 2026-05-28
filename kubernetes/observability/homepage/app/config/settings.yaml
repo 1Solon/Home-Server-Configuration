@@ -26,10 +26,12 @@ layout:
     tab: Home
     style: column
     icon: mdi-book-open-page-variant
+    useEqualHeights: true
   AI:
     tab: Home
     style: column
     icon: mdi-robot
+    useEqualHeights: true
   Manga:
     tab: Home
     style: row

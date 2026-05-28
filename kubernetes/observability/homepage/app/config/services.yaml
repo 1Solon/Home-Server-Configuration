@@ -54,6 +54,19 @@
             version: 2
 
 - Books:
+    - Grimmory:
+        icon: https://grimmory.org/img/logo.svg
+        href: https://grimmory.${LOCAL_DOMAIN}
+        description: Book management and library system
+        namespace: books
+        app: grimmory
+        siteMonitor: http://grimmory.books.svc.cluster.local:6060
+        statusStyle: basic
+        widget:
+            type: booklore
+            url: http://grimmory.books.svc.cluster.local:6060
+            username: {{HOMEPAGE_VAR_BOOKLORE_USERNAME}}
+            password: {{HOMEPAGE_VAR_BOOKLORE_PASSWORD}}
     - Audiobookshelf:
         icon: audiobookshelf.svg
         href: https://audiobookshelf.${REMOTE_DOMAIN}

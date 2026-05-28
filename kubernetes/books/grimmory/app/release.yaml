@@ -91,12 +91,6 @@ spec:
             port: *port
     route:
       app:
-        annotations:
-          gethomepage.dev/enabled: "false"
-          gethomepage.dev/name: Grimmory
-          gethomepage.dev/description: Book management and library system
-          gethomepage.dev/group: Books
-          gethomepage.dev/icon: https://grimmory.org/img/logo.svg
         hostnames: ["grimmory.${LOCAL_DOMAIN}"]
         parentRefs:
           - name: envoy-internal

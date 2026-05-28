@@ -1,0 +1,87 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/monitoring.coreos.com/prometheusrule_v1.json
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: longhorn-rules
+spec:
+  groups:
+    - name: longhorn.rules
+      rules:
+        - alert: LonghornVolumeDegraded
+          expr: |-
+            longhorn_volume_robustness{state="degraded"} == 1
+          for: 5m
+          annotations:
+            summary: >-
+              Longhorn volume {{ $labels.volume }} is degraded
+            description: >-
+              Longhorn volume {{ $labels.volume }} in namespace {{ $labels.pvc_namespace }} has degraded robustness.
+          labels:
+            severity: warning
+
+        - alert: LonghornVolumeFaulted
+          expr: |-
+            longhorn_volume_robustness{state="faulted"} == 1
+          for: 1m
+          annotations:
+            summary: >-
+              Longhorn volume {{ $labels.volume }} is faulted
+            description: >-
+              Longhorn volume {{ $labels.volume }} in namespace {{ $labels.pvc_namespace }} has no healthy replicas.
+          labels:
+            severity: critical
+
+        - alert: LonghornDiskUsageHigh
+          expr: |-
+            longhorn_disk_capacity_bytes > 0
+              and on(node, disk)
+            (longhorn_disk_usage_bytes / longhorn_disk_capacity_bytes) > 0.85
+          for: 10m
+          annotations:
+            summary: >-
+              Longhorn disk {{ $labels.disk }} on {{ $labels.node }} is above 85% used
+          labels:
+            severity: warning
+
+        - alert: LonghornNodeStorageUsageHigh
+          expr: |-
+            longhorn_node_storage_capacity_bytes > 0
+              and on(node)
+            (longhorn_node_storage_usage_bytes / longhorn_node_storage_capacity_bytes) > 0.85
+          for: 10m
+          annotations:
+            summary: >-
+              Longhorn node {{ $labels.node }} storage is above 85% used
+          labels:
+            severity: warning
+
+        - alert: LonghornNodeNotReady
+          expr: |-
+            longhorn_node_status{condition="ready"} == 0
+          for: 5m
+          annotations:
+            summary: >-
+              Longhorn node {{ $labels.node }} is not ready
+          labels:
+            severity: critical
+
+        - alert: LonghornNodeNotSchedulable
+          expr: |-
+            longhorn_node_status{condition="schedulable"} == 0
+          for: 10m
+          annotations:
+            summary: >-
+              Longhorn node {{ $labels.node }} is not schedulable
+          labels:
+            severity: warning
+
+        - alert: LonghornDiskNotReady
+          expr: |-
+            longhorn_disk_status{condition="ready"} == 0
+          for: 5m
+          annotations:
+            summary: >-
+              Longhorn disk {{ $labels.disk }} on {{ $labels.node }} is not ready
+          labels:
+            severity: critical

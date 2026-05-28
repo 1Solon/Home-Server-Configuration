@@ -11,7 +11,6 @@ spec:
     type: prometheus
     name: *name
     access: proxy
-    isDefault: true
     url: http://prometheus-operated.observability.svc.cluster.local:9090
 ---
 # yaml-language-server: $schema=https://k8s-schemas.home-operations.com/grafana.integreatly.org/grafanadatasource_v1beta1.json
@@ -45,4 +44,5 @@ spec:
     type: prometheus
     name: *name
     access: proxy
+    isDefault: true
     url: http://promxy.observability.svc.cluster.local:8082

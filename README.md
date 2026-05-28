@@ -84,8 +84,6 @@ The Git repository contains the following directories:
     │   └──📁 sonarr
     ├──📁 misc
     │   ├──📁 immich
-    │   ├──📁 speedtest-tracker
-    │   │   └──📁 speedtest-tracker
     │   └──📁 syncthing
     │       └──📁 syncthing
     ├──📁 networking
@@ -168,7 +166,6 @@ The Git repository contains the following directories:
 | [SearXNG](https://github.com/searxng/searxng)                                         | Applications     | Privacy-respecting metasearch engine.                     |
 | [Sonarr](https://sonarr.tv)                                                           | Media Automation | Automated TV show download and management.                |
 | [Spegel](https://github.com/spegel-org/spegel)                                        | Infrastructure   | Stateless cluster-local OCI registry mirror.              |
-| [Speedtest Tracker](https://github.com/alexjustesen/speedtest-tracker)                | Applications     | Internet speed tracking and monitoring tool.              |
 | [Suwayomi](https://github.com/Suwayomi/Suwayomi-Server)                               | Applications     | Free and open source manga reader server.                 |
 | [Syncthing](https://syncthing.net)                                                    | Applications     | Continuous file synchronization program.                  |
 | [Tailscale](https://tailscale.com)                                                    | Networking       | Zero-config VPN built on WireGuard.                       |

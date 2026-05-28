@@ -11,7 +11,8 @@ spec:
     type: prometheus
     name: *name
     access: proxy
-    url: http://prometheus-operated.observability.svc.cluster.local:9090
+    isDefault: true
+    url: http://promxy.observability.svc.cluster.local:8082
 ---
 # yaml-language-server: $schema=https://k8s-schemas.home-operations.com/grafana.integreatly.org/grafanadatasource_v1beta1.json
 apiVersion: grafana.integreatly.org/v1beta1
@@ -30,19 +31,3 @@ spec:
     jsonData:
       implementation: prometheus
     url: http://alertmanager-operated.observability.svc.cluster.local:9093
----
-# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/grafana.integreatly.org/grafanadatasource_v1beta1.json
-apiVersion: grafana.integreatly.org/v1beta1
-kind: GrafanaDatasource
-metadata:
-  name: &name promxy
-spec:
-  instanceSelector:
-    matchLabels:
-      dashboards: grafana
-  datasource:
-    type: prometheus
-    name: *name
-    access: proxy
-    isDefault: true
-    url: http://promxy.observability.svc.cluster.local:8082

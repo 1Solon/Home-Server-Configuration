@@ -18,3 +18,5 @@ resources:
 - ./promxy/install.yaml
 - ./prometheus-adapter/install.yaml
 - ./silence-operator/install.yaml
+- ./smartctl-exporter/install.yaml
+- ./speedtest-exporter/install.yaml

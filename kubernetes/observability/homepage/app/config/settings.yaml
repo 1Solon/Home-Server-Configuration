@@ -10,46 +10,57 @@ color: neutral
 headerStyle: clean
 layout:
   Calendar:
+    tab: Home
     style: column
     icon: mdi-calendar
   Media:
+    tab: Home
     style: column
     icon: mdi-play-circle
   Books:
+    tab: Home
     style: row
     columns: 3
     icon: mdi-book-open-page-variant
     useEqualHeights: true
   Photos:
+    tab: Home
     style: row
     columns: 1
     icon: mdi-image-multiple
   AI:
+    tab: Home
     style: row
     columns: 3
     icon: mdi-robot
   Manga:
+    tab: Home
     style: row
     columns: 2
     icon: mdi-ideogram-cjk
     useEqualHeights: true
   Applications:
+    tab: Home
     style: row
     columns: 3
     icon: mdi-server
   Downloads:
+    tab: Infrastructure
     style: row
     columns: 1
     icon: mdi-download-circle
     useEqualHeights: true
   Storage:
+    tab: Infrastructure
     style: row
     columns: 2
     icon: mdi-desktop-tower
     useEqualHeights: true
   Networking:
+    tab: Infrastructure
     style: row
     icon: mdi-router-wireless
   Observability:
+    tab: Infrastructure
     style: column
     icon: mdi-chart-line

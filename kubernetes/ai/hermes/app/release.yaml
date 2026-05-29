@@ -104,8 +104,8 @@ spec:
               - --no-open
             env:
               TZ: "${TZ}"
-              HERMES_HOME: /opt/data
-              HOME: /opt/data
+              HERMES_HOME: /opt/dashboard-data
+              HOME: /opt/dashboard-data
               GATEWAY_HEALTH_URL: http://localhost:8642
             ports:
               - name: dashboard
@@ -151,19 +151,39 @@ spec:
     persistence:
       config:
         existingClaim: *app
-        globalMounts:
-          - path: /opt/data
+        advancedMounts:
+          hermes:
+            app:
+              - path: /opt/data
+            init-config:
+              - path: /opt/data
 
       config-file:
         type: configMap
         name: hermes-config
-        globalMounts:
-          - path: /tmp/config.yaml
-            subPath: config.yaml
-            readOnly: true
-          - path: /tmp/SOUL.md
-            subPath: SOUL.md
-            readOnly: true
+        advancedMounts:
+          hermes:
+            init-config:
+              - path: /tmp/config.yaml
+                subPath: config.yaml
+                readOnly: true
+              - path: /tmp/SOUL.md
+                subPath: SOUL.md
+                readOnly: true
+            dashboard:
+              - path: /opt/dashboard-data/config.yaml
+                subPath: config.yaml
+                readOnly: true
+              - path: /opt/dashboard-data/SOUL.md
+                subPath: SOUL.md
+                readOnly: true
+
+      dashboard-data:
+        type: emptyDir
+        advancedMounts:
+          hermes:
+            dashboard:
+              - path: /opt/dashboard-data
 
     serviceAccount:
       hermes: {}

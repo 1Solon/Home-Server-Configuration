@@ -48,7 +48,8 @@ spec:
               - -c
               - |
                 set -euo pipefail
-                mkdir -p /opt/data/workspace
+                mkdir -p /opt/data/workspace /run
+                chown 10000:10000 /run
                 cp /tmp/config.yaml /opt/data/config.yaml
                 cp /tmp/SOUL.md /opt/data/SOUL.md
                 chown -R 10000:10000 /opt/data/workspace
@@ -180,6 +181,11 @@ spec:
           - path: /tmp/SOUL.md
             subPath: SOUL.md
             readOnly: true
+
+      run:
+        type: emptyDir
+        globalMounts:
+          - path: /run
 
     serviceAccount:
       hermes: {}

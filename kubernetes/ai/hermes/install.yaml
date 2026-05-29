@@ -6,6 +6,8 @@ metadata:
   name: &app hermes
   namespace: flux-system
 spec:
+  dependsOn:
+    - name: grafana-mcp
   path: "./kubernetes/ai/hermes/app"
   targetNamespace: ai
   prune: true

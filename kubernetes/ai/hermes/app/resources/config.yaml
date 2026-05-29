@@ -6,6 +6,12 @@ model:
   api_mode: chat_completions
 toolsets:
   - hermes-cli
+  - mcp-grafana
+mcp_servers:
+  grafana:
+    url: http://mcp-grafana.observability.svc.cluster.local:8000/mcp
+    timeout: 60
+    connect_timeout: 30
 terminal:
   backend: local
   cwd: /opt/data/workspace

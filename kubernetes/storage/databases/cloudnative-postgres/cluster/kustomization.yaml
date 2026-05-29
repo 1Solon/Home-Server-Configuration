@@ -7,4 +7,5 @@ resources:
   - ./vector.yaml
   - ./backup.yaml
   - ./prometheusrule.yaml
+  - ./dashboard
   - ./grafanadashboard.yaml

@@ -101,6 +101,8 @@ spec:
                   - ALL
                 add:
                   - CHOWN
+                  - SETGID
+                  - SETUID
           dashboard:
             image:
               repository: nousresearch/hermes-agent
@@ -134,6 +136,10 @@ spec:
               capabilities:
                 drop:
                   - ALL
+                add:
+                  - CHOWN
+                  - SETGID
+                  - SETUID
 
     service:
       app:

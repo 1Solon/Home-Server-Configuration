@@ -8,6 +8,7 @@ toolsets:
   - hermes-cli
   - mcp-grafana
   - mcp-toolhive
+  - memory
 mcp_servers:
   grafana:
     url: http://mcp-grafana.observability.svc.cluster.local:8000/mcp
@@ -48,3 +49,4 @@ privacy:
 platform_toolsets:
   cli:
     - hermes-cli
+    - memory

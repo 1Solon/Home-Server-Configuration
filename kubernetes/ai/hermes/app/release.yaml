@@ -239,7 +239,7 @@ spec:
         advancedMounts:
           hermes:
             app:
-              - path: /opt/data/plugins/memory/agentmemory
+              - path: /opt/data/plugins/agentmemory
                 readOnly: true
 
       dashboard-data:

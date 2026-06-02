@@ -8,3 +8,4 @@ resources:
   - ./prometheusrule.yaml
   - ./release.yaml
   - ./servicemonitor.yaml
+  - ./storageclasses.yaml

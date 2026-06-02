@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: longhorn
-      version: 1.11.2
+      version: 1.12.0
       sourceRef:
         kind: HelmRepository
         name: longhorn-repo
@@ -29,14 +29,23 @@ spec:
       backupTarget: s3://longhorn@us-east-1/
       backupstorePollInterval: 300
       backupTargetCredentialSecret: garage-s3-secret
+    persistence:
+      createStorageClass: true
+      defaultClass: true
+      defaultFsType: ext4
+      reclaimPolicy: Delete
+      migratable: false
+      recurringJobSelector:
+        enable: false
+        jobList: []
+      dataEngine: v1
     defaultSettings:
       defaultReplicaCount: "3"
       createDefaultDiskLabeledNodes: true
       restoreVolumeRecurringJobs: true
       storageOverProvisioningPercentage: "100"
       storageMinimalAvailablePercentage: "1"
-      guaranteedEngineManagerCPU: "20"
-      guaranteedReplicaManagerCPU: "20"
+      guaranteedInstanceManagerCPU: '{"v1":"20","v2":"20"}'
       orphanAutoDeletion: true
       concurrentAutomaticEngineUpgradePerNodeLimit: "3"
       nodeDownPodDeletionPolicy: delete-both-statefulset-and-deployment-pod

@@ -11,12 +11,16 @@ toolsets:
   - memory
 mcp_servers:
   agentmemory:
-    command: npx
-    args: ["-y", "@agentmemory/mcp"]
+    command: /bin/sh
+    args:
+      - -c
+      - |
+        AGENTMEMORY_SECRET="$(sed -n 's/^AGENTMEMORY_SECRET=//p' /opt/data/.env | tail -n 1)"
+        export AGENTMEMORY_SECRET
+        exec npx -y @agentmemory/mcp
     env:
       AGENTMEMORY_URL: http://agentmemory.ai.svc.cluster.local:3111
       AGENTMEMORY_PROJECT: hermes
-      AGENTMEMORY_SECRET: ${AGENTMEMORY_SECRET}
   grafana:
     url: http://mcp-grafana.observability.svc.cluster.local:8000/mcp
     timeout: 60

@@ -232,7 +232,7 @@ spec:
                 subPath: SOUL.md
                 readOnly: true
 
-      agentmemory-plugin:
+      plugin-agentmemory:
         type: configMap
         name: hermes-agentmemory-plugin
         defaultMode: 0755

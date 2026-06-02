@@ -16,6 +16,7 @@ mcp_servers:
     env:
       AGENTMEMORY_URL: http://agentmemory.ai.svc.cluster.local:3111
       AGENTMEMORY_PROJECT: hermes
+      AGENTMEMORY_SECRET: ${AGENTMEMORY_SECRET}
   grafana:
     url: http://mcp-grafana.observability.svc.cluster.local:8000/mcp
     timeout: 60

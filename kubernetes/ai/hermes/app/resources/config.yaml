@@ -10,6 +10,12 @@ toolsets:
   - mcp-toolhive
   - memory
 mcp_servers:
+  agentmemory:
+    command: npx
+    args: ["-y", "@agentmemory/mcp"]
+    env:
+      AGENTMEMORY_URL: http://agentmemory.ai.svc.cluster.local:3111
+      AGENTMEMORY_PROJECT: hermes
   grafana:
     url: http://mcp-grafana.observability.svc.cluster.local:8000/mcp
     timeout: 60

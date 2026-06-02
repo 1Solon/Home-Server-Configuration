@@ -46,6 +46,7 @@ spec:
               - -c
               - |
                 set -euo pipefail
+                umask 077
                 mkdir -p /opt/data/workspace /opt/data/code-server
                 cp /tmp/config.yaml /opt/data/config.yaml
                 cp /tmp/SOUL.md /opt/data/SOUL.md
@@ -54,7 +55,6 @@ spec:
                 printf '\nAGENTMEMORY_SECRET=%s\n' "$AGENTMEMORY_SECRET" >> /opt/data/.env
                 chown -R 10000:10000 /opt/data/workspace /opt/data/code-server
                 chown 10000:10000 /opt/data/config.yaml /opt/data/SOUL.md /opt/data/.env
-                chmod 0600 /opt/data/.env
             envFrom:
               - secretRef:
                   name: *app

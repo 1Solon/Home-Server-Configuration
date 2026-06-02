@@ -46,10 +46,10 @@ spec:
               - -c
               - |
                 set -euo pipefail
-                mkdir -p /opt/data/workspace
+                mkdir -p /opt/data/workspace /opt/data/code-server
                 cp /tmp/config.yaml /opt/data/config.yaml
                 cp /tmp/SOUL.md /opt/data/SOUL.md
-                chown -R 10000:10000 /opt/data/workspace
+                chown -R 10000:10000 /opt/data/workspace /opt/data/code-server
                 chown 10000:10000 /opt/data/config.yaml /opt/data/SOUL.md
             securityContext:
               runAsUser: 0
@@ -77,6 +77,8 @@ spec:
               API_SERVER_HOST: "0.0.0.0"
               API_SERVER_PORT: &apiPort 8642
               API_SERVER_CORS_ORIGINS: "https://hermes.${LOCAL_DOMAIN}"
+              AGENTMEMORY_PROJECT: hermes
+              AGENTMEMORY_URL: http://agentmemory.ai.svc.cluster.local:3111
             envFrom:
               - secretRef:
                   name: *app
@@ -117,6 +119,42 @@ spec:
                 memory: 256Mi
               limits:
                 memory: 1Gi
+          codeserver:
+            image:
+              repository: ghcr.io/coder/code-server
+              tag: 4.122.0@sha256:dbe5b1cf5c1f0edf47da6363fdadb89c456fb14b3d7e2a1545cabe20f5d7402a
+            args:
+              - --auth
+              - none
+              - --bind-addr
+              - 0.0.0.0:12321
+              - --user-data-dir
+              - /opt/data/code-server/user-data
+              - --extensions-dir
+              - /opt/data/code-server/extensions
+              - /opt/data/workspace
+            env:
+              TZ: "${TZ}"
+              HOME: /opt/data/code-server
+            ports:
+              - name: codeserver
+                containerPort: &codeserverPort 12321
+                protocol: TCP
+            securityContext:
+              runAsUser: 10000
+              runAsGroup: 10000
+              runAsNonRoot: true
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: false
+              capabilities:
+                drop:
+                  - ALL
+            resources:
+              requests:
+                cpu: 10m
+                memory: 256Mi
+              limits:
+                memory: 1Gi
 
     service:
       app:
@@ -126,6 +164,8 @@ spec:
             port: *apiPort
           dashboard:
             port: 9119
+          codeserver:
+            port: *codeserverPort
 
     route:
       app:
@@ -147,6 +187,18 @@ spec:
           - backendRefs:
               - identifier: app
                 port: 9119
+      codeserver:
+        enabled: true
+        parentRefs:
+          - name: envoy-internal
+            namespace: networking
+            sectionName: https
+        hostnames:
+          - "hermes-code.${LOCAL_DOMAIN}"
+        rules:
+          - backendRefs:
+              - identifier: app
+                port: *codeserverPort
 
     persistence:
       config:
@@ -154,6 +206,8 @@ spec:
         advancedMounts:
           hermes:
             app:
+              - path: /opt/data
+            codeserver:
               - path: /opt/data
             init-config:
               - path: /opt/data
@@ -176,6 +230,16 @@ spec:
                 readOnly: true
               - path: /opt/dashboard-data/SOUL.md
                 subPath: SOUL.md
+                readOnly: true
+
+      agentmemory-plugin:
+        type: configMap
+        name: hermes-agentmemory-plugin
+        defaultMode: 0755
+        advancedMounts:
+          hermes:
+            app:
+              - path: /opt/data/plugins/memory/agentmemory
                 readOnly: true
 
       dashboard-data:

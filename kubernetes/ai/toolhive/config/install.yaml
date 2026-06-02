@@ -3,20 +3,18 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app hermes
+  name: &app toolhive-config
   namespace: flux-system
 spec:
-  dependsOn:
-    - name: agentmemory
-    - name: grafana-mcp
-    - name: toolhive-config
-  path: "./kubernetes/ai/hermes/app"
+  path: "./kubernetes/ai/toolhive/config/app"
   targetNamespace: ai
   prune: true
   wait: true
   interval: 30m
   retryInterval: 1m
-  timeout: 10m
+  timeout: 5m
+  dependsOn:
+    - name: toolhive-operator
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app

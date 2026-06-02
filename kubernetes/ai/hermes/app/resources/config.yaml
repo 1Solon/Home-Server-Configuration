@@ -7,9 +7,14 @@ model:
 toolsets:
   - hermes-cli
   - mcp-grafana
+  - mcp-toolhive
 mcp_servers:
   grafana:
     url: http://mcp-grafana.observability.svc.cluster.local:8000/mcp
+    timeout: 60
+    connect_timeout: 30
+  toolhive:
+    url: http://vmcp-mcp-gateway-internal.ai.svc.cluster.local:4483/mcp
     timeout: 60
     connect_timeout: 30
 terminal:
@@ -18,6 +23,7 @@ terminal:
   timeout: 180
   persistent_shell: true
 memory:
+  provider: agentmemory
   auto_migrate: true
   auto_summarize:
     threshold: 50

@@ -1,0 +1,176 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app llama-embed
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: app-template
+      version: 5.0.1
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s-charts
+        namespace: flux-system
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      strategy: rollback
+      retries: 3
+  values:
+    defaultPodOptions:
+      runtimeClassName: nvidia
+      nodeSelector:
+        kubernetes.io/hostname: kube5
+      securityContext:
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+        seccompProfile: { type: RuntimeDefault }
+
+    controllers:
+      llama-embed:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        replicas: 1
+        strategy: Recreate
+        initContainers:
+          model-download:
+            image:
+              repository: docker.io/library/python
+              tag: 3.13-slim@sha256:7ba5f5888fbe0014ab9edb2278922995c2201fc3752c46b0be24763eb46fa9f3
+            command:
+              - /bin/sh
+              - -ec
+              - |
+                set -euo pipefail
+
+                if [ ! -s /models/all-MiniLM-L6-v2/all-MiniLM-L6-v2-Q8_0.gguf ]; then
+                  pip install --no-cache-dir "huggingface_hub[hf_transfer]"
+                  mkdir -p /models/all-MiniLM-L6-v2
+                  hf download \
+                    second-state/All-MiniLM-L6-v2-Embedding-GGUF \
+                    all-MiniLM-L6-v2-Q8_0.gguf \
+                    --local-dir /models/all-MiniLM-L6-v2
+                  echo "all-MiniLM-L6-v2 download complete"
+                else
+                  echo "all-MiniLM-L6-v2 already downloaded, skipping"
+                fi
+            env:
+              HF_HUB_ENABLE_HF_TRANSFER: "1"
+            resources:
+              requests:
+                cpu: 250m
+                memory: 512Mi
+              limits:
+                memory: 4Gi
+        containers:
+          app:
+            image:
+              repository: ghcr.io/ggml-org/llama.cpp
+              tag: server-cuda@sha256:a170c0ee7717bd61d26a81cecd0d496b40d36edb46aa2409e0f9afff4867e779
+            args:
+              - --host
+              - 0.0.0.0
+              - --port
+              - "8080"
+              - --alias
+              - sentence-transformers/all-MiniLM-L6-v2
+              - --model
+              - /models/all-MiniLM-L6-v2/all-MiniLM-L6-v2-Q8_0.gguf
+              - --embedding
+              - --pooling
+              - mean
+              - --ctx-size
+              - "8192"
+              - --n-gpu-layers
+              - "99"
+              - --parallel
+              - "4"
+              - --cont-batching
+              - --batch-size
+              - "8192"
+              - --ubatch-size
+              - "8192"
+              - --threads
+              - "6"
+              - --threads-batch
+              - "12"
+              - --metrics
+              - --mmap
+            env:
+              CUDA_VISIBLE_DEVICES: "0"
+            ports:
+              - name: http
+                containerPort: &port 8080
+                protocol: TCP
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /health
+                    port: *port
+                  initialDelaySeconds: 30
+                  periodSeconds: 30
+                  timeoutSeconds: 5
+                  failureThreshold: 6
+              readiness:
+                <<: *probes
+                spec:
+                  httpGet:
+                    path: /health
+                    port: *port
+                  initialDelaySeconds: 20
+                  periodSeconds: 10
+                  timeoutSeconds: 5
+                  failureThreshold: 6
+              startup:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /health
+                    port: *port
+                  periodSeconds: 10
+                  timeoutSeconds: 5
+                  failureThreshold: 360
+            resources:
+              requests:
+                cpu: 250m
+                memory: 2Gi
+                nvidia.com/gpu: 1
+              limits:
+                memory: 4Gi
+                nvidia.com/gpu: 1
+            securityContext:
+              allowPrivilegeEscalation: false
+              capabilities:
+                drop:
+                  - ALL
+
+    service:
+      app:
+        controller: *app
+        ports:
+          http:
+            port: *port
+
+    persistence:
+      models:
+        enabled: true
+        type: persistentVolumeClaim
+        accessMode: ReadWriteOnce
+        size: 5Gi
+        globalMounts:
+          - path: /models
+
+    serviceMonitor:
+      app:
+        endpoints:
+          - port: http

@@ -1,0 +1,164 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app agentmemory
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: app-template
+      version: 5.0.1
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s-charts
+        namespace: flux-system
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      strategy: rollback
+      retries: 3
+  values:
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+        seccompProfile: { type: RuntimeDefault }
+
+    controllers:
+      agentmemory:
+        type: deployment
+        replicas: 1
+        strategy: Recreate
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          app:
+            image:
+              repository: ghcr.io/joryirving/agentmemory
+              tag: 0.9.21@sha256:e5629f3ee379fa2003182bca635bee3242a68cf35f96d409645bf8837b529e1e
+            command:
+              - /usr/bin/catatonit
+              - --
+              - /bin/sh
+              - -c
+              - |
+                PREFS_HOME="${HOME:-/home/node}"
+                mkdir -p "$PREFS_HOME/.agentmemory"
+                if [ ! -s "$PREFS_HOME/.agentmemory/preferences.json" ]; then
+                  printf '%s\n' '{"schemaVersion":1,"lastAgent":null,"lastAgents":[],"lastProvider":null,"skipSplash":true,"skipNpxHint":true,"skipGlobalInstall":true,"skipConsoleInstall":true,"firstRunAt":"1970-01-01T00:00:00.000Z"}' > "$PREFS_HOME/.agentmemory/preferences.json"
+                fi
+                exec /entrypoint.sh
+            env:
+              TZ: "${TZ}"
+              AGENTMEMORY_TOOLS: all
+              EMBEDDING_PROVIDER: openai
+              GRAPH_EXTRACTION_ENABLED: "true"
+              III_REST_PORT: &apiPort 3111
+              OPENAI_BASE_URL: http://llama-embed.ai.svc.cluster.local:8080
+              OPENAI_API_KEY: local
+              OPENAI_EMBEDDING_DIMENSIONS: "384"
+              OPENAI_EMBEDDING_MODEL: sentence-transformers/all-MiniLM-L6-v2
+              RUST_LOG: warn
+              VIEWER_ALLOWED_HOSTS: "agentmemory.${LOCAL_DOMAIN}"
+              VIEWER_ALLOWED_ORIGINS: "https://agentmemory.${LOCAL_DOMAIN}"
+            envFrom:
+              - secretRef:
+                  name: *app
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /agentmemory/livez
+                    port: *apiPort
+                  periodSeconds: 30
+                  timeoutSeconds: 5
+                  failureThreshold: 3
+              readiness: *probes
+              startup:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /agentmemory/livez
+                    port: *apiPort
+                  periodSeconds: 5
+                  timeoutSeconds: 5
+                  failureThreshold: 60
+            resources:
+              requests:
+                cpu: 100m
+                memory: 256Mi
+              limits:
+                memory: 2Gi
+            securityContext:
+              allowPrivilegeEscalation: false
+              capabilities:
+                drop:
+                  - ALL
+
+    service:
+      app:
+        controller: *app
+        ports:
+          api:
+            port: *apiPort
+          stream:
+            port: 3112
+          viewer:
+            port: 3113
+
+    route:
+      app:
+        enabled: true
+        annotations:
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/name: AgentMemory
+          gethomepage.dev/description: Persistent memory for AI agents
+          gethomepage.dev/group: AI
+          gethomepage.dev/icon: mdi-memory
+          gethomepage.dev/pod-selector: app.kubernetes.io/name=agentmemory
+        parentRefs:
+          - name: envoy-internal
+            namespace: networking
+            sectionName: https
+        hostnames:
+          - "agentmemory.${LOCAL_DOMAIN}"
+        rules:
+          - matches:
+              - path:
+                  type: PathPrefix
+                  value: /
+                headers:
+                  - name: Upgrade
+                    value: websocket
+            backendRefs:
+              - identifier: app
+                port: 3112
+          - matches:
+              - path:
+                  type: PathPrefix
+                  value: /
+            backendRefs:
+              - identifier: app
+                port: 3113
+
+    persistence:
+      data:
+        enabled: true
+        existingClaim: *app
+        globalMounts:
+          - path: /data
+      tmp:
+        type: emptyDir
+        globalMounts:
+          - path: /tmp

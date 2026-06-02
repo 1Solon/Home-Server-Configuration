@@ -1,0 +1,54 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/toolhive.stacklok.dev/mcpgroup_v1beta1.json
+apiVersion: toolhive.stacklok.dev/v1beta1
+kind: MCPGroup
+metadata:
+  name: mcp-tools
+spec:
+  description: Optimized MCP tools for Hermes and other AI assistants
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/toolhive.stacklok.dev/mcpserverentry_v1beta1.json
+apiVersion: toolhive.stacklok.dev/v1beta1
+kind: MCPServerEntry
+metadata:
+  name: grafana
+spec:
+  remoteUrl: http://mcp-grafana.observability.svc.cluster.local:8000/mcp
+  transport: streamable-http
+  groupRef:
+    name: mcp-tools
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/toolhive.stacklok.dev/virtualmcpserver_v1beta1.json
+apiVersion: toolhive.stacklok.dev/v1beta1
+kind: VirtualMCPServer
+metadata:
+  name: mcp-gateway-internal
+spec:
+  groupRef:
+    name: mcp-tools
+  incomingAuth:
+    type: anonymous
+  outgoingAuth:
+    source: discovered
+  config:
+    aggregation:
+      conflictResolution: prefix
+      conflictResolutionConfig:
+        prefixFormat: "{workload}_"
+---
+# yaml-language-server: $schema=https://kube-schemas.pages.dev/gateway.networking.k8s.io/httproute_v1.json
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: mcp-gateway
+spec:
+  hostnames:
+    - "mcp.${LOCAL_DOMAIN}"
+  parentRefs:
+    - name: envoy-internal
+      namespace: networking
+      sectionName: https
+  rules:
+    - backendRefs:
+        - name: vmcp-mcp-gateway-internal
+          port: 4483

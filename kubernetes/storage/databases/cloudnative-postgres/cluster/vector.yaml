@@ -13,10 +13,10 @@ spec:
     size: 20Gi
     storageClass: longhorn
   bootstrap:
-    initdb:
+    recovery:
+      backup:
+        name: pgvector17-20260603000000
       database: postgres
-      postInitSQL:
-        - CREATE EXTENSION IF NOT EXISTS vchord CASCADE;
       # Note: This is the path I used to port from crunchy-postgres to cloudnative-pg.
       # import:
       #   type: monolith
@@ -62,7 +62,7 @@ spec:
       endpointURL: https://s3.${LOCAL_DOMAIN}
       # Note: serverName version needs to be incremented
       # when recovering from an existing cnpg cluster
-      serverName: pgvector17
+      serverName: pgvector17-v2
       s3Credentials:
         accessKeyId:
           name: cloudnative-pg-secret

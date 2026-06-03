@@ -54,6 +54,7 @@ patches:
         modules:
           - name: nvme_tcp
           - name: vfio_pci
+          - name: uio_pci_generic
   - |-
     apiVersion: v1alpha1
     kind: VolumeConfig

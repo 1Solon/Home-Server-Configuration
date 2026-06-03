@@ -12,34 +12,61 @@ tasks:
     silent: false
 
   apply-kube5:
-    desc: Apply config to kube5
+    desc: Drain kube5, apply config, and reboot
     cmds:
-      - talosctl apply-config --nodes 192.168.1.105 --file ./talos/clusterconfig/home-cluster-kube5.yaml
+      - task: safe-apply
+        vars:
+          NODE: kube5
+          IP: 192.168.1.105
+          FILE: ./talos/clusterconfig/home-cluster-kube5.yaml
     silent: false
 
   apply-kube4:
-    desc: Apply config to kube4
+    desc: Drain kube4, apply config, and reboot
     cmds:
-      - talosctl apply-config --nodes 192.168.1.104 --file ./talos/clusterconfig/home-cluster-kube4.yaml
+      - task: safe-apply
+        vars:
+          NODE: kube4
+          IP: 192.168.1.104
+          FILE: ./talos/clusterconfig/home-cluster-kube4.yaml
     silent: false
 
   apply-kube3:
-    desc: Apply config to kube3
+    desc: Drain kube3, apply config, and reboot
     cmds:
-      - talosctl apply-config --nodes 192.168.1.103 --file ./talos/clusterconfig/home-cluster-kube3.yaml
+      - task: safe-apply
+        vars:
+          NODE: kube3
+          IP: 192.168.1.103
+          FILE: ./talos/clusterconfig/home-cluster-kube3.yaml
     silent: false
 
   apply-kube2:
-    desc: Apply config to kube2
+    desc: Drain kube2, apply config, and reboot
     cmds:
-      - talosctl apply-config --nodes 192.168.1.102 --file ./talos/clusterconfig/home-cluster-kube2.yaml
+      - task: safe-apply
+        vars:
+          NODE: kube2
+          IP: 192.168.1.102
+          FILE: ./talos/clusterconfig/home-cluster-kube2.yaml
     silent: false
 
   apply-kube1:
-    desc: Apply config to kube1
+    desc: Drain kube1, apply config, and reboot
     cmds:
-      - talosctl apply-config --nodes 192.168.1.101 --file ./talos/clusterconfig/home-cluster-kube1.yaml
+      - task: safe-apply
+        vars:
+          NODE: kube1
+          IP: 192.168.1.101
+          FILE: ./talos/clusterconfig/home-cluster-kube1.yaml
     silent: false
+
+  safe-apply:
+    internal: true
+    cmds:
+      - pwsh -NoProfile -File ./scripts/talos-safe-apply.ps1 -Node "{{.NODE}}" -Address "{{.IP}}" -Config "{{.FILE}}"
+    silent: false
+
   gen:
     desc: Generate cluster configurations
     dir: talos

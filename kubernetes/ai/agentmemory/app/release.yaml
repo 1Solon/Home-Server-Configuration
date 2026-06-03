@@ -59,6 +59,7 @@ spec:
             env:
               TZ: "${TZ}"
               AGENTMEMORY_TOOLS: all
+              AGENTMEMORY_DROP_STALE_INDEX: "true"
               EMBEDDING_PROVIDER: openai
               GRAPH_EXTRACTION_ENABLED: "true"
               III_REST_PORT: &apiPort 3111

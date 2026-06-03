@@ -1,0 +1,90 @@
+---
+apiVersion: longhorn.io/v1beta2
+kind: Node
+metadata:
+  name: kube1
+  namespace: longhorn-system
+spec:
+  allowScheduling: true
+  disks:
+    csi-aio:
+      path: /dev/disk/by-partlabel/r-longhorn-csi
+      allowScheduling: true
+      diskType: block
+      diskDriver: aio
+      storageReserved: 0
+      tags:
+        - csi
+        - aio
+---
+apiVersion: longhorn.io/v1beta2
+kind: Node
+metadata:
+  name: kube2
+  namespace: longhorn-system
+spec:
+  allowScheduling: true
+  disks:
+    csi-aio:
+      path: /dev/disk/by-partlabel/r-longhorn-csi
+      allowScheduling: true
+      diskType: block
+      diskDriver: aio
+      storageReserved: 0
+      tags:
+        - csi
+        - aio
+---
+apiVersion: longhorn.io/v1beta2
+kind: Node
+metadata:
+  name: kube3
+  namespace: longhorn-system
+spec:
+  allowScheduling: true
+  disks:
+    csi-aio:
+      path: /dev/disk/by-partlabel/r-longhorn-csi
+      allowScheduling: true
+      diskType: block
+      diskDriver: aio
+      storageReserved: 0
+      tags:
+        - csi
+        - aio
+---
+apiVersion: longhorn.io/v1beta2
+kind: Node
+metadata:
+  name: kube4
+  namespace: longhorn-system
+spec:
+  allowScheduling: true
+  disks:
+    csi-aio:
+      path: /dev/disk/by-partlabel/r-longhorn-csi
+      allowScheduling: true
+      diskType: block
+      diskDriver: aio
+      storageReserved: 0
+      tags:
+        - csi
+        - aio
+---
+apiVersion: longhorn.io/v1beta2
+kind: Node
+metadata:
+  name: kube5
+  namespace: longhorn-system
+spec:
+  allowScheduling: true
+  disks:
+    csi-aio:
+      path: /dev/disk/by-partlabel/r-longhorn-csi
+      allowScheduling: true
+      diskType: block
+      diskDriver: aio
+      storageReserved: 0
+      tags:
+        - csi
+        - aio

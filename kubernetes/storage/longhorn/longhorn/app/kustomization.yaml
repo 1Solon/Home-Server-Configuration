@@ -7,4 +7,5 @@ resources:
   - ./gateway.yaml
   - ./prometheusrule.yaml
   - ./release.yaml
+  - ./nodes-aio-disks.yaml
   - ./servicemonitor.yaml

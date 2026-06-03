@@ -38,14 +38,20 @@ spec:
       recurringJobSelector:
         enable: false
         jobList: []
-      dataEngine: v1
+      defaultDiskSelector:
+        enable: true
+        selector: csi,aio
+      dataEngine: v2
     defaultSettings:
       defaultReplicaCount: "3"
       createDefaultDiskLabeledNodes: true
       restoreVolumeRecurringJobs: true
       storageOverProvisioningPercentage: "100"
       storageMinimalAvailablePercentage: "1"
-      guaranteedInstanceManagerCPU: '{"v1":"20"}'
+      guaranteedInstanceManagerCPU: '{"v1":"20","v2":"20"}'
+      v2DataEngine: true
+      dataEngineHugepageEnabled: true
+      dataEngineMemorySize: '{"v2":"2048"}'
       orphanAutoDeletion: true
       concurrentAutomaticEngineUpgradePerNodeLimit: "3"
       nodeDownPodDeletionPolicy: delete-both-statefulset-and-deployment-pod

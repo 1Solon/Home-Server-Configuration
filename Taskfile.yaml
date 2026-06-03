@@ -1,14 +1,14 @@
-version: '3'
+version: "3"
 
 tasks:
   apply:
-    desc: Apply all cluster configurations in reverse order (kube5 to kube1)
+    desc: Apply all cluster configurations one node at a time (kube1 to kube5)
     cmds:
-      - task: apply-kube5
-      - task: apply-kube4
-      - task: apply-kube3
-      - task: apply-kube2
       - task: apply-kube1
+      - task: apply-kube2
+      - task: apply-kube3
+      - task: apply-kube4
+      - task: apply-kube5
     silent: false
 
   apply-kube5:
@@ -65,6 +65,72 @@ tasks:
     internal: true
     cmds:
       - pwsh -NoProfile -File ./scripts/talos-safe-apply.ps1 -Node "{{.NODE}}" -Address "{{.IP}}" -Config "{{.FILE}}"
+    silent: false
+
+  reset-ephemeral-for-csi:
+    desc: Drain and reset EPHEMERAL one node at a time so Talos can create the longhorn-csi raw volume
+    cmds:
+      - task: reset-ephemeral-for-csi-kube1
+      - task: reset-ephemeral-for-csi-kube2
+      - task: reset-ephemeral-for-csi-kube3
+      - task: reset-ephemeral-for-csi-kube4
+      - task: reset-ephemeral-for-csi-kube5
+    silent: false
+
+  reset-ephemeral-for-csi-kube5:
+    desc: Drain kube5 and reset only the Talos EPHEMERAL volume
+    cmds:
+      - task: safe-reset-ephemeral
+        vars:
+          NODE: kube5
+          IP: 192.168.1.105
+          FILE: ./talos/clusterconfig/home-cluster-kube5.yaml
+    silent: false
+
+  reset-ephemeral-for-csi-kube4:
+    desc: Drain kube4 and reset only the Talos EPHEMERAL volume
+    cmds:
+      - task: safe-reset-ephemeral
+        vars:
+          NODE: kube4
+          IP: 192.168.1.104
+          FILE: ./talos/clusterconfig/home-cluster-kube4.yaml
+    silent: false
+
+  reset-ephemeral-for-csi-kube3:
+    desc: Drain kube3 and reset only the Talos EPHEMERAL volume
+    cmds:
+      - task: safe-reset-ephemeral
+        vars:
+          NODE: kube3
+          IP: 192.168.1.103
+          FILE: ./talos/clusterconfig/home-cluster-kube3.yaml
+    silent: false
+
+  reset-ephemeral-for-csi-kube2:
+    desc: Drain kube2 and reset only the Talos EPHEMERAL volume
+    cmds:
+      - task: safe-reset-ephemeral
+        vars:
+          NODE: kube2
+          IP: 192.168.1.102
+          FILE: ./talos/clusterconfig/home-cluster-kube2.yaml
+    silent: false
+
+  reset-ephemeral-for-csi-kube1:
+    desc: Drain kube1 and reset only the Talos EPHEMERAL volume
+    cmds:
+      - task: safe-reset-ephemeral
+        vars:
+          NODE: kube1
+          IP: 192.168.1.101
+          FILE: ./talos/clusterconfig/home-cluster-kube1.yaml
+    silent: false
+
+  safe-reset-ephemeral:
+    internal: true
+    cmds:
+      - pwsh -NoProfile -File ./scripts/talos-safe-reset-ephemeral.ps1 -Node "{{.NODE}}" -Address "{{.IP}}" -Config "{{.FILE}}"
     silent: false
 
   gen:

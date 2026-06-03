@@ -246,6 +246,6 @@ nodes:
                 [plugins."io.containerd.cri.v1.runtime".containerd.runtimes.nvidia]
                   runtime_type = "io.containerd.runc.v2"
                   [plugins."io.containerd.cri.v1.runtime".containerd.runtimes.nvidia.options]
-                    BinaryName = "/usr/local/nvidia/bin/nvidia-container-runtime"
+                    BinaryName = "/usr/local/bin/nvidia-container-runtime"
                 [plugins."io.containerd.cri.v1.images"]
                   discard_unpacked_layers = false

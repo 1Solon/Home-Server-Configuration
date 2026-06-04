@@ -51,6 +51,7 @@ spec:
               ENABLE_OLLAMA_API: False
               ENABLE_RAG_WEB_SEARCH: true
               ENABLE_SEARCH_QUERY: true
+              ENABLE_PIP_INSTALL_FRONTMATTER_REQUIREMENTS: "false"
               RAG_WEB_SEARCH_ENGINE: searxng
               SEARXNG_QUERY_URL: http://searxng.ai.svc.cluster.local:8080/search?q=<query>
               ENABLE_WEBSOCKET_SUPPORT: "true"

@@ -6,6 +6,7 @@ metadata:
   name: &app open-webui
 spec:
   interval: 30m
+  timeout: 15m
   chart:
     spec:
       chart: app-template
@@ -49,6 +50,7 @@ spec:
             env:
               ENABLE_OPENAI_API: True
               ENABLE_OLLAMA_API: False
+              ENABLE_BASE_MODELS_CACHE: "false"
               ENABLE_RAG_WEB_SEARCH: true
               ENABLE_SEARCH_QUERY: true
               ENABLE_PIP_INSTALL_FRONTMATTER_REQUIREMENTS: "false"

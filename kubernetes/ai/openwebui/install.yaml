@@ -12,7 +12,7 @@ spec:
   wait: true
   interval: 30m
   retryInterval: 1m
-  timeout: 5m
+  timeout: 20m
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app

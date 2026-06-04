@@ -65,7 +65,18 @@ spec:
               - secretRef:
                   name: open-webui-db-secret
             probes:
-              liveness: &probes
+              liveness:
+                enabled: false
+                custom: true
+                spec:
+                  httpGet:
+                    path: /health
+                    port: 8080
+                  initialDelaySeconds: 0
+                  periodSeconds: 30
+                  timeoutSeconds: 5
+                  failureThreshold: 5
+              readiness: &readinessProbe
                 enabled: true
                 custom: true
                 spec:
@@ -74,19 +85,18 @@ spec:
                     port: 8080
                   initialDelaySeconds: 0
                   periodSeconds: 10
-                  timeoutSeconds: 1
-                  failureThreshold: 3
-              readiness: *probes
+                  timeoutSeconds: 5
+                  failureThreshold: 12
               startup:
-                <<: *probes
+                <<: *readinessProbe
                 spec:
                   httpGet:
                     path: /health
                     port: 8080
                   initialDelaySeconds: 0
                   periodSeconds: 10
-                  timeoutSeconds: 1
-                  failureThreshold: 60
+                  timeoutSeconds: 5
+                  failureThreshold: 180
             resources:
               requests:
                 cpu: 500m

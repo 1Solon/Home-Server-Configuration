@@ -46,6 +46,18 @@ spec:
 
     server:
       replicas: 1
+      initContainers: &init-db
+        - name: init-db
+          image: ghcr.io/home-operations/postgres-init:18
+          envFrom:
+            - secretRef:
+                name: authentik-db-secret
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
 
       route:
       app:
@@ -67,3 +79,6 @@ spec:
           - backendRefs:
               - identifier: app
                 port: 80
+
+    worker:
+      initContainers: *init-db

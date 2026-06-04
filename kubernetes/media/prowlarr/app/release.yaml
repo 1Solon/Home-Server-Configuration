@@ -39,6 +39,24 @@ spec:
         annotations:
           reloader.stakater.com/auto: "true"
           secret.reloader.stakater.com/reload: prowlarr-db-secret
+        initContainers:
+          init-main-db: &init-db
+            image:
+              repository: ghcr.io/home-operations/postgres-init
+              tag: 18
+            envFrom:
+              - secretRef:
+                  name: prowlarr-db-secret
+            securityContext:
+              allowPrivilegeEscalation: false
+              capabilities:
+                drop:
+                  - ALL
+              readOnlyRootFilesystem: true
+          init-log-db:
+            <<: *init-db
+            env:
+              INIT_POSTGRES_DBNAME: prowlarr_log
 
         containers:
           app:

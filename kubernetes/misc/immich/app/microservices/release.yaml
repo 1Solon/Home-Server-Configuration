@@ -19,6 +19,18 @@ spec:
       immich-microservices:
         annotations:
           reloader.stakater.com/auto: "true"
+        initContainers:
+          init-db:
+            image:
+              repository: ghcr.io/home-operations/postgres-init
+              tag: 18
+            envFrom:
+              - secretRef:
+                  name: &secret immich-secret
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: { drop: ["ALL"] }
         containers:
           app:
             image:
@@ -31,7 +43,7 @@ spec:
               - configMapRef:
                   name: immich-configmap
               - secretRef:
-                  name: immich-secret
+                  name: *secret
             resources:
               requests:
                 cpu: 10m

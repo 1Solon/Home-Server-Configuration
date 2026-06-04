@@ -13,7 +13,7 @@ kind: MCPServerEntry
 metadata:
   name: grafana
 spec:
-  remoteUrl: http://mcp-grafana.observability.svc.cluster.local:8000/mcp
+  remoteUrl: https://grafana-mcp.${LOCAL_DOMAIN}/mcp
   transport: streamable-http
   groupRef:
     name: mcp-tools
@@ -41,6 +41,13 @@ apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
   name: mcp-gateway
+  annotations:
+    gatus.home-operations.com/endpoint: |
+      url: https://mcp.${LOCAL_DOMAIN}/mcp
+      headers:
+        Accept: application/json, text/event-stream
+      conditions:
+        - "[STATUS] == 200"
 spec:
   hostnames:
     - "mcp.${LOCAL_DOMAIN}"

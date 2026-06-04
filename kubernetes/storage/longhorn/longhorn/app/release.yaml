@@ -50,6 +50,7 @@ spec:
       storageMinimalAvailablePercentage: "1"
       guaranteedInstanceManagerCPU: '{"v1":"12","v2":"12"}'
       v2DataEngine: true
+      dataEngineInterruptModeEnabled: '{"v2":"true"}'
       dataEngineHugepageEnabled: true
       dataEngineMemorySize: '{"v2":"2048"}'
       orphanAutoDeletion: true

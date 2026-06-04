@@ -48,7 +48,7 @@ spec:
       restoreVolumeRecurringJobs: true
       storageOverProvisioningPercentage: "100"
       storageMinimalAvailablePercentage: "1"
-      guaranteedInstanceManagerCPU: '{"v1":"20","v2":"20"}'
+      guaranteedInstanceManagerCPU: '{"v1":"12","v2":"12"}'
       v2DataEngine: true
       dataEngineHugepageEnabled: true
       dataEngineMemorySize: '{"v2":"2048"}'

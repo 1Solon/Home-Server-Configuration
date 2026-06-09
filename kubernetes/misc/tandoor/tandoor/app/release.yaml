@@ -3,141 +3,141 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: &app tandoor
+    name: &app tandoor
 spec:
-  interval: 30m
-  chart:
-    spec:
-      chart: app-template
-      version: 5.0.1
-      sourceRef:
-        kind: HelmRepository
-        name: bjw-s-charts
-        namespace: flux-system
-  install:
-    remediation:
-      retries: 3
-  upgrade:
-    cleanupOnFail: true
-    remediation:
-      strategy: rollback
-      retries: 3
-  values:
-    defaultPodOptions:
-      securityContext:
-        runAsNonRoot: true
-        runAsUser: 1000
-        runAsGroup: 1000
-        fsGroup: 1000
-        fsGroupChangePolicy: Always
-
-    controllers:
-      tandoor:
-        annotations:
-          reloader.stakater.com/auto: "true"
-        initContainers:
-          init-db:
-            image:
-              repository: ghcr.io/home-operations/postgres-init
-              tag: 18
-            envFrom: &envFrom
-              - secretRef:
-                  name: tandoor-secret
-        containers:
-          app:
-            image:
-              repository: ghcr.io/tandoorrecipes/recipes
-              tag: 2.6.9@sha256:969c5b3552ffbf18a6f82b3ad5babbae89bfbd30ab6e3195fd3c158bcf3062ed
-            env:
-              TZ: ${TZ}
-              ALLOWED_HOSTS: recipes.${REMOTE_DOMAIN}
-              CSRF_TRUSTED_ORIGINS: https://recipes.${REMOTE_DOMAIN}
-              COMMENT_PREF_DEFAULT: "1"
-              DB_ENGINE: django.db.backends.postgresql
-              DEBUG: "0"
-              DEFAULT_FROM_EMAIL: recipes@${REMOTE_DOMAIN}
-              ENABLE_SIGNUP: "0"
-              FRACTION_PREF_DEFAULT: "0"
-              GUNICORN_MEDIA: "0"
-              SHOPPING_MIN_AUTOSYNC_INTERVAL: "5"
-              SOCIAL_PROVIDERS: allauth.socialaccount.providers.openid_connect
-              SOCIALACCOUNT_AUTO_SIGNUP: "1"
-              SOCIALACCOUNT_EMAIL_AUTHENTICATION: "1"
-              SOCIALACCOUNT_EMAIL_AUTHENTICATION_AUTO_CONNECT: "1"
-              TANDOOR_PORT: &port 80
-            envFrom: *envFrom
-            probes:
-              liveness: &probes
-                enabled: true
-                custom: true
-                spec:
-                  httpGet:
-                    path: /
-                    port: *port
-                    httpHeaders:
-                      - name: Host
-                        value: recipes.${REMOTE_DOMAIN}
-                  initialDelaySeconds: 30
-                  periodSeconds: 10
-                  timeoutSeconds: 1
-                  failureThreshold: 3
-              readiness: *probes
+    interval: 30m
+    chart:
+        spec:
+            chart: app-template
+            version: 5.0.1
+            sourceRef:
+                kind: HelmRepository
+                name: bjw-s-charts
+                namespace: flux-system
+    install:
+        remediation:
+            retries: 3
+    upgrade:
+        cleanupOnFail: true
+        remediation:
+            strategy: rollback
+            retries: 3
+    values:
+        defaultPodOptions:
             securityContext:
-              allowPrivilegeEscalation: true
-              readOnlyRootFilesystem: false
-            resources:
-              requests:
-                cpu: 10m
-                memory: 256Mi
-              limits:
-                memory: 1Gi
+                runAsNonRoot: true
+                runAsUser: 1000
+                runAsGroup: 1000
+                fsGroup: 1000
+                fsGroupChangePolicy: Always
 
-    service:
-      app:
-        controller: *app
-        ports:
-          http:
-            port: *port
+        controllers:
+            tandoor:
+                annotations:
+                    reloader.stakater.com/auto: "true"
+                initContainers:
+                    init-db:
+                        image:
+                            repository: ghcr.io/home-operations/postgres-init
+                            tag: 18
+                        envFrom: &envFrom
+                            - secretRef:
+                                  name: tandoor-secret
+                containers:
+                    app:
+                        image:
+                            repository: ghcr.io/tandoorrecipes/recipes
+                            tag: 2.6.9@sha256:969c5b3552ffbf18a6f82b3ad5babbae89bfbd30ab6e3195fd3c158bcf3062ed
+                        env:
+                            TZ: ${TZ}
+                            ALLOWED_HOSTS: recipes.${REMOTE_DOMAIN}
+                            CSRF_TRUSTED_ORIGINS: https://recipes.${REMOTE_DOMAIN}
+                            COMMENT_PREF_DEFAULT: "1"
+                            DB_ENGINE: django.db.backends.postgresql
+                            DEBUG: "0"
+                            DEFAULT_FROM_EMAIL: recipes@${REMOTE_DOMAIN}
+                            ENABLE_SIGNUP: "0"
+                            FRACTION_PREF_DEFAULT: "0"
+                            GUNICORN_MEDIA: "0"
+                            SHOPPING_MIN_AUTOSYNC_INTERVAL: "5"
+                            SOCIAL_PROVIDERS: allauth.socialaccount.providers.openid_connect
+                            SOCIALACCOUNT_AUTO_SIGNUP: "1"
+                            SOCIALACCOUNT_EMAIL_AUTHENTICATION: "1"
+                            SOCIALACCOUNT_EMAIL_AUTHENTICATION_AUTO_CONNECT: "1"
+                            TANDOOR_PORT: &port 80
+                        envFrom: *envFrom
+                        probes:
+                            liveness: &probes
+                                enabled: true
+                                custom: true
+                                spec:
+                                    httpGet:
+                                        path: /
+                                        port: *port
+                                        httpHeaders:
+                                            - name: Host
+                                              value: recipes.${REMOTE_DOMAIN}
+                                    initialDelaySeconds: 30
+                                    periodSeconds: 10
+                                    timeoutSeconds: 1
+                                    failureThreshold: 3
+                            readiness: *probes
+                        securityContext:
+                            allowPrivilegeEscalation: true
+                            readOnlyRootFilesystem: false
+                        resources:
+                            requests:
+                                cpu: 10m
+                                memory: 256Mi
+                            limits:
+                                memory: 2Gi
 
-    route:
-      app:
-        enabled: true
-        annotations:
-          external-dns.alpha.kubernetes.io/target: ipv4.${REMOTE_DOMAIN}
-          gethomepage.dev/enabled: "true"
-          gethomepage.dev/name: Tandoor
-          gethomepage.dev/description: Recipe management and meal planning
-          gethomepage.dev/group: Applications
-          gethomepage.dev/icon: tandoor-recipes.png
-        parentRefs:
-          - name: envoy-external
-            namespace: networking
-            sectionName: https
-        hostnames:
-          - recipes.${REMOTE_DOMAIN}
-        rules:
-          - backendRefs:
-              - name: *app
-                port: *port
-
-    persistence:
-      data:
-        existingClaim: *app
-        advancedMounts:
-          tandoor:
+        service:
             app:
-              - path: /opt/recipes/mediafiles
-                subPath: mediafiles
-              - path: /opt/recipes/staticfiles
-                subPath: staticfiles
-      tmpfs:
-        type: emptyDir
-        advancedMounts:
-          tandoor:
+                controller: *app
+                ports:
+                    http:
+                        port: *port
+
+        route:
             app:
-              - path: /opt/recipes/cookbook/static/django_js_reverse
-                subPath: django-js-reverse
-              - path: /var/lib/nginx/logs
-                subPath: logs
-              - path: /tmp
-                subPath: tmp
+                enabled: true
+                annotations:
+                    external-dns.alpha.kubernetes.io/target: ipv4.${REMOTE_DOMAIN}
+                    gethomepage.dev/enabled: "true"
+                    gethomepage.dev/name: Tandoor
+                    gethomepage.dev/description: Recipe management and meal planning
+                    gethomepage.dev/group: Applications
+                    gethomepage.dev/icon: tandoor-recipes.png
+                parentRefs:
+                    - name: envoy-external
+                      namespace: networking
+                      sectionName: https
+                hostnames:
+                    - recipes.${REMOTE_DOMAIN}
+                rules:
+                    - backendRefs:
+                          - name: *app
+                            port: *port
+
+        persistence:
+            data:
+                existingClaim: *app
+                advancedMounts:
+                    tandoor:
+                        app:
+                            - path: /opt/recipes/mediafiles
+                              subPath: mediafiles
+                            - path: /opt/recipes/staticfiles
+                              subPath: staticfiles
+            tmpfs:
+                type: emptyDir
+                advancedMounts:
+                    tandoor:
+                        app:
+                            - path: /opt/recipes/cookbook/static/django_js_reverse
+                              subPath: django-js-reverse
+                            - path: /var/lib/nginx/logs
+                              subPath: logs
+                            - path: /tmp
+                              subPath: tmp

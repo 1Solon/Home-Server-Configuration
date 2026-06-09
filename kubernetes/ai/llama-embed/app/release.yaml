@@ -42,7 +42,7 @@ spec:
           model-download:
             image:
               repository: docker.io/library/python
-              tag: 3.13-slim@sha256:7ba5f5888fbe0014ab9edb2278922995c2201fc3752c46b0be24763eb46fa9f3
+              tag: 3.14-slim@sha256:7d8de339aa8619f9b25e7d474d687ae4f6ef9704adad90a136af0f485adeccb7
             command:
               - /bin/sh
               - -ec

@@ -2,24 +2,23 @@
 apiVersion: tuppr.home-operations.com/v1alpha1
 kind: TalosUpgrade
 metadata:
-  name: talos
+    name: talos
 spec:
-  talos:
-    # renovate: datasource=docker depName=ghcr.io/siderolabs/installer
-    version: v1.13.3
-  policy:
-    placement: hard
-    rebootMode: powercycle
-  drain:
-    ignoreDaemonSets: true
-    force: true
-    disableEviction: true
-    skipWaitForDeleteTimeout: 300
-  healthChecks:
-    - apiVersion: longhorn.io/v1beta2
-      kind: Node
-      namespace: longhorn-system
-      description: Longhorn nodes are ready
-      timeout: 45m
-      expr: |-
-        status.conditions.exists(condition, condition.type == 'Ready' && condition.status == 'True')
+    talos:
+        # renovate: datasource=docker depName=ghcr.io/siderolabs/installer
+        version: v1.13.3
+    policy:
+        placement: hard
+        rebootMode: powercycle
+    drain:
+        ignoreDaemonSets: true
+        disableEviction: true
+        skipWaitForDeleteTimeout: 300
+    healthChecks:
+        - apiVersion: longhorn.io/v1beta2
+          kind: Node
+          namespace: longhorn-system
+          description: Longhorn nodes are ready
+          timeout: 45m
+          expr: |-
+              status.conditions.exists(condition, condition.type == 'Ready' && condition.status == 'True')

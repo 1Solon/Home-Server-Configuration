@@ -11,9 +11,8 @@ spec:
         placement: hard
         rebootMode: powercycle
     drain:
-        ignoreDaemonSets: true
+        enabled: true
         disableEviction: true
-        skipWaitForDeleteTimeout: 300
     healthChecks:
         - apiVersion: longhorn.io/v1beta2
           kind: Node

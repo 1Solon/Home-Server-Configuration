@@ -9,6 +9,9 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: audiobookshelf
+  dependsOn:
+    - name: volsync
+      namespace: flux-system
   path: "./kubernetes/books/audiobookshelf/app"
   prune: true
   sourceRef:

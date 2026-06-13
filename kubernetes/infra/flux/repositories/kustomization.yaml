@@ -3,6 +3,7 @@ kind: Kustomization
 resources:
 - angelnu.yaml
 - ansible-semaphore.yaml
+- backube.yaml
 - bjw-s.yaml
 - cert-manager.yaml
 - cloudnative-pg.yaml

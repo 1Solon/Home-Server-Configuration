@@ -11,7 +11,7 @@ spec:
   primaryUpdateMethod: switchover
   storage:
     size: 20Gi
-    storageClass: longhorn
+    storageClass: ceph-block
   bootstrap:
     recovery:
       backup:

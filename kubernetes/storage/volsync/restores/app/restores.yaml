@@ -1,0 +1,500 @@
+---
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationDestination
+metadata:
+  name: agentmemory
+  namespace: ai
+spec:
+  trigger: { manual: restore-once }
+  restic: { repository: agentmemory-restic, copyMethod: Direct, accessModes: [ReadWriteOnce], capacity: 10Gi, storageClassName: ceph-block, cacheStorageClassName: ceph-block, cacheCapacity: 1Gi, cleanupCachePVC: true, cleanupTempPVC: true, enableFileDeletion: true }
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: agentmemory
+  namespace: ai
+spec:
+  accessModes: [ReadWriteOnce]
+  storageClassName: ceph-block
+  resources: { requests: { storage: 10Gi } }
+  dataSourceRef: { apiGroup: volsync.backube, kind: ReplicationDestination, name: agentmemory }
+---
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationDestination
+metadata:
+  name: hermes
+  namespace: ai
+spec:
+  trigger: { manual: restore-once }
+  restic: { repository: hermes-restic, copyMethod: Direct, accessModes: [ReadWriteOnce], capacity: 10Gi, storageClassName: ceph-block, cacheStorageClassName: ceph-block, cacheCapacity: 1Gi, cleanupCachePVC: true, cleanupTempPVC: true, enableFileDeletion: true }
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: hermes
+  namespace: ai
+spec:
+  accessModes: [ReadWriteOnce]
+  storageClassName: ceph-block
+  resources: { requests: { storage: 10Gi } }
+  dataSourceRef: { apiGroup: volsync.backube, kind: ReplicationDestination, name: hermes }
+---
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationDestination
+metadata:
+  name: open-webui-config
+  namespace: ai
+spec:
+  trigger: { manual: restore-once }
+  restic: { repository: open-webui-config-restic, copyMethod: Direct, accessModes: [ReadWriteOnce], capacity: 10Gi, storageClassName: ceph-block, cacheStorageClassName: ceph-block, cacheCapacity: 1Gi, cleanupCachePVC: true, cleanupTempPVC: true, enableFileDeletion: true }
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: open-webui-config
+  namespace: ai
+spec:
+  accessModes: [ReadWriteOnce]
+  storageClassName: ceph-block
+  resources: { requests: { storage: 10Gi } }
+  dataSourceRef: { apiGroup: volsync.backube, kind: ReplicationDestination, name: open-webui-config }
+---
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationDestination
+metadata:
+  name: audiobookshelf-config
+  namespace: books
+spec:
+  trigger: { manual: restore-once }
+  restic: { repository: audiobookshelf-config-restic, copyMethod: Direct, accessModes: [ReadWriteOnce], capacity: 20Gi, storageClassName: ceph-block, cacheStorageClassName: ceph-block, cacheCapacity: 1Gi, cleanupCachePVC: true, cleanupTempPVC: true, enableFileDeletion: true }
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: audiobookshelf-config
+  namespace: books
+spec:
+  accessModes: [ReadWriteOnce]
+  storageClassName: ceph-block
+  resources: { requests: { storage: 20Gi } }
+  dataSourceRef: { apiGroup: volsync.backube, kind: ReplicationDestination, name: audiobookshelf-config }
+---
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationDestination
+metadata:
+  name: booklore
+  namespace: books
+spec:
+  trigger: { manual: restore-once }
+  restic: { repository: booklore-restic, copyMethod: Direct, accessModes: [ReadWriteOnce], capacity: 10Gi, storageClassName: ceph-block, cacheStorageClassName: ceph-block, cacheCapacity: 1Gi, cleanupCachePVC: true, cleanupTempPVC: true, enableFileDeletion: true }
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: booklore
+  namespace: books
+spec:
+  accessModes: [ReadWriteOnce]
+  storageClassName: ceph-block
+  resources: { requests: { storage: 10Gi } }
+  dataSourceRef: { apiGroup: volsync.backube, kind: ReplicationDestination, name: booklore }
+---
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationDestination
+metadata:
+  name: libation-config
+  namespace: books
+spec:
+  trigger: { manual: restore-once }
+  restic: { repository: libation-config-restic, copyMethod: Direct, accessModes: [ReadWriteOnce], capacity: 5Gi, storageClassName: ceph-block, cacheStorageClassName: ceph-block, cacheCapacity: 1Gi, cleanupCachePVC: true, cleanupTempPVC: true, enableFileDeletion: true }
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: libation-config
+  namespace: books
+spec:
+  accessModes: [ReadWriteOnce]
+  storageClassName: ceph-block
+  resources: { requests: { storage: 5Gi } }
+  dataSourceRef: { apiGroup: volsync.backube, kind: ReplicationDestination, name: libation-config }
+---
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationDestination
+metadata:
+  name: shelfmark-config
+  namespace: books
+spec:
+  trigger: { manual: restore-once }
+  restic: { repository: shelfmark-config-restic, copyMethod: Direct, accessModes: [ReadWriteOnce], capacity: 20Gi, storageClassName: ceph-block, cacheStorageClassName: ceph-block, cacheCapacity: 1Gi, cleanupCachePVC: true, cleanupTempPVC: true, enableFileDeletion: true }
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: shelfmark-config
+  namespace: books
+spec:
+  accessModes: [ReadWriteOnce]
+  storageClassName: ceph-block
+  resources: { requests: { storage: 20Gi } }
+  dataSourceRef: { apiGroup: volsync.backube, kind: ReplicationDestination, name: shelfmark-config }
+---
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationDestination
+metadata:
+  name: otterwiki
+  namespace: colwiki
+spec:
+  trigger: { manual: restore-once }
+  restic: { repository: otterwiki-restic, copyMethod: Direct, accessModes: [ReadWriteOnce], capacity: 20Gi, storageClassName: ceph-block, cacheStorageClassName: ceph-block, cacheCapacity: 1Gi, cleanupCachePVC: true, cleanupTempPVC: true, enableFileDeletion: true }
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: otterwiki
+  namespace: colwiki
+spec:
+  accessModes: [ReadWriteOnce]
+  storageClassName: ceph-block
+  resources: { requests: { storage: 20Gi } }
+  dataSourceRef: { apiGroup: volsync.backube, kind: ReplicationDestination, name: otterwiki }
+---
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationDestination
+metadata:
+  name: autobrr
+  namespace: home-media
+spec:
+  trigger: { manual: restore-once }
+  restic: { repository: autobrr-restic, copyMethod: Direct, accessModes: [ReadWriteOnce], capacity: 5Gi, storageClassName: ceph-block, cacheStorageClassName: ceph-block, cacheCapacity: 1Gi, cleanupCachePVC: true, cleanupTempPVC: true, enableFileDeletion: true }
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: autobrr
+  namespace: home-media
+spec:
+  accessModes: [ReadWriteOnce]
+  storageClassName: ceph-block
+  resources: { requests: { storage: 5Gi } }
+  dataSourceRef: { apiGroup: volsync.backube, kind: ReplicationDestination, name: autobrr }
+---
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationDestination
+metadata:
+  name: bazarr
+  namespace: home-media
+spec:
+  trigger: { manual: restore-once }
+  restic: { repository: bazarr-restic, copyMethod: Direct, accessModes: [ReadWriteOnce], capacity: 10Gi, storageClassName: ceph-block, cacheStorageClassName: ceph-block, cacheCapacity: 1Gi, cleanupCachePVC: true, cleanupTempPVC: true, enableFileDeletion: true }
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: bazarr
+  namespace: home-media
+spec:
+  accessModes: [ReadWriteOnce]
+  storageClassName: ceph-block
+  resources: { requests: { storage: 10Gi } }
+  dataSourceRef: { apiGroup: volsync.backube, kind: ReplicationDestination, name: bazarr }
+---
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationDestination
+metadata:
+  name: cleanuparr-config
+  namespace: home-media
+spec:
+  trigger: { manual: restore-once }
+  restic: { repository: cleanuparr-config-restic, copyMethod: Direct, accessModes: [ReadWriteOnce], capacity: 10Gi, storageClassName: ceph-block, cacheStorageClassName: ceph-block, cacheCapacity: 1Gi, cleanupCachePVC: true, cleanupTempPVC: true, enableFileDeletion: true }
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: cleanuparr-config
+  namespace: home-media
+spec:
+  accessModes: [ReadWriteOnce]
+  storageClassName: ceph-block
+  resources: { requests: { storage: 10Gi } }
+  dataSourceRef: { apiGroup: volsync.backube, kind: ReplicationDestination, name: cleanuparr-config }
+---
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationDestination
+metadata:
+  name: dispatcharr
+  namespace: home-media
+spec:
+  trigger: { manual: restore-once }
+  restic: { repository: dispatcharr-restic, copyMethod: Direct, accessModes: [ReadWriteOnce], capacity: 10Gi, storageClassName: ceph-block, cacheStorageClassName: ceph-block, cacheCapacity: 1Gi, cleanupCachePVC: true, cleanupTempPVC: true, enableFileDeletion: true }
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: dispatcharr
+  namespace: home-media
+spec:
+  accessModes: [ReadWriteOnce]
+  storageClassName: ceph-block
+  resources: { requests: { storage: 10Gi } }
+  dataSourceRef: { apiGroup: volsync.backube, kind: ReplicationDestination, name: dispatcharr }
+---
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationDestination
+metadata:
+  name: jellyfin-config
+  namespace: home-media
+spec:
+  trigger: { manual: restore-once }
+  restic: { repository: jellyfin-config-restic, copyMethod: Direct, accessModes: [ReadWriteOnce], capacity: 10Gi, storageClassName: ceph-block, cacheStorageClassName: ceph-block, cacheCapacity: 1Gi, cleanupCachePVC: true, cleanupTempPVC: true, enableFileDeletion: true }
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: jellyfin-config
+  namespace: home-media
+spec:
+  accessModes: [ReadWriteOnce]
+  storageClassName: ceph-block
+  resources: { requests: { storage: 10Gi } }
+  dataSourceRef: { apiGroup: volsync.backube, kind: ReplicationDestination, name: jellyfin-config }
+---
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationDestination
+metadata:
+  name: qbittorrent-config
+  namespace: home-media
+spec:
+  trigger: { manual: restore-once }
+  restic: { repository: qbittorrent-config-restic, copyMethod: Direct, accessModes: [ReadWriteOnce], capacity: 1Gi, storageClassName: ceph-block, cacheStorageClassName: ceph-block, cacheCapacity: 1Gi, cleanupCachePVC: true, cleanupTempPVC: true, enableFileDeletion: true }
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: qbittorrent-config
+  namespace: home-media
+spec:
+  accessModes: [ReadWriteOnce]
+  storageClassName: ceph-block
+  resources: { requests: { storage: 1Gi } }
+  dataSourceRef: { apiGroup: volsync.backube, kind: ReplicationDestination, name: qbittorrent-config }
+---
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationDestination
+metadata:
+  name: qui
+  namespace: home-media
+spec:
+  trigger: { manual: restore-once }
+  restic: { repository: qui-restic, copyMethod: Direct, accessModes: [ReadWriteOnce], capacity: 5Gi, storageClassName: ceph-block, cacheStorageClassName: ceph-block, cacheCapacity: 1Gi, cleanupCachePVC: true, cleanupTempPVC: true, enableFileDeletion: true }
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: qui
+  namespace: home-media
+spec:
+  accessModes: [ReadWriteOnce]
+  storageClassName: ceph-block
+  resources: { requests: { storage: 5Gi } }
+  dataSourceRef: { apiGroup: volsync.backube, kind: ReplicationDestination, name: qui }
+---
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationDestination
+metadata:
+  name: radarr-config
+  namespace: home-media
+spec:
+  trigger: { manual: restore-once }
+  restic: { repository: radarr-config-restic, copyMethod: Direct, accessModes: [ReadWriteOnce], capacity: 5Gi, storageClassName: ceph-block, cacheStorageClassName: ceph-block, cacheCapacity: 1Gi, cleanupCachePVC: true, cleanupTempPVC: true, enableFileDeletion: true }
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: radarr-config
+  namespace: home-media
+spec:
+  accessModes: [ReadWriteOnce]
+  storageClassName: ceph-block
+  resources: { requests: { storage: 5Gi } }
+  dataSourceRef: { apiGroup: volsync.backube, kind: ReplicationDestination, name: radarr-config }
+---
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationDestination
+metadata:
+  name: seedboxapi-config
+  namespace: home-media
+spec:
+  trigger: { manual: restore-once }
+  restic: { repository: seedboxapi-config-restic, copyMethod: Direct, accessModes: [ReadWriteOnce], capacity: 1Gi, storageClassName: ceph-block, cacheStorageClassName: ceph-block, cacheCapacity: 1Gi, cleanupCachePVC: true, cleanupTempPVC: true, enableFileDeletion: true }
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: seedboxapi-config
+  namespace: home-media
+spec:
+  accessModes: [ReadWriteOnce]
+  storageClassName: ceph-block
+  resources: { requests: { storage: 1Gi } }
+  dataSourceRef: { apiGroup: volsync.backube, kind: ReplicationDestination, name: seedboxapi-config }
+---
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationDestination
+metadata:
+  name: seerr-config
+  namespace: home-media
+spec:
+  trigger: { manual: restore-once }
+  restic: { repository: seerr-config-restic, copyMethod: Direct, accessModes: [ReadWriteOnce], capacity: 1Gi, storageClassName: ceph-block, cacheStorageClassName: ceph-block, cacheCapacity: 1Gi, cleanupCachePVC: true, cleanupTempPVC: true, enableFileDeletion: true }
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: seerr-config
+  namespace: home-media
+spec:
+  accessModes: [ReadWriteOnce]
+  storageClassName: ceph-block
+  resources: { requests: { storage: 1Gi } }
+  dataSourceRef: { apiGroup: volsync.backube, kind: ReplicationDestination, name: seerr-config }
+---
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationDestination
+metadata:
+  name: seerr-config-cache
+  namespace: home-media
+spec:
+  trigger: { manual: restore-once }
+  restic: { repository: seerr-config-cache-restic, copyMethod: Direct, accessModes: [ReadWriteOnce], capacity: 15Gi, storageClassName: ceph-block, cacheStorageClassName: ceph-block, cacheCapacity: 1Gi, cleanupCachePVC: true, cleanupTempPVC: true, enableFileDeletion: true }
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: seerr-config-cache
+  namespace: home-media
+spec:
+  accessModes: [ReadWriteOnce]
+  storageClassName: ceph-block
+  resources: { requests: { storage: 15Gi } }
+  dataSourceRef: { apiGroup: volsync.backube, kind: ReplicationDestination, name: seerr-config-cache }
+---
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationDestination
+metadata:
+  name: sonarr-config
+  namespace: home-media
+spec:
+  trigger: { manual: restore-once }
+  restic: { repository: sonarr-config-restic, copyMethod: Direct, accessModes: [ReadWriteOnce], capacity: 5Gi, storageClassName: ceph-block, cacheStorageClassName: ceph-block, cacheCapacity: 1Gi, cleanupCachePVC: true, cleanupTempPVC: true, enableFileDeletion: true }
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: sonarr-config
+  namespace: home-media
+spec:
+  accessModes: [ReadWriteOnce]
+  storageClassName: ceph-block
+  resources: { requests: { storage: 5Gi } }
+  dataSourceRef: { apiGroup: volsync.backube, kind: ReplicationDestination, name: sonarr-config }
+---
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationDestination
+metadata:
+  name: komf
+  namespace: manga
+spec:
+  trigger: { manual: restore-once }
+  restic: { repository: komf-restic, copyMethod: Direct, accessModes: [ReadWriteOnce], capacity: 5Gi, storageClassName: ceph-block, cacheStorageClassName: ceph-block, cacheCapacity: 1Gi, cleanupCachePVC: true, cleanupTempPVC: true, enableFileDeletion: true }
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: komf
+  namespace: manga
+spec:
+  accessModes: [ReadWriteOnce]
+  storageClassName: ceph-block
+  resources: { requests: { storage: 5Gi } }
+  dataSourceRef: { apiGroup: volsync.backube, kind: ReplicationDestination, name: komf }
+---
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationDestination
+metadata:
+  name: komga
+  namespace: manga
+spec:
+  trigger: { manual: restore-once }
+  restic: { repository: komga-restic, copyMethod: Direct, accessModes: [ReadWriteOnce], capacity: 5Gi, storageClassName: ceph-block, cacheStorageClassName: ceph-block, cacheCapacity: 1Gi, cleanupCachePVC: true, cleanupTempPVC: true, enableFileDeletion: true }
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: komga
+  namespace: manga
+spec:
+  accessModes: [ReadWriteOnce]
+  storageClassName: ceph-block
+  resources: { requests: { storage: 5Gi } }
+  dataSourceRef: { apiGroup: volsync.backube, kind: ReplicationDestination, name: komga }
+---
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationDestination
+metadata:
+  name: suwayomi
+  namespace: manga
+spec:
+  trigger: { manual: restore-once }
+  restic: { repository: suwayomi-restic, copyMethod: Direct, accessModes: [ReadWriteOnce], capacity: 5Gi, storageClassName: ceph-block, cacheStorageClassName: ceph-block, cacheCapacity: 1Gi, cleanupCachePVC: true, cleanupTempPVC: true, enableFileDeletion: true }
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: suwayomi
+  namespace: manga
+spec:
+  accessModes: [ReadWriteOnce]
+  storageClassName: ceph-block
+  resources: { requests: { storage: 5Gi } }
+  dataSourceRef: { apiGroup: volsync.backube, kind: ReplicationDestination, name: suwayomi }
+---
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationDestination
+metadata:
+  name: tandoor
+  namespace: tandoor
+spec:
+  trigger: { manual: restore-once }
+  restic: { repository: tandoor-restic, copyMethod: Direct, accessModes: [ReadWriteOnce], capacity: 5Gi, storageClassName: ceph-block, cacheStorageClassName: ceph-block, cacheCapacity: 1Gi, cleanupCachePVC: true, cleanupTempPVC: true, enableFileDeletion: true }
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: tandoor
+  namespace: tandoor
+spec:
+  accessModes: [ReadWriteOnce]
+  storageClassName: ceph-block
+  resources: { requests: { storage: 5Gi } }
+  dataSourceRef: { apiGroup: volsync.backube, kind: ReplicationDestination, name: tandoor }
+---
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationDestination
+metadata:
+  name: zerobyte
+  namespace: zerobyte
+spec:
+  trigger: { manual: restore-once }
+  restic: { repository: zerobyte-restic, copyMethod: Direct, accessModes: [ReadWriteOnce], capacity: 10Gi, storageClassName: ceph-block, cacheStorageClassName: ceph-block, cacheCapacity: 1Gi, cleanupCachePVC: true, cleanupTempPVC: true, enableFileDeletion: true }
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: zerobyte
+  namespace: zerobyte
+spec:
+  accessModes: [ReadWriteOnce]
+  storageClassName: ceph-block
+  resources: { requests: { storage: 10Gi } }
+  dataSourceRef: { apiGroup: volsync.backube, kind: ReplicationDestination, name: zerobyte }

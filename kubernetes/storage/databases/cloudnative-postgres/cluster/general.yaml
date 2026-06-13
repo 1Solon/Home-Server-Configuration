@@ -16,7 +16,7 @@ spec:
       database: postgres
   storage:
     size: 20Gi
-    storageClass: longhorn
+    storageClass: ceph-block
   superuserSecret:
     name: cloudnative-pg-secret
   enableSuperuserAccess: true

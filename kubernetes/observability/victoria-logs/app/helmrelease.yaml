@@ -31,7 +31,7 @@ spec:
       persistentVolume:
         enabled: true
         size: 20Gi
-        storageClassName: longhorn
+        storageClassName: ceph-block
       route:
         enabled: false
       serviceMonitor:

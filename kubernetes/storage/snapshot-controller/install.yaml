@@ -77,6 +77,4 @@ spec:
   dependsOn:
     - name: snapshot-controller-crds
       namespace: flux-system
-    - name: longhorn
-      namespace: flux-system
   wait: true

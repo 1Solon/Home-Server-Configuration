@@ -11,9 +11,9 @@ spec:
   restic:
     repository: ${APP}-restic
     copyMethod: ${VOLSYNC_COPY_METHOD:=Snapshot}
-    storageClassName: ${VOLSYNC_STORAGE_CLASS:=longhorn}
-    volumeSnapshotClassName: ${VOLSYNC_VOLUME_SNAPSHOT_CLASS:=longhorn}
-    cacheStorageClassName: ${VOLSYNC_CACHE_STORAGE_CLASS:=longhorn}
+    storageClassName: ${VOLSYNC_STORAGE_CLASS:=ceph-block}
+    volumeSnapshotClassName: ${VOLSYNC_VOLUME_SNAPSHOT_CLASS:=csi-ceph-blockpool}
+    cacheStorageClassName: ${VOLSYNC_CACHE_STORAGE_CLASS:=ceph-block}
     moverAffinity:
       podAffinity:
         requiredDuringSchedulingIgnoredDuringExecution:

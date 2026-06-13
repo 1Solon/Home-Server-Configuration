@@ -9,6 +9,7 @@ resources:
 - cloudnative-pg.yaml
 - ext-postgres-operator.yaml
 - longhorn.yaml
+- rook-ceph.yaml
 - metallb.yaml
 - reflector.yaml
 - stakater.yaml

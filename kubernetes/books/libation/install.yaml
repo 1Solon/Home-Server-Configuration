@@ -32,6 +32,7 @@ spec:
       VOLSYNC_MOVER_APP_NAME: libation
       VOLSYNC_MOVER_APP_INSTANCE: libation
       VOLSYNC_SCHEDULE: "27 */6 * * *"
+      VOLSYNC_COPY_METHOD: Direct
     substituteFrom:
       - kind: ConfigMap
         name: cluster-settings

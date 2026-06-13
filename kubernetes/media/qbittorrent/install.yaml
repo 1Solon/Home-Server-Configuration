@@ -31,6 +31,7 @@ spec:
       VOLSYNC_MOVER_APP_NAME: qbittorrent
       VOLSYNC_MOVER_APP_INSTANCE: qbittorrent
       VOLSYNC_SCHEDULE: "16 */6 * * *"
+      VOLSYNC_COPY_METHOD: Direct
     substituteFrom:
       - kind: ConfigMap
         name: cluster-settings

@@ -5,6 +5,8 @@ metadata:
   name: audiobookshelf
   namespace: flux-system
 spec:
+  components:
+    - ../../../components/volsync
   targetNamespace: books
   commonMetadata:
     labels:
@@ -22,6 +24,12 @@ spec:
   retryInterval: 1m
   timeout: 5m
   postBuild:
+    substitute:
+      APP: audiobookshelf-config
+      VOLSYNC_REPOSITORY: s3:http://garage.garage.svc.cluster.local:3900/volsync/books/audiobookshelf-config
+      VOLSYNC_SOURCE_PVC: audiobookshelf-config
+      VOLSYNC_MOVER_APP_NAME: audiobookshelf
+      VOLSYNC_MOVER_APP_INSTANCE: audiobookshelf
     substituteFrom:
       - kind: ConfigMap
         name: cluster-settings

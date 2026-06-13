@@ -4,4 +4,5 @@ kind: Kustomization
 resources:
   - ./namespace.yaml
   - ./rook-ceph/install.yaml
+  - ./ceph-csi-drivers/install.yaml
   - ./cluster/install.yaml

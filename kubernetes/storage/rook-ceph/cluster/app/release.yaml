@@ -127,9 +127,6 @@ spec:
       name: csi-ceph-blockpool
       isDefault: true
       deletionPolicy: Delete
-      parameters:
-        csi.storage.k8s.io/snapshotter-secret-name: rook-csi-rbd-provisioner
-        csi.storage.k8s.io/snapshotter-secret-namespace: "{{ .Release.Namespace }}"
     cephFileSystems: []
     cephFileSystemVolumeSnapshotClass:
       enabled: false

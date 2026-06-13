@@ -6,6 +6,7 @@ resources:
 - backube.yaml
 - bjw-s.yaml
 - cert-manager.yaml
+- ceph-csi-operator.yaml
 - cloudnative-pg.yaml
 - ext-postgres-operator.yaml
 - longhorn.yaml

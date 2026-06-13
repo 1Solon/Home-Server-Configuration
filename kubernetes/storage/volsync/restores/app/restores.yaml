@@ -6,7 +6,7 @@ metadata:
   namespace: ai
 spec:
   trigger: { manual: restore-once }
-  restic: { repository: agentmemory-restic, copyMethod: Direct, accessModes: [ReadWriteOnce], capacity: 10Gi, storageClassName: ceph-block, cacheStorageClassName: ceph-block, cacheCapacity: 1Gi, cleanupCachePVC: true, cleanupTempPVC: true, enableFileDeletion: true }
+  restic: { repository: agentmemory-restic, copyMethod: Snapshot, volumeSnapshotClassName: csi-ceph-blockpool, accessModes: [ReadWriteOnce], capacity: 10Gi, storageClassName: ceph-block, cacheStorageClassName: ceph-block, cacheCapacity: 1Gi, cleanupCachePVC: true, cleanupTempPVC: true, enableFileDeletion: true }
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -26,7 +26,7 @@ metadata:
   namespace: ai
 spec:
   trigger: { manual: restore-once }
-  restic: { repository: hermes-restic, copyMethod: Direct, accessModes: [ReadWriteOnce], capacity: 10Gi, storageClassName: ceph-block, cacheStorageClassName: ceph-block, cacheCapacity: 1Gi, cleanupCachePVC: true, cleanupTempPVC: true, enableFileDeletion: true }
+  restic: { repository: hermes-restic, copyMethod: Snapshot, volumeSnapshotClassName: csi-ceph-blockpool, accessModes: [ReadWriteOnce], capacity: 10Gi, storageClassName: ceph-block, cacheStorageClassName: ceph-block, cacheCapacity: 1Gi, cleanupCachePVC: true, cleanupTempPVC: true, enableFileDeletion: true }
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -46,7 +46,7 @@ metadata:
   namespace: ai
 spec:
   trigger: { manual: restore-once }
-  restic: { repository: open-webui-config-restic, copyMethod: Direct, accessModes: [ReadWriteOnce], capacity: 10Gi, storageClassName: ceph-block, cacheStorageClassName: ceph-block, cacheCapacity: 1Gi, cleanupCachePVC: true, cleanupTempPVC: true, enableFileDeletion: true }
+  restic: { repository: open-webui-config-restic, copyMethod: Snapshot, volumeSnapshotClassName: csi-ceph-blockpool, accessModes: [ReadWriteOnce], capacity: 10Gi, storageClassName: ceph-block, cacheStorageClassName: ceph-block, cacheCapacity: 1Gi, cleanupCachePVC: true, cleanupTempPVC: true, enableFileDeletion: true }
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -66,7 +66,7 @@ metadata:
   namespace: books
 spec:
   trigger: { manual: restore-once }
-  restic: { repository: audiobookshelf-config-restic, copyMethod: Direct, accessModes: [ReadWriteOnce], capacity: 20Gi, storageClassName: ceph-block, cacheStorageClassName: ceph-block, cacheCapacity: 1Gi, cleanupCachePVC: true, cleanupTempPVC: true, enableFileDeletion: true }
+  restic: { repository: audiobookshelf-config-restic, copyMethod: Snapshot, volumeSnapshotClassName: csi-ceph-blockpool, accessModes: [ReadWriteOnce], capacity: 20Gi, storageClassName: ceph-block, cacheStorageClassName: ceph-block, cacheCapacity: 1Gi, cleanupCachePVC: true, cleanupTempPVC: true, enableFileDeletion: true }
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -86,7 +86,7 @@ metadata:
   namespace: books
 spec:
   trigger: { manual: restore-once }
-  restic: { repository: booklore-restic, copyMethod: Direct, accessModes: [ReadWriteOnce], capacity: 10Gi, storageClassName: ceph-block, cacheStorageClassName: ceph-block, cacheCapacity: 1Gi, cleanupCachePVC: true, cleanupTempPVC: true, enableFileDeletion: true }
+  restic: { repository: booklore-restic, copyMethod: Snapshot, volumeSnapshotClassName: csi-ceph-blockpool, accessModes: [ReadWriteOnce], capacity: 10Gi, storageClassName: ceph-block, cacheStorageClassName: ceph-block, cacheCapacity: 1Gi, cleanupCachePVC: true, cleanupTempPVC: true, enableFileDeletion: true }
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -106,7 +106,7 @@ metadata:
   namespace: books
 spec:
   trigger: { manual: restore-once }
-  restic: { repository: libation-config-restic, copyMethod: Direct, accessModes: [ReadWriteOnce], capacity: 5Gi, storageClassName: ceph-block, cacheStorageClassName: ceph-block, cacheCapacity: 1Gi, cleanupCachePVC: true, cleanupTempPVC: true, enableFileDeletion: true }
+  restic: { repository: libation-config-restic, copyMethod: Snapshot, volumeSnapshotClassName: csi-ceph-blockpool, accessModes: [ReadWriteOnce], capacity: 5Gi, storageClassName: ceph-block, cacheStorageClassName: ceph-block, cacheCapacity: 1Gi, cleanupCachePVC: true, cleanupTempPVC: true, enableFileDeletion: true }
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -126,7 +126,7 @@ metadata:
   namespace: books
 spec:
   trigger: { manual: restore-once }
-  restic: { repository: shelfmark-config-restic, copyMethod: Direct, accessModes: [ReadWriteOnce], capacity: 20Gi, storageClassName: ceph-block, cacheStorageClassName: ceph-block, cacheCapacity: 1Gi, cleanupCachePVC: true, cleanupTempPVC: true, enableFileDeletion: true }
+  restic: { repository: shelfmark-config-restic, copyMethod: Snapshot, volumeSnapshotClassName: csi-ceph-blockpool, accessModes: [ReadWriteOnce], capacity: 20Gi, storageClassName: ceph-block, cacheStorageClassName: ceph-block, cacheCapacity: 1Gi, cleanupCachePVC: true, cleanupTempPVC: true, enableFileDeletion: true }
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -146,7 +146,7 @@ metadata:
   namespace: colwiki
 spec:
   trigger: { manual: restore-once }
-  restic: { repository: otterwiki-restic, copyMethod: Direct, accessModes: [ReadWriteOnce], capacity: 20Gi, storageClassName: ceph-block, cacheStorageClassName: ceph-block, cacheCapacity: 1Gi, cleanupCachePVC: true, cleanupTempPVC: true, enableFileDeletion: true }
+  restic: { repository: otterwiki-restic, copyMethod: Snapshot, volumeSnapshotClassName: csi-ceph-blockpool, accessModes: [ReadWriteOnce], capacity: 20Gi, storageClassName: ceph-block, cacheStorageClassName: ceph-block, cacheCapacity: 1Gi, cleanupCachePVC: true, cleanupTempPVC: true, enableFileDeletion: true }
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -166,7 +166,7 @@ metadata:
   namespace: home-media
 spec:
   trigger: { manual: restore-once }
-  restic: { repository: autobrr-restic, copyMethod: Direct, accessModes: [ReadWriteOnce], capacity: 5Gi, storageClassName: ceph-block, cacheStorageClassName: ceph-block, cacheCapacity: 1Gi, cleanupCachePVC: true, cleanupTempPVC: true, enableFileDeletion: true }
+  restic: { repository: autobrr-restic, copyMethod: Snapshot, volumeSnapshotClassName: csi-ceph-blockpool, accessModes: [ReadWriteOnce], capacity: 5Gi, storageClassName: ceph-block, cacheStorageClassName: ceph-block, cacheCapacity: 1Gi, cleanupCachePVC: true, cleanupTempPVC: true, enableFileDeletion: true }
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -186,7 +186,7 @@ metadata:
   namespace: home-media
 spec:
   trigger: { manual: restore-once }
-  restic: { repository: bazarr-restic, copyMethod: Direct, accessModes: [ReadWriteOnce], capacity: 10Gi, storageClassName: ceph-block, cacheStorageClassName: ceph-block, cacheCapacity: 1Gi, cleanupCachePVC: true, cleanupTempPVC: true, enableFileDeletion: true }
+  restic: { repository: bazarr-restic, copyMethod: Snapshot, volumeSnapshotClassName: csi-ceph-blockpool, accessModes: [ReadWriteOnce], capacity: 10Gi, storageClassName: ceph-block, cacheStorageClassName: ceph-block, cacheCapacity: 1Gi, cleanupCachePVC: true, cleanupTempPVC: true, enableFileDeletion: true }
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -206,7 +206,7 @@ metadata:
   namespace: home-media
 spec:
   trigger: { manual: restore-once }
-  restic: { repository: cleanuparr-config-restic, copyMethod: Direct, accessModes: [ReadWriteOnce], capacity: 10Gi, storageClassName: ceph-block, cacheStorageClassName: ceph-block, cacheCapacity: 1Gi, cleanupCachePVC: true, cleanupTempPVC: true, enableFileDeletion: true }
+  restic: { repository: cleanuparr-config-restic, copyMethod: Snapshot, volumeSnapshotClassName: csi-ceph-blockpool, accessModes: [ReadWriteOnce], capacity: 10Gi, storageClassName: ceph-block, cacheStorageClassName: ceph-block, cacheCapacity: 1Gi, cleanupCachePVC: true, cleanupTempPVC: true, enableFileDeletion: true }
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -226,7 +226,7 @@ metadata:
   namespace: home-media
 spec:
   trigger: { manual: restore-once }
-  restic: { repository: dispatcharr-restic, copyMethod: Direct, accessModes: [ReadWriteOnce], capacity: 10Gi, storageClassName: ceph-block, cacheStorageClassName: ceph-block, cacheCapacity: 1Gi, cleanupCachePVC: true, cleanupTempPVC: true, enableFileDeletion: true }
+  restic: { repository: dispatcharr-restic, copyMethod: Snapshot, volumeSnapshotClassName: csi-ceph-blockpool, accessModes: [ReadWriteOnce], capacity: 10Gi, storageClassName: ceph-block, cacheStorageClassName: ceph-block, cacheCapacity: 1Gi, cleanupCachePVC: true, cleanupTempPVC: true, enableFileDeletion: true }
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -246,7 +246,7 @@ metadata:
   namespace: home-media
 spec:
   trigger: { manual: restore-once }
-  restic: { repository: jellyfin-config-restic, copyMethod: Direct, accessModes: [ReadWriteOnce], capacity: 10Gi, storageClassName: ceph-block, cacheStorageClassName: ceph-block, cacheCapacity: 1Gi, cleanupCachePVC: true, cleanupTempPVC: true, enableFileDeletion: true }
+  restic: { repository: jellyfin-config-restic, copyMethod: Snapshot, volumeSnapshotClassName: csi-ceph-blockpool, accessModes: [ReadWriteOnce], capacity: 10Gi, storageClassName: ceph-block, cacheStorageClassName: ceph-block, cacheCapacity: 1Gi, cleanupCachePVC: true, cleanupTempPVC: true, enableFileDeletion: true }
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -266,7 +266,7 @@ metadata:
   namespace: home-media
 spec:
   trigger: { manual: restore-once }
-  restic: { repository: qbittorrent-config-restic, copyMethod: Direct, accessModes: [ReadWriteOnce], capacity: 1Gi, storageClassName: ceph-block, cacheStorageClassName: ceph-block, cacheCapacity: 1Gi, cleanupCachePVC: true, cleanupTempPVC: true, enableFileDeletion: true }
+  restic: { repository: qbittorrent-config-restic, copyMethod: Snapshot, volumeSnapshotClassName: csi-ceph-blockpool, accessModes: [ReadWriteOnce], capacity: 1Gi, storageClassName: ceph-block, cacheStorageClassName: ceph-block, cacheCapacity: 1Gi, cleanupCachePVC: true, cleanupTempPVC: true, enableFileDeletion: true }
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -286,7 +286,7 @@ metadata:
   namespace: home-media
 spec:
   trigger: { manual: restore-once }
-  restic: { repository: qui-restic, copyMethod: Direct, accessModes: [ReadWriteOnce], capacity: 5Gi, storageClassName: ceph-block, cacheStorageClassName: ceph-block, cacheCapacity: 1Gi, cleanupCachePVC: true, cleanupTempPVC: true, enableFileDeletion: true }
+  restic: { repository: qui-restic, copyMethod: Snapshot, volumeSnapshotClassName: csi-ceph-blockpool, accessModes: [ReadWriteOnce], capacity: 5Gi, storageClassName: ceph-block, cacheStorageClassName: ceph-block, cacheCapacity: 1Gi, cleanupCachePVC: true, cleanupTempPVC: true, enableFileDeletion: true }
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -306,7 +306,7 @@ metadata:
   namespace: home-media
 spec:
   trigger: { manual: restore-once }
-  restic: { repository: radarr-config-restic, copyMethod: Direct, accessModes: [ReadWriteOnce], capacity: 5Gi, storageClassName: ceph-block, cacheStorageClassName: ceph-block, cacheCapacity: 1Gi, cleanupCachePVC: true, cleanupTempPVC: true, enableFileDeletion: true }
+  restic: { repository: radarr-config-restic, copyMethod: Snapshot, volumeSnapshotClassName: csi-ceph-blockpool, accessModes: [ReadWriteOnce], capacity: 5Gi, storageClassName: ceph-block, cacheStorageClassName: ceph-block, cacheCapacity: 1Gi, cleanupCachePVC: true, cleanupTempPVC: true, enableFileDeletion: true }
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -326,7 +326,7 @@ metadata:
   namespace: home-media
 spec:
   trigger: { manual: restore-once }
-  restic: { repository: seedboxapi-config-restic, copyMethod: Direct, accessModes: [ReadWriteOnce], capacity: 1Gi, storageClassName: ceph-block, cacheStorageClassName: ceph-block, cacheCapacity: 1Gi, cleanupCachePVC: true, cleanupTempPVC: true, enableFileDeletion: true }
+  restic: { repository: seedboxapi-config-restic, copyMethod: Snapshot, volumeSnapshotClassName: csi-ceph-blockpool, accessModes: [ReadWriteOnce], capacity: 1Gi, storageClassName: ceph-block, cacheStorageClassName: ceph-block, cacheCapacity: 1Gi, cleanupCachePVC: true, cleanupTempPVC: true, enableFileDeletion: true }
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -346,7 +346,7 @@ metadata:
   namespace: home-media
 spec:
   trigger: { manual: restore-once }
-  restic: { repository: seerr-config-restic, copyMethod: Direct, accessModes: [ReadWriteOnce], capacity: 1Gi, storageClassName: ceph-block, cacheStorageClassName: ceph-block, cacheCapacity: 1Gi, cleanupCachePVC: true, cleanupTempPVC: true, enableFileDeletion: true }
+  restic: { repository: seerr-config-restic, copyMethod: Snapshot, volumeSnapshotClassName: csi-ceph-blockpool, accessModes: [ReadWriteOnce], capacity: 1Gi, storageClassName: ceph-block, cacheStorageClassName: ceph-block, cacheCapacity: 1Gi, cleanupCachePVC: true, cleanupTempPVC: true, enableFileDeletion: true }
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -366,7 +366,7 @@ metadata:
   namespace: home-media
 spec:
   trigger: { manual: restore-once }
-  restic: { repository: seerr-config-cache-restic, copyMethod: Direct, accessModes: [ReadWriteOnce], capacity: 15Gi, storageClassName: ceph-block, cacheStorageClassName: ceph-block, cacheCapacity: 1Gi, cleanupCachePVC: true, cleanupTempPVC: true, enableFileDeletion: true }
+  restic: { repository: seerr-config-cache-restic, copyMethod: Snapshot, volumeSnapshotClassName: csi-ceph-blockpool, accessModes: [ReadWriteOnce], capacity: 15Gi, storageClassName: ceph-block, cacheStorageClassName: ceph-block, cacheCapacity: 1Gi, cleanupCachePVC: true, cleanupTempPVC: true, enableFileDeletion: true }
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -386,7 +386,7 @@ metadata:
   namespace: home-media
 spec:
   trigger: { manual: restore-once }
-  restic: { repository: sonarr-config-restic, copyMethod: Direct, accessModes: [ReadWriteOnce], capacity: 5Gi, storageClassName: ceph-block, cacheStorageClassName: ceph-block, cacheCapacity: 1Gi, cleanupCachePVC: true, cleanupTempPVC: true, enableFileDeletion: true }
+  restic: { repository: sonarr-config-restic, copyMethod: Snapshot, volumeSnapshotClassName: csi-ceph-blockpool, accessModes: [ReadWriteOnce], capacity: 5Gi, storageClassName: ceph-block, cacheStorageClassName: ceph-block, cacheCapacity: 1Gi, cleanupCachePVC: true, cleanupTempPVC: true, enableFileDeletion: true }
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -406,7 +406,7 @@ metadata:
   namespace: manga
 spec:
   trigger: { manual: restore-once }
-  restic: { repository: komf-restic, copyMethod: Direct, accessModes: [ReadWriteOnce], capacity: 5Gi, storageClassName: ceph-block, cacheStorageClassName: ceph-block, cacheCapacity: 1Gi, cleanupCachePVC: true, cleanupTempPVC: true, enableFileDeletion: true }
+  restic: { repository: komf-restic, copyMethod: Snapshot, volumeSnapshotClassName: csi-ceph-blockpool, accessModes: [ReadWriteOnce], capacity: 5Gi, storageClassName: ceph-block, cacheStorageClassName: ceph-block, cacheCapacity: 1Gi, cleanupCachePVC: true, cleanupTempPVC: true, enableFileDeletion: true }
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -426,7 +426,7 @@ metadata:
   namespace: manga
 spec:
   trigger: { manual: restore-once }
-  restic: { repository: komga-restic, copyMethod: Direct, accessModes: [ReadWriteOnce], capacity: 5Gi, storageClassName: ceph-block, cacheStorageClassName: ceph-block, cacheCapacity: 1Gi, cleanupCachePVC: true, cleanupTempPVC: true, enableFileDeletion: true }
+  restic: { repository: komga-restic, copyMethod: Snapshot, volumeSnapshotClassName: csi-ceph-blockpool, accessModes: [ReadWriteOnce], capacity: 5Gi, storageClassName: ceph-block, cacheStorageClassName: ceph-block, cacheCapacity: 1Gi, cleanupCachePVC: true, cleanupTempPVC: true, enableFileDeletion: true }
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -446,7 +446,7 @@ metadata:
   namespace: manga
 spec:
   trigger: { manual: restore-once }
-  restic: { repository: suwayomi-restic, copyMethod: Direct, accessModes: [ReadWriteOnce], capacity: 5Gi, storageClassName: ceph-block, cacheStorageClassName: ceph-block, cacheCapacity: 1Gi, cleanupCachePVC: true, cleanupTempPVC: true, enableFileDeletion: true }
+  restic: { repository: suwayomi-restic, copyMethod: Snapshot, volumeSnapshotClassName: csi-ceph-blockpool, accessModes: [ReadWriteOnce], capacity: 5Gi, storageClassName: ceph-block, cacheStorageClassName: ceph-block, cacheCapacity: 1Gi, cleanupCachePVC: true, cleanupTempPVC: true, enableFileDeletion: true }
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -466,7 +466,7 @@ metadata:
   namespace: tandoor
 spec:
   trigger: { manual: restore-once }
-  restic: { repository: tandoor-restic, copyMethod: Direct, accessModes: [ReadWriteOnce], capacity: 5Gi, storageClassName: ceph-block, cacheStorageClassName: ceph-block, cacheCapacity: 1Gi, cleanupCachePVC: true, cleanupTempPVC: true, enableFileDeletion: true }
+  restic: { repository: tandoor-restic, copyMethod: Snapshot, volumeSnapshotClassName: csi-ceph-blockpool, accessModes: [ReadWriteOnce], capacity: 5Gi, storageClassName: ceph-block, cacheStorageClassName: ceph-block, cacheCapacity: 1Gi, cleanupCachePVC: true, cleanupTempPVC: true, enableFileDeletion: true }
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -486,7 +486,7 @@ metadata:
   namespace: zerobyte
 spec:
   trigger: { manual: restore-once }
-  restic: { repository: zerobyte-restic, copyMethod: Direct, accessModes: [ReadWriteOnce], capacity: 10Gi, storageClassName: ceph-block, cacheStorageClassName: ceph-block, cacheCapacity: 1Gi, cleanupCachePVC: true, cleanupTempPVC: true, enableFileDeletion: true }
+  restic: { repository: zerobyte-restic, copyMethod: Snapshot, volumeSnapshotClassName: csi-ceph-blockpool, accessModes: [ReadWriteOnce], capacity: 10Gi, storageClassName: ceph-block, cacheStorageClassName: ceph-block, cacheCapacity: 1Gi, cleanupCachePVC: true, cleanupTempPVC: true, enableFileDeletion: true }
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim

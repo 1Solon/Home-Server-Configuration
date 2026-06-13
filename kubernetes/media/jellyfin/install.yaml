@@ -35,6 +35,7 @@ spec:
       VOLSYNC_MOVER_APP_NAME: jellyfin
       VOLSYNC_MOVER_APP_INSTANCE: jellyfin
       VOLSYNC_SCHEDULE: "4 */6 * * *"
+      VOLSYNC_COPY_METHOD: Direct
     substituteFrom:
       - kind: ConfigMap
         name: cluster-settings

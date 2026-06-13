@@ -37,6 +37,14 @@ spec:
     storageClassName: longhorn
     volumeSnapshotClassName: longhorn
     cacheStorageClassName: longhorn
+    moverAffinity:
+      podAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchLabels:
+                app.kubernetes.io/name: audiobookshelf
+                app.kubernetes.io/instance: audiobookshelf
+            topologyKey: kubernetes.io/hostname
     pruneIntervalDays: 7
     cacheCapacity: 1Gi
     retain:

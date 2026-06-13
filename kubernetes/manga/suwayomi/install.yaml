@@ -5,10 +5,15 @@ metadata:
   name: &app suwayomi
   namespace: flux-system
 spec:
+  components:
+    - ../../../components/volsync
   targetNamespace: manga
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
+  dependsOn:
+    - name: volsync
+      namespace: flux-system
   path: "./kubernetes/manga/suwayomi/app"
   prune: false
   sourceRef:
@@ -19,6 +24,13 @@ spec:
   retryInterval: 1m
   timeout: 5m
   postBuild:
+    substitute:
+      APP: suwayomi
+      VOLSYNC_REPOSITORY: s3:http://garage.garage.svc.cluster.local:3900/volsync/manga/suwayomi
+      VOLSYNC_SOURCE_PVC: suwayomi
+      VOLSYNC_MOVER_APP_NAME: suwayomi
+      VOLSYNC_MOVER_APP_INSTANCE: suwayomi
+      VOLSYNC_SCHEDULE: "58 */6 * * *"
     substituteFrom:
       - kind: ConfigMap
         name: cluster-settings

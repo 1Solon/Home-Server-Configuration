@@ -5,10 +5,15 @@ metadata:
   name: radarr
   namespace: flux-system
 spec:
+  components:
+    - ../../../components/volsync
   targetNamespace: home-media
   commonMetadata:
     labels:
       app.kubernetes.io/name: radarr
+  dependsOn:
+    - name: volsync
+      namespace: flux-system
   path: "./kubernetes/media/radarr/app"
   prune: false
   sourceRef:
@@ -23,6 +28,13 @@ spec:
   retryInterval: 1m
   timeout: 5m
   postBuild:
+    substitute:
+      APP: radarr-config
+      VOLSYNC_REPOSITORY: s3:http://garage.garage.svc.cluster.local:3900/volsync/home-media/radarr-config
+      VOLSYNC_SOURCE_PVC: radarr-config
+      VOLSYNC_MOVER_APP_NAME: radarr
+      VOLSYNC_MOVER_APP_INSTANCE: radarr
+      VOLSYNC_SCHEDULE: "28 */6 * * *"
     substituteFrom:
       - kind: ConfigMap
         name: cluster-settings

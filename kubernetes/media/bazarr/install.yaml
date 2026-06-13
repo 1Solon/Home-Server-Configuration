@@ -5,10 +5,15 @@ metadata:
   name: bazarr
   namespace: flux-system
 spec:
+  components:
+    - ../../../components/volsync
   targetNamespace: home-media
   commonMetadata:
     labels:
       app.kubernetes.io/name: bazarr
+  dependsOn:
+    - name: volsync
+      namespace: flux-system
   path: "./kubernetes/media/bazarr/app"
   prune: true
   sourceRef:
@@ -19,6 +24,13 @@ spec:
   retryInterval: 1m
   timeout: 5m
   postBuild:
+    substitute:
+      APP: bazarr
+      VOLSYNC_REPOSITORY: s3:http://garage.garage.svc.cluster.local:3900/volsync/home-media/bazarr
+      VOLSYNC_SOURCE_PVC: bazarr
+      VOLSYNC_MOVER_APP_NAME: bazarr
+      VOLSYNC_MOVER_APP_INSTANCE: bazarr
+      VOLSYNC_SCHEDULE: "45 */6 * * *"
     substituteFrom:
       - kind: ConfigMap
         name: cluster-settings

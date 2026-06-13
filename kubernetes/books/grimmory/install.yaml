@@ -5,10 +5,15 @@ metadata:
   name: grimmory
   namespace: flux-system
 spec:
+  components:
+    - ../../../components/volsync
   targetNamespace: books
   commonMetadata:
     labels:
       app.kubernetes.io/name: grimmory
+  dependsOn:
+    - name: volsync
+      namespace: flux-system
   path: "./kubernetes/books/grimmory/app"
   prune: true
   sourceRef:
@@ -19,6 +24,13 @@ spec:
   retryInterval: 1m
   timeout: 5m
   postBuild:
+    substitute:
+      APP: booklore
+      VOLSYNC_REPOSITORY: s3:http://garage.garage.svc.cluster.local:3900/volsync/books/booklore
+      VOLSYNC_SOURCE_PVC: booklore
+      VOLSYNC_MOVER_APP_NAME: grimmory
+      VOLSYNC_MOVER_APP_INSTANCE: grimmory
+      VOLSYNC_SCHEDULE: "21 */6 * * *"
     substituteFrom:
       - kind: ConfigMap
         name: cluster-settings

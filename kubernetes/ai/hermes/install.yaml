@@ -6,10 +6,14 @@ metadata:
   name: &app hermes
   namespace: flux-system
 spec:
+  components:
+    - ../../../components/volsync
   dependsOn:
     - name: agentmemory
     - name: grafana-mcp
     - name: toolhive-config
+    - name: volsync
+      namespace: flux-system
   path: "./kubernetes/ai/hermes/app"
   targetNamespace: ai
   prune: true
@@ -24,6 +28,13 @@ spec:
     kind: GitRepository
     name: flux-system
   postBuild:
+    substitute:
+      APP: hermes
+      VOLSYNC_REPOSITORY: s3:http://garage.garage.svc.cluster.local:3900/volsync/ai/hermes
+      VOLSYNC_SOURCE_PVC: hermes
+      VOLSYNC_MOVER_APP_NAME: hermes
+      VOLSYNC_MOVER_APP_INSTANCE: hermes
+      VOLSYNC_SCHEDULE: "9 */6 * * *"
     substituteFrom:
       - kind: ConfigMap
         name: cluster-settings

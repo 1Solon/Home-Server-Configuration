@@ -5,10 +5,15 @@ metadata:
   name: cleanuparr
   namespace: flux-system
 spec:
+  components:
+    - ../../../components/volsync
   targetNamespace: home-media
   commonMetadata:
     labels:
       app.kubernetes.io/name: cleanuparr
+  dependsOn:
+    - name: volsync
+      namespace: flux-system
   path: "./kubernetes/media/cleanuparr/app"
   prune: false
   sourceRef:
@@ -19,6 +24,13 @@ spec:
   retryInterval: 1m
   timeout: 5m
   postBuild:
+    substitute:
+      APP: cleanuparr-config
+      VOLSYNC_REPOSITORY: s3:http://garage.garage.svc.cluster.local:3900/volsync/home-media/cleanuparr-config
+      VOLSYNC_SOURCE_PVC: cleanuparr-config
+      VOLSYNC_MOVER_APP_NAME: cleanuparr
+      VOLSYNC_MOVER_APP_INSTANCE: cleanuparr
+      VOLSYNC_SCHEDULE: "51 */6 * * *"
     substituteFrom:
       - kind: ConfigMap
         name: cluster-settings

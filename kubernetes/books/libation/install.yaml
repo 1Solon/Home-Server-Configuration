@@ -6,10 +6,15 @@ metadata:
   name: libation
   namespace: flux-system
 spec:
+  components:
+    - ../../../components/volsync
   targetNamespace: books
   commonMetadata:
     labels:
       app.kubernetes.io/name: libation
+  dependsOn:
+    - name: volsync
+      namespace: flux-system
   path: ./kubernetes/books/libation/app
   prune: true
   sourceRef:
@@ -20,6 +25,13 @@ spec:
   retryInterval: 1m
   timeout: 5m
   postBuild:
+    substitute:
+      APP: libation-config
+      VOLSYNC_REPOSITORY: s3:http://garage.garage.svc.cluster.local:3900/volsync/books/libation-config
+      VOLSYNC_SOURCE_PVC: libation-config
+      VOLSYNC_MOVER_APP_NAME: libation
+      VOLSYNC_MOVER_APP_INSTANCE: libation
+      VOLSYNC_SCHEDULE: "27 */6 * * *"
     substituteFrom:
       - kind: ConfigMap
         name: cluster-settings

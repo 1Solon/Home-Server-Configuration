@@ -6,6 +6,11 @@ metadata:
   name: &app openwebui
   namespace: flux-system
 spec:
+  components:
+    - ../../../components/volsync
+  dependsOn:
+    - name: volsync
+      namespace: flux-system
   path: "./kubernetes/ai/openwebui/app"
   targetNamespace: ai
   prune: true
@@ -20,6 +25,13 @@ spec:
     kind: GitRepository
     name: flux-system
   postBuild:
+    substitute:
+      APP: open-webui-config
+      VOLSYNC_REPOSITORY: s3:http://garage.garage.svc.cluster.local:3900/volsync/ai/open-webui-config
+      VOLSYNC_SOURCE_PVC: open-webui-config
+      VOLSYNC_MOVER_APP_NAME: open-webui
+      VOLSYNC_MOVER_APP_INSTANCE: open-webui
+      VOLSYNC_SCHEDULE: "15 */6 * * *"
     substituteFrom:
       - kind: ConfigMap
         name: cluster-settings

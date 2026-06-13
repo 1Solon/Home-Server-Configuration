@@ -6,8 +6,12 @@ metadata:
   name: &app agentmemory
   namespace: flux-system
 spec:
+  components:
+    - ../../../components/volsync
   dependsOn:
     - name: llama-embed
+    - name: volsync
+      namespace: flux-system
   path: "./kubernetes/ai/agentmemory/app"
   targetNamespace: ai
   prune: true
@@ -22,6 +26,13 @@ spec:
     kind: GitRepository
     name: flux-system
   postBuild:
+    substitute:
+      APP: agentmemory
+      VOLSYNC_REPOSITORY: s3:http://garage.garage.svc.cluster.local:3900/volsync/ai/agentmemory
+      VOLSYNC_SOURCE_PVC: agentmemory
+      VOLSYNC_MOVER_APP_NAME: agentmemory
+      VOLSYNC_MOVER_APP_INSTANCE: agentmemory
+      VOLSYNC_SCHEDULE: "3 */6 * * *"
     substituteFrom:
       - kind: ConfigMap
         name: cluster-settings

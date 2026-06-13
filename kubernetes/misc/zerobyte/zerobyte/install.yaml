@@ -5,10 +5,15 @@ metadata:
   name: &app zerobyte
   namespace: flux-system
 spec:
+  components:
+    - ../../../../components/volsync
   targetNamespace: zerobyte
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
+  dependsOn:
+    - name: volsync
+      namespace: flux-system
   path: "./kubernetes/misc/zerobyte/zerobyte/app"
   prune: true
   sourceRef:
@@ -19,6 +24,13 @@ spec:
   retryInterval: 1m
   timeout: 5m
   postBuild:
+    substitute:
+      APP: zerobyte
+      VOLSYNC_REPOSITORY: s3:http://garage.garage.svc.cluster.local:3900/volsync/zerobyte/zerobyte
+      VOLSYNC_SOURCE_PVC: zerobyte
+      VOLSYNC_MOVER_APP_NAME: zerobyte
+      VOLSYNC_MOVER_APP_INSTANCE: zerobyte
+      VOLSYNC_SCHEDULE: "13 */6 * * *"
     substituteFrom:
       - kind: ConfigMap
         name: cluster-settings

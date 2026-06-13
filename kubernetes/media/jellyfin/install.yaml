@@ -5,10 +5,15 @@ metadata:
   name: jellyfin
   namespace: flux-system
 spec:
+  components:
+    - ../../../components/volsync
   targetNamespace: home-media
   commonMetadata:
     labels:
       app.kubernetes.io/name: jellyfin
+  dependsOn:
+    - name: volsync
+      namespace: flux-system
   path: "./kubernetes/media/jellyfin/app"
   prune: false
   sourceRef:
@@ -23,6 +28,13 @@ spec:
   retryInterval: 1m
   timeout: 5m
   postBuild:
+    substitute:
+      APP: jellyfin-config
+      VOLSYNC_REPOSITORY: s3:http://garage.garage.svc.cluster.local:3900/volsync/home-media/jellyfin-config
+      VOLSYNC_SOURCE_PVC: jellyfin-config
+      VOLSYNC_MOVER_APP_NAME: jellyfin
+      VOLSYNC_MOVER_APP_INSTANCE: jellyfin
+      VOLSYNC_SCHEDULE: "4 */6 * * *"
     substituteFrom:
       - kind: ConfigMap
         name: cluster-settings

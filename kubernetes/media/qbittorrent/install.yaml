@@ -5,10 +5,15 @@ metadata:
   name: qbittorrent
   namespace: flux-system
 spec:
+  components:
+    - ../../../components/volsync
   targetNamespace: home-media
   commonMetadata:
     labels:
       app.kubernetes.io/name: qbittorrent
+  dependsOn:
+    - name: volsync
+      namespace: flux-system
   path: "./kubernetes/media/qbittorrent/app"
   prune: true
   sourceRef:
@@ -19,6 +24,13 @@ spec:
   retryInterval: 1m
   timeout: 5m
   postBuild:
+    substitute:
+      APP: qbittorrent-config
+      VOLSYNC_REPOSITORY: s3:http://garage.garage.svc.cluster.local:3900/volsync/home-media/qbittorrent-config
+      VOLSYNC_SOURCE_PVC: qbittorrent-config
+      VOLSYNC_MOVER_APP_NAME: qbittorrent
+      VOLSYNC_MOVER_APP_INSTANCE: qbittorrent
+      VOLSYNC_SCHEDULE: "16 */6 * * *"
     substituteFrom:
       - kind: ConfigMap
         name: cluster-settings
@@ -31,9 +43,13 @@ metadata:
   name: qui
   namespace: flux-system
 spec:
+  components:
+    - ../../../components/volsync
   targetNamespace: home-media
   dependsOn:
     - name: qbittorrent
+    - name: volsync
+      namespace: flux-system
   commonMetadata:
     labels:
       app.kubernetes.io/name: qui
@@ -47,7 +63,43 @@ spec:
   retryInterval: 1m
   timeout: 5m
   postBuild:
+    substitute:
+      APP: qui
+      VOLSYNC_REPOSITORY: s3:http://garage.garage.svc.cluster.local:3900/volsync/home-media/qui
+      VOLSYNC_SOURCE_PVC: qui
+      VOLSYNC_MOVER_APP_NAME: qui
+      VOLSYNC_MOVER_APP_INSTANCE: qui
+      VOLSYNC_SCHEDULE: "22 */6 * * *"
     substituteFrom:
       - kind: ConfigMap
         name: cluster-settings
         optional: false
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: seedboxapi-config-volsync
+  namespace: flux-system
+spec:
+  targetNamespace: home-media
+  dependsOn:
+    - name: qbittorrent
+    - name: volsync
+      namespace: flux-system
+  path: "./kubernetes/components/volsync-standalone"
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  wait: true
+  interval: 30m
+  retryInterval: 1m
+  timeout: 5m
+  postBuild:
+    substitute:
+      APP: seedboxapi-config
+      VOLSYNC_REPOSITORY: s3:http://garage.garage.svc.cluster.local:3900/volsync/home-media/seedboxapi-config
+      VOLSYNC_SOURCE_PVC: seedboxapi-config
+      VOLSYNC_MOVER_APP_NAME: qbittorrent
+      VOLSYNC_MOVER_APP_INSTANCE: qbittorrent
+      VOLSYNC_SCHEDULE: "25 */6 * * *"

@@ -5,10 +5,15 @@ metadata:
   name: shelfmark
   namespace: flux-system
 spec:
+  components:
+    - ../../../components/volsync
   targetNamespace: books
   commonMetadata:
     labels:
       app.kubernetes.io/name: shelfmark
+  dependsOn:
+    - name: volsync
+      namespace: flux-system
   path: "./kubernetes/books/shelfmark/app"
   prune: false
   sourceRef:
@@ -19,6 +24,13 @@ spec:
   retryInterval: 1m
   timeout: 5m
   postBuild:
+    substitute:
+      APP: shelfmark-config
+      VOLSYNC_REPOSITORY: s3:http://garage.garage.svc.cluster.local:3900/volsync/books/shelfmark-config
+      VOLSYNC_SOURCE_PVC: shelfmark-config
+      VOLSYNC_MOVER_APP_NAME: shelfmark
+      VOLSYNC_MOVER_APP_INSTANCE: shelfmark
+      VOLSYNC_SCHEDULE: "33 */6 * * *"
     substituteFrom:
       - kind: ConfigMap
         name: cluster-settings

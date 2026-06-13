@@ -5,10 +5,15 @@ metadata:
   name: dispatcharr
   namespace: flux-system
 spec:
+  components:
+    - ../../../components/volsync
   targetNamespace: home-media
   commonMetadata:
     labels:
       app.kubernetes.io/name: dispatcharr
+  dependsOn:
+    - name: volsync
+      namespace: flux-system
   path: "./kubernetes/media/dispatcharr/app"
   prune: false
   sourceRef:
@@ -19,6 +24,13 @@ spec:
   retryInterval: 1m
   timeout: 5m
   postBuild:
+    substitute:
+      APP: dispatcharr
+      VOLSYNC_REPOSITORY: s3:http://garage.garage.svc.cluster.local:3900/volsync/home-media/dispatcharr
+      VOLSYNC_SOURCE_PVC: dispatcharr
+      VOLSYNC_MOVER_APP_NAME: dispatcharr
+      VOLSYNC_MOVER_APP_INSTANCE: dispatcharr
+      VOLSYNC_SCHEDULE: "57 */6 * * *"
     substituteFrom:
       - kind: ConfigMap
         name: cluster-settings

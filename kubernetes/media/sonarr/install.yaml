@@ -5,10 +5,15 @@ metadata:
   name: sonarr
   namespace: flux-system
 spec:
+  components:
+    - ../../../components/volsync
   targetNamespace: home-media
   commonMetadata:
     labels:
       app.kubernetes.io/name: sonarr
+  dependsOn:
+    - name: volsync
+      namespace: flux-system
   path: "./kubernetes/media/sonarr/app"
   prune: false
   sourceRef:
@@ -23,6 +28,13 @@ spec:
   retryInterval: 1m
   timeout: 5m
   postBuild:
+    substitute:
+      APP: sonarr-config
+      VOLSYNC_REPOSITORY: s3:http://garage.garage.svc.cluster.local:3900/volsync/home-media/sonarr-config
+      VOLSYNC_SOURCE_PVC: sonarr-config
+      VOLSYNC_MOVER_APP_NAME: sonarr
+      VOLSYNC_MOVER_APP_INSTANCE: sonarr
+      VOLSYNC_SCHEDULE: "40 */6 * * *"
     substituteFrom:
       - kind: ConfigMap
         name: cluster-settings

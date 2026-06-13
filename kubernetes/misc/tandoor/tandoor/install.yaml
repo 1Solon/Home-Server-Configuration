@@ -5,10 +5,15 @@ metadata:
   name: &app tandoor
   namespace: flux-system
 spec:
+  components:
+    - ../../../../components/volsync
   targetNamespace: *app
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
+  dependsOn:
+    - name: volsync
+      namespace: flux-system
   path: "./kubernetes/misc/tandoor/tandoor/app"
   prune: false
   sourceRef:
@@ -19,6 +24,13 @@ spec:
   retryInterval: 1m
   timeout: 5m
   postBuild:
+    substitute:
+      APP: tandoor
+      VOLSYNC_REPOSITORY: s3:http://garage.garage.svc.cluster.local:3900/volsync/tandoor/tandoor
+      VOLSYNC_SOURCE_PVC: tandoor
+      VOLSYNC_MOVER_APP_NAME: tandoor
+      VOLSYNC_MOVER_APP_INSTANCE: tandoor
+      VOLSYNC_SCHEDULE: "7 */6 * * *"
     substituteFrom:
       - kind: ConfigMap
         name: cluster-settings

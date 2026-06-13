@@ -5,10 +5,15 @@ metadata:
   name: &app otterwiki
   namespace: flux-system
 spec:
+  components:
+    - ../../../components/volsync
   targetNamespace: colwiki
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
+  dependsOn:
+    - name: volsync
+      namespace: flux-system
   path: "./kubernetes/projects/colwiki/app"
   prune: false
   sourceRef:
@@ -19,6 +24,13 @@ spec:
   retryInterval: 1m
   timeout: 5m
   postBuild:
+    substitute:
+      APP: otterwiki
+      VOLSYNC_REPOSITORY: s3:http://garage.garage.svc.cluster.local:3900/volsync/colwiki/otterwiki
+      VOLSYNC_SOURCE_PVC: otterwiki
+      VOLSYNC_MOVER_APP_NAME: otterwiki
+      VOLSYNC_MOVER_APP_INSTANCE: otterwiki
+      VOLSYNC_SCHEDULE: "19 */6 * * *"
     substituteFrom:
       - kind: ConfigMap
         name: cluster-settings

@@ -19,6 +19,8 @@ spec:
   dependsOn:
     - name: snapshot-controller-crds
       namespace: flux-system
+    - name: snapshot-controller-classes
+      namespace: flux-system
   wait: true
   interval: 30m
   retryInterval: 1m

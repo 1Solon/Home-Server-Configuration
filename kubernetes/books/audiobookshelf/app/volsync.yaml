@@ -33,7 +33,10 @@ spec:
     schedule: "17 */6 * * *"
   restic:
     repository: audiobookshelf-config-restic
-    copyMethod: Clone
+    copyMethod: Snapshot
+    storageClassName: longhorn
+    volumeSnapshotClassName: longhorn
+    cacheStorageClassName: longhorn
     pruneIntervalDays: 7
     cacheCapacity: 1Gi
     retain:

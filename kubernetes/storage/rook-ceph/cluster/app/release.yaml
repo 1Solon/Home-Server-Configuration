@@ -37,6 +37,9 @@ spec:
       mgr:
         count: 2
         allowMultiplePerNode: false
+        modules:
+          - name: rook
+            enabled: true
       dashboard:
         enabled: true
         ssl: false

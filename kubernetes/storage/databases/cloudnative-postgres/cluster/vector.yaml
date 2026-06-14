@@ -63,7 +63,7 @@ spec:
       endpointURL: https://s3.${LOCAL_DOMAIN}
       # Note: serverName version needs to be incremented
       # when recovering from an existing cnpg cluster
-      serverName: pgvector17-v2
+      serverName: pgvector17-v3
       s3Credentials:
         accessKeyId:
           name: cloudnative-pg-secret

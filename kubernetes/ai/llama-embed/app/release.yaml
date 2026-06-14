@@ -72,7 +72,7 @@ spec:
           app:
             image:
               repository: ghcr.io/ggml-org/llama.cpp
-              tag: server-cuda@sha256:97e97f5f74ea14399a597b583b2513c7d94b4a3586a3a8a38cd44525fb4ad6b8
+              tag: server-cuda@sha256:c9a2287423b13a13f69c980a45e6c62994f26dffe393cfce7c20bd8feba226c9
             args:
               - --host
               - 0.0.0.0

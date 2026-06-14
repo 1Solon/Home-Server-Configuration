@@ -39,7 +39,7 @@ spec:
         allowMultiplePerNode: false
       dashboard:
         enabled: true
-        ssl: true
+        ssl: false
       crashCollector:
         disable: false
       logCollector:

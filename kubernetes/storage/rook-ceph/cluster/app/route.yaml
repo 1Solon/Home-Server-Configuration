@@ -17,7 +17,7 @@ spec:
       namespace: networking
       sectionName: https
   hostnames:
-    - ceph.${LOCAL_DOMAIN}
+    - ceph.local.solonsstuff.com
   rules:
     - matches:
         - path:

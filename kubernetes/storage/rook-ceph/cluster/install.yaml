@@ -13,6 +13,8 @@ spec:
   dependsOn:
     - name: rook-ceph
       namespace: flux-system
+    - name: ceph-csi-drivers
+      namespace: flux-system
   interval: 30m
   retryInterval: 1m
   timeout: 30m

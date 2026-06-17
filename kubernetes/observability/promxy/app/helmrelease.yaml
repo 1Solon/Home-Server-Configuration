@@ -30,7 +30,7 @@ spec:
           app:
             image:
               repository: ghcr.io/joryirving/promxy
-              tag: "v0.0.93@sha256:9fe586d910f43a00de6044a56e1cc9878aaeb420adb59076f8e6731e2508da3f"
+              tag: "0.0.93@sha256:3d09b0c3624314d124710fa49cf3babb2735fccd199b2fb67e75f584c7ad014e"
             args:
             - --config=/etc/promxy/config.yaml
             securityContext:

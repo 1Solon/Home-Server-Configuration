@@ -1,5 +1,5 @@
 ---
-# renovate: datasource=docker depName=ghcr.io/siderolabs/installer
+# renovate: datasource=custom.talos-factory depName=siderolabs/talos
 talosVersion: v1.13.4
 
 # renovate: datasource=docker depName=ghcr.io/siderolabs/kubelet

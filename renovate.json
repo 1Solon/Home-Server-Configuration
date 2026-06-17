@@ -208,6 +208,18 @@
       "addLabels": [
         "renovate/github-release"
       ]
+    },
+    {
+      "description": "Talos Factory",
+      "matchDatasources": [
+        "custom.talos-factory"
+      ],
+      "versioning": "semver-coerced",
+      "semanticCommitScope": "github-release",
+      "commitMessageTopic": "release {{depName}}",
+      "addLabels": [
+        "renovate/github-release"
+      ]
     }
   ],
   "customManagers": [
@@ -225,5 +237,13 @@
       ],
       "datasourceTemplate": "{{#if datasource}}{{{datasource}}}{{else}}github-releases{{/if}}"
     }
-  ]
+  ],
+  "customDatasources": {
+    "talos-factory": {
+      "defaultRegistryUrlTemplate": "https://factory.talos.dev/versions",
+      "transformTemplates": [
+        "{\"releases\": $map($, function($v) { {\"version\": $v, \"sourceUrl\": \"https://github.com/siderolabs/talos\", \"changelogUrl\": $join([\"https://github.com/siderolabs/talos/releases/tag/\", $v])} }), \"sourceUrl\": \"https://github.com/siderolabs/talos\", \"homepage\": \"https://factory.talos.dev\"}"
+      ]
+    }
+  }
 }

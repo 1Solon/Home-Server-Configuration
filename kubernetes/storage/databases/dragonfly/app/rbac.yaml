@@ -36,6 +36,7 @@ rules:
     resources:
       - "pods"
       - "services"
+      - "configmaps"
     verbs:
       - "create"
       - "delete"

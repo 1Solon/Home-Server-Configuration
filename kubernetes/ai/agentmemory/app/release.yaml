@@ -68,6 +68,7 @@ spec:
               OPENAI_EMBEDDING_DIMENSIONS: "384"
               OPENAI_EMBEDDING_MODEL: sentence-transformers/all-MiniLM-L6-v2
               RUST_LOG: warn
+              AGENTMEMORY_VIEWER_HOST: 0.0.0.0
               VIEWER_ALLOWED_HOSTS: "agentmemory.${LOCAL_DOMAIN}"
               VIEWER_ALLOWED_ORIGINS: "https://agentmemory.${LOCAL_DOMAIN}"
             envFrom:
@@ -145,6 +146,13 @@ spec:
             backendRefs:
               - identifier: app
                 port: 3112
+          - matches:
+              - path:
+                  type: PathPrefix
+                  value: /agentmemory
+            backendRefs:
+              - identifier: app
+                port: 3111
           - matches:
               - path:
                   type: PathPrefix

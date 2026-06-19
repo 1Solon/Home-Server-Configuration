@@ -67,8 +67,7 @@ spec:
               EMBEDDING_PROVIDER: openai
               GRAPH_EXTRACTION_ENABLED: "true"
               III_REST_PORT: &apiPort 3111
-              ANTHROPIC_BASE_URL: https://openrouter.ai/api
-              ANTHROPIC_MODEL: "~anthropic/claude-sonnet-latest"
+              OPENROUTER_MODEL: deepseek/deepseek-v4-flash
               OPENAI_BASE_URL: http://llama-embed.ai.svc.cluster.local:8080
               OPENAI_API_KEY: local
               OPENAI_API_KEY_FOR_LLM: "false"

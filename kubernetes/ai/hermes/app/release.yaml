@@ -86,6 +86,7 @@ spec:
               API_SERVER_CORS_ORIGINS: "https://hermes.${LOCAL_DOMAIN}"
               AGENTMEMORY_PROJECT: hermes
               AGENTMEMORY_URL: http://agentmemory.ai.svc.cluster.local:3111
+              AGENTMEMORY_INJECT_CONTEXT: "true"
             envFrom:
               - secretRef:
                   name: *app

@@ -60,11 +60,18 @@ spec:
               TZ: "${TZ}"
               AGENTMEMORY_TOOLS: all
               AGENTMEMORY_DROP_STALE_INDEX: "true"
+              AGENTMEMORY_AUTO_COMPRESS: "true"
+              AGENTMEMORY_INJECT_CONTEXT: "true"
+              AGENTMEMORY_LLM_TIMEOUT_MS: "120000"
+              CONSOLIDATION_ENABLED: "true"
               EMBEDDING_PROVIDER: openai
               GRAPH_EXTRACTION_ENABLED: "true"
               III_REST_PORT: &apiPort 3111
+              ANTHROPIC_BASE_URL: https://openrouter.ai/api
+              ANTHROPIC_MODEL: "~anthropic/claude-sonnet-latest"
               OPENAI_BASE_URL: http://llama-embed.ai.svc.cluster.local:8080
               OPENAI_API_KEY: local
+              OPENAI_API_KEY_FOR_LLM: "false"
               OPENAI_EMBEDDING_DIMENSIONS: "384"
               OPENAI_EMBEDDING_MODEL: sentence-transformers/all-MiniLM-L6-v2
               RUST_LOG: warn

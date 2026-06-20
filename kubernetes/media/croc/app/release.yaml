@@ -40,7 +40,7 @@ spec:
           app:
             image:
               repository: docker.io/schollz/croc
-              tag: v10.4.4
+              tag: 10.4.4
             command:
               - /bin/sh
               - -c

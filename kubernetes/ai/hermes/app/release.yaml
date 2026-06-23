@@ -74,7 +74,7 @@ spec:
             image:
               repository: nousresearch/hermes-agent
               tag: v2026.6.19@sha256:9f367c7756ef087661a361536a89f438d57a122b958dc23d82d456b1433e6e9e
-            args: ["gateway", "run", "--no-supervise"]
+            args: ["sleep", "infinity"]
             env:
               TZ: "${TZ}"
               HERMES_HOME: /opt/data

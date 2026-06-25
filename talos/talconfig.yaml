@@ -16,6 +16,9 @@ patches:
   - |-
     machine:
       kubelet:
+        extraArgs:
+          image-gc-high-threshold: "68"
+          image-gc-low-threshold: "60"
         extraMounts:
           - destination: /var/lib/longhorn
             type: bind

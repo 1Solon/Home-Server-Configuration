@@ -5,7 +5,6 @@ kind: Kustomization
 resources:
 - namespace.yaml
 - ./agentmemory/install.yaml
-- ./firecrawl/install.yaml
 - ./hermes/install.yaml
 - ./llama-embed/install.yaml
 - ./openwebui/install.yaml

@@ -37,6 +37,21 @@ spec:
         serviceAccount:
           identifier: *app
         initContainers:
+          install-firecrawl-python:
+            image:
+              repository: nousresearch/hermes-agent
+              tag: v2026.6.19@sha256:9f367c7756ef087661a361536a89f438d57a122b958dc23d82d456b1433e6e9e
+            command:
+              - sh
+              - -c
+              - |
+                set -euo pipefail
+                if ! PYTHONPATH=/opt/data/python-packages python - <<'PY'; then
+                import importlib.util
+                raise SystemExit(0 if importlib.util.find_spec("firecrawl") else 1)
+                PY
+                  uv pip install --target /opt/data/python-packages firecrawl-py==4.17.0
+                fi
           init-config:
             image:
               repository: docker.io/library/alpine
@@ -74,18 +89,7 @@ spec:
             image:
               repository: nousresearch/hermes-agent
               tag: v2026.6.19@sha256:9f367c7756ef087661a361536a89f438d57a122b958dc23d82d456b1433e6e9e
-            command:
-              - sh
-              - -c
-              - |
-                set -euo pipefail
-                if ! PYTHONPATH=/opt/data/python-packages python - <<'PY'; then
-                import importlib.util
-                raise SystemExit(0 if importlib.util.find_spec("firecrawl") else 1)
-                PY
-                  uv pip install --target /opt/data/python-packages firecrawl-py==4.17.0
-                fi
-                exec sleep infinity
+            args: ["sleep", "infinity"]
             env:
               TZ: "${TZ}"
               HERMES_HOME: /opt/data
@@ -132,6 +136,11 @@ spec:
               HERMES_HOME: /opt/dashboard-data
               HOME: /opt/dashboard-data
               GATEWAY_HEALTH_URL: http://localhost:8642
+              PYTHONPATH: /opt/python-packages
+              FIRECRAWL_API_URL: https://api.firecrawl.dev
+            envFrom:
+              - secretRef:
+                  name: *app
             ports:
               - name: dashboard
                 containerPort: 9119
@@ -234,6 +243,11 @@ spec:
               - path: /opt/data
             init-config:
               - path: /opt/data
+            install-firecrawl-python:
+              - path: /opt/data
+            dashboard:
+              - path: /opt/python-packages
+                subPath: python-packages
 
       config-file:
         type: configMap

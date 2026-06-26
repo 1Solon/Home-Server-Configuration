@@ -4,6 +4,8 @@ model:
   default: gpt-5.5
   base_url: ""
   api_mode: chat_completions
+web:
+  backend: searxng
 toolsets:
   - hermes-cli
   - mcp-grafana

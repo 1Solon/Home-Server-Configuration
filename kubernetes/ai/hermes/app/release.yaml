@@ -88,6 +88,7 @@ spec:
               AGENTMEMORY_URL: http://agentmemory.ai.svc.cluster.local:3111
               AGENTMEMORY_INJECT_CONTEXT: "true"
               AGENT_BROWSER_ARGS: "--no-sandbox,--disable-dev-shm-usage"
+              FIRECRAWL_API_URL: http://firecrawl.ai.svc.cluster.local:3002
               SEARXNG_URL: http://searxng.ai.svc.cluster.local:8080
             envFrom:
               - secretRef:

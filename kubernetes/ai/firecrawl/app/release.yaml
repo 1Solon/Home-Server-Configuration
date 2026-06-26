@@ -1,0 +1,377 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app firecrawl
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: app-template
+      version: 5.0.1
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s-charts
+        namespace: flux-system
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      strategy: rollback
+      retries: 3
+  values:
+    defaultPodOptions:
+      enableServiceLinks: false
+      securityContext:
+        seccompProfile: { type: RuntimeDefault }
+
+    controllers:
+      api:
+        type: deployment
+        annotations:
+          reloader.stakater.com/auto: "true"
+        replicas: 1
+        initContainers:
+          init-db: &initDb
+            image:
+              repository: ghcr.io/home-operations/postgres-init
+              tag: 18
+            envFrom:
+              - secretRef:
+                  name: firecrawl-secret
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: { drop: ["ALL"] }
+        containers:
+          app:
+            image: &firecrawlImage
+              repository: ghcr.io/firecrawl/firecrawl
+              tag: 2.11.39@sha256:9b21a5525afbfd3d6def98cf0b32841c434fdd82f98f332420e30903582524c2
+            command: ["node"]
+            args: ["--max-old-space-size=6144", "dist/src/index.js"]
+            env: &firecrawlEnv
+              FLY_PROCESS_GROUP: app
+              PORT: &apiPort 3002
+              HOST: "0.0.0.0"
+              NUM_WORKERS_PER_QUEUE: "8"
+              REDIS_URL: redis://dragonfly.databases.svc.cluster.local:6379
+              REDIS_RATE_LIMIT_URL: redis://dragonfly.databases.svc.cluster.local:6379
+              PLAYWRIGHT_MICROSERVICE_URL: http://firecrawl-playwright.ai.svc.cluster.local:3000/scrape
+              USE_DB_AUTHENTICATION: "false"
+              IS_KUBERNETES: "true"
+              ENV: production
+              LOGGING_LEVEL: INFO
+              FIRECRAWL_APP_SCHEME: http
+              FIRECRAWL_APP_HOST: firecrawl.ai.svc.cluster.local
+              FIRECRAWL_APP_PORT: "3002"
+              OPENAI_BASE_URL: https://openrouter.ai/api/v1
+              SEARXNG_ENDPOINT: http://searxng.ai.svc.cluster.local:8080
+            envFrom: &firecrawlEnvFrom
+              - secretRef:
+                  name: firecrawl-secret
+            ports:
+              - name: http
+                containerPort: *apiPort
+                protocol: TCP
+            probes:
+              liveness: &apiProbe
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /v0/health/liveness
+                    port: *apiPort
+                  initialDelaySeconds: 30
+                  periodSeconds: 30
+                  timeoutSeconds: 5
+                  failureThreshold: 3
+              readiness:
+                <<: *apiProbe
+                spec:
+                  httpGet:
+                    path: /v0/health/readiness
+                    port: *apiPort
+                  initialDelaySeconds: 30
+                  periodSeconds: 30
+                  timeoutSeconds: 5
+                  failureThreshold: 3
+            resources:
+              requests:
+                cpu: 500m
+                memory: 1Gi
+              limits:
+                memory: 6Gi
+
+      worker:
+        type: deployment
+        annotations:
+          reloader.stakater.com/auto: "true"
+        replicas: 1
+        initContainers:
+          init-db: *initDb
+        containers:
+          app:
+            image: *firecrawlImage
+            command: ["node"]
+            args:
+              ["--max-old-space-size=3072", "dist/src/services/queue-worker.js"]
+            env:
+              <<: *firecrawlEnv
+              FLY_PROCESS_GROUP: worker
+              WORKER_PORT: &workerPort 3005
+            envFrom: *firecrawlEnvFrom
+            ports:
+              - name: http
+                containerPort: *workerPort
+                protocol: TCP
+            probes:
+              liveness:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /liveness
+                    port: *workerPort
+                  initialDelaySeconds: 10
+                  periodSeconds: 10
+                  timeoutSeconds: 5
+                  failureThreshold: 3
+            resources:
+              requests:
+                cpu: 250m
+                memory: 768Mi
+              limits:
+                memory: 4Gi
+
+      extract-worker:
+        type: deployment
+        annotations:
+          reloader.stakater.com/auto: "true"
+        replicas: 1
+        initContainers:
+          init-db: *initDb
+        containers:
+          app:
+            image: *firecrawlImage
+            command: ["node"]
+            args:
+              [
+                "--max-old-space-size=2048",
+                "dist/src/services/extract-worker.js",
+              ]
+            env:
+              <<: *firecrawlEnv
+              FLY_PROCESS_GROUP: extract-worker
+              EXTRACT_WORKER_PORT: &extractWorkerPort 3004
+            envFrom: *firecrawlEnvFrom
+            ports:
+              - name: http
+                containerPort: *extractWorkerPort
+                protocol: TCP
+            probes:
+              liveness: &extractWorkerProbe
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /health
+                    port: *extractWorkerPort
+                  initialDelaySeconds: 10
+                  periodSeconds: 10
+                  timeoutSeconds: 5
+                  failureThreshold: 3
+              readiness: *extractWorkerProbe
+            resources:
+              requests:
+                cpu: 250m
+                memory: 768Mi
+              limits:
+                memory: 3Gi
+
+      nuq-worker:
+        type: deployment
+        annotations:
+          reloader.stakater.com/auto: "true"
+        replicas: 1
+        initContainers:
+          init-db: *initDb
+        containers:
+          app:
+            image: *firecrawlImage
+            command: ["node"]
+            args:
+              [
+                "--max-old-space-size=3072",
+                "dist/src/services/worker/nuq-worker.js",
+              ]
+            env:
+              <<: *firecrawlEnv
+              FLY_PROCESS_GROUP: nuq-worker
+              NUQ_WORKER_PORT: &nuqWorkerPort 3006
+              NUQ_WORKER_COUNT: "1"
+            envFrom: *firecrawlEnvFrom
+            ports:
+              - name: http
+                containerPort: *nuqWorkerPort
+                protocol: TCP
+            probes:
+              liveness: &nuqWorkerProbe
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /health
+                    port: *nuqWorkerPort
+                  initialDelaySeconds: 10
+                  periodSeconds: 10
+                  timeoutSeconds: 5
+                  failureThreshold: 3
+              readiness: *nuqWorkerProbe
+            resources:
+              requests:
+                cpu: 250m
+                memory: 768Mi
+              limits:
+                memory: 4Gi
+
+      nuq-prefetch-worker:
+        type: deployment
+        annotations:
+          reloader.stakater.com/auto: "true"
+        replicas: 1
+        initContainers:
+          init-db: *initDb
+        containers:
+          app:
+            image: *firecrawlImage
+            command: ["node"]
+            args:
+              [
+                "--max-old-space-size=1024",
+                "dist/src/services/worker/nuq-prefetch-worker.js",
+              ]
+            env:
+              <<: *firecrawlEnv
+              FLY_PROCESS_GROUP: nuq-prefetch-worker
+              NUQ_PREFETCH_WORKER_PORT: &nuqPrefetchWorkerPort 3011
+            envFrom: *firecrawlEnvFrom
+            ports:
+              - name: http
+                containerPort: *nuqPrefetchWorkerPort
+                protocol: TCP
+            probes:
+              liveness: &nuqPrefetchWorkerProbe
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /health
+                    port: *nuqPrefetchWorkerPort
+                  initialDelaySeconds: 10
+                  periodSeconds: 10
+                  timeoutSeconds: 5
+                  failureThreshold: 3
+              readiness: *nuqPrefetchWorkerProbe
+            resources:
+              requests:
+                cpu: 100m
+                memory: 512Mi
+              limits:
+                memory: 2Gi
+
+      playwright:
+        type: deployment
+        annotations:
+          reloader.stakater.com/auto: "true"
+        replicas: 1
+        containers:
+          app:
+            image:
+              repository: ghcr.io/firecrawl/playwright-service
+              tag: latest@sha256:6359b0d9070f27400b4a9b615509be06919e40121fc1fdc42d4efeddf02653d2
+            env:
+              PORT: &playwrightPort 3000
+              ALLOW_LOCAL_WEBHOOKS: "false"
+              MAX_CONCURRENT_PAGES: "5"
+            ports:
+              - name: http
+                containerPort: *playwrightPort
+                protocol: TCP
+            probes:
+              liveness:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /health
+                    port: *playwrightPort
+                  initialDelaySeconds: 30
+                  periodSeconds: 30
+                  timeoutSeconds: 5
+                  failureThreshold: 3
+            resources:
+              requests:
+                cpu: 250m
+                memory: 512Mi
+              limits:
+                memory: 2Gi
+
+      rabbitmq:
+        type: deployment
+        annotations:
+          reloader.stakater.com/auto: "true"
+        replicas: 1
+        containers:
+          app:
+            image:
+              repository: docker.io/library/rabbitmq
+              tag: 4.3-management-alpine@sha256:e6862a7d804c80fc72d2265aed3b725fd9a6afd330b735363eeecc4b6ec4dd3d
+            envFrom:
+              - secretRef:
+                  name: firecrawl-secret
+            ports:
+              - name: amqp
+                containerPort: &rabbitmqPort 5672
+                protocol: TCP
+              - name: management
+                containerPort: 15672
+                protocol: TCP
+            probes:
+              liveness: &rabbitmqProbe
+                enabled: true
+                custom: true
+                spec:
+                  tcpSocket:
+                    port: *rabbitmqPort
+                  initialDelaySeconds: 30
+                  periodSeconds: 30
+                  timeoutSeconds: 5
+                  failureThreshold: 5
+              readiness: *rabbitmqProbe
+            resources:
+              requests:
+                cpu: 50m
+                memory: 256Mi
+              limits:
+                memory: 1Gi
+
+    service:
+      app:
+        controller: api
+        ports:
+          http:
+            port: *apiPort
+      playwright:
+        controller: playwright
+        ports:
+          http:
+            port: *playwrightPort
+      rabbitmq:
+        controller: rabbitmq
+        ports:
+          amqp:
+            port: *rabbitmqPort

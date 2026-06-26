@@ -5,7 +5,7 @@ model:
   base_url: ""
   api_mode: chat_completions
 web:
-  backend: searxng
+  backend: firecrawl
 toolsets:
   - hermes-cli
   - mcp-grafana

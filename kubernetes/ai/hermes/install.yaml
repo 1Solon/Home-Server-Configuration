@@ -10,6 +10,7 @@ spec:
     - ../../../components/volsync
   dependsOn:
     - name: agentmemory
+    - name: firecrawl
     - name: grafana-mcp
     - name: toolhive-config
     - name: volsync

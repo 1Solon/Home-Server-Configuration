@@ -74,11 +74,23 @@ spec:
             image:
               repository: nousresearch/hermes-agent
               tag: v2026.6.19@sha256:9f367c7756ef087661a361536a89f438d57a122b958dc23d82d456b1433e6e9e
-            args: ["sleep", "infinity"]
+            command:
+              - sh
+              - -c
+              - |
+                set -euo pipefail
+                if ! PYTHONPATH=/opt/data/python-packages python - <<'PY'; then
+                import importlib.util
+                raise SystemExit(0 if importlib.util.find_spec("firecrawl") else 1)
+                PY
+                  uv pip install --target /opt/data/python-packages firecrawl-py==4.17.0
+                fi
+                exec sleep infinity
             env:
               TZ: "${TZ}"
               HERMES_HOME: /opt/data
               HOME: /opt/data
+              PYTHONPATH: /opt/data/python-packages
               GATEWAY_ALLOW_ALL_USERS: "true"
               API_SERVER_ENABLED: "true"
               API_SERVER_HOST: "0.0.0.0"

@@ -51,8 +51,6 @@ patches:
             noatime=True
   - |-
     machine:
-      sysctls:
-        vm.nr_hugepages: "1024"
       kernel:
         modules:
           - name: nvme_tcp

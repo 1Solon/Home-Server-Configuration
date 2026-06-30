@@ -31,6 +31,17 @@ spec:
       createPrometheusRules: true
     cephClusterSpec:
       dataDirHostPath: /var/lib/rook
+      network:
+        provider: host
+        addressRanges:
+          public:
+            - 192.168.1.0/24
+      cephConfig:
+        osd:
+          osd_memory_target: "2147483648"
+          osd_max_backfills: "1"
+          osd_recovery_max_active: "1"
+          osd_recovery_sleep: "0.1"
       mon:
         count: 3
         allowMultiplePerNode: false
@@ -72,9 +83,9 @@ spec:
         osd:
           requests:
             cpu: 500m
-            memory: 2Gi
+            memory: 1Gi
           limits:
-            memory: 4Gi
+            memory: 3Gi
         prepareosd:
           requests:
             cpu: 100m

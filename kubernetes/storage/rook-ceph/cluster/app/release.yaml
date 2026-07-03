@@ -37,8 +37,16 @@ spec:
           public:
             - 192.168.1.0/24
       cephConfig:
+        mon:
+          # RK1 nodes can flap under storage/network pressure; delay automatic
+          # OSD out marking so brief interruptions do not trigger heavy recovery.
+          mon_osd_down_out_interval: "21600"
         osd:
           osd_memory_target: "2147483648"
+          osd_mclock_profile: high_client_ops
+          osd_max_scrubs: "1"
+          osd_scrub_begin_hour: "2"
+          osd_scrub_end_hour: "6"
           osd_max_backfills: "1"
           osd_recovery_max_active: "1"
           osd_recovery_sleep: "0.1"

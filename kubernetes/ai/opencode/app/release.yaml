@@ -103,7 +103,7 @@ spec:
         enabled: true
         type: nfs
         server: ${TRUENAS_IP}
-        path: /mnt/STORAGE-01/code
+        path: /mnt/STORAGE-01/Code
         globalMounts:
           - path: /workspace
 

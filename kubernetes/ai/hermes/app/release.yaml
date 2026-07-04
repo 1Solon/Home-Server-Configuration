@@ -89,13 +89,12 @@ spec:
             image:
               repository: nousresearch/hermes-agent
               tag: v2026.7.1@sha256:b6c019227889e6675424a2b6223b2cafdd36bf7d1048d1ddd8e043b880d6cc0f
-            args: ["sleep", "infinity"]
+            args: ["gateway"]
             env:
               TZ: "${TZ}"
               HERMES_HOME: /opt/data
               HOME: /opt/data
               PYTHONPATH: /opt/data/python-packages
-              GATEWAY_ALLOW_ALL_USERS: "true"
               API_SERVER_ENABLED: "true"
               API_SERVER_HOST: "0.0.0.0"
               API_SERVER_PORT: &apiPort 8642

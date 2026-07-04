@@ -37,6 +37,41 @@ spec:
         serviceAccount:
           identifier: *app
         initContainers:
+          install-tools:
+            image:
+              repository: nousresearch/hermes-agent
+              tag: v2026.7.1@sha256:b6c019227889e6675424a2b6223b2cafdd36bf7d1048d1ddd8e043b880d6cc0f
+            command:
+              - /bin/sh
+              - -c
+              - |
+                set -euo pipefail
+                mkdir -p /opt/data/.local/bin
+
+                rm -f /opt/data/.local/bin/hermes /opt/data/.local/bin/docker
+
+                if [ ! -f /opt/data/.local/bin/gh ]; then
+                  cd /tmp
+                  curl -fsSL https://github.com/cli/cli/releases/download/v2.61.0/gh_2.61.0_linux_amd64.tar.gz -o gh.tar.gz
+                  tar xzf gh.tar.gz
+                  cp gh_2.61.0_linux_amd64/bin/gh /opt/data/.local/bin/
+                  rm -rf gh.tar.gz gh_2.61.0_linux_amd64
+                fi
+
+                if [ ! -f /opt/data/.local/go/bin/go ]; then
+                  rm -rf /opt/data/.local/go
+                  cd /tmp
+                  curl -fsSL https://go.dev/dl/go1.23.5.linux-amd64.tar.gz -o go.tar.gz
+                  tar xzf go.tar.gz
+                  mv go /opt/data/.local/
+                  rm -rf go.tar.gz
+                fi
+
+                if [ ! -f /opt/data/.local/homebrew/bin/brew ]; then
+                  export HOMEBREW_PREFIX=/opt/data/.local/homebrew
+                  mkdir -p "$HOMEBREW_PREFIX"
+                  git clone --depth 1 https://github.com/Homebrew/brew "$HOMEBREW_PREFIX"
+                fi
           install-firecrawl-python:
             image:
               repository: nousresearch/hermes-agent
@@ -89,12 +124,19 @@ spec:
             image:
               repository: nousresearch/hermes-agent
               tag: v2026.7.1@sha256:b6c019227889e6675424a2b6223b2cafdd36bf7d1048d1ddd8e043b880d6cc0f
-            args: ["gateway"]
+            args: ["gateway", "run"]
             env:
               TZ: "${TZ}"
               HERMES_HOME: /opt/data
               HOME: /opt/data
               PYTHONPATH: /opt/data/python-packages
+              GOPATH: /opt/data/go
+              HOMEBREW_CELLAR: /opt/data/.local/homebrew/Cellar
+              HOMEBREW_PREFIX: /opt/data/.local/homebrew
+              HOMEBREW_REPOSITORY: /opt/data/.local/homebrew
+              PATH: /opt/hermes/.venv/bin:/opt/data/.local/bin:/opt/data/.local/go/bin:/opt/data/.local/homebrew/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+              PIP_BREAK_SYSTEM_PACKAGES: "1"
+              TERM: xterm-256color
               API_SERVER_ENABLED: "true"
               API_SERVER_HOST: "0.0.0.0"
               API_SERVER_PORT: &apiPort 8642
@@ -201,6 +243,8 @@ spec:
               - path: /opt/data
             install-firecrawl-python:
               - path: /opt/data
+            install-tools:
+              - path: /opt/data
 
       config-file:
         type: configMap
@@ -239,6 +283,22 @@ spec:
               - path: /opt/data/python-packages
             dashboard:
               - path: /opt/python-packages
+
+      tmpfs:
+        type: emptyDir
+        advancedMounts:
+          hermes:
+            app:
+              - path: /tmp
+            dashboard:
+              - path: /tmp
+                subPath: dashboard
+            install-firecrawl-python:
+              - path: /tmp
+                subPath: install-firecrawl-python
+            install-tools:
+              - path: /tmp
+                subPath: install-tools
 
     serviceAccount:
       hermes: {}

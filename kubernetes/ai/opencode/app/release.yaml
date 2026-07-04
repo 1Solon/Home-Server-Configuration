@@ -50,8 +50,7 @@ spec:
                 enabled: true
                 custom: true
                 spec:
-                  httpGet:
-                    path: /global/health
+                  tcpSocket:
                     port: 4096
                   initialDelaySeconds: 10
                   periodSeconds: 30

@@ -62,6 +62,26 @@ spec:
 apiVersion: volsync.backube/v1alpha1
 kind: ReplicationDestination
 metadata:
+  name: opencode
+  namespace: ai
+spec:
+  trigger: { manual: restore-once }
+  restic: { repository: opencode-restic, copyMethod: Snapshot, volumeSnapshotClassName: csi-ceph-blockpool, accessModes: [ReadWriteOnce], capacity: 5Gi, storageClassName: ceph-block, cacheStorageClassName: ceph-block, cacheCapacity: 1Gi, cleanupCachePVC: true, cleanupTempPVC: true, enableFileDeletion: true }
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: opencode
+  namespace: ai
+spec:
+  accessModes: [ReadWriteOnce]
+  storageClassName: ceph-block
+  resources: { requests: { storage: 5Gi } }
+  dataSourceRef: { apiGroup: volsync.backube, kind: ReplicationDestination, name: opencode }
+---
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationDestination
+metadata:
   name: audiobookshelf-config
   namespace: books
 spec:

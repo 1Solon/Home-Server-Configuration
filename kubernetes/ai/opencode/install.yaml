@@ -1,0 +1,38 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: &app opencode
+  namespace: flux-system
+spec:
+  components:
+    - ../../../components/volsync
+  dependsOn:
+    - name: volsync
+      namespace: flux-system
+  path: "./kubernetes/ai/opencode/app"
+  targetNamespace: ai
+  prune: true
+  wait: true
+  interval: 30m
+  retryInterval: 1m
+  timeout: 10m
+  commonMetadata:
+    labels:
+      app.kubernetes.io/name: *app
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  postBuild:
+    substitute:
+      APP: opencode
+      VOLSYNC_REPOSITORY: s3:http://garage.garage.svc.cluster.local:3900/volsync/ai/opencode
+      VOLSYNC_SOURCE_PVC: opencode
+      VOLSYNC_MOVER_APP_NAME: opencode
+      VOLSYNC_MOVER_APP_INSTANCE: opencode
+      VOLSYNC_SCHEDULE: "21 */6 * * *"
+    substituteFrom:
+      - kind: ConfigMap
+        name: cluster-settings
+        optional: false

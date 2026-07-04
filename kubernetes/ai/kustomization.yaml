@@ -7,6 +7,7 @@ resources:
 - ./agentmemory/install.yaml
 - ./hermes/install.yaml
 - ./llama-embed/install.yaml
+- ./opencode/install.yaml
 - ./openwebui/install.yaml
 - ./scriberr/install.yaml
 - ./searxng/install.yaml

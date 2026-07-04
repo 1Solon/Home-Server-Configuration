@@ -44,6 +44,7 @@ memory:
     threshold: 50
 compression:
   enabled: true
+  codex_gpt55_autoraise: false
   codex_gpt55_autoraise_notice: false
 display:
   tool_progress: true

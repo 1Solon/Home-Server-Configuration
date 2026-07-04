@@ -37,9 +37,9 @@ spec:
       - name: rook-ceph
         rbdMirrorDaemonCount: 1
         monitors:
-          a: rook-ceph-mon-a.rook-ceph.svc.cluster.local:6789
-          b: rook-ceph-mon-b.rook-ceph.svc.cluster.local:6789
-          c: rook-ceph-mon-c.rook-ceph.svc.cluster.local:6789
+          e: 192.168.1.104:6789
+          f: 192.168.1.102:6789
+          h: 192.168.1.101:6789
         crushLocationLabels:
           - topology.kubernetes.io/zone
     drivers:

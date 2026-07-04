@@ -138,6 +138,17 @@ spec:
               GATEWAY_HEALTH_URL: http://localhost:8642
               PYTHONPATH: /opt/python-packages
               FIRECRAWL_API_URL: https://api.firecrawl.dev
+              HERMES_DASHBOARD_BASIC_AUTH_USERNAME: admin
+              HERMES_DASHBOARD_BASIC_AUTH_PASSWORD:
+                valueFrom:
+                  secretKeyRef:
+                    name: *app
+                    key: API_SERVER_KEY
+              HERMES_DASHBOARD_BASIC_AUTH_SECRET:
+                valueFrom:
+                  secretKeyRef:
+                    name: *app
+                    key: AGENTMEMORY_SECRET
             envFrom:
               - secretRef:
                   name: *app
@@ -245,9 +256,6 @@ spec:
               - path: /opt/data
             install-firecrawl-python:
               - path: /opt/data
-            dashboard:
-              - path: /opt/python-packages
-                subPath: python-packages
 
       config-file:
         type: configMap
@@ -275,6 +283,17 @@ spec:
           hermes:
             dashboard:
               - path: /opt/dashboard-data
+
+      python-packages:
+        type: emptyDir
+        advancedMounts:
+          hermes:
+            app:
+              - path: /opt/data/python-packages
+            install-firecrawl-python:
+              - path: /opt/data/python-packages
+            dashboard:
+              - path: /opt/python-packages
 
     serviceAccount:
       hermes: {}

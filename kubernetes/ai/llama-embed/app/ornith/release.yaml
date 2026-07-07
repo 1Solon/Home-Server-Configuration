@@ -117,7 +117,7 @@ spec:
               - --parallel
               - "1"
               - --reasoning
-              - "off"
+              - "on"
               - --cont-batching
               - --threads
               - "6"

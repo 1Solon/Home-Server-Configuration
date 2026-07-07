@@ -23,6 +23,16 @@ spec:
     remediation:
       strategy: rollback
       retries: 3
+  postRenderers:
+    - kustomize:
+        patches:
+          - patch: |-
+              apiVersion: apps/v1
+              kind: Deployment
+              metadata:
+                name: ornith
+              spec:
+                progressDeadlineSeconds: 3600
   values:
     defaultPodOptions:
       runtimeClassName: nvidia

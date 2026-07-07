@@ -8,7 +8,6 @@ resources:
 - ./hermes/install.yaml
 - ./llama-embed/install.yaml
 - ./openwebui/install.yaml
-- ./scriberr/install.yaml
 - ./searxng/install.yaml
 - ./toolhive/crds/install.yaml
 - ./toolhive/operator/install.yaml

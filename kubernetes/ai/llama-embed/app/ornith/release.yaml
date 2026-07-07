@@ -92,7 +92,6 @@ spec:
               - --min-p
               - "0"
               - --no-context-shift
-              - --mlock
               - --metrics
               - --mmap
               - --cache-ram

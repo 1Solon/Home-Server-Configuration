@@ -61,7 +61,13 @@ spec:
               - --hf-file
               - ornith-1.0-9b-Q6_K.gguf
               - --spec-type
-              - draft-dflash
+              - ngram-mod,draft-dflash
+              - --spec-ngram-mod-n-match
+              - "5"
+              - --spec-ngram-mod-n-min
+              - "8"
+              - --spec-ngram-mod-n-max
+              - "14"
               - --spec-draft-hf
               - onion515/ornith-9b-dflash
               - --spec-draft-n-max

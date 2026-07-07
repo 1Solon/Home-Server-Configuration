@@ -81,7 +81,7 @@ spec:
               - --port
               - "8080"
               - --verbosity
-              - "3"
+              - "4"
               - --ctx-size
               - "131072"
               - --reasoning-budget

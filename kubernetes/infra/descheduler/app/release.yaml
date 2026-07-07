@@ -38,13 +38,9 @@ spec:
                 metricsUtilization:
                   source: KubernetesMetrics
                 thresholds:
-                  cpu: 20
-                  memory: 20
-                  pods: 20
+                  memory: 35
                 targetThresholds:
-                  cpu: 50
-                  memory: 50
-                  pods: 50
+                  memory: 55
             - name: RemoveFailedPods
               args:
                 reasons:
@@ -57,6 +53,10 @@ spec:
                 excludeOwnerKinds:
                   - Job
                 minPodLifetimeSeconds: 1800
+            - name: RemovePodsHavingTooManyRestarts
+              args:
+                podRestartThreshold: 100
+                includingInitContainers: true
             - name: RemovePodsViolatingInterPodAntiAffinity
             - name: RemovePodsViolatingNodeAffinity
               args:
@@ -72,6 +72,7 @@ spec:
             deschedule:
               enabled:
                 - RemoveFailedPods
+                - RemovePodsHavingTooManyRestarts
                 - RemovePodsViolatingInterPodAntiAffinity
                 - RemovePodsViolatingNodeAffinity
                 - RemovePodsViolatingNodeTaints

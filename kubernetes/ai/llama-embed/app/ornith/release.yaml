@@ -54,12 +54,16 @@ spec:
           app:
             image:
               repository: ghcr.io/ggml-org/llama.cpp
-              tag: server-cuda@sha256:0bf397ca34dcc7ac3b9365f0482768bce8cc982c06cc9294237c7d741a2def25
+              tag: server-cuda@sha256:fecfb070d2f8d48ced24b3a0ff0710cba6440a573c77e12935962ba517c01365
             args:
               - --hf-repo
               - deepreinforce-ai/Ornith-1.0-9B-GGUF
               - --hf-file
               - ornith-1.0-9b-Q6_K.gguf
+              - --spec-type
+              - draft-eagle3
+              - --spec-draft-hf
+              - dobriak/Eagle3-Qwen3.5-9B:Q4_K_M
               - --alias
               - Ornith-1.0-9B
               - --host
@@ -141,7 +145,7 @@ spec:
                 memory: 4Gi
                 nvidia.com/gpu: 1
               limits:
-                memory: 12Gi
+                memory: 16Gi
                 nvidia.com/gpu: 1
             securityContext:
               allowPrivilegeEscalation: false

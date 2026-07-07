@@ -65,7 +65,9 @@ spec:
               - --spec-draft-hf
               - onion515/ornith-9b-dflash
               - --spec-draft-n-max
-              - "3"
+              - "2"
+              - --spec-draft-p-min
+              - "0.55"
               - --alias
               - Ornith-1.0-9B
               - --host
@@ -73,7 +75,7 @@ spec:
               - --port
               - "8080"
               - --verbosity
-              - "4"
+              - "5"
               - --ctx-size
               - "131072"
               - --reasoning-budget

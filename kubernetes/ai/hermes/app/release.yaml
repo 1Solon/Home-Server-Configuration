@@ -98,12 +98,16 @@ spec:
                 set -euo pipefail
                 umask 077
                 mkdir -p /opt/data/workspace
+                mkdir -p /opt/data/plugins/agentmemory
                 cp /tmp/config.yaml /opt/data/config.yaml
                 cp /tmp/SOUL.md /opt/data/SOUL.md
+                cp /tmp/agentmemory-plugin-init.py /opt/data/plugins/agentmemory/__init__.py
+                cp /tmp/agentmemory-plugin.yaml /opt/data/plugins/agentmemory/plugin.yaml
                 touch /opt/data/.env
                 sed -i '/^AGENTMEMORY_SECRET=/d' /opt/data/.env
                 printf '\nAGENTMEMORY_SECRET=%s\n' "$AGENTMEMORY_SECRET" >> /opt/data/.env
                 chown -R 10000:10000 /opt/data/workspace
+                chown -R 10000:10000 /opt/data/plugins/agentmemory
                 chown 10000:10000 /opt/data/config.yaml /opt/data/SOUL.md /opt/data/.env
             envFrom:
               - secretRef:
@@ -257,6 +261,12 @@ spec:
                 readOnly: true
               - path: /tmp/SOUL.md
                 subPath: SOUL.md
+                readOnly: true
+              - path: /tmp/agentmemory-plugin-init.py
+                subPath: agentmemory-plugin-init.py
+                readOnly: true
+              - path: /tmp/agentmemory-plugin.yaml
+                subPath: agentmemory-plugin.yaml
                 readOnly: true
             dashboard:
               - path: /opt/dashboard-data/config.yaml

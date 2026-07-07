@@ -90,6 +90,8 @@ spec:
               - --mlock
               - --metrics
               - --mmap
+              - --cache-ram
+              - "0"
             env:
               CUDA_VISIBLE_DEVICES: "0"
               LLAMA_CACHE: /models

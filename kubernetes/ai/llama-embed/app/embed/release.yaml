@@ -193,7 +193,7 @@ spec:
         enabled: true
         type: nfs
         server: ${TRUENAS_IP}
-        path: /mnt/STORAGE-01/Model
+        path: /mnt/STORAGE-01/Models
         globalMounts:
           - path: /models
 

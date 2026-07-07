@@ -11,6 +11,7 @@ spec:
   dependsOn:
     - name: agentmemory
     - name: grafana-mcp
+    - name: llama-embed
     - name: toolhive-config
     - name: volsync
       namespace: flux-system

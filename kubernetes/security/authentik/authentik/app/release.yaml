@@ -46,6 +46,9 @@ spec:
 
     server:
       replicas: 1
+      resources:
+        requests:
+          memory: 768Mi
       initContainers: &init-db
         - name: init-db
           image: ghcr.io/home-operations/postgres-init:18
@@ -81,4 +84,7 @@ spec:
                 port: 80
 
     worker:
+      resources:
+        requests:
+          memory: 512Mi
       initContainers: *init-db

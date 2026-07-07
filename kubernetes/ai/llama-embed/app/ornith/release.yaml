@@ -3,9 +3,10 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: &app llama-embed
+  name: &app ornith
 spec:
   interval: 30m
+  timeout: 30m
   chart:
     spec:
       chart: app-template
@@ -33,7 +34,7 @@ spec:
         seccompProfile: { type: RuntimeDefault }
 
     controllers:
-      llama-embed:
+      ornith:
         annotations:
           reloader.stakater.com/auto: "true"
         replicas: 1
@@ -49,58 +50,82 @@ spec:
               - |
                 set -euo pipefail
 
-                if [ ! -s /models/all-MiniLM-L6-v2/all-MiniLM-L6-v2-Q8_0.gguf ]; then
-                  pip install --no-cache-dir "huggingface_hub[hf_transfer]"
-                  mkdir -p /models/all-MiniLM-L6-v2
-                  hf download \
-                    second-state/All-MiniLM-L6-v2-Embedding-GGUF \
-                    all-MiniLM-L6-v2-Q8_0.gguf \
-                    --local-dir /models/all-MiniLM-L6-v2
-                  echo "all-MiniLM-L6-v2 download complete"
+                if [ ! -s "${MODEL_DEST}" ]; then
+                  mkdir -p "$(dirname "${MODEL_DEST}")"
+                  python - <<'PY'
+                import os
+                import urllib.request
+
+                dest = os.environ["MODEL_DEST"]
+                url = os.environ["MODEL_URL"]
+                part = dest + ".part"
+                token = os.environ.get("HF_TOKEN")
+
+                headers = {}
+                if token:
+                    headers["Authorization"] = f"Bearer {token}"
+
+                existing = os.path.getsize(part) if os.path.exists(part) else 0
+                if existing:
+                    headers["Range"] = f"bytes={existing}-"
+
+                response = urllib.request.urlopen(urllib.request.Request(url, headers=headers), timeout=120)
+                if existing and response.status != 206:
+                    open(part, "wb").close()
+
+                with open(part, "ab") as file:
+                    while chunk := response.read(8 * 1024 * 1024):
+                        file.write(chunk)
+
+                os.replace(part, dest)
+                PY
+                  echo "${MODEL_NAME} download complete"
                 else
-                  echo "all-MiniLM-L6-v2 already downloaded, skipping"
+                  echo "${MODEL_NAME} already downloaded, skipping"
                 fi
             env:
-              HF_HUB_ENABLE_HF_TRANSFER: "1"
+              MODEL_DEST: /models/ornith/ornith-1.0-9b-Q6_K.gguf
+              MODEL_NAME: Ornith-1.0-9B Q6_K
+              MODEL_URL: https://huggingface.co/deepreinforce-ai/Ornith-1.0-9B-GGUF/resolve/main/ornith-1.0-9b-Q6_K.gguf
+            envFrom:
+              - secretRef:
+                  name: huggingface-secret
             resources:
               requests:
                 cpu: 250m
-                memory: 512Mi
+                memory: 1Gi
               limits:
-                memory: 4Gi
+                memory: 8Gi
         containers:
           app:
             image:
               repository: ghcr.io/ggml-org/llama.cpp
-              tag: server-cuda@sha256:86d073baba8e64d4346a77a66088e9336b7660709f3513a18519d686543dd6b9
+              tag: server-cuda@sha256:0bf397ca34dcc7ac3b9365f0482768bce8cc982c06cc9294237c7d741a2def25
             args:
               - --host
               - 0.0.0.0
               - --port
               - "8080"
               - --alias
-              - sentence-transformers/all-MiniLM-L6-v2
+              - Ornith-1.0-9B
               - --model
-              - /models/all-MiniLM-L6-v2/all-MiniLM-L6-v2-Q8_0.gguf
-              - --embedding
-              - --pooling
-              - mean
+              - /models/ornith/ornith-1.0-9b-Q6_K.gguf
               - --ctx-size
-              - "8192"
+              - "131072"
               - --n-gpu-layers
               - "99"
               - --parallel
-              - "4"
+              - "1"
+              - --reasoning
+              - "off"
               - --cont-batching
-              - --batch-size
-              - "8192"
-              - --ubatch-size
-              - "8192"
               - --threads
               - "6"
               - --threads-batch
               - "12"
               - --metrics
+              - --cache-ram
+              - "0"
               - --mmap
             env:
               CUDA_VISIBLE_DEVICES: "0"
@@ -143,10 +168,10 @@ spec:
             resources:
               requests:
                 cpu: 250m
-                memory: 2Gi
+                memory: 4Gi
                 nvidia.com/gpu: 1
               limits:
-                memory: 4Gi
+                memory: 12Gi
                 nvidia.com/gpu: 1
             securityContext:
               allowPrivilegeEscalation: false
@@ -164,9 +189,9 @@ spec:
     persistence:
       models:
         enabled: true
-        type: persistentVolumeClaim
-        accessMode: ReadWriteOnce
-        size: 5Gi
+        type: nfs
+        server: ${TRUENAS_IP}
+        path: /mnt/STORAGE-01/Model
         globalMounts:
           - path: /models
 

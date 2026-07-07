@@ -13,6 +13,7 @@ toolsets:
   - mcp-grafana
   - mcp-toolhive
   - memory
+  - terminal
 mcp_servers:
   agentmemory:
     command: /bin/sh
@@ -68,4 +69,7 @@ privacy:
 platform_toolsets:
   cli:
     - hermes-cli
+    - mcp-grafana
+    - mcp-toolhive
     - memory
+    - terminal

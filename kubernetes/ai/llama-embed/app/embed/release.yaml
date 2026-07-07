@@ -49,8 +49,8 @@ spec:
               - |
                 set -euo pipefail
 
-                if [ ! -s "${MODEL_DEST}" ]; then
-                  mkdir -p "$(dirname "${MODEL_DEST}")"
+                if [ ! -s "$MODEL_DEST" ]; then
+                  mkdir -p "$(dirname "$MODEL_DEST")"
                   python - <<'PY'
                 import os
                 import urllib.request
@@ -78,9 +78,9 @@ spec:
 
                 os.replace(part, dest)
                 PY
-                  echo "${MODEL_NAME} download complete"
+                  echo "$MODEL_NAME download complete"
                 else
-                  echo "${MODEL_NAME} already downloaded, skipping"
+                  echo "$MODEL_NAME already downloaded, skipping"
                 fi
             env:
               MODEL_DEST: /models/all-MiniLM-L6-v2/all-MiniLM-L6-v2-Q8_0.gguf

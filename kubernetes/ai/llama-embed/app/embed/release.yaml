@@ -24,9 +24,6 @@ spec:
       retries: 3
   values:
     defaultPodOptions:
-      runtimeClassName: nvidia
-      nodeSelector:
-        kubernetes.io/hostname: kube5
       securityContext:
         fsGroup: 1000
         fsGroupChangePolicy: OnRootMismatch
@@ -42,7 +39,7 @@ spec:
           app:
             image:
               repository: ghcr.io/ggml-org/llama.cpp
-              tag: server-cuda@sha256:86d073baba8e64d4346a77a66088e9336b7660709f3513a18519d686543dd6b9
+              tag: server
             args:
               - --hf-repo
               - second-state/All-MiniLM-L6-v2-Embedding-GGUF
@@ -59,8 +56,6 @@ spec:
               - mean
               - --ctx-size
               - "8192"
-              - --n-gpu-layers
-              - "99"
               - --parallel
               - "4"
               - --cont-batching
@@ -75,7 +70,6 @@ spec:
               - --metrics
               - --mmap
             env:
-              CUDA_VISIBLE_DEVICES: "0"
               LLAMA_CACHE: /models
             envFrom:
               - secretRef:
@@ -120,10 +114,8 @@ spec:
               requests:
                 cpu: 250m
                 memory: 2Gi
-                nvidia.com/gpu: 1
               limits:
                 memory: 4Gi
-                nvidia.com/gpu: 1
             securityContext:
               allowPrivilegeEscalation: false
               capabilities:

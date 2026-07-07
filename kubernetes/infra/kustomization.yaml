@@ -6,5 +6,6 @@ resources:
 - reloader
 - node-feature-discovery
 - nvidia-device-plugin
+- descheduler/install.yaml
 - tuppr/install.yaml
 - spegel/install.yaml

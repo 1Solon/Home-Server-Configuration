@@ -61,24 +61,30 @@ spec:
               - --hf-file
               - ornith-1.0-9b-Q6_K.gguf
               - --spec-type
-              - draft-eagle3
+              - draft-dflash
               - --spec-draft-hf
-              - dobriak/Eagle3-Qwen3.5-9B:Q4_K_M
+              - onion515/ornith-9b-dflash
+              - --spec-draft-n-max
+              - "3"
               - --alias
               - Ornith-1.0-9B
               - --host
               - 0.0.0.0
               - --port
               - "8080"
+              - --verbosity
+              - "4"
               - --ctx-size
               - "131072"
-              - --predict
-              - "16384"
+              - --reasoning-budget
+              - "3000"
+              - --reasoning-budget-message
+              - "\n\nSYSTEM ERROR!: You have exceeded the reasoning budget. Thinking has been terminiated. You must answer now. "
               - --jinja
               - --reasoning-format
               - deepseek
               - --n-gpu-layers
-              - "99"
+              - "all"
               - --flash-attn
               - "on"
               - --temp
@@ -91,7 +97,7 @@ spec:
               - "0"
               - --no-context-shift
               - --metrics
-              - --mmap
+              - --no-mmap
               - --parallel
               - "2"
               - --cache-ram

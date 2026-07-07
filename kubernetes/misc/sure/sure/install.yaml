@@ -1,0 +1,37 @@
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: &app sure
+  namespace: flux-system
+spec:
+  components:
+    - ../../../../components/volsync
+  targetNamespace: *app
+  commonMetadata:
+    labels:
+      app.kubernetes.io/name: *app
+  dependsOn:
+    - name: volsync
+      namespace: flux-system
+  path: "./kubernetes/misc/sure/sure/app"
+  prune: false
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  wait: false
+  interval: 30m
+  retryInterval: 1m
+  timeout: 5m
+  postBuild:
+    substitute:
+      APP: sure
+      VOLSYNC_REPOSITORY: s3:http://garage.garage.svc.cluster.local:3900/volsync/sure/sure
+      VOLSYNC_SOURCE_PVC: sure
+      VOLSYNC_MOVER_APP_NAME: sure
+      VOLSYNC_MOVER_APP_INSTANCE: sure
+      VOLSYNC_SCHEDULE: "37 */6 * * *"
+    substituteFrom:
+      - kind: ConfigMap
+        name: cluster-settings
+        optional: false

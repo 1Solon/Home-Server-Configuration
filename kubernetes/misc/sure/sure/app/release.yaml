@@ -1,0 +1,180 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app sure
+spec:
+  interval: 30m
+  timeout: 15m
+  chart:
+    spec:
+      chart: app-template
+      version: 5.0.1
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s-charts
+        namespace: flux-system
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      strategy: rollback
+      retries: 3
+  values:
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+
+    controllers:
+      sure:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        initContainers:
+          init-db:
+            image:
+              repository: ghcr.io/home-operations/postgres-init
+              tag: 18
+            envFrom: &envFrom
+              - secretRef:
+                  name: sure-secret
+            securityContext: &securityContext
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities:
+                drop:
+                  - ALL
+          migrate:
+            image: &image
+              repository: ghcr.io/we-promise/sure
+              tag: 0.7.3-alpha.1
+            command:
+              - /bin/sh
+              - -c
+              - DISABLE_DATABASE_ENVIRONMENT_CHECK=1 bundle exec rake db:prepare
+            env: &env
+              RAILS_ENV: production
+              SELF_HOSTED: "true"
+              RAILS_LOG_TO_STDOUT: "true"
+              RAILS_ASSUME_SSL: "true"
+              RAILS_FORCE_SSL: "false"
+              RAILS_MAX_THREADS: "3"
+              MALLOC_ARENA_MAX: "2"
+              SKYLIGHT_ENABLED: "false"
+              APP_DOMAIN: sure.${LOCAL_DOMAIN}
+              WEBAUTHN_RP_ID: ${LOCAL_DOMAIN}
+              WEBAUTHN_ALLOWED_ORIGINS: https://sure.${LOCAL_DOMAIN}
+              OIDC_ISSUER: https://sso.${REMOTE_DOMAIN}/application/o/sure/
+              OIDC_REDIRECT_URI: https://sure.${LOCAL_DOMAIN}/auth/openid_connect/callback
+            envFrom: *envFrom
+            securityContext:
+              <<: *securityContext
+              readOnlyRootFilesystem: false
+        containers:
+          app:
+            image: *image
+            env:
+              <<: *env
+              PORT: &port 3000
+            envFrom: *envFrom
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /up
+                    port: *port
+                  initialDelaySeconds: 15
+                  periodSeconds: 15
+                  timeoutSeconds: 5
+                  failureThreshold: 3
+              readiness: *probes
+              startup:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /up
+                    port: *port
+                  initialDelaySeconds: 10
+                  periodSeconds: 5
+                  timeoutSeconds: 5
+                  failureThreshold: 40
+            securityContext:
+              <<: *securityContext
+              readOnlyRootFilesystem: false
+            resources:
+              requests:
+                cpu: 100m
+                memory: 384Mi
+              limits:
+                memory: 1Gi
+          worker:
+            image: *image
+            command:
+              - bundle
+              - exec
+              - sidekiq
+            env: *env
+            envFrom: *envFrom
+            probes:
+              liveness:
+                enabled: false
+              readiness:
+                enabled: false
+              startup:
+                enabled: false
+            securityContext:
+              <<: *securityContext
+              readOnlyRootFilesystem: false
+            resources:
+              requests:
+                cpu: 50m
+                memory: 256Mi
+              limits:
+                memory: 768Mi
+
+    service:
+      app:
+        controller: *app
+        ports:
+          http:
+            port: *port
+
+    route:
+      app:
+        enabled: true
+        annotations:
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/name: Sure
+          gethomepage.dev/description: Personal finance service
+          gethomepage.dev/group: Applications
+          gethomepage.dev/icon: https://raw.githubusercontent.com/homarr-labs/dashboard-icons/main/png/sure.png
+          gethomepage.dev/pod-selector: app.kubernetes.io/name=sure
+        parentRefs:
+          - name: envoy-internal
+            namespace: networking
+            sectionName: https
+        hostnames:
+          - sure.${LOCAL_DOMAIN}
+        rules:
+          - backendRefs:
+              - port: *port
+                name: *app
+
+    persistence:
+      storage:
+        existingClaim: *app
+        advancedMounts:
+          sure:
+            app:
+              - path: /rails/storage
+            worker:
+              - path: /rails/storage

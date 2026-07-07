@@ -38,77 +38,22 @@ spec:
           reloader.stakater.com/auto: "true"
         replicas: 1
         strategy: Recreate
-        initContainers:
-          model-download:
-            image:
-              repository: docker.io/library/python
-              tag: 3.14-slim@sha256:8e4071294d046d45b31a902e02a8560a45c351898513b66ec659ca39fd30d170
-            command:
-              - /bin/sh
-              - -ec
-              - |
-                set -euo pipefail
-
-                if [ ! -s "$MODEL_DEST" ]; then
-                  mkdir -p "$(dirname "$MODEL_DEST")"
-                  python - <<'PY'
-                import os
-                import urllib.request
-
-                dest = os.environ["MODEL_DEST"]
-                url = os.environ["MODEL_URL"]
-                part = dest + ".part"
-                token = os.environ.get("HF_TOKEN")
-
-                headers = {}
-                if token:
-                    headers["Authorization"] = f"Bearer {token}"
-
-                existing = os.path.getsize(part) if os.path.exists(part) else 0
-                if existing:
-                    headers["Range"] = f"bytes={existing}-"
-
-                response = urllib.request.urlopen(urllib.request.Request(url, headers=headers), timeout=120)
-                if existing and response.status != 206:
-                    open(part, "wb").close()
-
-                with open(part, "ab") as file:
-                    while chunk := response.read(8 * 1024 * 1024):
-                        file.write(chunk)
-
-                os.replace(part, dest)
-                PY
-                  echo "$MODEL_NAME download complete"
-                else
-                  echo "$MODEL_NAME already downloaded, skipping"
-                fi
-            env:
-              MODEL_DEST: /models/all-MiniLM-L6-v2/all-MiniLM-L6-v2-Q8_0.gguf
-              MODEL_NAME: all-MiniLM-L6-v2
-              MODEL_URL: https://huggingface.co/second-state/All-MiniLM-L6-v2-Embedding-GGUF/resolve/main/all-MiniLM-L6-v2-Q8_0.gguf
-            envFrom:
-              - secretRef:
-                  name: huggingface-secret
-            resources:
-              requests:
-                cpu: 250m
-                memory: 512Mi
-              limits:
-                memory: 4Gi
         containers:
           app:
             image:
               repository: ghcr.io/ggml-org/llama.cpp
               tag: server-cuda@sha256:86d073baba8e64d4346a77a66088e9336b7660709f3513a18519d686543dd6b9
             args:
+              - --hf-repo
+              - second-state/All-MiniLM-L6-v2-Embedding-GGUF
+              - --hf-file
+              - all-MiniLM-L6-v2-Q8_0.gguf
+              - --alias
+              - sentence-transformers/all-MiniLM-L6-v2
               - --host
               - 0.0.0.0
               - --port
               - "8080"
-              - --alias
-              - sentence-transformers/all-MiniLM-L6-v2
-              - --model
-              - /models/all-MiniLM-L6-v2/all-MiniLM-L6-v2-Q8_0.gguf
               - --embedding
               - --pooling
               - mean
@@ -131,6 +76,10 @@ spec:
               - --mmap
             env:
               CUDA_VISIBLE_DEVICES: "0"
+              LLAMA_CACHE: /models
+            envFrom:
+              - secretRef:
+                  name: huggingface-secret
             ports:
               - name: http
                 containerPort: &port 8080

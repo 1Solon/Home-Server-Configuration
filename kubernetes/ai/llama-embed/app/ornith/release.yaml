@@ -92,6 +92,10 @@ spec:
               - --no-context-shift
               - --metrics
               - --mmap
+              - --parallel
+              - "1"
+              - --cache-ram
+              - "0"
             env:
               CUDA_VISIBLE_DEVICES: "0"
               LLAMA_CACHE: /models

@@ -57,7 +57,7 @@ spec:
               - --ctx-size
               - "8192"
               - --parallel
-              - "1"
+              - "4"
               - --cont-batching
               - --batch-size
               - "8192"
@@ -69,8 +69,6 @@ spec:
               - "12"
               - --metrics
               - --mmap
-              - --cache-ram
-              - "0"
             env:
               LLAMA_CACHE: /models
             envFrom:

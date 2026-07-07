@@ -72,6 +72,9 @@ spec:
               WEBAUTHN_ALLOWED_ORIGINS: https://sure.${LOCAL_DOMAIN}
               OIDC_ISSUER: https://sso.${REMOTE_DOMAIN}/application/o/sure/
               OIDC_REDIRECT_URI: https://sure.${LOCAL_DOMAIN}/auth/openid_connect/callback
+              OPENAI_ACCESS_TOKEN: ollama-local
+              OPENAI_API_BASE: http://ornith.ai.svc.cluster.local
+              OPENAI_MODEL: Ornith-1.0-9B
             envFrom: *envFrom
             securityContext:
               <<: *securityContext

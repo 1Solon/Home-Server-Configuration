@@ -70,8 +70,6 @@ spec:
               - 0.0.0.0
               - --port
               - "8080"
-              - --parallel
-              - "3"
               - --ctx-size
               - "131072"
               - --predict
@@ -94,8 +92,6 @@ spec:
               - --no-context-shift
               - --metrics
               - --mmap
-              - --cache-ram
-              - "0"
             env:
               CUDA_VISIBLE_DEVICES: "0"
               LLAMA_CACHE: /models

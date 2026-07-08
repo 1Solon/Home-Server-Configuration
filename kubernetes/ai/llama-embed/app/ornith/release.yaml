@@ -78,7 +78,7 @@ spec:
               - --reasoning-format
               - deepseek
               - --n-gpu-layers
-              - "20"
+              - "26"
               - --flash-attn
               - "on"
               - --temp
@@ -91,7 +91,7 @@ spec:
               - "0"
               - --no-context-shift
               - --metrics
-              - --mmap
+              - --no-mmap
               - --parallel
               - "1"
               - --cache-ram

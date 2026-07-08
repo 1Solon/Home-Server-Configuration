@@ -66,6 +66,8 @@ spec:
               - williamliao/Qwen3.6-35B-A3B-DFlash-GGUF:Q8_0
               - --spec-draft-n-max
               - "4"
+              - --spec-draft-ngl
+              - all
               - --alias
               - Ornith-1.0-35B
               - --host

@@ -93,9 +93,7 @@ spec:
               - "0.0"
               - --kv-unified
               - --ctx-checkpoints
-              - "4"
-              - --checkpoint-min-step
-              - "1024"
+              - "0"
               - --chat-template-kwargs
               - '{"preserve_thinking": true}'
               - --no-context-shift

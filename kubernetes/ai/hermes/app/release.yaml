@@ -168,14 +168,28 @@ spec:
             image:
               repository: nousresearch/hermes-agent
               tag: v2026.7.1@sha256:b6c019227889e6675424a2b6223b2cafdd36bf7d1048d1ddd8e043b880d6cc0f
+            command:
+              - /init
+              - /command/with-contenv
+              - /bin/sh
+              - -c
             args:
-              - dashboard
-              - --host
-              - "0.0.0.0"
-              - --port
-              - "9119"
-              - --insecure
-              - --no-open
+              - |
+                set -eu
+                /opt/hermes/.venv/bin/python - <<'PY'
+                from pathlib import Path
+
+                path = Path("/opt/hermes/hermes_cli/dashboard_auth/middleware.py")
+                text = path.read_text()
+                old = "    if len(providers) != 1:\n"
+                new = "    if len(providers) != 1 or getattr(providers[0], \"supports_password\", False):\n"
+
+                if new not in text:
+                    if old not in text:
+                        raise SystemExit("Hermes dashboard auth middleware patch target not found")
+                    path.write_text(text.replace(old, new, 1))
+                PY
+                exec /opt/hermes/docker/main-wrapper.sh dashboard --host 0.0.0.0 --port 9119 --insecure --no-open
             env:
               TZ: "${TZ}"
               HERMES_HOME: /opt/dashboard-data

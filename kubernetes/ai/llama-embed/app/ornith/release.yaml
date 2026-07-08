@@ -106,9 +106,9 @@ spec:
               - --ubatch-size
               - "512"
               - --threads
-              - "8"
+              - "16"
               - --threads-batch
-              - "8"
+              - "16"
               - --cache-type-k
               - q8_0
               - --cache-type-v

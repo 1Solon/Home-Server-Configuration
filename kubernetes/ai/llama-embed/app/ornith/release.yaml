@@ -75,8 +75,6 @@ spec:
               - --reasoning-budget-message
               - "\n\nSYSTEM ERROR!: You have exceeded the reasoning budget. Thinking has been terminiated. You must answer now. "
               - --jinja
-              - --reasoning-format
-              - deepseek
               - --n-gpu-layers
               - "29"
               - --flash-attn
@@ -89,11 +87,20 @@ spec:
               - "0.95"
               - --min-p
               - "0"
+              - --repeat-penalty
+              - "1.0"
+              - --presence-penalty
+              - "0.0"
+              - --kv-unified
+              - --ctx-checkpoints
+              - "4"
+              - --checkpoint-min-step
+              - "1024"
+              - --chat-template-kwargs
+              - '{"preserve_thinking": true}'
               - --no-context-shift
               - --metrics
               - --no-mmap
-              - --parallel
-              - "1"
               - --ubatch-size
               - "1024"
               - --cache-type-k
@@ -102,6 +109,12 @@ spec:
               - q8_0
               - --cache-ram
               - "2048"
+              - --spec-type
+              - draft-dflash
+              - --spec-draft-hf
+              - williamliao/Qwen3.6-35B-A3B-DFlash-GGUF:Q8_0
+              - --spec-draft-n-max
+              - "4"
             env:
               CUDA_VISIBLE_DEVICES: "0"
               LLAMA_CACHE: /models

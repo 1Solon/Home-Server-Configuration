@@ -6,7 +6,7 @@ metadata:
   name: &app ornith
 spec:
   interval: 30m
-  timeout: 30m
+  timeout: 60m
   chart:
     spec:
       chart: app-template
@@ -57,25 +57,11 @@ spec:
               tag: server-cuda@sha256:fecfb070d2f8d48ced24b3a0ff0710cba6440a573c77e12935962ba517c01365
             args:
               - --hf-repo
-              - deepreinforce-ai/Ornith-1.0-9B-GGUF
+              - deepreinforce-ai/Ornith-1.0-35B-GGUF
               - --hf-file
-              - ornith-1.0-9b-Q6_K.gguf
-              - --spec-type
-              - ngram-mod,draft-dflash
-              - --spec-ngram-mod-n-match
-              - "5"
-              - --spec-ngram-mod-n-min
-              - "8"
-              - --spec-ngram-mod-n-max
-              - "14"
-              - --spec-draft-hf
-              - onion515/ornith-9b-dflash
-              - --spec-draft-n-max
-              - "2"
-              - --spec-draft-p-min
-              - "0.55"
+              - ornith-1.0-35b-Q4_K_M.gguf
               - --alias
-              - Ornith-1.0-9B
+              - Ornith-1.0-35B
               - --host
               - 0.0.0.0
               - --port
@@ -83,7 +69,7 @@ spec:
               - --verbosity
               - "4"
               - --ctx-size
-              - "131072"
+              - "65536"
               - --reasoning-budget
               - "3000"
               - --reasoning-budget-message
@@ -92,7 +78,7 @@ spec:
               - --reasoning-format
               - deepseek
               - --n-gpu-layers
-              - "all"
+              - "32"
               - --flash-attn
               - "on"
               - --temp
@@ -105,9 +91,9 @@ spec:
               - "0"
               - --no-context-shift
               - --metrics
-              - --no-mmap
+              - --mmap
               - --parallel
-              - "2"
+              - "1"
               - --cache-ram
               - "0"
             env:
@@ -151,14 +137,11 @@ spec:
                     port: *port
                   periodSeconds: 10
                   timeoutSeconds: 5
-                  failureThreshold: 360
+                  failureThreshold: 540
             resources:
               requests:
-                cpu: 250m
-                memory: 4Gi
                 nvidia.com/gpu: 1
               limits:
-                memory: 16Gi
                 nvidia.com/gpu: 1
             securityContext:
               allowPrivilegeEscalation: false

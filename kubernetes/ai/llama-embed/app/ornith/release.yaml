@@ -78,7 +78,7 @@ spec:
               - --reasoning-format
               - deepseek
               - --n-gpu-layers
-              - "26"
+              - "28"
               - --flash-attn
               - "on"
               - --temp

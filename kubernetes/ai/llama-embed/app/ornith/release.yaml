@@ -67,7 +67,7 @@ spec:
               - --spec-draft-n-max
               - "4"
               - --spec-draft-ngl
-              - all
+              - "all"
               - --alias
               - Ornith-1.0-35B
               - --host

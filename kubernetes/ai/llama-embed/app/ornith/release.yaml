@@ -96,6 +96,7 @@ spec:
               - "1"
               - --cache-ram
               - "0"
+              - --cpu-moe
             env:
               CUDA_VISIBLE_DEVICES: "0"
               LLAMA_CACHE: /models

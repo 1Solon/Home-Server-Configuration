@@ -57,7 +57,7 @@ spec:
               tag: server-cuda@sha256:fecfb070d2f8d48ced24b3a0ff0710cba6440a573c77e12935962ba517c01365
               args:
                 - --hf-repo
-                - deepreinforce-ai/Ornith-1.0-9B-GGUF
+                - deepreinforce-ai/Ornith-1.0-35B-GGUF
                 - --hf-file
                 - ornith-1.0-35b-Q4_K_M.gguf
                 - --spec-type

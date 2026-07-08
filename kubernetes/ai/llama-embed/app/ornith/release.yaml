@@ -57,9 +57,9 @@ spec:
               tag: server-cuda@sha256:fecfb070d2f8d48ced24b3a0ff0710cba6440a573c77e12935962ba517c01365
             args:
               - --hf-repo
-              - s-batman/Ornith-1.0-35B-NVFP4-MTP-GGUF
+              - deepreinforce-ai/Ornith-1.0-35B-GGUF
               - --hf-file
-              - ornith-1.0-35b-MXFP4_MOE-MTP.gguf
+              - ornith-1.0-35b-Q4_K_M.gguf
               - --alias
               - Ornith-1.0-35B
               - --host
@@ -102,10 +102,6 @@ spec:
               - q8_0
               - --cache-ram
               - "2048"
-              - --spec-type
-              - draft-mtp
-              - --spec-draft-n-max
-              - "3"
             env:
               CUDA_VISIBLE_DEVICES: "0"
               LLAMA_CACHE: /models

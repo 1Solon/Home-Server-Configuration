@@ -101,6 +101,8 @@ spec:
               - --no-context-shift
               - --metrics
               - --no-mmap
+              - --parallel
+              - "1"
               - --ubatch-size
               - "1024"
               - --cache-type-k

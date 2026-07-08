@@ -105,6 +105,10 @@ spec:
               - "1"
               - --ubatch-size
               - "512"
+              - --threads
+              - "8"
+              - --threads-batch
+              - "8"
               - --cache-type-k
               - q8_0
               - --cache-type-v
@@ -116,7 +120,7 @@ spec:
               - --spec-draft-hf
               - williamliao/Qwen3.6-35B-A3B-DFlash-GGUF:Q8_0
               - --spec-draft-n-max
-              - "15"
+              - "4"
             env:
               CUDA_VISIBLE_DEVICES: "0"
               LLAMA_CACHE: /models

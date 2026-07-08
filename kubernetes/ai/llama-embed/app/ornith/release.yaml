@@ -86,7 +86,7 @@ spec:
               - --chat-template-kwargs
               - '{"preserve_thinking": true}'
               - --n-gpu-layers
-              - "26"
+              - "25"
               - --flash-attn
               - "on"
               - --temp

@@ -78,7 +78,7 @@ spec:
               - --reasoning-format
               - deepseek
               - --n-gpu-layers
-              - "28"
+              - "29"
               - --flash-attn
               - "on"
               - --temp
@@ -94,8 +94,14 @@ spec:
               - --no-mmap
               - --parallel
               - "1"
+              - --ubatch-size
+              - "1024"
+              - --cache-type-k
+              - q8_0
+              - --cache-type-v
+              - q8_0
               - --cache-ram
-              - "0"
+              - "2048"
             env:
               CUDA_VISIBLE_DEVICES: "0"
               LLAMA_CACHE: /models

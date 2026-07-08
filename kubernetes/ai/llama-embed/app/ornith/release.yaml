@@ -76,7 +76,7 @@ spec:
               - "\n\nSYSTEM ERROR!: You have exceeded the reasoning budget. Thinking has been terminiated. You must answer now. "
               - --jinja
               - --n-gpu-layers
-              - "29"
+              - "27"
               - --flash-attn
               - "on"
               - --temp
@@ -96,13 +96,15 @@ spec:
               - "0"
               - --chat-template-kwargs
               - '{"preserve_thinking": true}'
+              - --reasoning-format
+              - deepseek
               - --no-context-shift
               - --metrics
               - --no-mmap
               - --parallel
               - "1"
               - --ubatch-size
-              - "1024"
+              - "512"
               - --cache-type-k
               - q8_0
               - --cache-type-v

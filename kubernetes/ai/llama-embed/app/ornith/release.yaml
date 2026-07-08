@@ -90,7 +90,7 @@ spec:
               - --chat-template-kwargs
               - '{"preserve_thinking": true}'
               - --n-gpu-layers
-              - "25"
+              - "26"
               - --flash-attn
               - "on"
               - --temp
@@ -103,7 +103,7 @@ spec:
               - "0"
               - --no-context-shift
               - --metrics
-              - --no-mmap
+              - --mmap
               - --parallel
               - "1"
               - --cache-ram

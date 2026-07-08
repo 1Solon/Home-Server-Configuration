@@ -77,7 +77,7 @@ spec:
               - --verbosity
               - "4"
               - --ctx-size
-              - "131072"
+              - "65536"
               - --reasoning-budget
               - "3000"
               - --reasoning-budget-message
@@ -86,7 +86,7 @@ spec:
               - --chat-template-kwargs
               - '{"preserve_thinking": true}'
               - --n-gpu-layers
-              - "25"
+              - "26"
               - --flash-attn
               - "on"
               - --temp
@@ -107,7 +107,7 @@ spec:
               - --metrics
               - --no-mmap
               - --parallel
-              - "3"
+              - "4"
               - --cache-ram
               - "0"
             env:

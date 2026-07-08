@@ -61,13 +61,7 @@ spec:
               - --hf-file
               - ornith-1.0-35b-Q4_K_M.gguf
               - --spec-type
-              - ngram-mod,draft-dflash
-              - --spec-ngram-mod-n-match
-              - "5"
-              - --spec-ngram-mod-n-min
-              - "8"
-              - --spec-ngram-mod-n-max
-              - "14"
+              - draft-dflash
               - --spec-draft-hf
               - williamliao/Qwen3.6-35B-A3B-DFlash-GGUF:Q8_0
               - --spec-draft-n-max
@@ -101,9 +95,15 @@ spec:
               - "0.95"
               - --min-p
               - "0"
+              - --threads
+              - "7"
+              - --ctx-checkpoints
+              - "4"
+              - --checkpoint-min-step
+              - "1024"
               - --no-context-shift
               - --metrics
-              - --mmap
+              - --no-mmap
               - --parallel
               - "1"
               - --cache-ram

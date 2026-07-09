@@ -85,13 +85,9 @@ spec:
               - --n-gpu-layers
               - "all"
               - --n-cpu-moe
-              - "22"
+              - "20"
               - --ctx-size
-              - "262144"
-              - --cache-type-k
-              - q8_0
-              - --cache-type-v
-              - q8_0
+              - "65536"
               - --top-k
               - "20"
               - --top-p

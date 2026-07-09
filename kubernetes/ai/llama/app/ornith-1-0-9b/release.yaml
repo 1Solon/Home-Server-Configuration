@@ -80,6 +80,10 @@ spec:
               - "999"
               - --n-cpu-moe
               - "30"
+              - --cache-type-k
+              - turbo4
+              - cache-type-v
+              - turbo3
             env:
               CUDA_VISIBLE_DEVICES: "0"
               LLAMA_CACHE: /models

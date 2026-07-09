@@ -1,4 +1,5 @@
 language-server-log.txt
 *decrypted*
 bgp.conf
-docs
+docs/*
+!docs/tasks.md

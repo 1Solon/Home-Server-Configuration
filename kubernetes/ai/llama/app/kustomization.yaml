@@ -6,4 +6,4 @@ resources:
   - ./externalsecret.yaml
   - ./all-minilm-l6-v2
   - ./lfm2-230m
-  - ./ornith-1.0-9b
+  - ./ornith-1-0-9b

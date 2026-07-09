@@ -79,7 +79,7 @@ spec:
               - --n-gpu-layers
               - "all"
               - --n-cpu-moe
-              - "26"
+              - "24"
               - --ctx-size
               - "262144"
               - --cache-type-k

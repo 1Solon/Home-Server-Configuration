@@ -85,7 +85,7 @@ spec:
               - --n-gpu-layers
               - "all"
               - --n-cpu-moe
-              - "17"
+              - "18"
               - --ctx-size
               - "65536"
               - --top-k

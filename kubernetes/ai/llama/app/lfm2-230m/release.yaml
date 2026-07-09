@@ -54,7 +54,7 @@ spec:
               - --ctx-size
               - "8192"
               - --parallel
-              - "2"
+              - "1"
               - --threads
               - "4"
               - --threads-batch

@@ -3,10 +3,9 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: &app ornith
+  name: &app lfm2-230m
 spec:
   interval: 30m
-  timeout: 60m
   chart:
     spec:
       chart: app-template
@@ -23,29 +22,15 @@ spec:
     remediation:
       strategy: rollback
       retries: 3
-  postRenderers:
-    - kustomize:
-        patches:
-          - patch: |-
-              apiVersion: apps/v1
-              kind: Deployment
-              metadata:
-                name: ornith
-                namespace: ai
-              spec:
-                progressDeadlineSeconds: 3600
   values:
     defaultPodOptions:
-      runtimeClassName: nvidia
-      nodeSelector:
-        kubernetes.io/hostname: kube5
       securityContext:
         fsGroup: 1000
         fsGroupChangePolicy: OnRootMismatch
         seccompProfile: { type: RuntimeDefault }
 
     controllers:
-      ornith:
+      lfm2-230m:
         annotations:
           reloader.stakater.com/auto: "true"
         replicas: 1
@@ -54,70 +39,29 @@ spec:
           app:
             image:
               repository: ghcr.io/ggml-org/llama.cpp
-              tag: server-cuda@sha256:fecfb070d2f8d48ced24b3a0ff0710cba6440a573c77e12935962ba517c01365
+              tag: server
             args:
               - --hf-repo
-              - deepreinforce-ai/Ornith-1.0-9B-GGUF
+              - LiquidAI/LFM2.5-230M-GGUF
               - --hf-file
-              - ornith-1.0-9b-Q6_K.gguf
-              - --spec-type
-              - ngram-mod,draft-dflash
-              - --spec-draft-ngl
-              - "all"
-              - --spec-ngram-mod-n-match
-              - "5"
-              - --spec-ngram-mod-n-min
-              - "8"
-              - --spec-ngram-mod-n-max
-              - "14"
-              - --spec-draft-hf
-              - onion515/ornith-9b-dflash
-              - --spec-draft-n-max
-              - "2"
-              - --spec-draft-p-min
-              - "0.55"
+              - LFM2.5-230M-Q4_K_M.gguf
               - --alias
-              - Ornith-1.0-9B
+              - LiquidAI/LFM2.5-230M-GGUF:Q4_K_M
               - --host
               - 0.0.0.0
               - --port
               - "8080"
-              - --verbosity
-              - "4"
               - --ctx-size
-              - "131072"
-              - --reasoning-budget
-              - "3000"
-              - --reasoning-budget-message
-              - "\n\nSYSTEM ERROR!: You have exceeded the reasoning budget. Thinking has been terminiated. You must answer now. "
-              - --jinja
-              - --reasoning-format
-              - deepseek
-              - --chat-template-kwargs
-              - '{"preserve_thinking": true}'
-              - --n-gpu-layers
-              - "all"
-              - --flash-attn
-              - "on"
-              - --temp
-              - "0.6"
-              - --top-k
-              - "20"
-              - --top-p
-              - "0.95"
-              - --min-p
-              - "0"
-              - --no-context-shift
-              - --ctx-checkpoints
+              - "8192"
+              - --parallel
+              - "2"
+              - --threads
               - "4"
-              - --checkpoint-min-step
-              - "1024"
+              - --threads-batch
+              - "8"
               - --metrics
               - --mmap
-              - --parallel
-              - "3"
             env:
-              CUDA_VISIBLE_DEVICES: "0"
               LLAMA_CACHE: /models
             envFrom:
               - secretRef:
@@ -157,12 +101,13 @@ spec:
                     port: *port
                   periodSeconds: 10
                   timeoutSeconds: 5
-                  failureThreshold: 540
+                  failureThreshold: 180
             resources:
               requests:
-                nvidia.com/gpu: 1
+                cpu: 250m
+                memory: 512Mi
               limits:
-                nvidia.com/gpu: 1
+                memory: 1Gi
             securityContext:
               allowPrivilegeEscalation: false
               capabilities:

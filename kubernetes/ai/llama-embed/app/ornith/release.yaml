@@ -107,7 +107,7 @@ spec:
               - --metrics
               - --no-mmap
               - --parallel
-              - "4"
+              - "3"
               - --cache-ram
               - "0"
             env:

@@ -59,7 +59,7 @@ spec:
               - --hf-repo
               - deepreinforce-ai/Ornith-1.0-35B-GGUF
               - --hf-file
-              - ornith-1.0-35b-Q4_K_M.gguf
+              - ornith-1.0-35b-Q5_K_M.gguf
               - --alias
               - Ornith-1.0-35B
               - --host

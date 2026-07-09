@@ -64,6 +64,8 @@ spec:
               - Ornith-1.0-35B
               - --host
               - 0.0.0.0
+              - --flash-attn
+              - "on"
               - --port
               - "8080"
               - --verbosity
@@ -72,6 +74,10 @@ spec:
               - "3000"
               - --reasoning-budget-message
               - "\n\nSYSTEM ERROR!: You have exceeded the reasoning budget. Thinking has been terminiated. You must answer now. "
+              - --chat-template-kwargs
+              - '{"preserve_thinking": true}'
+              - --reasoning-format
+              - "deepseek"
               - --metrics
               - --no-mmap
               - --parallel
@@ -86,6 +92,13 @@ spec:
               - q8_0
               - --cache-type-v
               - q8_0
+              - --top-k
+              - "20"
+              - --top-p
+              - "0.95"
+              - --min-p
+              - "0"
+              - --no-context-shift
             env:
               CUDA_VISIBLE_DEVICES: "0"
               LLAMA_CACHE: /models

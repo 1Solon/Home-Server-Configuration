@@ -1,8 +1,10 @@
 ---
 model:
-  provider: openai-codex
-  default: gpt-5.5
-  base_url: ""
+  provider: custom
+  default: Ornith-1.0-35B
+  base_url: http://ornith-1-0-35b.ai.svc.cluster.local:8080/v1
+  api_key: ""
+  context_length: 65536
   api_mode: chat_completions
 web:
   backend: firecrawl

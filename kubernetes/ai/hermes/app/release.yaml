@@ -199,13 +199,14 @@ spec:
               - 0.0.0.0
               - --port
               - "9119"
-              - --insecure
               - --no-open
             env:
               TZ: "${TZ}"
               HERMES_HOME: /opt/data
               HOME: /opt/data
               GATEWAY_HEALTH_URL: http://localhost:8642
+              HERMES_DASHBOARD_OIDC_ISSUER: https://sso.${REMOTE_DOMAIN}/application/o/hermes/
+              HERMES_DASHBOARD_PUBLIC_URL: https://hermes.${LOCAL_DOMAIN}
             envFrom:
               - secretRef:
                   name: *app

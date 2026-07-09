@@ -51,6 +51,14 @@ spec:
               - 0.0.0.0
               - --port
               - "8080"
+              - --ctx-size
+              - "8192"
+              - --parallel
+              - "2"
+              - --threads
+              - "4"
+              - --threads-batch
+              - "8"
               - --metrics
               - --mmap
             env:

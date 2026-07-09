@@ -105,7 +105,7 @@ spec:
               - "1024"
               - --no-context-shift
               - --metrics
-              - --no-mmap
+              - --mmap
               - --parallel
               - "3"
               - --cache-ram

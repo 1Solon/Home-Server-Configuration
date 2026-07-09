@@ -160,6 +160,8 @@ spec:
                   failureThreshold: 540
             resources:
               requests:
+                cpu: 500m
+                memory: 4Gi
                 nvidia.com/gpu: 1
               limits:
                 nvidia.com/gpu: 1

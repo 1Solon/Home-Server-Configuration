@@ -80,10 +80,8 @@ spec:
               - "999"
               - --n-cpu-moe
               - "30"
-              - --cache-type-k
-              - q4_0
-              - --cache-type-v
-              - q4_0
+              - --ctx-size
+              - "262144"
             env:
               CUDA_VISIBLE_DEVICES: "0"
               LLAMA_CACHE: /models

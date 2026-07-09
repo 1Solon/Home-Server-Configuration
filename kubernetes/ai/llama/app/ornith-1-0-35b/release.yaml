@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: &app ornith-1-0-9b
+  name: &app ornith-1-0-35b
 spec:
   interval: 30m
   timeout: 60m

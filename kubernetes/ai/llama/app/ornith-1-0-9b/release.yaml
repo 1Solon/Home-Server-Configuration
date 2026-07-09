@@ -53,8 +53,8 @@ spec:
         containers:
           app:
             image:
-              repository: ghcr.io/ggml-org/llama.cpp
-              tag: server-cuda@sha256:fecfb070d2f8d48ced24b3a0ff0710cba6440a573c77e12935962ba517c01365
+              repository: ghcr.io/thetom/llama-cpp-turboquant
+              tag: buildcache-cuda12-amd64@sha256:ca93236d65981460d4a3140f7f50e8d4cb20cefe2c31773622d0b0017b7d78ce
             args:
               - --hf-repo
               - deepreinforce-ai/Ornith-1.0-35B-GGUF

@@ -57,19 +57,27 @@ spec:
               tag: server-cuda@sha256:fecfb070d2f8d48ced24b3a0ff0710cba6440a573c77e12935962ba517c01365
             args:
               - --hf-repo
-              - deepreinforce-ai/Ornith-1.0-35B-GGUF
+              - deepreinforce-ai/Ornith-1.0-9B-GGUF
               - --hf-file
-              - ornith-1.0-35b-Q4_K_M.gguf
+              - ornith-1.0-9b-Q6_K.gguf
               - --spec-type
-              - draft-dflash
-              - --spec-draft-hf
-              - williamliao/Qwen3.6-35B-A3B-DFlash-GGUF:Q8_0
-              - --spec-draft-n-max
-              - "4"
+              - ngram-mod,draft-dflash
               - --spec-draft-ngl
               - "all"
+              - --spec-ngram-mod-n-match
+              - "5"
+              - --spec-ngram-mod-n-min
+              - "8"
+              - --spec-ngram-mod-n-max
+              - "14"
+              - --spec-draft-hf
+              - onion515/ornith-9b-dflash
+              - --spec-draft-n-max
+              - "2"
+              - --spec-draft-p-min
+              - "0.55"
               - --alias
-              - Ornith-1.0-35B
+              - Ornith-1.0-9B
               - --host
               - 0.0.0.0
               - --port
@@ -77,16 +85,18 @@ spec:
               - --verbosity
               - "4"
               - --ctx-size
-              - "65536"
+              - "131072"
               - --reasoning-budget
               - "3000"
               - --reasoning-budget-message
               - "\n\nSYSTEM ERROR!: You have exceeded the reasoning budget. Thinking has been terminiated. You must answer now. "
               - --jinja
+              - --reasoning-format
+              - deepseek
               - --chat-template-kwargs
               - '{"preserve_thinking": true}'
               - --n-gpu-layers
-              - "26"
+              - "all"
               - --flash-attn
               - "on"
               - --temp
@@ -97,19 +107,11 @@ spec:
               - "0.95"
               - --min-p
               - "0"
-              - --threads
-              - "7"
-              - --ctx-checkpoints
-              - "4"
-              - --checkpoint-min-step
-              - "1024"
               - --no-context-shift
               - --metrics
-              - --mmap
+              - --no-mmap
               - --parallel
-              - "2"
-              - --cache-ram
-              - "0"
+              - "4"
             env:
               CUDA_VISIBLE_DEVICES: "0"
               LLAMA_CACHE: /models

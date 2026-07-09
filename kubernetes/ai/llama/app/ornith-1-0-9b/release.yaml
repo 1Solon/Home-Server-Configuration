@@ -82,6 +82,10 @@ spec:
               - "30"
               - --ctx-size
               - "262144"
+              - --cache-type-k
+              - q8_0
+              - --cache-type-v
+              - q8_0
             env:
               CUDA_VISIBLE_DEVICES: "0"
               LLAMA_CACHE: /models

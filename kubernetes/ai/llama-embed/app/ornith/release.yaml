@@ -108,8 +108,12 @@ spec:
               - --min-p
               - "0"
               - --no-context-shift
+              - --ctx-checkpoints
+              - "4"
+              - --checkpoint-min-step
+              - "1024"
               - --metrics
-              - --no-mmap
+              - --mmap
               - --parallel
               - "4"
             env:

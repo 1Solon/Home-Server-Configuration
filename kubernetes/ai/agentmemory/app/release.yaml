@@ -64,15 +64,12 @@ spec:
               AGENTMEMORY_INJECT_CONTEXT: "true"
               AGENTMEMORY_LLM_TIMEOUT_MS: "120000"
               CONSOLIDATION_ENABLED: "true"
-              EMBEDDING_PROVIDER: openai
+              EMBEDDING_PROVIDER: local
               GRAPH_EXTRACTION_ENABLED: "true"
               III_REST_PORT: &apiPort 3111
-              OPENROUTER_MODEL: deepseek/deepseek-v4-flash
-              OPENAI_BASE_URL: http://llama-embed.ai.svc.cluster.local:8080
+              OPENAI_BASE_URL: http://ornith.ai.svc.cluster.local:8080/v1
               OPENAI_API_KEY: local
-              OPENAI_API_KEY_FOR_LLM: "false"
-              OPENAI_EMBEDDING_DIMENSIONS: "384"
-              OPENAI_EMBEDDING_MODEL: sentence-transformers/all-MiniLM-L6-v2
+              OPENAI_MODEL: Ornith-1.0-9B
               RUST_LOG: warn
               AGENTMEMORY_VIEWER_HOST: 0.0.0.0
               VIEWER_ALLOWED_HOSTS: "agentmemory.${LOCAL_DOMAIN}"

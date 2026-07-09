@@ -115,7 +115,7 @@ spec:
               - --metrics
               - --mmap
               - --parallel
-              - "3"
+              - "2"
             env:
               CUDA_VISIBLE_DEVICES: "0"
               LLAMA_CACHE: /models

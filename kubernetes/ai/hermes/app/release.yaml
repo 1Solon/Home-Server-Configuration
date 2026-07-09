@@ -25,6 +25,7 @@ spec:
   values:
     defaultPodOptions:
       automountServiceAccountToken: true
+      terminationGracePeriodSeconds: 600
       securityContext:
         fsGroup: 10000
         fsGroupChangePolicy: OnRootMismatch
@@ -32,6 +33,7 @@ spec:
 
     controllers:
       hermes:
+        strategy: Recreate
         annotations:
           reloader.stakater.com/auto: "true"
         serviceAccount:
@@ -158,98 +160,41 @@ spec:
               - name: api
                 containerPort: *apiPort
                 protocol: TCP
+            probes:
+              liveness:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /health
+                    port: *apiPort
+                  initialDelaySeconds: 30
+                  periodSeconds: 30
+                  timeoutSeconds: 5
+                  failureThreshold: 6
+              readiness:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /health
+                    port: *apiPort
+                  initialDelaySeconds: 5
+                  periodSeconds: 10
+                  timeoutSeconds: 5
+                  failureThreshold: 6
             resources:
               requests:
                 cpu: 500m
                 memory: 1Gi
               limits:
                 memory: 4Gi
-          dashboard:
-            image:
-              repository: nousresearch/hermes-agent
-              tag: v2026.7.1@sha256:b6c019227889e6675424a2b6223b2cafdd36bf7d1048d1ddd8e043b880d6cc0f
-            command:
-              - /init
-              - /command/with-contenv
-              - /bin/sh
-              - -c
-            args:
-              - |
-                set -eu
-                /opt/hermes/.venv/bin/python - <<'PY'
-                from pathlib import Path
-
-                path = Path("/opt/hermes/hermes_cli/dashboard_auth/middleware.py")
-                text = path.read_text()
-                old = "    if len(providers) != 1:\n"
-                new = "    if len(providers) != 1 or getattr(providers[0], \"supports_password\", False):\n"
-
-                if new not in text:
-                    if old not in text:
-                        raise SystemExit("Hermes dashboard auth middleware patch target not found")
-                    path.write_text(text.replace(old, new, 1))
-                PY
-                exec /opt/hermes/docker/main-wrapper.sh dashboard --host 0.0.0.0 --port 9119 --insecure --no-open
-            env:
-              TZ: "${TZ}"
-              HERMES_HOME: /opt/dashboard-data
-              HOME: /opt/dashboard-data
-              GATEWAY_HEALTH_URL: http://localhost:8642
-              PYTHONPATH: /opt/python-packages
-              FIRECRAWL_API_URL: https://api.firecrawl.dev
-              HERMES_DASHBOARD_BASIC_AUTH_USERNAME: admin
-              HERMES_DASHBOARD_BASIC_AUTH_PASSWORD:
-                valueFrom:
-                  secretKeyRef:
-                    name: *app
-                    key: API_SERVER_KEY
-              HERMES_DASHBOARD_BASIC_AUTH_SECRET:
-                valueFrom:
-                  secretKeyRef:
-                    name: *app
-                    key: AGENTMEMORY_SECRET
-            envFrom:
-              - secretRef:
-                  name: *app
-            ports:
-              - name: dashboard
-                containerPort: 9119
-                protocol: TCP
-            resources:
-              requests:
-                cpu: 100m
-                memory: 512Mi
-              limits:
-                memory: 2Gi
     service:
       app:
         controller: *app
         ports:
           api:
             port: *apiPort
-          dashboard:
-            port: 9119
-
-    route:
-      app:
-        enabled: true
-        annotations:
-          gethomepage.dev/enabled: "true"
-          gethomepage.dev/name: Hermes
-          gethomepage.dev/description: Personal AI agent dashboard
-          gethomepage.dev/group: AI
-          gethomepage.dev/icon: https://cdn.jsdelivr.net/npm/@lobehub/icons-static-svg@latest/icons/hermesagent.svg
-          gethomepage.dev/pod-selector: app.kubernetes.io/name=hermes
-        parentRefs:
-          - name: envoy-internal
-            namespace: networking
-            sectionName: https
-        hostnames:
-          - "hermes.${LOCAL_DOMAIN}"
-        rules:
-          - backendRefs:
-              - identifier: app
-                port: 9119
     persistence:
       config:
         existingClaim: *app
@@ -282,21 +227,6 @@ spec:
               - path: /tmp/agentmemory-plugin.yaml
                 subPath: agentmemory-plugin.yaml
                 readOnly: true
-            dashboard:
-              - path: /opt/dashboard-data/config.yaml
-                subPath: config.yaml
-                readOnly: true
-              - path: /opt/dashboard-data/SOUL.md
-                subPath: SOUL.md
-                readOnly: true
-
-      dashboard-data:
-        type: emptyDir
-        advancedMounts:
-          hermes:
-            dashboard:
-              - path: /opt/dashboard-data
-
       python-packages:
         type: emptyDir
         advancedMounts:
@@ -305,8 +235,15 @@ spec:
               - path: /opt/data/python-packages
             install-firecrawl-python:
               - path: /opt/data/python-packages
-            dashboard:
-              - path: /opt/python-packages
+
+      shm:
+        type: emptyDir
+        medium: Memory
+        sizeLimit: 1Gi
+        advancedMounts:
+          hermes:
+            app:
+              - path: /dev/shm
 
       tmpfs:
         type: emptyDir
@@ -314,9 +251,6 @@ spec:
           hermes:
             app:
               - path: /tmp
-            dashboard:
-              - path: /tmp
-                subPath: dashboard
             install-firecrawl-python:
               - path: /tmp
                 subPath: install-firecrawl-python

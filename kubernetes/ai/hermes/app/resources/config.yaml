@@ -8,6 +8,7 @@ web:
   backend: firecrawl
 dashboard:
   theme: mono
+  font: jetbrains-mono
 toolsets:
   - hermes-cli
   - mcp-grafana
@@ -59,12 +60,14 @@ agent:
   gateway_timeout: 1800
   restart_drain_timeout: 60
   api_max_retries: 3
-  reasoning_effort: low
+  reasoning_effort: high
   service_tier: fast
 streaming:
   enabled: true
 security:
   redact_secrets: true
+command_allowlist:
+  - script execution via -e/-c flag
 privacy:
   redact_pii: true
 platform_toolsets:

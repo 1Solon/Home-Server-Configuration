@@ -193,13 +193,34 @@ spec:
             image:
               repository: nousresearch/hermes-agent
               tag: v2026.7.1@sha256:b6c019227889e6675424a2b6223b2cafdd36bf7d1048d1ddd8e043b880d6cc0f
+            command:
+              - /init
+              - /command/with-contenv
+              - /bin/sh
+              - -c
             args:
-              - dashboard
-              - --host
-              - 0.0.0.0
-              - --port
-              - "9119"
-              - --no-open
+              - |
+                set -eu
+                /opt/hermes/.venv/bin/python - <<'PY'
+                from pathlib import Path
+
+                path = Path("/opt/hermes/hermes_cli/web_server.py")
+                text = path.read_text()
+                old = '            req = urllib.request.Request(path, method="GET")\n'
+                new = (
+                    '            req = urllib.request.Request(path, method="GET")\n'
+                    '            api_key = os.getenv("API_SERVER_KEY", "")\n'
+                    '            if api_key:\n'
+                    '                req.add_header("Authorization", f"Bearer {api_key}")\n'
+                )
+
+                if new not in text:
+                    if old not in text:
+                        raise SystemExit("Hermes gateway health auth patch target not found")
+                    path.write_text(text.replace(old, new, 1))
+                print("GATEWAY_HEALTH_AUTH_PATCHED")
+                PY
+                exec /opt/hermes/docker/main-wrapper.sh dashboard --host 0.0.0.0 --port 9119 --no-open
             env:
               TZ: "${TZ}"
               HERMES_HOME: /opt/data

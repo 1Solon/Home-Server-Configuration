@@ -195,6 +195,21 @@ spec:
         ports:
           api:
             port: *apiPort
+
+    route:
+      app:
+        enabled: true
+        parentRefs:
+          - name: envoy-internal
+            namespace: networking
+            sectionName: https
+        hostnames:
+          - "hermes.${LOCAL_DOMAIN}"
+        rules:
+          - backendRefs:
+              - port: *apiPort
+                name: *app
+
     persistence:
       config:
         existingClaim: *app

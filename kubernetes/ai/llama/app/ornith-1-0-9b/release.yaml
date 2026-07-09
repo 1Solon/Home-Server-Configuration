@@ -79,7 +79,7 @@ spec:
               - --n-gpu-layers
               - "999"
               - --n-cpu-moe
-              - "41"
+              - "30"
             env:
               CUDA_VISIBLE_DEVICES: "0"
               LLAMA_CACHE: /models

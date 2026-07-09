@@ -4,6 +4,6 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
   - ./externalsecret.yaml
-  - ./embed
+  - ./all-minilm-l6-v2
   - ./lfm2-230m
-  - ./ornith
+  - ./ornith-1.0-9b

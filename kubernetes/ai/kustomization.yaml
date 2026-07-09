@@ -6,7 +6,7 @@ resources:
 - namespace.yaml
 - ./agentmemory/install.yaml
 - ./hermes/install.yaml
-- ./llama-embed/install.yaml
+- ./llama/install.yaml
 - ./openwebui/install.yaml
 - ./searxng/install.yaml
 - ./toolhive/crds/install.yaml

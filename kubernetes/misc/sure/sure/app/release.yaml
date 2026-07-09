@@ -73,7 +73,7 @@ spec:
               OIDC_ISSUER: https://sso.${REMOTE_DOMAIN}/application/o/sure/
               OIDC_REDIRECT_URI: https://sure.${LOCAL_DOMAIN}/auth/openid_connect/callback
               OPENAI_ACCESS_TOKEN: ollama-local
-              OPENAI_URI_BASE: http://ornith.ai.svc.cluster.local:8080/v1
+              OPENAI_URI_BASE: http://ornith-1.0-9b.ai.svc.cluster.local:8080/v1
               OPENAI_MODEL: Ornith-1.0-9B
               AI_DEBUG_MODE: "true"
             envFrom: *envFrom

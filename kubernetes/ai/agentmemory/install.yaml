@@ -9,7 +9,7 @@ spec:
   components:
     - ../../../components/volsync
   dependsOn:
-    - name: llama-embed
+    - name: llama
     - name: volsync
       namespace: flux-system
   path: "./kubernetes/ai/agentmemory/app"

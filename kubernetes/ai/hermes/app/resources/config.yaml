@@ -6,6 +6,8 @@ model:
   api_mode: chat_completions
 web:
   backend: firecrawl
+dashboard:
+  theme: mono
 toolsets:
   - hermes-cli
   - mcp-grafana
@@ -51,6 +53,7 @@ display:
   streaming: true
   tool_progress: true
   show_reasoning: true
+  skin: mono
 agent:
   max_turns: 90
   gateway_timeout: 1800

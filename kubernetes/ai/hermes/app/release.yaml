@@ -189,16 +189,58 @@ spec:
                 memory: 1Gi
               limits:
                 memory: 4Gi
+          dashboard:
+            image:
+              repository: nousresearch/hermes-agent
+              tag: v2026.7.1@sha256:b6c019227889e6675424a2b6223b2cafdd36bf7d1048d1ddd8e043b880d6cc0f
+            args:
+              - dashboard
+              - --host
+              - 0.0.0.0
+              - --port
+              - "9119"
+              - --insecure
+              - --no-open
+            env:
+              TZ: "${TZ}"
+              HERMES_HOME: /opt/data
+              HOME: /opt/data
+              GATEWAY_HEALTH_URL: http://localhost:8642
+            envFrom:
+              - secretRef:
+                  name: *app
+            ports:
+              - name: dashboard
+                containerPort: 9119
+                protocol: TCP
+            resources:
+              requests:
+                cpu: 50m
+                memory: 256Mi
+              limits:
+                memory: 1Gi
     service:
       app:
         controller: *app
         ports:
           api:
             port: *apiPort
+      dashboard:
+        controller: *app
+        ports:
+          http:
+            port: 9119
 
     route:
       app:
         enabled: true
+        annotations:
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/name: Hermes
+          gethomepage.dev/description: Personal AI agent dashboard
+          gethomepage.dev/group: AI
+          gethomepage.dev/icon: https://cdn.jsdelivr.net/npm/@lobehub/icons-static-svg@latest/icons/hermesagent.svg
+          gethomepage.dev/pod-selector: app.kubernetes.io/name=hermes
         parentRefs:
           - name: envoy-internal
             namespace: networking
@@ -207,8 +249,8 @@ spec:
           - "hermes.${LOCAL_DOMAIN}"
         rules:
           - backendRefs:
-              - port: *apiPort
-                name: *app
+              - identifier: dashboard
+                port: http
 
     persistence:
       config:
@@ -216,6 +258,8 @@ spec:
         advancedMounts:
           hermes:
             app:
+              - path: /opt/data
+            dashboard:
               - path: /opt/data
             init-config:
               - path: /opt/data
@@ -266,6 +310,9 @@ spec:
           hermes:
             app:
               - path: /tmp
+            dashboard:
+              - path: /tmp
+                subPath: dashboard
             install-firecrawl-python:
               - path: /tmp
                 subPath: install-firecrawl-python

@@ -11,7 +11,7 @@ Review each open dependency, container, Helm chart, Talos, Kubernetes, or GitOps
 ### Constraints
 
 - Do not run cluster-mutating commands unless the migration or validation step explicitly requires it and approval has been granted.
-- Do not merge PRs as part of this plan unless merge approval is explicitly given.
+- Do not merge PRs as part of this plan unless merge approval is explicitly given. Merge only one PR at a time, then wait for that update to stabilize before merging the next PR.
 - Work one PR at a time so migration risk and validation output stay tied to a single update.
 - Preserve unrelated local changes and never revert changes you did not make.
 - Prefer manifest validation with `kustomize build kubernetes/<area>` or `kubectl kustomize kubernetes/<area>` for affected Kubernetes trees.
@@ -55,7 +55,7 @@ If none of these apply, mark the PR as `migration not required` and record the e
 
 ### Step 4: Approval Gate For Migrations
 
-If migration is required, stop before performing it and ask for approval with this format:
+If migration is required, stop before performing it and ask for approval of the migration plan with this format:
 
 ```md
 PR: #<number> <title>
@@ -67,10 +67,10 @@ Proposed migration steps:
 2. <migration action>
 3. <validation>
 Rollback plan: <what is possible and what is not>
-Approve migration? yes/no
+Approve this migration plan? yes/no
 ```
 
-Do not perform the migration, run migration commands, or patch manifests that depend on the migration until approval is granted.
+Migration plan approval is not merge approval. Do not perform the migration, run migration commands, or patch manifests that depend on the migration until migration plan approval is granted.
 
 ### Step 5: Patch And Validate The PR
 
@@ -89,6 +89,7 @@ Move to the next update PR only after the current PR has one of these outcomes:
 - Patched and validated.
 - No patch needed and migration not required.
 - Waiting for migration approval.
+- Merged with approval and stabilized, with the stabilization signal recorded.
 - Skipped with a clear reason.
 
 ### Step 7: Final Report

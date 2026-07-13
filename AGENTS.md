@@ -30,6 +30,11 @@ Recent history uses short imperative or descriptive commits, often lowercase, fo
 
 Do not commit decrypted secrets, local logs, or generated private files. `.gitignore` excludes `*decrypted*`, `language-server-log.txt`, and `bgp.conf`; keep SOPS-encrypted files encrypted in Git. Prefer `ExternalSecret` resources and existing 1Password-backed stores for new secret material.
 
+
+## Message pinning
+
+Always pin images to a specific digest (e.g. `latest@sha256:...`) to avoid unexpected updates. If possible, use version tags instead of `latest`.
+
 ## Notes:
 
 * Clean up plans and specs when finished

@@ -38,11 +38,13 @@ spec:
           app:
             image:
               repository: mcp/grafana
-              tag: latest
+              tag: latest@sha256:9362bcf6aa0e44e61f645b905cec03fb346a946a34a4dafecd7f3e28d3724014
               pullPolicy: Always
             args:
               - "-t"
               - "streamable-http"
+              - "--allowed-hosts"
+              - "grafana-mcp.${LOCAL_DOMAIN},mcp-grafana.observability.svc.cluster.local:8000"
             env:
               GRAFANA_URL: "http://grafana-service.observability.svc.cluster.local:3000"
             envFrom:

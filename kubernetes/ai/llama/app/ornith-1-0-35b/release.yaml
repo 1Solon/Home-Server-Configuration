@@ -54,7 +54,7 @@ spec:
           app:
             image:
               repository: ghcr.io/ggml-org/llama.cpp
-              tag: server-cuda@sha256:ae35c11fb24b9478053a7ba6ab71d80a9937f3b5c7f6003ef12fe4b937b151f5
+              tag: server-cuda@sha256:3a8429364531aa324a477f5fd3f9a9472ca16164c9c5fbc5b202629068263e76
             args:
               - --hf-repo
               - deepreinforce-ai/Ornith-1.0-35B-GGUF

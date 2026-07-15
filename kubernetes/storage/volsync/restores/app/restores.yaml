@@ -82,26 +82,6 @@ spec:
 apiVersion: volsync.backube/v1alpha1
 kind: ReplicationDestination
 metadata:
-  name: booklore
-  namespace: books
-spec:
-  trigger: { manual: restore-once }
-  restic: { repository: booklore-restic, copyMethod: Snapshot, volumeSnapshotClassName: csi-ceph-blockpool, accessModes: [ReadWriteOnce], capacity: 10Gi, storageClassName: ceph-block, cacheStorageClassName: ceph-block, cacheCapacity: 1Gi, cleanupCachePVC: true, cleanupTempPVC: true, enableFileDeletion: true }
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: booklore
-  namespace: books
-spec:
-  accessModes: [ReadWriteOnce]
-  storageClassName: ceph-block
-  resources: { requests: { storage: 10Gi } }
-  dataSourceRef: { apiGroup: volsync.backube, kind: ReplicationDestination, name: booklore }
----
-apiVersion: volsync.backube/v1alpha1
-kind: ReplicationDestination
-metadata:
   name: libation-config
   namespace: books
 spec:

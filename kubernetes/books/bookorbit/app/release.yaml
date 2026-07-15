@@ -88,6 +88,7 @@ spec:
               PORT: &port 3000
               APP_URL: https://bookorbit.${LOCAL_DOMAIN}
               CLIENT_URL: https://bookorbit.${LOCAL_DOMAIN}
+              OIDC_ALLOW_LOCAL_ISSUERS: "true"
               POSTGRES_HOST: pgvector17-rw.databases.svc.cluster.local
               POSTGRES_PORT: "5432"
               POSTGRES_USER: bookorbit

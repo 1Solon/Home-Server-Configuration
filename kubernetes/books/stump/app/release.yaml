@@ -52,8 +52,7 @@ spec:
               STUMP_PARALLELISM_MULTIPLIER: "1"
               STUMP_OIDC_ENABLED: "true"
               STUMP_OIDC_ISSUER_URL: https://sso.solonsstuff.com/application/o/stump/
-              # Enable only after the local owner account is bootstrapped.
-              STUMP_OIDC_ALLOW_REGISTRATION: "false"
+              STUMP_OIDC_ALLOW_REGISTRATION: "true"
               STUMP_OIDC_DISABLE_LOCAL_AUTH: "false"
             envFrom:
               - secretRef:

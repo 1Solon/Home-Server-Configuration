@@ -175,6 +175,12 @@ spec:
         type: emptyDir
         globalMounts:
           - path: /tmp
+      book-dock:
+        type: nfs
+        server: ${TRUENAS_IP}
+        path: /mnt/STORAGE-01/Media-Storage/downloads/shelfmark-ingest/books
+        globalMounts:
+          - path: /data/book-dock
       books:
         type: nfs
         server: ${TRUENAS_IP}

@@ -382,66 +382,6 @@ spec:
 apiVersion: volsync.backube/v1alpha1
 kind: ReplicationDestination
 metadata:
-  name: komf
-  namespace: manga
-spec:
-  trigger: { manual: restore-once }
-  restic: { repository: komf-restic, copyMethod: Snapshot, volumeSnapshotClassName: csi-ceph-blockpool, accessModes: [ReadWriteOnce], capacity: 5Gi, storageClassName: ceph-block, cacheStorageClassName: ceph-block, cacheCapacity: 1Gi, cleanupCachePVC: true, cleanupTempPVC: true, enableFileDeletion: true }
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: komf
-  namespace: manga
-spec:
-  accessModes: [ReadWriteOnce]
-  storageClassName: ceph-block
-  resources: { requests: { storage: 5Gi } }
-  dataSourceRef: { apiGroup: volsync.backube, kind: ReplicationDestination, name: komf }
----
-apiVersion: volsync.backube/v1alpha1
-kind: ReplicationDestination
-metadata:
-  name: komga
-  namespace: manga
-spec:
-  trigger: { manual: restore-once }
-  restic: { repository: komga-restic, copyMethod: Snapshot, volumeSnapshotClassName: csi-ceph-blockpool, accessModes: [ReadWriteOnce], capacity: 5Gi, storageClassName: ceph-block, cacheStorageClassName: ceph-block, cacheCapacity: 1Gi, cleanupCachePVC: true, cleanupTempPVC: true, enableFileDeletion: true }
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: komga
-  namespace: manga
-spec:
-  accessModes: [ReadWriteOnce]
-  storageClassName: ceph-block
-  resources: { requests: { storage: 5Gi } }
-  dataSourceRef: { apiGroup: volsync.backube, kind: ReplicationDestination, name: komga }
----
-apiVersion: volsync.backube/v1alpha1
-kind: ReplicationDestination
-metadata:
-  name: suwayomi
-  namespace: manga
-spec:
-  trigger: { manual: restore-once }
-  restic: { repository: suwayomi-restic, copyMethod: Snapshot, volumeSnapshotClassName: csi-ceph-blockpool, accessModes: [ReadWriteOnce], capacity: 5Gi, storageClassName: ceph-block, cacheStorageClassName: ceph-block, cacheCapacity: 1Gi, cleanupCachePVC: true, cleanupTempPVC: true, enableFileDeletion: true }
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: suwayomi
-  namespace: manga
-spec:
-  accessModes: [ReadWriteOnce]
-  storageClassName: ceph-block
-  resources: { requests: { storage: 5Gi } }
-  dataSourceRef: { apiGroup: volsync.backube, kind: ReplicationDestination, name: suwayomi }
----
-apiVersion: volsync.backube/v1alpha1
-kind: ReplicationDestination
-metadata:
   name: tandoor
   namespace: tandoor
 spec:

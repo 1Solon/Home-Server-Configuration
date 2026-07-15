@@ -7,5 +7,5 @@ resources:
   - ./audiobookshelf/install.yaml
   - ./libation/install.yaml
   - ./opds-proxy/install.yaml
-  - ./grimmory/install.yaml
+  - ./suwayomi/install.yaml
   - ./bookorbit/install.yaml

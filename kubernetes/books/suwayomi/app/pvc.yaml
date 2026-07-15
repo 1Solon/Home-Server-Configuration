@@ -1,0 +1,18 @@
+---
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationDestination
+metadata:
+  name: suwayomi
+spec:
+  trigger: { manual: restore-once }
+  restic: { repository: suwayomi-restic, copyMethod: Snapshot, volumeSnapshotClassName: csi-ceph-blockpool, accessModes: [ReadWriteOnce], capacity: 5Gi, storageClassName: ceph-block, cacheStorageClassName: ceph-block, cacheCapacity: 1Gi, cleanupCachePVC: true, cleanupTempPVC: true, enableFileDeletion: true }
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: suwayomi
+spec:
+  accessModes: [ReadWriteOnce]
+  storageClassName: ceph-block
+  resources: { requests: { storage: 5Gi } }
+  dataSourceRef: { apiGroup: volsync.backube, kind: ReplicationDestination, name: suwayomi }

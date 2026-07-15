@@ -54,17 +54,6 @@
             version: 2
 
 - Books:
-    - Grimmory:
-        icon: https://grimmory.org/img/logo.svg
-        href: https://grimmory.${LOCAL_DOMAIN}
-        description: Book management and library system
-        namespace: books
-        app: grimmory
-        widget:
-            type: booklore
-            url: http://grimmory.books.svc.cluster.local:6060
-            username: {{HOMEPAGE_VAR_BOOKLORE_USERNAME}}
-            password: {{HOMEPAGE_VAR_BOOKLORE_PASSWORD}}
     - Audiobookshelf:
         icon: audiobookshelf.svg
         href: https://audiobookshelf.${REMOTE_DOMAIN}
@@ -73,23 +62,13 @@
             type: audiobookshelf
             url: http://audiobookshelf.books.svc.cluster.local
             key: {{HOMEPAGE_VAR_AUDIOBOOKSHELF_TOKEN}}
-
-- Manga:
-    - Komga:
-        icon: komga.png
-        href: https://komga.${LOCAL_DOMAIN}
-        description: Manga Reader
-        widget:
-            type: komga
-            url: http://komga.manga.svc.cluster.local:8080
-            key: {{HOMEPAGE_VAR_KOMGA_TOKEN}}
     - Suwayomi:
         icon: suwayomi.png
         href: https://suwayomi.${LOCAL_DOMAIN}
         description: Manga Downloader
         widget:
             type: suwayomi
-            url: http://suwayomi.manga.svc.cluster.local:4567
+            url: http://suwayomi.books.svc.cluster.local:4567
             category: 0
 
 - Downloads:

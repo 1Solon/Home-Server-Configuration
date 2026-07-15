@@ -32,12 +32,6 @@ layout:
     style: column
     icon: mdi-robot
     useEqualHeights: true
-  Manga:
-    tab: Home
-    style: row
-    columns: 2
-    icon: mdi-ideogram-cjk
-    useEqualHeights: true
   Applications:
     tab: Home
     style: row

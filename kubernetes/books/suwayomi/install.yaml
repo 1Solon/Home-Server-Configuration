@@ -2,20 +2,20 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app komf
+  name: &app suwayomi
   namespace: flux-system
 spec:
   components:
     - ../../../components/volsync
-  targetNamespace: manga
+  targetNamespace: books
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
   dependsOn:
     - name: volsync
       namespace: flux-system
-  path: "./kubernetes/manga/komf/app"
-  prune: false
+  path: "./kubernetes/books/suwayomi/app"
+  prune: true
   sourceRef:
     kind: GitRepository
     name: flux-system
@@ -25,12 +25,12 @@ spec:
   timeout: 5m
   postBuild:
     substitute:
-      APP: komf
-      VOLSYNC_REPOSITORY: s3:http://garage.garage.svc.cluster.local:3900/volsync/manga/komf
-      VOLSYNC_SOURCE_PVC: komf
-      VOLSYNC_MOVER_APP_NAME: komf
-      VOLSYNC_MOVER_APP_INSTANCE: komf
-      VOLSYNC_SCHEDULE: "46 */6 * * *"
+      APP: suwayomi
+      VOLSYNC_REPOSITORY: s3:http://garage.garage.svc.cluster.local:3900/volsync/manga/suwayomi
+      VOLSYNC_SOURCE_PVC: suwayomi
+      VOLSYNC_MOVER_APP_NAME: suwayomi
+      VOLSYNC_MOVER_APP_INSTANCE: suwayomi
+      VOLSYNC_SCHEDULE: "58 */6 * * *"
     substituteFrom:
       - kind: ConfigMap
         name: cluster-settings

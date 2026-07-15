@@ -8,4 +8,4 @@ resources:
   - ./libation/install.yaml
   - ./opds-proxy/install.yaml
   - ./grimmory/install.yaml
-  - ./stump/install.yaml
+  - ./bookorbit/install.yaml

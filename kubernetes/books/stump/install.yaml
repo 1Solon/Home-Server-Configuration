@@ -1,0 +1,37 @@
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: &app stump
+  namespace: flux-system
+spec:
+  components:
+    - ../../../components/volsync
+  targetNamespace: books
+  commonMetadata:
+    labels:
+      app.kubernetes.io/name: *app
+  dependsOn:
+    - name: volsync
+      namespace: flux-system
+  path: "./kubernetes/books/stump/app"
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  wait: true
+  interval: 30m
+  retryInterval: 1m
+  timeout: 15m
+  postBuild:
+    substitute:
+      APP: stump
+      VOLSYNC_REPOSITORY: s3:http://garage.garage.svc.cluster.local:3900/volsync/books/stump
+      VOLSYNC_SOURCE_PVC: stump
+      VOLSYNC_MOVER_APP_NAME: stump
+      VOLSYNC_MOVER_APP_INSTANCE: stump
+      VOLSYNC_SCHEDULE: "37 */6 * * *"
+    substituteFrom:
+      - kind: ConfigMap
+        name: cluster-settings
+        optional: false

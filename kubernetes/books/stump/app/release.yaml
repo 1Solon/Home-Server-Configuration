@@ -1,0 +1,137 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app stump
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: app-template
+      version: 5.0.1
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s-charts
+        namespace: flux-system
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      strategy: rollback
+      retries: 3
+  values:
+    controllers:
+      stump:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        pod:
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 1000
+            runAsGroup: 1000
+            fsGroup: 1000
+            fsGroupChangePolicy: OnRootMismatch
+            seccompProfile:
+              type: RuntimeDefault
+        containers:
+          app:
+            image:
+              repository: aaronleopold/stump
+              tag: 0.1.5@sha256:02684fe218a2a54aee5e8bedd8306b971b857d562770ebc3c35400a706845b6e
+            command:
+              - /app/stump
+            env:
+              TZ: ${TZ}
+              STUMP_CONFIG_DIR: /config
+              STUMP_DB_PATH: /config
+              STUMP_PORT: &port 10801
+              STUMP_TRUST_PROXY_HEADERS: "true"
+              STUMP_PARALLELISM_MULTIPLIER: "1"
+              STUMP_OIDC_ENABLED: "true"
+              STUMP_OIDC_ISSUER_URL: https://sso.solonsstuff.com/application/o/stump/
+              # Enable only after the local owner account is bootstrapped.
+              STUMP_OIDC_ALLOW_REGISTRATION: "false"
+              STUMP_OIDC_DISABLE_LOCAL_AUTH: "false"
+            envFrom:
+              - secretRef:
+                  name: stump-secret
+            probes:
+              liveness: &probe
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /
+                    port: *port
+                  initialDelaySeconds: 10
+                  periodSeconds: 10
+                  timeoutSeconds: 2
+                  failureThreshold: 6
+              readiness: *probe
+              startup:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /
+                    port: *port
+                  periodSeconds: 5
+                  timeoutSeconds: 2
+                  failureThreshold: 60
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities:
+                drop:
+                  - ALL
+            resources:
+              requests:
+                cpu: 100m
+                memory: 512Mi
+              limits:
+                memory: 2Gi
+    service:
+      app:
+        controller: *app
+        ports:
+          http:
+            port: *port
+    route:
+      app:
+        enabled: true
+        parentRefs:
+          - name: envoy-internal
+            namespace: networking
+            sectionName: https
+        hostnames:
+          - "stump.${LOCAL_DOMAIN}"
+        rules:
+          - backendRefs:
+              - name: *app
+                port: *port
+    persistence:
+      config:
+        existingClaim: *app
+        globalMounts:
+          - path: /config
+      tmp:
+        type: emptyDir
+        globalMounts:
+          - path: /tmp
+      books:
+        type: nfs
+        server: ${TRUENAS_IP}
+        path: /mnt/STORAGE-01/Media-Storage/books
+        globalMounts:
+          - path: /data/books
+            readOnly: true
+      manga:
+        type: nfs
+        server: ${TRUENAS_IP}
+        path: /mnt/STORAGE-01/Media-Storage/manga
+        globalMounts:
+          - path: /data/manga
+            readOnly: true

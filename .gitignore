@@ -3,3 +3,4 @@ language-server-log.txt
 bgp.conf
 docs/superpowers/*
 !docs/tasks.md
+.worktrees/

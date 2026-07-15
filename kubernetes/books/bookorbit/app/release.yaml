@@ -1,0 +1,188 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app bookorbit
+spec:
+  interval: 30m
+  timeout: 15m
+  chart:
+    spec:
+      chart: app-template
+      version: 5.0.1
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s-charts
+        namespace: flux-system
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      strategy: rollback
+      retries: 3
+  values:
+    defaultPodOptions:
+      enableServiceLinks: false
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+        seccompProfile:
+          type: RuntimeDefault
+
+    controllers:
+      bookorbit:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        initContainers:
+          init-db:
+            image:
+              repository: ghcr.io/home-operations/postgres-init
+              tag: 18@sha256:ebd9d30add17acdf935d73eb004758c7dfd9388aaa605fda70ad74378ab92aec
+            envFrom: &envFrom
+              - secretRef:
+                  name: bookorbit-secret
+            securityContext: &securityContext
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities:
+                drop:
+                  - ALL
+          init-extensions:
+            image:
+              repository: docker.io/library/postgres
+              tag: 17.10-alpine@sha256:742f40ea20b9ff2ff31db5458d127452988a2164df9e17441e191f3b72252193
+            command:
+              - /bin/sh
+              - -ec
+              - |
+                export PGPASSWORD="$INIT_POSTGRES_SUPER_PASS"
+                psql \
+                  --host="$INIT_POSTGRES_HOST" \
+                  --username="$INIT_POSTGRES_SUPER_USER" \
+                  --dbname="$INIT_POSTGRES_DBNAME" \
+                  --set=ON_ERROR_STOP=1 <<'SQL'
+                CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+                CREATE EXTENSION IF NOT EXISTS pg_trgm;
+                CREATE EXTENSION IF NOT EXISTS unaccent;
+                CREATE EXTENSION IF NOT EXISTS vector;
+                SQL
+            env:
+              HOME: /tmp
+            envFrom: *envFrom
+            securityContext: *securityContext
+        containers:
+          app:
+            image:
+              repository: ghcr.io/bookorbit/bookorbit
+              tag: 2.2.0@sha256:c2b01e655562dd95d785b515890c4c8c31325d90671efd1ae7db5b9f378a80ce
+            env:
+              TZ: ${TZ}
+              NODE_ENV: production
+              HOME: /tmp
+              PORT: &port 3000
+              APP_URL: https://bookorbit.${LOCAL_DOMAIN}
+              CLIENT_URL: https://bookorbit.${LOCAL_DOMAIN}
+              POSTGRES_HOST: pgvector17-rw.databases.svc.cluster.local
+              POSTGRES_PORT: "5432"
+              POSTGRES_USER: bookorbit
+              POSTGRES_DB: bookorbit
+              PUID: "1000"
+              PGID: "1000"
+              BOOKORBIT_FIX_PERMISSIONS: "false"
+              NODE_MAX_OLD_SPACE_SIZE: auto
+              LIBRARY_BROWSE_ROOT: /libraries
+              BOOK_DOCK_PATH: /data/book-dock
+              POSTGRES_PASSWORD:
+                valueFrom:
+                  secretKeyRef:
+                    name: bookorbit-secret
+                    key: POSTGRES_PASSWORD
+              JWT_SECRET:
+                valueFrom:
+                  secretKeyRef:
+                    name: bookorbit-secret
+                    key: JWT_SECRET
+              SETUP_BOOTSTRAP_TOKEN:
+                valueFrom:
+                  secretKeyRef:
+                    name: bookorbit-secret
+                    key: SETUP_BOOTSTRAP_TOKEN
+            probes:
+              liveness: &probe
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /api/v1/health
+                    port: *port
+                  initialDelaySeconds: 10
+                  periodSeconds: 30
+                  timeoutSeconds: 5
+                  failureThreshold: 3
+              readiness: *probe
+              startup:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /api/v1/health
+                    port: *port
+                  periodSeconds: 5
+                  timeoutSeconds: 5
+                  failureThreshold: 60
+            securityContext: *securityContext
+            resources:
+              requests:
+                cpu: 100m
+                memory: 1Gi
+              limits:
+                memory: 2Gi
+
+    service:
+      app:
+        controller: *app
+        ports:
+          http:
+            port: *port
+
+    route:
+      app:
+        enabled: true
+        parentRefs:
+          - name: envoy-internal
+            namespace: networking
+            sectionName: https
+        hostnames:
+          - "bookorbit.${LOCAL_DOMAIN}"
+        rules:
+          - backendRefs:
+              - name: *app
+                port: *port
+
+    persistence:
+      data:
+        existingClaim: *app
+        globalMounts:
+          - path: /data
+      tmp:
+        type: emptyDir
+        globalMounts:
+          - path: /tmp
+      books:
+        type: nfs
+        server: ${TRUENAS_IP}
+        path: /mnt/STORAGE-01/Media-Storage/books
+        globalMounts:
+          - path: /libraries/books
+      manga:
+        type: nfs
+        server: ${TRUENAS_IP}
+        path: /mnt/STORAGE-01/Media-Storage/manga
+        globalMounts:
+          - path: /libraries/manga

@@ -37,6 +37,10 @@ spec:
           public:
             - 192.168.1.0/24
       cephConfig:
+        mgr:
+          # Ceph 20.2.2 retains large Rook PodList debug responses in memory.
+          # Bound the recent-log ring until the Tentacle fix is released.
+          log_max_recent: "100"
         mon:
           # RK1 nodes can flap under storage/network pressure; delay automatic
           # OSD out marking so brief interruptions do not trigger heavy recovery.

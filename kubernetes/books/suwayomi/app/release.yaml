@@ -38,20 +38,43 @@ spec:
         containers:
           app:
             image:
-              repository: ghcr.io/suwayomi/tachidesk
+              repository: ghcr.io/suwayomi/suwayomi-server
               tag: v2.3.2243@sha256:e59f212ccf91b26de8676a063a2db90256c148c6261535c7c477d47a43d9751b
             env:
               TZ: ${TZ}
               BIND_PORT: &port 4567
-              WEB_UI_CHANNEL: "preview"
+              WEB_UI_CHANNEL: "stable"
               AUTO_DOWNLOAD_CHAPTERS: true
+              AUTO_DOWNLOAD_EXCLUDE_UNREAD: "false"
               UPDATE_EXCLUDE_UNREAD: "false"
               UPDATE_EXCLUDE_STARTED: "false"
               UPDATE_EXCLUDE_COMPLETED: "false"
               DOWNLOAD_AS_CBZ: "true"
-              EXTENSION_REPOS: '["https://raw.githubusercontent.com/keiyoushi/extensions/repo/index.min.json"]'
+              EXTENSION_STORES: '["https://raw.githubusercontent.com/keiyoushi/extensions/repo/index.min.json"]'
               FLARESOLVERR_ENABLED: true
               FLARESOLVERR_URL: "http://flaresolverr.home-media.svc.cluster.local:8191"
+            probes:
+              liveness:
+                enabled: true
+                spec:
+                  periodSeconds: 30
+                  timeoutSeconds: 5
+                  failureThreshold: 5
+              readiness:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /api/v1/settings/about
+                    port: *port
+                  periodSeconds: 10
+                  timeoutSeconds: 5
+                  failureThreshold: 5
+              startup:
+                enabled: true
+                spec:
+                  failureThreshold: 30
+                  periodSeconds: 10
             resources:
               requests:
                 cpu: 10m

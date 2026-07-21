@@ -4,11 +4,7 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
 - namespace.yaml
-- ./agentmemory/install.yaml
 - ./hermes/install.yaml
 - ./llama/install.yaml
 - ./openwebui/install.yaml
 - ./searxng/install.yaml
-- ./toolhive/crds/install.yaml
-- ./toolhive/operator/install.yaml
-- ./toolhive/config/install.yaml

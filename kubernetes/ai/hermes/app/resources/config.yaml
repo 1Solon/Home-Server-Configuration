@@ -14,28 +14,11 @@ dashboard:
 toolsets:
   - hermes-cli
   - mcp-grafana
-  - mcp-toolhive
   - memory
   - terminal
 mcp_servers:
-  agentmemory:
-    command: /bin/sh
-    args:
-      - -c
-      - |
-        AGENTMEMORY_SECRET="$(sed -n 's/^AGENTMEMORY_SECRET=//p' /opt/data/.env | tail -n 1)"
-        export AGENTMEMORY_SECRET
-        exec npx -y @agentmemory/mcp
-    env:
-      AGENTMEMORY_URL: http://agentmemory.ai.svc.cluster.local:3111
-      AGENTMEMORY_PROJECT: hermes
-      AGENTMEMORY_INJECT_CONTEXT: "true"
   grafana:
     url: http://mcp-grafana.observability.svc.cluster.local:8000/mcp
-    timeout: 60
-    connect_timeout: 30
-  toolhive:
-    url: http://vmcp-mcp-gateway-internal.ai.svc.cluster.local:4483/mcp
     timeout: 60
     connect_timeout: 30
 terminal:
@@ -44,7 +27,6 @@ terminal:
   timeout: 180
   persistent_shell: true
 memory:
-  provider: agentmemory
   auto_migrate: true
   auto_summarize:
     threshold: 50
@@ -76,6 +58,5 @@ platform_toolsets:
   cli:
     - hermes-cli
     - mcp-grafana
-    - mcp-toolhive
     - memory
     - terminal

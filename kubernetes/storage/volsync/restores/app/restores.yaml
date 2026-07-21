@@ -2,26 +2,6 @@
 apiVersion: volsync.backube/v1alpha1
 kind: ReplicationDestination
 metadata:
-  name: agentmemory
-  namespace: ai
-spec:
-  trigger: { manual: restore-once }
-  restic: { repository: agentmemory-restic, copyMethod: Snapshot, volumeSnapshotClassName: csi-ceph-blockpool, accessModes: [ReadWriteOnce], capacity: 10Gi, storageClassName: ceph-block, cacheStorageClassName: ceph-block, cacheCapacity: 1Gi, cleanupCachePVC: true, cleanupTempPVC: true, enableFileDeletion: true }
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: agentmemory
-  namespace: ai
-spec:
-  accessModes: [ReadWriteOnce]
-  storageClassName: ceph-block
-  resources: { requests: { storage: 10Gi } }
-  dataSourceRef: { apiGroup: volsync.backube, kind: ReplicationDestination, name: agentmemory }
----
-apiVersion: volsync.backube/v1alpha1
-kind: ReplicationDestination
-metadata:
   name: hermes
   namespace: ai
 spec:

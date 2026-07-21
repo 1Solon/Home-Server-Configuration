@@ -10,7 +10,5 @@ configMapGenerator:
     files:
       - ./resources/config.yaml
       - ./resources/SOUL.md
-      - agentmemory-plugin-init.py=./resources/agentmemory-plugin/__init__.py
-      - agentmemory-plugin.yaml=./resources/agentmemory-plugin/plugin.yaml
 generatorOptions:
   disableNameSuffixHash: true

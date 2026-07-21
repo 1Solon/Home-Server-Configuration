@@ -9,10 +9,8 @@ spec:
   components:
     - ../../../components/volsync
   dependsOn:
-    - name: agentmemory
     - name: grafana-mcp
     - name: llama
-    - name: toolhive-config
     - name: volsync
       namespace: flux-system
   path: "./kubernetes/ai/hermes/app"

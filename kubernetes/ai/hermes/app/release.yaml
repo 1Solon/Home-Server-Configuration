@@ -100,20 +100,13 @@ spec:
                 set -euo pipefail
                 umask 077
                 mkdir -p /opt/data/workspace
-                mkdir -p /opt/data/plugins/agentmemory
+                rm -rf /opt/data/plugins/agentmemory
                 cp /tmp/config.yaml /opt/data/config.yaml
                 cp /tmp/SOUL.md /opt/data/SOUL.md
-                cp /tmp/agentmemory-plugin-init.py /opt/data/plugins/agentmemory/__init__.py
-                cp /tmp/agentmemory-plugin.yaml /opt/data/plugins/agentmemory/plugin.yaml
                 touch /opt/data/.env
                 sed -i '/^AGENTMEMORY_SECRET=/d' /opt/data/.env
-                printf '\nAGENTMEMORY_SECRET=%s\n' "$AGENTMEMORY_SECRET" >> /opt/data/.env
                 chown -R 10000:10000 /opt/data/workspace
-                chown -R 10000:10000 /opt/data/plugins/agentmemory
                 chown 10000:10000 /opt/data/config.yaml /opt/data/SOUL.md /opt/data/.env
-            envFrom:
-              - secretRef:
-                  name: *app
             securityContext:
               runAsUser: 0
               runAsGroup: 0
@@ -147,9 +140,6 @@ spec:
               API_SERVER_HOST: "0.0.0.0"
               API_SERVER_PORT: &apiPort 8642
               API_SERVER_CORS_ORIGINS: "https://hermes.${LOCAL_DOMAIN}"
-              AGENTMEMORY_PROJECT: hermes
-              AGENTMEMORY_URL: http://agentmemory.ai.svc.cluster.local:3111
-              AGENTMEMORY_INJECT_CONTEXT: "true"
               AGENT_BROWSER_ARGS: "--no-sandbox,--disable-dev-shm-usage"
               FIRECRAWL_API_URL: https://api.firecrawl.dev
               SEARXNG_URL: http://searxng.ai.svc.cluster.local:8080
@@ -280,12 +270,6 @@ spec:
                 readOnly: true
               - path: /tmp/SOUL.md
                 subPath: SOUL.md
-                readOnly: true
-              - path: /tmp/agentmemory-plugin-init.py
-                subPath: agentmemory-plugin-init.py
-                readOnly: true
-              - path: /tmp/agentmemory-plugin.yaml
-                subPath: agentmemory-plugin.yaml
                 readOnly: true
       python-packages:
         type: emptyDir

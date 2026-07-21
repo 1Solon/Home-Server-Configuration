@@ -13,6 +13,5 @@ resources:
   - ./flaresolver/install.yaml
   - ./recyclarr/install.yaml
   - ./cleanuparr/install.yaml
-  - ./dispatcharr/install.yaml
   - ./autobrr/install.yaml
   - ./bazarr/install.yaml

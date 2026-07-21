@@ -182,26 +182,6 @@ spec:
 apiVersion: volsync.backube/v1alpha1
 kind: ReplicationDestination
 metadata:
-  name: dispatcharr
-  namespace: home-media
-spec:
-  trigger: { manual: restore-once }
-  restic: { repository: dispatcharr-restic, copyMethod: Snapshot, volumeSnapshotClassName: csi-ceph-blockpool, accessModes: [ReadWriteOnce], capacity: 10Gi, storageClassName: ceph-block, cacheStorageClassName: ceph-block, cacheCapacity: 1Gi, cleanupCachePVC: true, cleanupTempPVC: true, enableFileDeletion: true }
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: dispatcharr
-  namespace: home-media
-spec:
-  accessModes: [ReadWriteOnce]
-  storageClassName: ceph-block
-  resources: { requests: { storage: 10Gi } }
-  dataSourceRef: { apiGroup: volsync.backube, kind: ReplicationDestination, name: dispatcharr }
----
-apiVersion: volsync.backube/v1alpha1
-kind: ReplicationDestination
-metadata:
   name: jellyfin-config
   namespace: home-media
 spec:

@@ -71,7 +71,6 @@ The Git repository contains the following directories:
     ├──📁 media
     │   ├──📁 cleanuparr
     │   ├──📁 decluttarr
-    │   ├──📁 dispatcharr
     │   ├──📁 flaresolver
     │   ├──📁 huntarr
     │   ├──📁 jellyfin
@@ -132,7 +131,6 @@ The Git repository contains the following directories:
 | [Cleanuparr](https://github.com/Just-Insane/cleanuparr)                               | Media Automation | Automated media cleanup tool for \*arr apps.              |
 | [Crunchy Postgres Operator](https://github.com/CrunchyData/postgres-operator)         | Storage          | PostgreSQL operator for Kubernetes.                       |
 | [Decluttarr](https://github.com/ManiMatter/decluttarr)                                | Media Automation | Removes stalled torrents from qBittorrent.                |
-| [Dispatcharr](https://github.com/dkoz/dispatcharr)                                    | Media Automation | Discord notifications for \*arr apps.                     |
 | [Dragonfly](https://dragonflydb.io)                                                   | Storage          | Modern in-memory datastore (Redis/Memcached alternative). |
 | [Envoy Gateway](https://gateway.envoyproxy.io)                                        | Networking       | Kubernetes-native API gateway powered by Envoy.           |
 | [External DNS](https://github.com/kubernetes-sigs/external-dns)                       | Networking       | Synchronizes Kubernetes services with DNS providers.      |

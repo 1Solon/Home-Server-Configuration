@@ -1,0 +1,292 @@
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: hermes-read-all
+rules:
+- apiGroups:
+  - ''
+  resources:
+  - configmaps
+  - endpoints
+  - events
+  - limitranges
+  - namespaces
+  - nodes
+  - persistentvolumeclaims
+  - persistentvolumes
+  - pods
+  - pods/log
+  - resourcequotas
+  - serviceaccounts
+  - services
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - apps
+  resources:
+  - controllerrevisions
+  - daemonsets
+  - deployments
+  - replicasets
+  - statefulsets
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - batch
+  resources:
+  - cronjobs
+  - jobs
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - networking.k8s.io
+  resources:
+  - ingressclasses
+  - ingresses
+  - networkpolicies
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - gateway.networking.k8s.io
+  resources:
+  - gatewayclasses
+  - gateways
+  - httproutes
+  - referencegrants
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - storage.k8s.io
+  resources:
+  - csidrivers
+  - csinodes
+  - storageclasses
+  - volumeattachments
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - autoscaling
+  resources:
+  - horizontalpodautoscalers
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - policy
+  resources:
+  - poddisruptionbudgets
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - coordination.k8s.io
+  resources:
+  - leases
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - rbac.authorization.k8s.io
+  resources:
+  - clusterrolebindings
+  - clusterroles
+  - rolebindings
+  - roles
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - apiextensions.k8s.io
+  resources:
+  - customresourcedefinitions
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - apiregistration.k8s.io
+  resources:
+  - apiservices
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - metrics.k8s.io
+  resources:
+  - nodes
+  - pods
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - helm.toolkit.fluxcd.io
+  resources:
+  - helmreleases
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - kustomize.toolkit.fluxcd.io
+  resources:
+  - kustomizations
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - source.toolkit.fluxcd.io
+  resources:
+  - buckets
+  - gitrepositories
+  - helmcharts
+  - helmrepositories
+  - ocirepositories
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - notification.toolkit.fluxcd.io
+  resources:
+  - alerts
+  - providers
+  - receivers
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - external-secrets.io
+  resources:
+  - clustersecretstores
+  - externalsecrets
+  - secretstores
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - monitoring.coreos.com
+  resources:
+  - alertmanagers
+  - podmonitors
+  - probes
+  - prometheuses
+  - prometheusrules
+  - servicemonitors
+  - thanosrulers
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - snapshot.storage.k8s.io
+  resources:
+  - volumesnapshotclasses
+  - volumesnapshotcontents
+  - volumesnapshots
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - cert-manager.io
+  resources:
+  - certificates
+  - certificaterequests
+  - clusterissuers
+  - issuers
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - acme.cert-manager.io
+  resources:
+  - challenges
+  - orders
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - longhorn.io
+  resources:
+  - backups
+  - recurringjobs
+  - volumes
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - postgresql.cnpg.io
+  resources:
+  - backups
+  - clusters
+  - poolers
+  - scheduledbackups
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - dragonflydb.io
+  resources:
+  - dragonflies
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - tailscale.com
+  resources:
+  - connectors
+  - dnsconfigs
+  - proxyclasses
+  - proxygroups
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - node.k8s.io
+  resources:
+  - runtimeclasses
+  verbs:
+  - get
+  - list
+  - watch
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: hermes-read-all
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: hermes-read-all
+subjects:
+- kind: ServiceAccount
+  name: hermes
+  namespace: ai

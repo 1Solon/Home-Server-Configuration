@@ -85,42 +85,15 @@ spec:
               - /bin/bash
               - -c
               - |
-                set -euo pipefail
-                umask 077
-
-                rm -rf /staging/* /staging/.[!.]* /staging/..?* 2>/dev/null || true
-                cp /desired/config.yaml /staging/config.yaml
-                cp /desired/SOUL.md /staging/SOUL.md
+                set -eu
+                cp /desired/{config.yaml,SOUL.md} /staging/
                 touch /staging/.env
-
-                HERMES_HOME=/staging HOME=/staging /opt/hermes/.venv/bin/python - <<'PY'
-                from hermes_cli.config import migrate_config
-                migrate_config(interactive=False, quiet=False)
-                PY
-
-                /opt/hermes/.venv/bin/python - <<'PY'
-                from pathlib import Path
-                import yaml
-                path = Path("/staging/config.yaml")
-                data = yaml.safe_load(path.read_text(encoding="utf-8"))
-                if not isinstance(data, dict):
-                    raise SystemExit("migrated config is not a YAML mapping")
-                if data.get("_config_version") != 33:
-                    raise SystemExit("migrated config version is not 33")
-                PY
-
-                install -d -o 10000 -g 10000 -m 0750 /opt/data/workspace
-                install -o 10000 -g 10000 -m 0600 /staging/config.yaml /opt/data/.config.yaml.new
-                install -o 10000 -g 10000 -m 0600 /staging/SOUL.md /opt/data/.SOUL.md.new
-                mv -f /opt/data/.config.yaml.new /opt/data/config.yaml
-                mv -f /opt/data/.SOUL.md.new /opt/data/SOUL.md
-                if [ -e /opt/data/.env ]; then
-                  chown 0:0 /opt/data/.env
-                  chmod 0600 /opt/data/.env
-                  chown 10000:10000 /opt/data/.env
-                else
-                  install -o 10000 -g 10000 -m 0600 /dev/null /opt/data/.env
-                fi
+                HERMES_HOME=/staging HOME=/staging /opt/hermes/.venv/bin/python -c 'from hermes_cli.config import migrate_config; migrate_config(interactive=False,quiet=False)'
+                install -d -o 10000 -g 10000 -m 750 /opt/data/workspace
+                install -o 10000 -g 10000 -m 600 /staging/{config.yaml,SOUL.md} /opt/data/
+                chown 0:0 /opt/data/.env 2>/dev/null || touch /opt/data/.env
+                chmod 600 /opt/data/.env
+                chown 10000:10000 /opt/data/.env
             securityContext:
               runAsUser: 0
               runAsGroup: 0
@@ -185,10 +158,7 @@ spec:
                 custom: true
                 spec:
                   exec:
-                    command:
-                      - /bin/sh
-                      - -c
-                      - curl -fsS http://127.0.0.1:8642/health >/dev/null && curl -fsS -o /dev/null http://127.0.0.1:9119/
+                    command: [sh, -c, "curl --fail-early -fsS http://127.0.0.1:8642/health http://127.0.0.1:9119/ >/dev/null"]
                   periodSeconds: 10
                   timeoutSeconds: 5
                   failureThreshold: 6
@@ -197,10 +167,7 @@ spec:
                 custom: true
                 spec:
                   exec:
-                    command:
-                      - /bin/sh
-                      - -c
-                      - curl -fsS http://127.0.0.1:8642/health >/dev/null && curl -fsS -o /dev/null http://127.0.0.1:9119/
+                    command: [sh, -c, "curl --fail-early -fsS http://127.0.0.1:8642/health http://127.0.0.1:9119/ >/dev/null"]
                   periodSeconds: 5
                   timeoutSeconds: 5
                   failureThreshold: 60

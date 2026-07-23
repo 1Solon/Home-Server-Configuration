@@ -35,7 +35,7 @@ spec:
           init-permissions:
             image:
               repository: redimp/otterwiki
-              tag: 2.21.1-slim@sha256:e72687d79c933fb7115d360b37789906d3f92285ccc495eabe8a65d227bf4062
+              tag: 2.22.0-slim@sha256:22952347c9bebd7510fbf90e5c4b74dd9b0131581b0dd967ca78411e22ca4a1f
             command:
               - sh
               - -c
@@ -50,7 +50,7 @@ spec:
           app:
             image:
               repository: redimp/otterwiki
-              tag: 2.21.1-slim@sha256:e72687d79c933fb7115d360b37789906d3f92285ccc495eabe8a65d227bf4062
+              tag: 2.22.0-slim@sha256:22952347c9bebd7510fbf90e5c4b74dd9b0131581b0dd967ca78411e22ca4a1f
             env:
               TZ: "${TZ}"
               PUID: 33

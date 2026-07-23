@@ -40,6 +40,7 @@ spec:
           identifier: *app
         initContainers:
           install-tools:
+            dependsOn: init-config
             image:
               repository: nousresearch/hermes-agent
               tag: v2026.7.20@sha256:f7b35053268f532f98955195c909f15a230470fbcbdacaa9fdecb95707dad04a
@@ -91,22 +92,48 @@ spec:
                 fi
           init-config:
             image:
-              repository: docker.io/library/alpine
-              tag: "3.24"
+              repository: nousresearch/hermes-agent
+              tag: &hermesTag v2026.7.20@sha256:f7b35053268f532f98955195c909f15a230470fbcbdacaa9fdecb95707dad04a
             command:
-              - sh
+              - /bin/bash
               - -c
               - |
                 set -euo pipefail
                 umask 077
-                mkdir -p /opt/data/workspace
-                rm -rf /opt/data/plugins/agentmemory
-                cp /tmp/config.yaml /opt/data/config.yaml
-                cp /tmp/SOUL.md /opt/data/SOUL.md
-                touch /opt/data/.env
-                sed -i '/^AGENTMEMORY_SECRET=/d' /opt/data/.env
-                chown -R 10000:10000 /opt/data/workspace
-                chown 10000:10000 /opt/data/config.yaml /opt/data/SOUL.md /opt/data/.env
+
+                rm -rf /staging/* /staging/.[!.]* /staging/..?* 2>/dev/null || true
+                cp /desired/config.yaml /staging/config.yaml
+                cp /desired/SOUL.md /staging/SOUL.md
+                touch /staging/.env
+
+                HERMES_HOME=/staging HOME=/staging /opt/hermes/.venv/bin/python - <<'PY'
+                from hermes_cli.config import migrate_config
+                migrate_config(interactive=False, quiet=False)
+                PY
+
+                /opt/hermes/.venv/bin/python - <<'PY'
+                from pathlib import Path
+                import yaml
+                path = Path("/staging/config.yaml")
+                data = yaml.safe_load(path.read_text(encoding="utf-8"))
+                if not isinstance(data, dict):
+                    raise SystemExit("migrated config is not a YAML mapping")
+                if data.get("_config_version") != 33:
+                    raise SystemExit("migrated config version is not 33")
+                PY
+
+                install -d -o 10000 -g 10000 -m 0750 /opt/data/workspace
+                install -o 10000 -g 10000 -m 0600 /staging/config.yaml /opt/data/.config.yaml.new
+                install -o 10000 -g 10000 -m 0600 /staging/SOUL.md /opt/data/.SOUL.md.new
+                mv -f /opt/data/.config.yaml.new /opt/data/config.yaml
+                mv -f /opt/data/.SOUL.md.new /opt/data/SOUL.md
+                if [ -e /opt/data/.env ]; then
+                  chown 0:0 /opt/data/.env
+                  chmod 0600 /opt/data/.env
+                  chown 10000:10000 /opt/data/.env
+                else
+                  install -o 10000 -g 10000 -m 0600 /dev/null /opt/data/.env
+                fi
             securityContext:
               runAsUser: 0
               runAsGroup: 0
@@ -122,7 +149,7 @@ spec:
           app:
             image:
               repository: nousresearch/hermes-agent
-              tag: v2026.7.20@sha256:f7b35053268f532f98955195c909f15a230470fbcbdacaa9fdecb95707dad04a
+              tag: *hermesTag
             args: ["gateway", "run"]
             env:
               TZ: "${TZ}"
@@ -182,7 +209,7 @@ spec:
           dashboard:
             image:
               repository: nousresearch/hermes-agent
-              tag: v2026.7.20@sha256:f7b35053268f532f98955195c909f15a230470fbcbdacaa9fdecb95707dad04a
+              tag: *hermesTag
             args:
               - dashboard
               - --host
@@ -265,12 +292,19 @@ spec:
         advancedMounts:
           hermes:
             init-config:
-              - path: /tmp/config.yaml
+              - path: /desired/config.yaml
                 subPath: config.yaml
                 readOnly: true
-              - path: /tmp/SOUL.md
+              - path: /desired/SOUL.md
                 subPath: SOUL.md
                 readOnly: true
+
+      config-staging:
+        type: emptyDir
+        advancedMounts:
+          hermes:
+            init-config:
+              - path: /staging
       python-packages:
         type: emptyDir
         advancedMounts:
@@ -304,6 +338,9 @@ spec:
             install-tools:
               - path: /tmp
                 subPath: install-tools
+            init-config:
+              - path: /tmp
+                subPath: init-config
 
     serviceAccount:
       hermes: {}

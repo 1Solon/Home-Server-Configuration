@@ -89,8 +89,16 @@ spec:
                 cp /desired/{config.yaml,SOUL.md} /staging/
                 touch /staging/.env
                 HERMES_HOME=/staging HOME=/staging /opt/hermes/.venv/bin/python -c 'from hermes_cli.config import migrate_config; migrate_config(interactive=False,quiet=False)'
-                install -d -o 10000 -g 10000 -m 750 /opt/data/workspace
-                install -o 10000 -g 10000 -m 600 /staging/{config.yaml,SOUL.md} /opt/data/
+                mkdir -p /opt/data/workspace
+                chown 0:0 /opt/data/workspace
+                chmod 750 /opt/data/workspace
+                chown 10000:10000 /opt/data/workspace
+                for f in config.yaml SOUL.md; do
+                  rm -f "/opt/data/.$f.new"
+                  install -m 600 "/staging/$f" "/opt/data/.$f.new"
+                  chown 10000:10000 "/opt/data/.$f.new"
+                  mv -f "/opt/data/.$f.new" "/opt/data/$f"
+                done
                 chown 0:0 /opt/data/.env 2>/dev/null || touch /opt/data/.env
                 chmod 600 /opt/data/.env
                 chown 10000:10000 /opt/data/.env

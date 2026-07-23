@@ -189,8 +189,8 @@ spec:
                   candidate="$stage/gh_${GH_VERSION}_linux_${ARCH}/bin/gh"
                   "$candidate" --version >/dev/null 2>&1 || return 1
                   install -m 0755 "$candidate" "$BIN/.gh.new" || return 1
+                  chown 10000:10000 "$BIN/.gh.new" || { rm -f "$BIN/.gh.new"; return 1; }
                   mv -f "$BIN/.gh.new" "$BIN/gh" || return 1
-                  chown 10000:10000 "$BIN/gh" || return 1
                   printf 'install-tools: installed gh %s\n' "$GH_VERSION"
                 }
 

@@ -243,21 +243,6 @@ spec:
                 install_go || warn "Go reconciliation failed; preserving any existing installation"
                 install_brew || warn "Homebrew reconciliation failed; preserving any existing installation"
                 exit 0
-          install-firecrawl-python:
-            image:
-              repository: nousresearch/hermes-agent
-              tag: v2026.7.20@sha256:f7b35053268f532f98955195c909f15a230470fbcbdacaa9fdecb95707dad04a
-            command:
-              - sh
-              - -c
-              - |
-                set -euo pipefail
-                if ! PYTHONPATH=/opt/data/python-packages python - <<'PY'; then
-                import importlib.util
-                raise SystemExit(0 if importlib.util.find_spec("firecrawl") else 1)
-                PY
-                  uv pip install --target /opt/data/python-packages firecrawl-py==4.17.0
-                fi
           init-config:
             image:
               repository: nousresearch/hermes-agent
@@ -322,19 +307,21 @@ spec:
             env:
               TZ: "${TZ}"
               HERMES_HOME: /opt/data
-              HOME: /opt/data
-              PYTHONPATH: /opt/data/python-packages
               GOPATH: /opt/data/go
               HOMEBREW_CELLAR: /opt/data/.local/homebrew/Cellar
               HOMEBREW_PREFIX: /opt/data/.local/homebrew
               HOMEBREW_REPOSITORY: /opt/data/.local/homebrew
-              PATH: /opt/hermes/.venv/bin:/opt/data/.local/bin:/opt/data/.local/go/bin:/opt/data/.local/homebrew/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-              PIP_BREAK_SYSTEM_PACKAGES: "1"
+              PATH: /opt/hermes/bin:/opt/hermes/.venv/bin:/opt/data/.local/bin:/opt/data/.local/go/bin:/opt/data/.local/homebrew/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
               TERM: xterm-256color
               API_SERVER_ENABLED: "true"
               API_SERVER_HOST: "0.0.0.0"
               API_SERVER_PORT: &apiPort 8642
               API_SERVER_CORS_ORIGINS: "https://hermes.${LOCAL_DOMAIN}"
+              HERMES_DASHBOARD: "true"
+              HERMES_DASHBOARD_HOST: "0.0.0.0"
+              HERMES_DASHBOARD_PORT: &dashboardPort 9119
+              HERMES_DASHBOARD_OIDC_ISSUER: https://sso.${REMOTE_DOMAIN}/application/o/hermes/
+              HERMES_DASHBOARD_PUBLIC_URL: https://hermes.${LOCAL_DOMAIN}
               AGENT_BROWSER_ARGS: "--no-sandbox,--disable-dev-shm-usage"
               FIRECRAWL_API_URL: https://api.firecrawl.dev
               SEARXNG_URL: http://searxng.ai.svc.cluster.local:8080
@@ -345,6 +332,9 @@ spec:
               - name: api
                 containerPort: *apiPort
                 protocol: TCP
+              - name: dashboard
+                containerPort: *dashboardPort
+                protocol: TCP
             probes:
               liveness:
                 enabled: true
@@ -353,7 +343,6 @@ spec:
                   httpGet:
                     path: /health
                     port: *apiPort
-                  initialDelaySeconds: 30
                   periodSeconds: 30
                   timeoutSeconds: 5
                   failureThreshold: 6
@@ -361,50 +350,32 @@ spec:
                 enabled: true
                 custom: true
                 spec:
-                  httpGet:
-                    path: /health
-                    port: *apiPort
-                  initialDelaySeconds: 5
+                  exec:
+                    command:
+                      - /bin/sh
+                      - -c
+                      - curl -fsS http://127.0.0.1:8642/health >/dev/null && curl -fsS -o /dev/null http://127.0.0.1:9119/
                   periodSeconds: 10
                   timeoutSeconds: 5
                   failureThreshold: 6
+              startup:
+                enabled: true
+                custom: true
+                spec:
+                  exec:
+                    command:
+                      - /bin/sh
+                      - -c
+                      - curl -fsS http://127.0.0.1:8642/health >/dev/null && curl -fsS -o /dev/null http://127.0.0.1:9119/
+                  periodSeconds: 5
+                  timeoutSeconds: 5
+                  failureThreshold: 60
             resources:
               requests:
-                cpu: 500m
+                cpu: 250m
                 memory: 1Gi
               limits:
                 memory: 4Gi
-          dashboard:
-            image:
-              repository: nousresearch/hermes-agent
-              tag: *hermesTag
-            args:
-              - dashboard
-              - --host
-              - 0.0.0.0
-              - --port
-              - "9119"
-              - --no-open
-            env:
-              TZ: "${TZ}"
-              HERMES_HOME: /opt/data
-              HOME: /opt/data
-              GATEWAY_HEALTH_URL: http://localhost:8642
-              HERMES_DASHBOARD_OIDC_ISSUER: https://sso.${REMOTE_DOMAIN}/application/o/hermes/
-              HERMES_DASHBOARD_PUBLIC_URL: https://hermes.${LOCAL_DOMAIN}
-            envFrom:
-              - secretRef:
-                  name: *app
-            ports:
-              - name: dashboard
-                containerPort: 9119
-                protocol: TCP
-            resources:
-              requests:
-                cpu: 50m
-                memory: 256Mi
-              limits:
-                memory: 1Gi
     service:
       app:
         controller: *app
@@ -445,11 +416,7 @@ spec:
           hermes:
             app:
               - path: /opt/data
-            dashboard:
-              - path: /opt/data
             init-config:
-              - path: /opt/data
-            install-firecrawl-python:
               - path: /opt/data
             install-tools:
               - path: /opt/data
@@ -473,14 +440,6 @@ spec:
           hermes:
             init-config:
               - path: /staging
-      python-packages:
-        type: emptyDir
-        advancedMounts:
-          hermes:
-            app:
-              - path: /opt/data/python-packages
-            install-firecrawl-python:
-              - path: /opt/data/python-packages
 
       shm:
         type: emptyDir
@@ -497,18 +456,12 @@ spec:
           hermes:
             app:
               - path: /tmp
-            dashboard:
-              - path: /tmp
-                subPath: dashboard
-            install-firecrawl-python:
-              - path: /tmp
-                subPath: install-firecrawl-python
-            install-tools:
-              - path: /tmp
-                subPath: install-tools
             init-config:
               - path: /tmp
                 subPath: init-config
+            install-tools:
+              - path: /tmp
+                subPath: install-tools
 
     serviceAccount:
       hermes: {}

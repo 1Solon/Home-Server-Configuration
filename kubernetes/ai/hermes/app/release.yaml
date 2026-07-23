@@ -180,13 +180,13 @@ spec:
                     printf 'install-tools: gh %s already installed\n' "$GH_VERSION"
                     return 0
                   fi
-                  archive="/tmp/gh_${GH_VERSION}_${ARCH}.tar.gz"
-                  stage="/tmp/gh-${GH_VERSION}"
+                  archive="/tmp/gh_$${GH_VERSION}_$${ARCH}.tar.gz"
+                  stage="/tmp/gh-$${GH_VERSION}"
                   rm -rf "$stage" "$archive"
                   mkdir -p "$stage"
-                  download_verified "https://github.com/cli/cli/releases/download/v${GH_VERSION}/gh_${GH_VERSION}_linux_${ARCH}.tar.gz" "$GH_SHA" "$archive" || return 1
+                  download_verified "https://github.com/cli/cli/releases/download/v$${GH_VERSION}/gh_$${GH_VERSION}_linux_$${ARCH}.tar.gz" "$GH_SHA" "$archive" || return 1
                   tar -xzf "$archive" -C "$stage" || return 1
-                  candidate="$stage/gh_${GH_VERSION}_linux_${ARCH}/bin/gh"
+                  candidate="$stage/gh_$${GH_VERSION}_linux_$${ARCH}/bin/gh"
                   "$candidate" --version >/dev/null 2>&1 || return 1
                   install -m 0755 "$candidate" "$BIN/.gh.new" || return 1
                   chown 10000:10000 "$BIN/.gh.new" || { rm -f "$BIN/.gh.new"; return 1; }
@@ -195,7 +195,7 @@ spec:
                 }
 
                 install_go() {
-                  archive="/tmp/go${GO_VERSION}.${ARCH}.tar.gz"
+                  archive="/tmp/go$${GO_VERSION}.$${ARCH}.tar.gz"
                   stage="$LOCAL/.go.new"
                   previous="$LOCAL/.go.previous"
                   restore_previous "$LOCAL/go" "$previous" "Go" || return 1
@@ -204,10 +204,10 @@ spec:
                     return 0
                   fi
                   rm -rf "$stage" "$archive"
-                  download_verified "https://go.dev/dl/go${GO_VERSION}.linux-${ARCH}.tar.gz" "$GO_SHA" "$archive" || return 1
+                  download_verified "https://go.dev/dl/go$${GO_VERSION}.linux-$${ARCH}.tar.gz" "$GO_SHA" "$archive" || return 1
                   mkdir -p "$stage"
                   tar -xzf "$archive" -C "$stage" --strip-components=1 || { rm -rf "$stage"; return 1; }
-                  "$stage/bin/go" version 2>/dev/null | grep -Fx "go version go${GO_VERSION} linux/${ARCH}" || { rm -rf "$stage"; return 1; }
+                  "$stage/bin/go" version 2>/dev/null | grep -Fx "go version go$${GO_VERSION} linux/$${ARCH}" || { rm -rf "$stage"; return 1; }
                   chown -R 10000:10000 "$stage" || { rm -rf "$stage"; return 1; }
                   promote_directory "$LOCAL/go" "$stage" "$previous" "Go" || { rm -rf "$stage"; return 1; }
                   printf 'install-tools: installed go %s\n' "$GO_VERSION"

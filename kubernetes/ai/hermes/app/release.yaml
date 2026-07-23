@@ -48,201 +48,35 @@ spec:
               - /bin/bash
               - -c
               - |
-                set -uo pipefail
-                umask 022
-
-                GH_VERSION=2.96.0
-                GO_VERSION=1.26.5
-                BREW_VERSION=6.0.12
-                BREW_COMMIT=b48c7994b5f0eed7bef532efa63cb4e4f763887a
-                LOCAL=/opt/data/.local
-                BIN="$LOCAL/bin"
-                mkdir -p "$BIN"
-
-                warn() { printf 'install-tools: warning: %s\n' "$*" >&2; }
-
+                set -euo pipefail
+                GH=2.96.0 GO=1.26.5 BREW=6.0.12 P=/opt/data/.local
                 case "$(uname -m)" in
-                  x86_64)
-                    ARCH=amd64
-                    GH_SHA=83d5c2ccad5498f58bf6368acb1ab32588cf43ab3a4b1c301bf36328b1c8bd60
-                    GO_SHA=5c2c3b16caefa1d968a94c1daca04a7ca301a496d9b086e17ad77bb81393f053
-                    ;;
-                  aarch64|arm64)
-                    ARCH=arm64
-                    GH_SHA=06f86ec7103d41993b76cd78072f43595c34aaa56506d971d9860e67140bf909
-                    GO_SHA=fe4789e92b1f33358680864bbe8704289e7bb5fc207d80623c308935bd696d49
-                    ;;
-                  *)
-                    warn "unsupported architecture $(uname -m); leaving optional tools unchanged"
-                    exit 0
-                    ;;
+                  x86_64) A=amd64 ;;
+                  aarch64|arm64) A=arm64 ;;
+                  *) echo "unsupported architecture" >&2; exit 1 ;;
                 esac
+                mkdir -p "$P/bin"
 
-                download_verified() {
-                  url=$1
-                  sha=$2
-                  destination=$3
-                  if ! curl -fsSL --retry 3 --retry-delay 2 --connect-timeout 10 --max-time 180 --speed-time 30 --speed-limit 1024 "$url" -o "$destination"; then
-                    warn "download failed: $url"
-                    return 1
-                  fi
-                  if ! printf '%s  %s\n' "$sha" "$destination" | sha256sum -c -; then
-                    warn "checksum failed: $destination"
-                    rm -f "$destination"
-                    return 1
-                  fi
-                }
+                if [ ! -x "$P/bin/gh" ]; then
+                  G=gh_"$GH"_linux_"$A"
+                  curl -fsSL "https://github.com/cli/cli/releases/download/v$GH/$G.tar.gz" | tar xOz "$G/bin/gh" >/tmp/gh
+                  install -o 10000 -g 10000 -m 755 /tmp/gh "$P/bin/gh"
+                fi
 
-                restore_previous() {
-                  live=$1
-                  previous=$2
-                  tool=$3
-                  if [ ! -e "$live" ] && [ -e "$previous" ]; then
-                    if mv "$previous" "$live"; then
-                      warn "$tool recovered interrupted promotion from $previous"
-                    else
-                      warn "$tool recovery failed: unable to restore $previous to $live"
-                      return 1
-                    fi
-                  fi
-                }
+                if [ ! -x "$P/go/bin/go" ]; then
+                  rm -rf "$P/.go" "$P/go"
+                  mkdir "$P/.go"
+                  curl -fsSL "https://go.dev/dl/go$GO.linux-$A.tar.gz" | tar xz -C "$P/.go" --strip-components=1
+                  chown -R 10000:10000 "$P/.go"
+                  mv "$P/.go" "$P/go"
+                fi
 
-                promote_directory() {
-                  live=$1
-                  stage=$2
-                  previous=$3
-                  tool=$4
-                  if [ -e "$previous" ] && ! rm -rf "$previous"; then
-                    warn "$tool promotion failed: unable to remove stale backup $previous"
-                    return 1
-                  fi
-                  if [ -e "$live" ] && ! mv "$live" "$previous"; then
-                    warn "$tool promotion failed: unable to preserve $live at $previous"
-                    return 1
-                  fi
-                  if mv "$stage" "$live"; then
-                    if [ -e "$previous" ] && ! rm -rf "$previous"; then
-                      warn "$tool installed but unable to remove backup $previous"
-                    fi
-                    return 0
-                  fi
-                  warn "$tool promotion failed; attempting rollback from $previous"
-                  if [ -e "$previous" ]; then
-                    if mv "$previous" "$live"; then
-                      warn "$tool rollback restored $live"
-                    else
-                      warn "$tool rollback restoration failed: $previous was not restored to $live"
-                    fi
-                  else
-                    warn "$tool rollback restoration failed: no backup exists at $previous"
-                  fi
-                  return 1
-                }
-
-                git_fetch() {
-                  stage=$1
-                  ref=$2
-                  timeout --foreground --kill-after=10s 180s env GIT_TERMINAL_PROMPT=0 GIT_ASKPASS=/bin/false git -c protocol.version=2 -c http.lowSpeedLimit=1024 -c http.lowSpeedTime=30 -C "$stage" fetch -q --depth 1 origin "$ref"
-                }
-
-                gh_is_current() {
-                  [ -x "$BIN/gh" ] || return 1
-                  version=$("$BIN/gh" --version 2>/dev/null | head -n1)
-                  case "$version" in
-                    "gh version $GH_VERSION"|"gh version $GH_VERSION "*) return 0 ;;
-                  esac
-                  return 1
-                }
-
-                go_is_current() {
-                  [ -x "$LOCAL/go/bin/go" ] || return 1
-                  version=$("$LOCAL/go/bin/go" version 2>/dev/null)
-                  case "$version" in
-                    "go version go$GO_VERSION "*) return 0 ;;
-                  esac
-                  return 1
-                }
-
-                brew_is_current() {
-                  [ -x "$LOCAL/homebrew/bin/brew" ] || return 1
-                  [ "$(git -c safe.directory="$LOCAL/homebrew" -C "$LOCAL/homebrew" rev-parse HEAD 2>/dev/null || true)" = "$BREW_COMMIT" ] || return 1
-                  status=$(git -c safe.directory="$LOCAL/homebrew" -C "$LOCAL/homebrew" status --porcelain 2>/dev/null) || return 1
-                  [ -z "$status" ] || return 1
-                  version=$(runuser -u hermes -- env HOMEBREW_NO_AUTO_UPDATE=1 HOMEBREW_PREFIX="$LOCAL/homebrew" "$LOCAL/homebrew/bin/brew" --version 2>/dev/null | head -n1)
-                  case "$version" in
-                    "Homebrew $BREW_VERSION"|"Homebrew $BREW_VERSION "*) return 0 ;;
-                  esac
-                  return 1
-                }
-
-                install_gh() {
-                  if gh_is_current; then
-                    printf 'install-tools: gh %s already installed\n' "$GH_VERSION"
-                    return 0
-                  fi
-                  archive="/tmp/gh_$${GH_VERSION}_$${ARCH}.tar.gz"
-                  stage="/tmp/gh-$${GH_VERSION}"
-                  rm -rf "$stage" "$archive"
-                  mkdir -p "$stage"
-                  download_verified "https://github.com/cli/cli/releases/download/v$${GH_VERSION}/gh_$${GH_VERSION}_linux_$${ARCH}.tar.gz" "$GH_SHA" "$archive" || return 1
-                  tar -xzf "$archive" -C "$stage" || return 1
-                  candidate="$stage/gh_$${GH_VERSION}_linux_$${ARCH}/bin/gh"
-                  "$candidate" --version >/dev/null 2>&1 || return 1
-                  install -m 0755 "$candidate" "$BIN/.gh.new" || return 1
-                  chown 10000:10000 "$BIN/.gh.new" || { rm -f "$BIN/.gh.new"; return 1; }
-                  mv -f "$BIN/.gh.new" "$BIN/gh" || return 1
-                  printf 'install-tools: installed gh %s\n' "$GH_VERSION"
-                }
-
-                install_go() {
-                  archive="/tmp/go$${GO_VERSION}.$${ARCH}.tar.gz"
-                  stage="$LOCAL/.go.new"
-                  previous="$LOCAL/.go.previous"
-                  restore_previous "$LOCAL/go" "$previous" "Go" || return 1
-                  if go_is_current; then
-                    printf 'install-tools: go %s already installed\n' "$GO_VERSION"
-                    return 0
-                  fi
-                  rm -rf "$stage" "$archive"
-                  download_verified "https://go.dev/dl/go$${GO_VERSION}.linux-$${ARCH}.tar.gz" "$GO_SHA" "$archive" || return 1
-                  mkdir -p "$stage"
-                  tar -xzf "$archive" -C "$stage" --strip-components=1 || { rm -rf "$stage"; return 1; }
-                  "$stage/bin/go" version 2>/dev/null | grep -Fx "go version go$${GO_VERSION} linux/$${ARCH}" || { rm -rf "$stage"; return 1; }
-                  chown -R 10000:10000 "$stage" || { rm -rf "$stage"; return 1; }
-                  promote_directory "$LOCAL/go" "$stage" "$previous" "Go" || { rm -rf "$stage"; return 1; }
-                  printf 'install-tools: installed go %s\n' "$GO_VERSION"
-                }
-
-                install_brew() {
-                  stage="$LOCAL/.homebrew.new"
-                  previous="$LOCAL/.homebrew.previous"
-                  restore_previous "$LOCAL/homebrew" "$previous" "Homebrew" || return 1
-                  if brew_is_current; then
-                    printf 'install-tools: Homebrew %s already installed\n' "$BREW_VERSION"
-                    return 0
-                  fi
-                  rm -rf "$stage"
-                  mkdir -p "$stage"
-                  git -C "$stage" init -q || { rm -rf "$stage"; return 1; }
-                  git -C "$stage" remote add origin https://github.com/Homebrew/brew.git || { rm -rf "$stage"; return 1; }
-                  git_fetch "$stage" "$BREW_COMMIT" || { warn "Homebrew commit fetch failed"; rm -rf "$stage"; return 1; }
-                  git_fetch "$stage" "refs/tags/$BREW_VERSION:refs/tags/$BREW_VERSION" || { warn "Homebrew tag fetch failed"; rm -rf "$stage"; return 1; }
-                  git -C "$stage" checkout -q --detach FETCH_HEAD || { rm -rf "$stage"; return 1; }
-                  [ "$(git -C "$stage" rev-parse HEAD)" = "$BREW_COMMIT" ] || { rm -rf "$stage"; return 1; }
-                  version=$(HOMEBREW_NO_AUTO_UPDATE=1 HOMEBREW_PREFIX="$stage" "$stage/bin/brew" --version 2>/dev/null | head -n1)
-                  case "$version" in
-                    "Homebrew $BREW_VERSION"|"Homebrew $BREW_VERSION "*) ;;
-                    *) rm -rf "$stage"; return 1 ;;
-                  esac
-                  chown -R 10000:10000 "$stage" || { rm -rf "$stage"; return 1; }
-                  promote_directory "$LOCAL/homebrew" "$stage" "$previous" "Homebrew" || { rm -rf "$stage"; return 1; }
-                  printf 'install-tools: installed Homebrew %s\n' "$BREW_VERSION"
-                }
-
-                install_gh || warn "gh reconciliation failed; preserving any existing installation"
-                install_go || warn "Go reconciliation failed; preserving any existing installation"
-                install_brew || warn "Homebrew reconciliation failed; preserving any existing installation"
-                exit 0
+                if [ ! -x "$P/homebrew/bin/brew" ]; then
+                  rm -rf "$P/.homebrew" "$P/homebrew"
+                  git clone -q --depth 1 --branch "$BREW" https://github.com/Homebrew/brew.git "$P/.homebrew"
+                  chown -R 10000:10000 "$P/.homebrew"
+                  mv "$P/.homebrew" "$P/homebrew"
+                fi
           init-config:
             image:
               repository: nousresearch/hermes-agent

@@ -32,8 +32,8 @@ spec:
   cacheTypeK: q8_0
   cacheTypeV: q8_0
   moeCPULayers: 21
-  reasoningBudget: 3000
-  reasoningBudgetMessage: "\n\nSYSTEM ERROR!: You have exceeded the reasoning budget. Thinking has been terminiated. You must answer now. "
+  # reasoningBudget: 16000
+  # reasoningBudgetMessage: "\n\nSYSTEM ERROR!: You have exceeded the reasoning budget. Thinking has been terminiated. You must answer now. "
   runtimeClassName: nvidia
   nodeSelector:
     kubernetes.io/hostname: kube5

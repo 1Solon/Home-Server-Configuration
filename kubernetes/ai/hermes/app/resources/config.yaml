@@ -8,6 +8,9 @@ model:
   api_mode: chat_completions
 web:
   backend: firecrawl
+tools:
+  tool_search:
+    enabled: "on"
 dashboard:
   theme: mono
   font: jetbrains-mono
@@ -48,5 +51,27 @@ privacy:
   redact_pii: true
 platform_toolsets:
   cli:
-    - hermes-cli
+    - clarify
+    - file
+    - memory
+    - skills
+    - terminal
+    - todo
+    - web
+  api_server:
+    - clarify
+    - file
+    - memory
+    - skills
+    - terminal
+    - todo
+    - web
+  discord:
+    - clarify
+    - file
+    - memory
+    - skills
+    - terminal
+    - todo
+    - web
 _config_version: 33

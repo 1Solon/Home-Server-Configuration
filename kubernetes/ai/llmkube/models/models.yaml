@@ -4,9 +4,9 @@ kind: Model
 metadata:
   name: ornith-1-0-35b
 spec:
-  source: pvc://llmkube-models/models--deepreinforce-ai--Ornith-1.0-35B-GGUF/snapshots/c2e1703039380de4ce6820e97afd185682d3c16c/ornith-1.0-35b-Q4_K_M.gguf
+  source: pvc://llmkube-models/unsloth/Ornith-1.0-35B-GGUF/78e1321ef86b69126dc991f481bb0cdc37614ed0/Ornith-1.0-35B-UD-Q4_K_XL.gguf
   format: gguf
-  quantization: Q4_K_M
+  quantization: UD-Q4_K_XL
   hardware:
     accelerator: cuda
     gpu:

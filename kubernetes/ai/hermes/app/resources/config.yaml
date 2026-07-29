@@ -6,6 +6,17 @@ model:
   api_key: ""
   context_length: 65536
   api_mode: chat_completions
+auxiliary:
+  vision:
+    provider: openai-codex
+    model: gpt-5.6-luna
+  curator:
+    provider: openai-codex
+    model: gpt-5.6-sol
+delegation:
+  provider: openai-codex
+  model: gpt-5.6-sol
+  reasoning_effort: high
 web:
   backend: firecrawl
 tools:
@@ -52,6 +63,7 @@ privacy:
 platform_toolsets:
   cli:
     - clarify
+    - delegation
     - file
     - memory
     - skills
@@ -60,6 +72,7 @@ platform_toolsets:
     - web
   api_server:
     - clarify
+    - delegation
     - file
     - memory
     - skills
@@ -68,6 +81,7 @@ platform_toolsets:
     - web
   discord:
     - clarify
+    - delegation
     - file
     - memory
     - skills

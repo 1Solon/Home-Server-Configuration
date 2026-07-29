@@ -4,9 +4,9 @@ kind: Model
 metadata:
   name: ornith-1-0-35b
 spec:
-  source: pvc://llmkube-models/models--deepreinforce-ai--Ornith-1.0-35B-GGUF/snapshots/383064f72a1ef3087b779f268d3ca117eb989aac/ornith-1.0-35b-Q5_K_M.gguf
+  source: pvc://llmkube-models/models--deepreinforce-ai--Ornith-1.0-35B-GGUF/snapshots/c2e1703039380de4ce6820e97afd185682d3c16c/ornith-1.0-35b-Q4_K_M.gguf
   format: gguf
-  quantization: Q5_K_M
+  quantization: Q4_K_M
   hardware:
     accelerator: cuda
     gpu:
@@ -29,7 +29,7 @@ spec:
   contextSize: 262144
   parallelSlots: 1
   flashAttention: true
-  moeCPULayers: 27
+  moeCPULayers: 24
   # reasoningBudget: 16000
   # reasoningBudgetMessage: "\n\nSYSTEM ERROR!: You have exceeded the reasoning budget. Thinking has been terminiated. You must answer now. "
   runtimeClassName: nvidia

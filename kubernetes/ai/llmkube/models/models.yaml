@@ -27,7 +27,7 @@ spec:
   image: ghcr.io/ggml-org/llama.cpp:server-cuda@sha256:f5c8cfd4f1d019021eae00d03a9eb209eb3d1a65cf4879dd332205cdb3bc9071
   bindAddress: 0.0.0.0
   contextSize: 262144
-  parallelSlots: 1
+  parallelSlots: 2
   flashAttention: true
   cacheTypeK: q8_0
   cacheTypeV: q8_0

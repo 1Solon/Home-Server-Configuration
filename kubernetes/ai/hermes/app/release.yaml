@@ -77,6 +77,26 @@ spec:
                   chown -R 10000:10000 "$P/.homebrew"
                   mv "$P/.homebrew" "$P/homebrew"
                 fi
+
+                MNEMOSYNE_HERMES=0.5.0
+                MNEMOSYNE_MEMORY=3.14.0
+                MNEMOSYNE_VENV="$P/mnemosyne"
+                if [ ! -x "$MNEMOSYNE_VENV/bin/python" ]; then
+                  uv venv --python /opt/hermes/.venv/bin/python "$MNEMOSYNE_VENV"
+                fi
+                if ! "$MNEMOSYNE_VENV/bin/python" -c "import importlib.metadata as m; assert m.version('mnemosyne-hermes') == '$MNEMOSYNE_HERMES'; assert m.version('mnemosyne-memory') == '$MNEMOSYNE_MEMORY'" 2>/dev/null; then
+                  uv pip install --python "$MNEMOSYNE_VENV/bin/python" --upgrade \
+                    "mnemosyne-hermes==$MNEMOSYNE_HERMES" \
+                    "mnemosyne-memory[embeddings]==$MNEMOSYNE_MEMORY"
+                fi
+
+                rm -rf /opt/data/plugins/mnemosyne
+                HERMES_HOME=/opt/data "$MNEMOSYNE_VENV/bin/mnemosyne-hermes" install \
+                  --mode wrapper \
+                  --python "$MNEMOSYNE_VENV/bin/python"
+                HERMES_HOME=/opt/data "$MNEMOSYNE_VENV/bin/mnemosyne-hermes" status
+                mkdir -p /opt/data/mnemosyne
+                chown -R 10000:10000 /opt/data/mnemosyne
           init-config:
             image:
               repository: nousresearch/hermes-agent
@@ -126,8 +146,9 @@ spec:
               HOMEBREW_CELLAR: /opt/data/.local/homebrew/Cellar
               HOMEBREW_PREFIX: /opt/data/.local/homebrew
               HOMEBREW_REPOSITORY: /opt/data/.local/homebrew
-              PATH: /opt/hermes/bin:/opt/hermes/.venv/bin:/opt/data/.local/bin:/opt/data/.local/go/bin:/opt/data/.local/homebrew/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+              PATH: /opt/hermes/bin:/opt/hermes/.venv/bin:/opt/data/.local/mnemosyne/bin:/opt/data/.local/bin:/opt/data/.local/go/bin:/opt/data/.local/homebrew/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
               TERM: xterm-256color
+              MNEMOSYNE_HOME: /opt/data/mnemosyne
               API_SERVER_ENABLED: "true"
               API_SERVER_HOST: "0.0.0.0"
               API_SERVER_PORT: &apiPort 8642

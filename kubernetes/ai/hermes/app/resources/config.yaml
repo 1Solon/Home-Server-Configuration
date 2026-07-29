@@ -36,6 +36,7 @@ terminal:
   timeout: 180
   persistent_shell: true
 memory:
+  provider: mnemosyne
   auto_migrate: true
   auto_summarize:
     threshold: 50

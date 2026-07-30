@@ -1,11 +1,7 @@
 ---
 model:
-  provider: custom
-  default: Ornith-1.0-35B
-  base_url: http://ornith-1-0-35b.ai.svc.cluster.local:8080/v1
-  api_key: ""
-  context_length: 262144
-  api_mode: chat_completions
+  provider: openai-codex
+  default: gpt-5.6-sol
 auxiliary:
   vision:
     provider: openai-codex
@@ -48,7 +44,8 @@ display:
   show_reasoning: true
   skin: mono
 agent:
-  reasoning_effort: high
+  reasoning_effort: medium
+  service_tier: fast
 streaming:
   enabled: true
 security:

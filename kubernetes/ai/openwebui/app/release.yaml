@@ -21,11 +21,15 @@ spec:
   upgrade:
     cleanupOnFail: true
     remediation:
-      strategy: rollback
-      retries: 3
+      # Open WebUI releases can include one-way database schema migrations.
+      # Do not automatically start the previous image against a newer schema.
+      retries: 0
+      remediateLastFailure: false
   values:
     controllers:
       open-webui:
+        # Open WebUI does not support mixed versions during schema migrations.
+        strategy: Recreate
         annotations:
           reloader.stakater.com/auto: "true"
         initContainers:
@@ -46,7 +50,7 @@ spec:
           app:
             image:
               repository: ghcr.io/open-webui/open-webui
-              tag: v0.10.2@sha256:9fcea9c6e32ab60b0498f3986c6cdf651ddbe61db48d2213a3d28048ddd673d4
+              tag: v0.11.0@sha256:72c0ba641ba75e7aa52655cb242570906ececd09b1140fb736483038a22b3228
             env:
               ENABLE_OPENAI_API: True
               ENABLE_OLLAMA_API: False

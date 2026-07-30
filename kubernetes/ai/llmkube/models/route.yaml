@@ -2,15 +2,15 @@
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
-  name: ornith-1-0-35b
+  name: qwen-agentworld-35b-a3b
 spec:
   parentRefs:
     - name: envoy-internal
       namespace: networking
       sectionName: https
   hostnames:
-    - "ornith.${LOCAL_DOMAIN}"
+    - "agentworld.${LOCAL_DOMAIN}"
   rules:
     - backendRefs:
-        - name: ornith-1-0-35b
+        - name: qwen-agentworld-35b-a3b
           port: 8080

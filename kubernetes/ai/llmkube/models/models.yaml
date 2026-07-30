@@ -2,9 +2,9 @@
 apiVersion: inference.llmkube.dev/v1alpha1
 kind: Model
 metadata:
-  name: ornith-1-0-35b
+  name: qwen-agentworld-35b-a3b
 spec:
-  source: pvc://llmkube-models/unsloth/Ornith-1.0-35B-GGUF/78e1321ef86b69126dc991f481bb0cdc37614ed0/Ornith-1.0-35B-UD-Q4_K_XL.gguf
+  source: pvc://llmkube-models/unsloth/Qwen-AgentWorld-35B-A3B-GGUF/3a305abf5cfd119ee999dfe929c433746edd8d63/Qwen-AgentWorld-35B-A3B-UD-Q6_K.gguf
   format: gguf
   quantization: UD-Q6_K
   hardware:
@@ -18,18 +18,18 @@ spec:
 apiVersion: inference.llmkube.dev/v1alpha1
 kind: InferenceService
 metadata:
-  name: ornith-1-0-35b
+  name: qwen-agentworld-35b-a3b
 spec:
-  modelRef: ornith-1-0-35b
+  modelRef: qwen-agentworld-35b-a3b
   runtime: llamacpp
   mode: chat
   replicas: 1
   image: ghcr.io/ggml-org/llama.cpp:server-cuda@sha256:f5c8cfd4f1d019021eae00d03a9eb209eb3d1a65cf4879dd332205cdb3bc9071
   bindAddress: 0.0.0.0
-  contextSize: 131072
+  contextSize: 65536
   parallelSlots: 1
   flashAttention: true
-  moeCPULayers: 24
+  moeCPULayers: 22
   # reasoningBudget: 16000
   # reasoningBudgetMessage: "\n\nSYSTEM ERROR!: You have exceeded the reasoning budget. Thinking has been terminiated. You must answer now. "
   runtimeClassName: nvidia
@@ -75,7 +75,7 @@ spec:
       failureThreshold: 6
   extraArgs:
     - --alias
-    - Ornith-1.0-35B
+    - Qwen-AgentWorld-35B-A3B
     - --verbosity
     - "4"
     - --reasoning-format

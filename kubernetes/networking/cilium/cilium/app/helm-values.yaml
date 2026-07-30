@@ -1,4 +1,7 @@
 ---
+# Preserve critical defaults from the cluster's initial Cilium 1.17 install
+# while upgrading across minor releases.
+upgradeCompatibility: "1.17"
 autoDirectNodeRoutes: true
 bandwidthManager:
   enabled: true

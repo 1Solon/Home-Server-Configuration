@@ -4,9 +4,9 @@ kind: Model
 metadata:
   name: qwen-agentworld-35b-a3b
 spec:
-  source: pvc://llmkube-models/unsloth/Qwen-AgentWorld-35B-A3B-GGUF/3a305abf5cfd119ee999dfe929c433746edd8d63/Qwen-AgentWorld-35B-A3B-UD-Q6_K.gguf
+  source: pvc://llmkube-models/unsloth/Qwen-AgentWorld-35B-A3B-GGUF/3a305abf5cfd119ee999dfe929c433746edd8d63/Qwen-AgentWorld-35B-A3B-UD-Q4_K_M.gguf
   format: gguf
-  quantization: UD-Q6_K
+  quantization: UD-Q4_K_M
   hardware:
     accelerator: cuda
     gpu:
@@ -29,7 +29,9 @@ spec:
   contextSize: 65536
   parallelSlots: 1
   flashAttention: true
-  moeCPULayers: 22
+  # 15 is the minimum CPU MoE offload that fits the 65,536-token context on 16 GiB VRAM.
+  # 14 fails while allocating the CUDA compute buffer; all 41/41 model layers remain offloaded.
+  moeCPULayers: 15
   # reasoningBudget: 16000
   # reasoningBudgetMessage: "\n\nSYSTEM ERROR!: You have exceeded the reasoning budget. Thinking has been terminiated. You must answer now. "
   runtimeClassName: nvidia

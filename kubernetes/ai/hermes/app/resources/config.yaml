@@ -45,7 +45,6 @@ display:
   skin: mono
 agent:
   reasoning_effort: medium
-  service_tier: fast
 streaming:
   enabled: true
 security:

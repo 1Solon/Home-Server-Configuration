@@ -1,11 +1,7 @@
 ---
 model:
-  provider: custom
-  default: Qwen-AgentWorld-35B-A3B
-  base_url: http://qwen-agentworld-35b-a3b.ai.svc.cluster.local:8080/v1
-  api_key: ""
-  context_length: 65536
-  api_mode: chat_completions
+  provider: openai-codex
+  default: gpt-5.6-sol
 auxiliary:
   vision:
     provider: openai-codex

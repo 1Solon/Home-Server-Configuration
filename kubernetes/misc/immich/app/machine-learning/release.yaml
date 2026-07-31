@@ -19,7 +19,9 @@ spec:
       immich-machine-learning:
         annotations:
           reloader.stakater.com/auto: "true"
-        strategy: RollingUpdate
+        # This is a singleton GPU workload. RollingUpdate deadlocks because the
+        # old pod holds the only GPU while the new pod waits to schedule.
+        strategy: Recreate
         containers:
           app:
             image:

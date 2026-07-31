@@ -35,6 +35,7 @@ data:
       "StripUnabridged": true,
       "UseWidevine": true,
       "Request_xHE_AAC": true,
+      "TokenStorageMethod": "Plaintext",
       "FirstLaunch": false,
       "DownloadEpisodes": false,
       "FolderTemplate": "<first author>/<first series>/<series#> - <year> - <title short> {<first narrator>}/",

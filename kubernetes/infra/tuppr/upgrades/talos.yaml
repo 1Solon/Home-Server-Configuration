@@ -21,4 +21,7 @@ spec:
         - apiVersion: ceph.rook.io/v1
           kind: CephCluster
           expr: |-
-              status.ceph.health in ['HEALTH_OK']
+              status.ceph.health == 'HEALTH_OK' ||
+              (status.ceph.health == 'HEALTH_WARN' &&
+               size(status.ceph.details) == 1 &&
+               'BLUESTORE_SLOW_OP_ALERT' in status.ceph.details)

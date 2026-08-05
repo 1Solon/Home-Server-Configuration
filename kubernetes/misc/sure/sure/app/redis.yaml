@@ -40,7 +40,7 @@ spec:
           app:
             image:
               repository: docker.io/library/redis
-              tag: 8.8.1@sha256:ef1a6a8bfb32dca06dd9c5d3cfbdf233e7791999ca0df4ef54be3ccffebebf6c
+              tag: 8.10.0@sha256:39353c6a2f310da333374e1290c91805d15a85def073b5090f58e4ac646d284c
             args:
               - --appendonly
               - "yes"

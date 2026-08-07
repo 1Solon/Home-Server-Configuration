@@ -24,14 +24,12 @@ layout:
     icon: mdi-image-multiple
   Books:
     tab: Home
-    style: row
-    columns: 3
+    style: column
     icon: mdi-book-open-page-variant
     useEqualHeights: true
   AI:
     tab: Home
-    style: row
-    columns: 3
+    style: column
     icon: mdi-robot
     useEqualHeights: true
   Applications:

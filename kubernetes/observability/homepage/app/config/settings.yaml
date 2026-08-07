@@ -27,13 +27,11 @@ layout:
     style: row
     columns: 3
     icon: mdi-book-open-page-variant
-    useEqualHeights: true
   AI:
     tab: Home
     style: row
     columns: 3
     icon: mdi-robot
-    useEqualHeights: true
   Applications:
     tab: Home
     style: row

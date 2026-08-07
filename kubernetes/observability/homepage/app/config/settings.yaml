@@ -17,6 +17,12 @@ layout:
     tab: Home
     style: column
     icon: mdi-play-circle
+  Downloads:
+    tab: Home
+    style: row
+    columns: 1
+    icon: mdi-download-circle
+    useEqualHeights: true
   Photos:
     tab: Home
     style: row
@@ -39,12 +45,6 @@ layout:
     style: row
     columns: 3
     icon: mdi-server
-  Downloads:
-    tab: Infrastructure
-    style: row
-    columns: 1
-    icon: mdi-download-circle
-    useEqualHeights: true
   Storage:
     tab: Infrastructure
     style: row

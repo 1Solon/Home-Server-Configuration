@@ -25,13 +25,13 @@ layout:
   Books:
     tab: Home
     style: row
-    columns: 1
+    columns: 3
     icon: mdi-book-open-page-variant
     useEqualHeights: true
   AI:
     tab: Home
     style: row
-    columns: 2
+    columns: 3
     icon: mdi-robot
     useEqualHeights: true
   Applications:

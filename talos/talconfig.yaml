@@ -19,6 +19,9 @@ patches:
         extraArgs:
           image-gc-high-threshold: "68"
           image-gc-low-threshold: "60"
+        extraConfig:
+          shutdownGracePeriod: 120s
+          shutdownGracePeriodCriticalPods: 60s
         extraMounts:
           - destination: /var/lib/longhorn
             type: bind
@@ -53,6 +56,10 @@ patches:
     machine:
       kernel:
         modules:
+          - name: drbd
+            parameters:
+              - usermode_helper=disabled
+          - name: drbd_transport_tcp
           - name: nvme_tcp
           - name: vfio_pci
           - name: uio_pci_generic
@@ -118,6 +125,7 @@ nodes:
       customization:
         systemExtensions:
           officialExtensions:
+            - siderolabs/drbd
             - siderolabs/iscsi-tools
             - siderolabs/util-linux-tools
     patches:
@@ -150,6 +158,7 @@ nodes:
       customization:
         systemExtensions:
           officialExtensions:
+            - siderolabs/drbd
             - siderolabs/iscsi-tools
             - siderolabs/util-linux-tools
     patches:
@@ -182,6 +191,7 @@ nodes:
       customization:
         systemExtensions:
           officialExtensions:
+            - siderolabs/drbd
             - siderolabs/iscsi-tools
             - siderolabs/util-linux-tools
     patches:
@@ -214,6 +224,7 @@ nodes:
       customization:
         systemExtensions:
           officialExtensions:
+            - siderolabs/drbd
             - siderolabs/iscsi-tools
             - siderolabs/util-linux-tools
     patches:
@@ -246,6 +257,7 @@ nodes:
           - "nvidia-drm.modeset=1"
         systemExtensions:
           officialExtensions:
+            - siderolabs/drbd
             - siderolabs/iscsi-tools
             - siderolabs/nonfree-kmod-nvidia-production
             - siderolabs/nvidia-container-toolkit-production

@@ -103,9 +103,18 @@ spec:
             cpu: 100m
             memory: 50Mi
       storage:
-        useAllNodes: true
+        useAllNodes: false
         useAllDevices: false
-        devicePathFilter: "^/dev/disk/by-partlabel/r-longhorn-csi$"
+        nodes:
+          - name: kube2
+            devices:
+              - name: /dev/disk/by-partlabel/r-longhorn-csi
+          - name: kube3
+            devices:
+              - name: /dev/disk/by-partlabel/r-longhorn-csi
+          - name: kube5
+            devices:
+              - name: /dev/disk/by-partlabel/r-longhorn-csi
       disruptionManagement:
         managePodBudgets: true
         osdMaintenanceTimeout: 30

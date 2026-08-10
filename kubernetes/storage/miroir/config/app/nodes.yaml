@@ -1,0 +1,53 @@
+---
+# Every schedulable node is mapped so replicated volumes can be consumed
+# remotely. During coexistence these loopfile pools are client/tie-breaker
+# only; application StorageClasses select the separate `data` pool.
+apiVersion: miroir.home-operations.com/v1alpha1
+kind: MiroirNode
+metadata:
+  name: kube1
+spec:
+  pools:
+    - name: client
+      loopfile:
+        baseDir: /var/lib/miroir
+---
+apiVersion: miroir.home-operations.com/v1alpha1
+kind: MiroirNode
+metadata:
+  name: kube2
+spec:
+  pools:
+    - name: client
+      loopfile:
+        baseDir: /var/lib/miroir
+---
+apiVersion: miroir.home-operations.com/v1alpha1
+kind: MiroirNode
+metadata:
+  name: kube3
+spec:
+  pools:
+    - name: client
+      loopfile:
+        baseDir: /var/lib/miroir
+---
+apiVersion: miroir.home-operations.com/v1alpha1
+kind: MiroirNode
+metadata:
+  name: kube4
+spec:
+  pools:
+    - name: client
+      loopfile:
+        baseDir: /var/lib/miroir
+---
+apiVersion: miroir.home-operations.com/v1alpha1
+kind: MiroirNode
+metadata:
+  name: kube5
+spec:
+  pools:
+    - name: client
+      loopfile:
+        baseDir: /var/lib/miroir

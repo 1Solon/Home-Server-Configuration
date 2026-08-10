@@ -1,0 +1,78 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/source.toolkit.fluxcd.io/ocirepository_v1.json
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: OCIRepository
+metadata:
+  name: miroir
+spec:
+  interval: 30m
+  layerSelector:
+    mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
+    operation: copy
+  ref:
+    tag: 0.11.22
+  url: oci://ghcr.io/home-operations/charts/miroir
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: miroir
+spec:
+  interval: 30m
+  chartRef:
+    kind: OCIRepository
+    name: miroir
+  driftDetection:
+    mode: enabled
+  install:
+    crds: CreateReplace
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    crds: CreateReplace
+    remediation:
+      strategy: rollback
+      retries: 3
+  values:
+    replicaCount: 2
+    global:
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              podAffinityTerm:
+                topologyKey: kubernetes.io/hostname
+                labelSelector:
+                  matchLabels:
+                    app.kubernetes.io/name: miroir
+                    app.kubernetes.io/component: controller
+    overcommitRatio: 1
+    freeSpaceRatio: 2
+    autoTieBreaker: true
+    autoDiskfulAfter: ""
+    autoEvictAfter: ""
+    storageCapacity:
+      enabled: false
+    agent:
+      loopfileBaseDirs:
+        - /var/lib/miroir
+    drbd:
+      portBase: 7200
+      verify:
+        algorithm: crc32c
+        schedule: "0 4 * * 0"
+    monitoring:
+      podMonitor:
+        enabled: true
+      prometheusRule:
+        enabled: true
+      dashboards:
+        enabled: true
+        grafanaOperator:
+          enabled: true
+          allowCrossNamespaceImport: true
+          folder: Storage
+          matchLabels:
+            dashboards: grafana

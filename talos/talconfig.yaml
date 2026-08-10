@@ -63,6 +63,8 @@ patches:
           - name: nvme_tcp
           - name: vfio_pci
           - name: uio_pci_generic
+      sysctls:
+        vm.nr_hugepages: 0
   - |-
     apiVersion: v1alpha1
     kind: VolumeConfig

@@ -138,7 +138,7 @@ spec:
 
     persistence:
       config:
-        existingClaim: autobrr
+        existingClaim: autobrr-miroir
       config-log:
         type: emptyDir
         globalMounts:

@@ -10,11 +10,12 @@ spec:
       rules:
         - alert: SpeedtestExporterAbsent
           annotations:
-            description: Speedtest Exporter has disappeared from Prometheus target discovery.
+            description: Speedtest Exporter has not completed a successful Prometheus scrape in over two hours.
             summary: Speedtest Exporter is down.
           expr: |-
-            absent(up{job=~".*speedtest-exporter.*"} == 1)
-          for: 75m
+            max(max_over_time(up{job=~".*speedtest-exporter.*"}[2h])) < 1
+              or absent_over_time(up{job=~".*speedtest-exporter.*"}[2h])
+          for: 15m
           labels:
             severity: critical
         - alert: SpeedtestSlowInternetDownload

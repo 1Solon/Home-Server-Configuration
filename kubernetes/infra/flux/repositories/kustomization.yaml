@@ -19,6 +19,7 @@ resources:
 - crunchydata.yaml
 - csi-samba.yaml
 - nvidia.yaml
+- nvidia-dcgm.yaml
 - nginx.yaml
 - cilium.yaml
 - node-feature-discovery.yaml

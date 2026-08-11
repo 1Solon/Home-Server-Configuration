@@ -1,0 +1,23 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: dcgm-exporter
+  namespace: flux-system
+spec:
+  dependsOn:
+    - name: nvidia-device-plugin
+    - name: kube-prometheus-stack
+  commonMetadata:
+    labels:
+      app.kubernetes.io/name: dcgm-exporter
+  interval: 1h
+  path: ./kubernetes/infra/nvidia-device-plugin/dcgm-exporter/app
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  targetNamespace: gpu-system
+  timeout: 10m
+  wait: true

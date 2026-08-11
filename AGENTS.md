@@ -13,9 +13,11 @@ Only manually patch kubernetes resources for testing, or verification, as your c
 Until the corresponding upstream issues are fixed, migrations and restores on
 Miroir `0.11.22` must use all of the following safeguards:
 
-- Opt a namespace into ownership-preserving VolSync movers only for the restore
-  window with `volsync.backube/privileged-movers: "true"`. Remove the
-  annotation immediately after the mover succeeds.
+- Ensure restore namespaces opt into ownership-preserving VolSync movers with
+  `volsync.backube/privileged-movers: "true"`. Several application namespaces
+  already carry this annotation declaratively; do not fight Flux by removing
+  it live. If an annotation was added only for an ad hoc restore, remove it
+  immediately after the mover succeeds.
 - Set `spec.restic.cleanupTempPVC: false` on Miroir ReplicationDestinations.
   Keep the temporary destination PVC and its snapshot until the final PVC is
   `Bound` and its contents are verified; deleting the temporary source sooner

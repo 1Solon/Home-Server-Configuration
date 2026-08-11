@@ -5,6 +5,7 @@ kind: Kustomization
 resources:
   - ./externalsecret.yaml
   - ./rbac.yaml
+  - ./pvc.yaml
   - ./release.yaml
 configMapGenerator:
   - name: hermes-config

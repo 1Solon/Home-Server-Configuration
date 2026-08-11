@@ -241,7 +241,7 @@ spec:
 
     persistence:
       config:
-        existingClaim: *app
+        existingClaim: hermes-miroir
         advancedMounts:
           hermes:
             app:

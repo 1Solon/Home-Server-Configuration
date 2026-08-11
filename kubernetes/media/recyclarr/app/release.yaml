@@ -54,7 +54,7 @@ spec:
         fsGroupChangePolicy: OnRootMismatch
     persistence:
       config:
-        existingClaim: "{{ .Release.Name }}"
+        existingClaim: recyclarr-miroir
       config-file:
         type: configMap
         name: "{{ .Release.Name }}-configmap"

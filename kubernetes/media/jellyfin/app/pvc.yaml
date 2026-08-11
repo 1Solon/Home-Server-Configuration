@@ -1,0 +1,15 @@
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: jellyfin-config-miroir
+spec:
+  accessModes: [ReadWriteOnce]
+  storageClassName: miroir-replicated
+  resources:
+    requests:
+      storage: 10Gi
+  dataSourceRef:
+    apiGroup: volsync.backube
+    kind: ReplicationDestination
+    name: jellyfin-config-miroir-restore

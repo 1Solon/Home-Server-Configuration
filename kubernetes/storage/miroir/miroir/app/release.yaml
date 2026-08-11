@@ -38,6 +38,9 @@ spec:
   values:
     replicaCount: 2
     global:
+      # The pinned controller digest is arm64-only; agents remain multi-arch.
+      nodeSelector:
+        kubernetes.io/arch: arm64
       affinity:
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:

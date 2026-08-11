@@ -177,7 +177,7 @@ spec:
 
     persistence:
       storage:
-        existingClaim: *app
+        existingClaim: sure-miroir
         advancedMounts:
           sure:
             app:

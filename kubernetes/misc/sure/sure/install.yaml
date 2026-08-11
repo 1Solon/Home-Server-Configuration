@@ -27,7 +27,10 @@ spec:
     substitute:
       APP: sure
       VOLSYNC_REPOSITORY: s3:http://garage.garage.svc.cluster.local:3900/volsync/sure/sure
-      VOLSYNC_SOURCE_PVC: sure
+      VOLSYNC_SOURCE_PVC: sure-miroir
+      VOLSYNC_STORAGE_CLASS: miroir-replicated
+      VOLSYNC_VOLUME_SNAPSHOT_CLASS: miroir-snap
+      VOLSYNC_CACHE_STORAGE_CLASS: miroir-ephemeral
       VOLSYNC_MOVER_APP_NAME: sure
       VOLSYNC_MOVER_APP_INSTANCE: sure
       VOLSYNC_SCHEDULE: "37 */6 * * *"

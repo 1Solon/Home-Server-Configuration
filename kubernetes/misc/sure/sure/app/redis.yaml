@@ -77,7 +77,7 @@ spec:
 
     persistence:
       data:
-        existingClaim: sure-redis
+        existingClaim: sure-redis-miroir
         advancedMounts:
           redis:
             app:

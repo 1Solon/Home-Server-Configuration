@@ -60,7 +60,7 @@ spec:
           volumes:
             - name: grafana-data
               persistentVolumeClaim:
-                claimName: grafana-pvc
+                claimName: grafana-pvc-miroir
   httpRoute:
     spec:
       hostnames:
@@ -73,12 +73,4 @@ spec:
         - backendRefs:
             - name: grafana-service
               port: 3000
-  persistentVolumeClaim:
-    spec:
-      accessModes:
-        - ReadWriteOnce
-      storageClassName: ceph-block
-      resources:
-        requests:
-          storage: 10Gi
   disableDefaultSecurityContext: All

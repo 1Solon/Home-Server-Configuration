@@ -137,7 +137,7 @@ spec:
 
     persistence:
       app-data:
-        existingClaim: otterwiki
+        existingClaim: otterwiki-miroir
         globalMounts:
           - path: /app-data
 

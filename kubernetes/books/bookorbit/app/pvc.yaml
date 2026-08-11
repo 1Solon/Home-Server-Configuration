@@ -10,3 +10,19 @@ spec:
   resources:
     requests:
       storage: 10Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: bookorbit-miroir
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: miroir-replicated
+  resources:
+    requests:
+      storage: 10Gi
+  dataSourceRef:
+    apiGroup: volsync.backube
+    kind: ReplicationDestination
+    name: bookorbit-miroir-restore

@@ -81,6 +81,6 @@ spec:
           - path: /usr/src/app/upload
       cache:
         type: persistentVolumeClaim
-        existingClaim: immich-machine-learning-cache
+        existingClaim: immich-machine-learning-cache-miroir
         globalMounts:
           - path: /cache

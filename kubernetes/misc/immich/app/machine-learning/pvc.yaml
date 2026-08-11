@@ -10,3 +10,15 @@ spec:
   resources:
     requests:
       storage: 10Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: immich-machine-learning-cache-miroir
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: miroir-replicated
+  resources:
+    requests:
+      storage: 10Gi

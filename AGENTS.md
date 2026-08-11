@@ -7,3 +7,35 @@ When asked to remove or archive an old application, move the application's manif
 This is a Flux backed repository, as such, pushing to the repository will trigger a Flux reconciliation, affecting the cluster. You should never do this without permission.
 
 Only manually patch kubernetes resources for testing, or verification, as your changes will be overwritten by Flux.
+
+# Miroir Migration Workarounds
+
+Until the corresponding upstream issues are fixed, migrations and restores on
+Miroir `0.11.22` must use all of the following safeguards:
+
+- Opt a namespace into ownership-preserving VolSync movers only for the restore
+  window with `volsync.backube/privileged-movers: "true"`. Remove the
+  annotation immediately after the mover succeeds.
+- Set `spec.restic.cleanupTempPVC: false` on Miroir ReplicationDestinations.
+  Keep the temporary destination PVC and its snapshot until the final PVC is
+  `Bound` and its contents are verified; deleting the temporary source sooner
+  makes the ready snapshot unusable by Miroir.
+- After every snapshot- or VolSync-restored PVC is `Ready`, clear LVM's
+  activation-skip flag on the restored volume LV on every diskful replica and
+  activate it. Derive the volume handle and replica nodes from the PVC/PV and
+  `MiroirVolume`; never run this against `miroir-snapshot-*` LVs:
+
+  ```sh
+  lvchange --setactivationskip n vg-miroir-<pool>/<volume-handle>
+  lvchange --activate y vg-miroir-<pool>/<volume-handle>
+  ```
+
+- After deleting temporary restore resources, audit every data node for
+  `miroir-snapshot-*` LVs. Remove an LV only after proving that no
+  `MiroirSnapshot` CR or `MiroirVolume.spec.source` references it. Never use a
+  wildcard removal.
+- Preserve each old Ceph PV with reclaim policy `Retain` until the migrated
+  workload and backup have been validated and rollback is explicitly retired.
+- Migrate one reversible batch at a time. Require healthy Miroir replicas,
+  successful content validation, idle VolSync, and Ceph `HEALTH_OK` between
+  batches.

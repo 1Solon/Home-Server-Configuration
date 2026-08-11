@@ -100,13 +100,13 @@ spec:
     persistence:
       config:
         enabled: true
-        existingClaim: seerr-config
+        existingClaim: seerr-config-miroir
         globalMounts:
           - path: /app/config
 
       config-cache:
         enabled: true
-        existingClaim: seerr-config-cache
+        existingClaim: seerr-config-cache-miroir
         globalMounts:
           - path: /app/config/cache
 

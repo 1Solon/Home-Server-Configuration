@@ -31,7 +31,10 @@ spec:
     substitute:
       APP: seerr-config
       VOLSYNC_REPOSITORY: s3:http://garage.garage.svc.cluster.local:3900/volsync/home-media/seerr-config
-      VOLSYNC_SOURCE_PVC: seerr-config
+      VOLSYNC_SOURCE_PVC: seerr-config-miroir
+      VOLSYNC_STORAGE_CLASS: miroir-replicated
+      VOLSYNC_VOLUME_SNAPSHOT_CLASS: miroir-snap
+      VOLSYNC_CACHE_STORAGE_CLASS: miroir-ephemeral
       VOLSYNC_MOVER_APP_NAME: seerr
       VOLSYNC_MOVER_APP_INSTANCE: seerr
       VOLSYNC_SCHEDULE: "10 */6 * * *"
@@ -64,7 +67,10 @@ spec:
     substitute:
       APP: seerr-config-cache
       VOLSYNC_REPOSITORY: s3:http://garage.garage.svc.cluster.local:3900/volsync/home-media/seerr-config-cache
-      VOLSYNC_SOURCE_PVC: seerr-config-cache
+      VOLSYNC_SOURCE_PVC: seerr-config-cache-miroir
+      VOLSYNC_STORAGE_CLASS: miroir-replicated
+      VOLSYNC_VOLUME_SNAPSHOT_CLASS: miroir-snap
+      VOLSYNC_CACHE_STORAGE_CLASS: miroir-ephemeral
       VOLSYNC_MOVER_APP_NAME: seerr
       VOLSYNC_MOVER_APP_INSTANCE: seerr
       VOLSYNC_SCHEDULE: "31 */6 * * *"

@@ -1,0 +1,15 @@
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: audiobookshelf-config-miroir
+spec:
+  accessModes: [ReadWriteOnce]
+  storageClassName: miroir-replicated
+  resources:
+    requests:
+      storage: 20Gi
+  dataSourceRef:
+    apiGroup: volsync.backube
+    kind: ReplicationDestination
+    name: audiobookshelf-config-miroir-restore

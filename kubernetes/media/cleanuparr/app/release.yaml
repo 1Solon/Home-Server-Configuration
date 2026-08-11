@@ -101,4 +101,4 @@ spec:
 
     persistence:
       config:
-        existingClaim: cleanuparr-config
+        existingClaim: cleanuparr-config-miroir

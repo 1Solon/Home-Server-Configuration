@@ -6,4 +6,5 @@ namespace: books
 resources:
   - ./externalsecret.yaml
   - ./configmap.yaml
+  - ./pvc.yaml
   - ./release.yaml

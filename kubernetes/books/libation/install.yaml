@@ -28,11 +28,14 @@ spec:
     substitute:
       APP: libation-config
       VOLSYNC_REPOSITORY: s3:http://garage.garage.svc.cluster.local:3900/volsync/books/libation-config
-      VOLSYNC_SOURCE_PVC: libation-config
+      VOLSYNC_SOURCE_PVC: libation-config-miroir
+      VOLSYNC_STORAGE_CLASS: miroir-replicated
+      VOLSYNC_VOLUME_SNAPSHOT_CLASS: miroir-snap
+      VOLSYNC_CACHE_STORAGE_CLASS: miroir-ephemeral
       VOLSYNC_MOVER_APP_NAME: libation
       VOLSYNC_MOVER_APP_INSTANCE: libation
       VOLSYNC_SCHEDULE: "27 */6 * * *"
-      VOLSYNC_COPY_METHOD: Direct
+      VOLSYNC_COPY_METHOD: Snapshot
     substituteFrom:
       - kind: ConfigMap
         name: cluster-settings

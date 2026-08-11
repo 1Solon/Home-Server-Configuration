@@ -103,7 +103,7 @@ spec:
     # Functional mounts
       data:
         enabled: true
-        existingClaim: *app
+        existingClaim: zerobyte-miroir
         globalMounts:
           - path: /var/lib/zerobyte
       rclone-config:

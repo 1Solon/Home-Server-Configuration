@@ -63,3 +63,6 @@ spec:
     - name: client
       loopfile:
         baseDir: /var/lib/miroir
+    - name: data
+      lvmthin:
+        device: /dev/disk/by-partlabel/r-longhorn-csi

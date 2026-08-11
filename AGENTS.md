@@ -36,8 +36,9 @@ Miroir `0.11.22` must use all of the following safeguards:
   `miroir-snapshot-*` LVs. Remove an LV only after proving that no
   `MiroirSnapshot` CR or `MiroirVolume.spec.source` references it. Never use a
   wildcard removal.
-- Preserve each old Ceph PV with reclaim policy `Retain` until the migrated
-  workload and backup have been validated and rollback is explicitly retired.
-- Migrate one reversible batch at a time. Require healthy Miroir replicas,
-  successful content validation, idle VolSync, and Ceph `HEALTH_OK` between
-  batches.
+- Ceph rollback was explicitly retired after final restore validation on
+  2026-08-11. Rook/Ceph manifests are archived under `archive/rook-ceph/`; do
+  not restore them unless rebuilding a new Ceph cluster intentionally.
+- Require healthy Miroir replicas, successful content validation, idle VolSync,
+  no activation-skip flags, and no orphan `miroir-snapshot-*` LVs after every
+  restore or storage change.

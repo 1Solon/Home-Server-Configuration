@@ -14,14 +14,6 @@ spec:
     storageClassName: ${VOLSYNC_STORAGE_CLASS:=miroir-replicated}
     volumeSnapshotClassName: ${VOLSYNC_VOLUME_SNAPSHOT_CLASS:=miroir-snap}
     cacheStorageClassName: ${VOLSYNC_CACHE_STORAGE_CLASS:=miroir-ephemeral}
-    moverAffinity:
-      podAffinity:
-        requiredDuringSchedulingIgnoredDuringExecution:
-          - labelSelector:
-              matchLabels:
-                app.kubernetes.io/name: ${VOLSYNC_MOVER_APP_NAME}
-                app.kubernetes.io/instance: ${VOLSYNC_MOVER_APP_INSTANCE}
-            topologyKey: kubernetes.io/hostname
     pruneIntervalDays: ${VOLSYNC_PRUNE_INTERVAL_DAYS:=7}
     cacheCapacity: ${VOLSYNC_CACHE_CAPACITY:=1Gi}
     retain:

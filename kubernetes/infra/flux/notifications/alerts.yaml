@@ -57,7 +57,4 @@ spec:
     # - kind: HelmRelease
     #   namespace: 'monitoring'
     #   name: '*'
-    - kind: HelmRelease
-      namespace: 'longhorn-system'
-      name: '*'
   suspend: false

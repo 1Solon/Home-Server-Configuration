@@ -8,7 +8,6 @@ resources:
 - cert-manager.yaml
 - cloudnative-pg.yaml
 - ext-postgres-operator.yaml
-- longhorn.yaml
 - metallb.yaml
 - reflector.yaml
 - stakater.yaml

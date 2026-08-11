@@ -76,4 +76,4 @@ spec:
 
     persistence:
       config:
-        existingClaim: "{{ .Release.Name }}"
+        existingClaim: qui-miroir

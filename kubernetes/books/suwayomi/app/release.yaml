@@ -105,7 +105,7 @@ spec:
 
     persistence:
       config:
-        existingClaim: *app
+        existingClaim: suwayomi-miroir
         globalMounts:
           - path: /home/suwayomi/.local/share/Tachidesk
 

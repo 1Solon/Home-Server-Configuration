@@ -16,3 +16,19 @@ spec:
   storageClassName: ceph-block
   resources: { requests: { storage: 5Gi } }
   dataSourceRef: { apiGroup: volsync.backube, kind: ReplicationDestination, name: suwayomi }
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: suwayomi-miroir
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: miroir-replicated
+  resources:
+    requests:
+      storage: 5Gi
+  dataSourceRef:
+    apiGroup: volsync.backube
+    kind: ReplicationDestination
+    name: suwayomi-miroir-restore

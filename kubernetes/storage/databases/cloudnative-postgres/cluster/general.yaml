@@ -16,7 +16,7 @@ spec:
       database: postgres
   storage:
     size: 20Gi
-    storageClass: ceph-block
+    storageClass: miroir-replicated
   superuserSecret:
     name: cloudnative-pg-secret
   enableSuperuserAccess: true

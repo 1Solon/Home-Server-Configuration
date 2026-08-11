@@ -11,7 +11,7 @@ spec:
   primaryUpdateMethod: switchover
   storage:
     size: 20Gi
-    storageClass: ceph-block
+    storageClass: miroir-replicated
   bootstrap:
     recovery:
       backup:

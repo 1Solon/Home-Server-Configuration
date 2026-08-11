@@ -31,7 +31,10 @@ spec:
     substitute:
       APP: radarr-config
       VOLSYNC_REPOSITORY: s3:http://garage.garage.svc.cluster.local:3900/volsync/home-media/radarr-config
-      VOLSYNC_SOURCE_PVC: radarr-config
+      VOLSYNC_SOURCE_PVC: radarr-config-miroir
+      VOLSYNC_STORAGE_CLASS: miroir-replicated
+      VOLSYNC_VOLUME_SNAPSHOT_CLASS: miroir-snap
+      VOLSYNC_CACHE_STORAGE_CLASS: miroir-ephemeral
       VOLSYNC_MOVER_APP_NAME: radarr
       VOLSYNC_MOVER_APP_INSTANCE: radarr
       VOLSYNC_SCHEDULE: "28 */6 * * *"

@@ -27,7 +27,10 @@ spec:
     substitute:
       APP: qbittorrent-config
       VOLSYNC_REPOSITORY: s3:http://garage.garage.svc.cluster.local:3900/volsync/home-media/qbittorrent-config
-      VOLSYNC_SOURCE_PVC: qbittorrent-config
+      VOLSYNC_SOURCE_PVC: qbittorrent-config-miroir
+      VOLSYNC_STORAGE_CLASS: miroir-replicated
+      VOLSYNC_VOLUME_SNAPSHOT_CLASS: miroir-snap
+      VOLSYNC_CACHE_STORAGE_CLASS: miroir-ephemeral
       VOLSYNC_MOVER_APP_NAME: qbittorrent
       VOLSYNC_MOVER_APP_INSTANCE: qbittorrent
       VOLSYNC_SCHEDULE: "16 */6 * * *"
@@ -103,7 +106,10 @@ spec:
     substitute:
       APP: seedboxapi-config
       VOLSYNC_REPOSITORY: s3:http://garage.garage.svc.cluster.local:3900/volsync/home-media/seedboxapi-config
-      VOLSYNC_SOURCE_PVC: seedboxapi-config
+      VOLSYNC_SOURCE_PVC: seedboxapi-config-miroir
+      VOLSYNC_STORAGE_CLASS: miroir-replicated
+      VOLSYNC_VOLUME_SNAPSHOT_CLASS: miroir-snap
+      VOLSYNC_CACHE_STORAGE_CLASS: miroir-ephemeral
       VOLSYNC_MOVER_APP_NAME: qbittorrent
       VOLSYNC_MOVER_APP_INSTANCE: qbittorrent
       VOLSYNC_SCHEDULE: "25 */6 * * *"

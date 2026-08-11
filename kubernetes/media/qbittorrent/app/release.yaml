@@ -229,7 +229,7 @@ spec:
 
     persistence:
       config:
-        existingClaim: qbittorrent-config
+        existingClaim: qbittorrent-config-miroir
         advancedMounts:
           qbittorrent:
             app:
@@ -281,7 +281,7 @@ spec:
                 subPath: Corefile
                 readOnly: true
       seedboxapi-config:
-        existingClaim: seedboxapi-config
+        existingClaim: seedboxapi-config-miroir
         advancedMounts:
           qbittorrent:
             seedboxapi:

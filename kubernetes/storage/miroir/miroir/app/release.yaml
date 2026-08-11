@@ -51,7 +51,7 @@ spec:
     overcommitRatio: 1
     freeSpaceRatio: 2
     autoTieBreaker: true
-    autoDiskfulAfter: ""
+    autoDiskfulAfter: "30m"
     autoEvictAfter: ""
     storageCapacity:
       enabled: false

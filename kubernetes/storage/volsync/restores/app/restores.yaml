@@ -6,7 +6,7 @@ metadata:
   namespace: ai
 spec:
   trigger: { manual: restore-once }
-  restic: { repository: hermes-restic, copyMethod: Snapshot, volumeSnapshotClassName: csi-ceph-blockpool, accessModes: [ReadWriteOnce], capacity: 10Gi, storageClassName: ceph-block, cacheStorageClassName: ceph-block, cacheCapacity: 1Gi, cleanupCachePVC: true, cleanupTempPVC: true, enableFileDeletion: true }
+  restic: { repository: hermes-restic, copyMethod: Snapshot, volumeSnapshotClassName: miroir-snap, accessModes: [ReadWriteOnce], capacity: 10Gi, storageClassName: miroir-replicated, cacheStorageClassName: miroir-ephemeral, cacheCapacity: 1Gi, cleanupCachePVC: true, cleanupTempPVC: false, enableFileDeletion: true }
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -15,7 +15,7 @@ metadata:
   namespace: ai
 spec:
   accessModes: [ReadWriteOnce]
-  storageClassName: ceph-block
+  storageClassName: miroir-replicated
   resources: { requests: { storage: 10Gi } }
   dataSourceRef: { apiGroup: volsync.backube, kind: ReplicationDestination, name: hermes }
 ---
@@ -26,7 +26,7 @@ metadata:
   namespace: ai
 spec:
   trigger: { manual: restore-once }
-  restic: { repository: open-webui-config-restic, copyMethod: Snapshot, volumeSnapshotClassName: csi-ceph-blockpool, accessModes: [ReadWriteOnce], capacity: 10Gi, storageClassName: ceph-block, cacheStorageClassName: ceph-block, cacheCapacity: 1Gi, cleanupCachePVC: true, cleanupTempPVC: true, enableFileDeletion: true }
+  restic: { repository: open-webui-config-restic, copyMethod: Snapshot, volumeSnapshotClassName: miroir-snap, accessModes: [ReadWriteOnce], capacity: 10Gi, storageClassName: miroir-replicated, cacheStorageClassName: miroir-ephemeral, cacheCapacity: 1Gi, cleanupCachePVC: true, cleanupTempPVC: false, enableFileDeletion: true }
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -35,7 +35,7 @@ metadata:
   namespace: ai
 spec:
   accessModes: [ReadWriteOnce]
-  storageClassName: ceph-block
+  storageClassName: miroir-replicated
   resources: { requests: { storage: 10Gi } }
   dataSourceRef: { apiGroup: volsync.backube, kind: ReplicationDestination, name: open-webui-config }
 ---
@@ -46,7 +46,7 @@ metadata:
   namespace: books
 spec:
   trigger: { manual: restore-once }
-  restic: { repository: audiobookshelf-config-restic, copyMethod: Snapshot, volumeSnapshotClassName: csi-ceph-blockpool, accessModes: [ReadWriteOnce], capacity: 20Gi, storageClassName: ceph-block, cacheStorageClassName: ceph-block, cacheCapacity: 1Gi, cleanupCachePVC: true, cleanupTempPVC: true, enableFileDeletion: true }
+  restic: { repository: audiobookshelf-config-restic, copyMethod: Snapshot, volumeSnapshotClassName: miroir-snap, accessModes: [ReadWriteOnce], capacity: 20Gi, storageClassName: miroir-replicated, cacheStorageClassName: miroir-ephemeral, cacheCapacity: 1Gi, cleanupCachePVC: true, cleanupTempPVC: false, enableFileDeletion: true }
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -55,7 +55,7 @@ metadata:
   namespace: books
 spec:
   accessModes: [ReadWriteOnce]
-  storageClassName: ceph-block
+  storageClassName: miroir-replicated
   resources: { requests: { storage: 20Gi } }
   dataSourceRef: { apiGroup: volsync.backube, kind: ReplicationDestination, name: audiobookshelf-config }
 ---
@@ -66,7 +66,7 @@ metadata:
   namespace: books
 spec:
   trigger: { manual: restore-once }
-  restic: { repository: libation-config-restic, copyMethod: Snapshot, volumeSnapshotClassName: csi-ceph-blockpool, accessModes: [ReadWriteOnce], capacity: 5Gi, storageClassName: ceph-block, cacheStorageClassName: ceph-block, cacheCapacity: 1Gi, cleanupCachePVC: true, cleanupTempPVC: true, enableFileDeletion: true }
+  restic: { repository: libation-config-restic, copyMethod: Snapshot, volumeSnapshotClassName: miroir-snap, accessModes: [ReadWriteOnce], capacity: 5Gi, storageClassName: miroir-replicated, cacheStorageClassName: miroir-ephemeral, cacheCapacity: 1Gi, cleanupCachePVC: true, cleanupTempPVC: false, enableFileDeletion: true }
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -75,7 +75,7 @@ metadata:
   namespace: books
 spec:
   accessModes: [ReadWriteOnce]
-  storageClassName: ceph-block
+  storageClassName: miroir-replicated
   resources: { requests: { storage: 5Gi } }
   dataSourceRef: { apiGroup: volsync.backube, kind: ReplicationDestination, name: libation-config }
 ---
@@ -86,7 +86,7 @@ metadata:
   namespace: books
 spec:
   trigger: { manual: restore-once }
-  restic: { repository: shelfmark-config-restic, copyMethod: Snapshot, volumeSnapshotClassName: csi-ceph-blockpool, accessModes: [ReadWriteOnce], capacity: 20Gi, storageClassName: ceph-block, cacheStorageClassName: ceph-block, cacheCapacity: 1Gi, cleanupCachePVC: true, cleanupTempPVC: true, enableFileDeletion: true }
+  restic: { repository: shelfmark-config-restic, copyMethod: Snapshot, volumeSnapshotClassName: miroir-snap, accessModes: [ReadWriteOnce], capacity: 20Gi, storageClassName: miroir-replicated, cacheStorageClassName: miroir-ephemeral, cacheCapacity: 1Gi, cleanupCachePVC: true, cleanupTempPVC: false, enableFileDeletion: true }
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -95,7 +95,7 @@ metadata:
   namespace: books
 spec:
   accessModes: [ReadWriteOnce]
-  storageClassName: ceph-block
+  storageClassName: miroir-replicated
   resources: { requests: { storage: 20Gi } }
   dataSourceRef: { apiGroup: volsync.backube, kind: ReplicationDestination, name: shelfmark-config }
 ---
@@ -106,7 +106,7 @@ metadata:
   namespace: colwiki
 spec:
   trigger: { manual: restore-once }
-  restic: { repository: otterwiki-restic, copyMethod: Snapshot, volumeSnapshotClassName: csi-ceph-blockpool, accessModes: [ReadWriteOnce], capacity: 20Gi, storageClassName: ceph-block, cacheStorageClassName: ceph-block, cacheCapacity: 1Gi, cleanupCachePVC: true, cleanupTempPVC: true, enableFileDeletion: true }
+  restic: { repository: otterwiki-restic, copyMethod: Snapshot, volumeSnapshotClassName: miroir-snap, accessModes: [ReadWriteOnce], capacity: 20Gi, storageClassName: miroir-replicated, cacheStorageClassName: miroir-ephemeral, cacheCapacity: 1Gi, cleanupCachePVC: true, cleanupTempPVC: false, enableFileDeletion: true }
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -115,7 +115,7 @@ metadata:
   namespace: colwiki
 spec:
   accessModes: [ReadWriteOnce]
-  storageClassName: ceph-block
+  storageClassName: miroir-replicated
   resources: { requests: { storage: 20Gi } }
   dataSourceRef: { apiGroup: volsync.backube, kind: ReplicationDestination, name: otterwiki }
 ---
@@ -126,7 +126,7 @@ metadata:
   namespace: home-media
 spec:
   trigger: { manual: restore-once }
-  restic: { repository: autobrr-restic, copyMethod: Snapshot, volumeSnapshotClassName: csi-ceph-blockpool, accessModes: [ReadWriteOnce], capacity: 5Gi, storageClassName: ceph-block, cacheStorageClassName: ceph-block, cacheCapacity: 1Gi, cleanupCachePVC: true, cleanupTempPVC: true, enableFileDeletion: true }
+  restic: { repository: autobrr-restic, copyMethod: Snapshot, volumeSnapshotClassName: miroir-snap, accessModes: [ReadWriteOnce], capacity: 5Gi, storageClassName: miroir-replicated, cacheStorageClassName: miroir-ephemeral, cacheCapacity: 1Gi, cleanupCachePVC: true, cleanupTempPVC: false, enableFileDeletion: true }
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -135,7 +135,7 @@ metadata:
   namespace: home-media
 spec:
   accessModes: [ReadWriteOnce]
-  storageClassName: ceph-block
+  storageClassName: miroir-replicated
   resources: { requests: { storage: 5Gi } }
   dataSourceRef: { apiGroup: volsync.backube, kind: ReplicationDestination, name: autobrr }
 ---
@@ -146,7 +146,7 @@ metadata:
   namespace: home-media
 spec:
   trigger: { manual: restore-once }
-  restic: { repository: bazarr-restic, copyMethod: Snapshot, volumeSnapshotClassName: csi-ceph-blockpool, accessModes: [ReadWriteOnce], capacity: 10Gi, storageClassName: ceph-block, cacheStorageClassName: ceph-block, cacheCapacity: 1Gi, cleanupCachePVC: true, cleanupTempPVC: true, enableFileDeletion: true }
+  restic: { repository: bazarr-restic, copyMethod: Snapshot, volumeSnapshotClassName: miroir-snap, accessModes: [ReadWriteOnce], capacity: 10Gi, storageClassName: miroir-replicated, cacheStorageClassName: miroir-ephemeral, cacheCapacity: 1Gi, cleanupCachePVC: true, cleanupTempPVC: false, enableFileDeletion: true }
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -155,7 +155,7 @@ metadata:
   namespace: home-media
 spec:
   accessModes: [ReadWriteOnce]
-  storageClassName: ceph-block
+  storageClassName: miroir-replicated
   resources: { requests: { storage: 10Gi } }
   dataSourceRef: { apiGroup: volsync.backube, kind: ReplicationDestination, name: bazarr }
 ---
@@ -166,7 +166,7 @@ metadata:
   namespace: home-media
 spec:
   trigger: { manual: restore-once }
-  restic: { repository: cleanuparr-config-restic, copyMethod: Snapshot, volumeSnapshotClassName: csi-ceph-blockpool, accessModes: [ReadWriteOnce], capacity: 10Gi, storageClassName: ceph-block, cacheStorageClassName: ceph-block, cacheCapacity: 1Gi, cleanupCachePVC: true, cleanupTempPVC: true, enableFileDeletion: true }
+  restic: { repository: cleanuparr-config-restic, copyMethod: Snapshot, volumeSnapshotClassName: miroir-snap, accessModes: [ReadWriteOnce], capacity: 10Gi, storageClassName: miroir-replicated, cacheStorageClassName: miroir-ephemeral, cacheCapacity: 1Gi, cleanupCachePVC: true, cleanupTempPVC: false, enableFileDeletion: true }
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -175,7 +175,7 @@ metadata:
   namespace: home-media
 spec:
   accessModes: [ReadWriteOnce]
-  storageClassName: ceph-block
+  storageClassName: miroir-replicated
   resources: { requests: { storage: 10Gi } }
   dataSourceRef: { apiGroup: volsync.backube, kind: ReplicationDestination, name: cleanuparr-config }
 ---
@@ -186,7 +186,7 @@ metadata:
   namespace: home-media
 spec:
   trigger: { manual: restore-once }
-  restic: { repository: jellyfin-config-restic, copyMethod: Snapshot, volumeSnapshotClassName: csi-ceph-blockpool, accessModes: [ReadWriteOnce], capacity: 10Gi, storageClassName: ceph-block, cacheStorageClassName: ceph-block, cacheCapacity: 1Gi, cleanupCachePVC: true, cleanupTempPVC: true, enableFileDeletion: true }
+  restic: { repository: jellyfin-config-restic, copyMethod: Snapshot, volumeSnapshotClassName: miroir-snap, accessModes: [ReadWriteOnce], capacity: 10Gi, storageClassName: miroir-replicated, cacheStorageClassName: miroir-ephemeral, cacheCapacity: 1Gi, cleanupCachePVC: true, cleanupTempPVC: false, enableFileDeletion: true }
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -195,7 +195,7 @@ metadata:
   namespace: home-media
 spec:
   accessModes: [ReadWriteOnce]
-  storageClassName: ceph-block
+  storageClassName: miroir-replicated
   resources: { requests: { storage: 10Gi } }
   dataSourceRef: { apiGroup: volsync.backube, kind: ReplicationDestination, name: jellyfin-config }
 ---
@@ -206,7 +206,7 @@ metadata:
   namespace: home-media
 spec:
   trigger: { manual: restore-once }
-  restic: { repository: qbittorrent-config-restic, copyMethod: Snapshot, volumeSnapshotClassName: csi-ceph-blockpool, accessModes: [ReadWriteOnce], capacity: 1Gi, storageClassName: ceph-block, cacheStorageClassName: ceph-block, cacheCapacity: 1Gi, cleanupCachePVC: true, cleanupTempPVC: true, enableFileDeletion: true }
+  restic: { repository: qbittorrent-config-restic, copyMethod: Snapshot, volumeSnapshotClassName: miroir-snap, accessModes: [ReadWriteOnce], capacity: 1Gi, storageClassName: miroir-replicated, cacheStorageClassName: miroir-ephemeral, cacheCapacity: 1Gi, cleanupCachePVC: true, cleanupTempPVC: false, enableFileDeletion: true }
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -215,7 +215,7 @@ metadata:
   namespace: home-media
 spec:
   accessModes: [ReadWriteOnce]
-  storageClassName: ceph-block
+  storageClassName: miroir-replicated
   resources: { requests: { storage: 1Gi } }
   dataSourceRef: { apiGroup: volsync.backube, kind: ReplicationDestination, name: qbittorrent-config }
 ---
@@ -226,7 +226,7 @@ metadata:
   namespace: home-media
 spec:
   trigger: { manual: restore-once }
-  restic: { repository: qui-restic, copyMethod: Snapshot, volumeSnapshotClassName: csi-ceph-blockpool, accessModes: [ReadWriteOnce], capacity: 5Gi, storageClassName: ceph-block, cacheStorageClassName: ceph-block, cacheCapacity: 1Gi, cleanupCachePVC: true, cleanupTempPVC: true, enableFileDeletion: true }
+  restic: { repository: qui-restic, copyMethod: Snapshot, volumeSnapshotClassName: miroir-snap, accessModes: [ReadWriteOnce], capacity: 5Gi, storageClassName: miroir-replicated, cacheStorageClassName: miroir-ephemeral, cacheCapacity: 1Gi, cleanupCachePVC: true, cleanupTempPVC: false, enableFileDeletion: true }
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -235,7 +235,7 @@ metadata:
   namespace: home-media
 spec:
   accessModes: [ReadWriteOnce]
-  storageClassName: ceph-block
+  storageClassName: miroir-replicated
   resources: { requests: { storage: 5Gi } }
   dataSourceRef: { apiGroup: volsync.backube, kind: ReplicationDestination, name: qui }
 ---
@@ -246,7 +246,7 @@ metadata:
   namespace: home-media
 spec:
   trigger: { manual: restore-once }
-  restic: { repository: radarr-config-restic, copyMethod: Snapshot, volumeSnapshotClassName: csi-ceph-blockpool, accessModes: [ReadWriteOnce], capacity: 5Gi, storageClassName: ceph-block, cacheStorageClassName: ceph-block, cacheCapacity: 1Gi, cleanupCachePVC: true, cleanupTempPVC: true, enableFileDeletion: true }
+  restic: { repository: radarr-config-restic, copyMethod: Snapshot, volumeSnapshotClassName: miroir-snap, accessModes: [ReadWriteOnce], capacity: 5Gi, storageClassName: miroir-replicated, cacheStorageClassName: miroir-ephemeral, cacheCapacity: 1Gi, cleanupCachePVC: true, cleanupTempPVC: false, enableFileDeletion: true }
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -255,7 +255,7 @@ metadata:
   namespace: home-media
 spec:
   accessModes: [ReadWriteOnce]
-  storageClassName: ceph-block
+  storageClassName: miroir-replicated
   resources: { requests: { storage: 5Gi } }
   dataSourceRef: { apiGroup: volsync.backube, kind: ReplicationDestination, name: radarr-config }
 ---
@@ -266,7 +266,7 @@ metadata:
   namespace: home-media
 spec:
   trigger: { manual: restore-once }
-  restic: { repository: seedboxapi-config-restic, copyMethod: Snapshot, volumeSnapshotClassName: csi-ceph-blockpool, accessModes: [ReadWriteOnce], capacity: 1Gi, storageClassName: ceph-block, cacheStorageClassName: ceph-block, cacheCapacity: 1Gi, cleanupCachePVC: true, cleanupTempPVC: true, enableFileDeletion: true }
+  restic: { repository: seedboxapi-config-restic, copyMethod: Snapshot, volumeSnapshotClassName: miroir-snap, accessModes: [ReadWriteOnce], capacity: 1Gi, storageClassName: miroir-replicated, cacheStorageClassName: miroir-ephemeral, cacheCapacity: 1Gi, cleanupCachePVC: true, cleanupTempPVC: false, enableFileDeletion: true }
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -275,7 +275,7 @@ metadata:
   namespace: home-media
 spec:
   accessModes: [ReadWriteOnce]
-  storageClassName: ceph-block
+  storageClassName: miroir-replicated
   resources: { requests: { storage: 1Gi } }
   dataSourceRef: { apiGroup: volsync.backube, kind: ReplicationDestination, name: seedboxapi-config }
 ---
@@ -286,7 +286,7 @@ metadata:
   namespace: home-media
 spec:
   trigger: { manual: restore-once }
-  restic: { repository: seerr-config-restic, copyMethod: Snapshot, volumeSnapshotClassName: csi-ceph-blockpool, accessModes: [ReadWriteOnce], capacity: 1Gi, storageClassName: ceph-block, cacheStorageClassName: ceph-block, cacheCapacity: 1Gi, cleanupCachePVC: true, cleanupTempPVC: true, enableFileDeletion: true }
+  restic: { repository: seerr-config-restic, copyMethod: Snapshot, volumeSnapshotClassName: miroir-snap, accessModes: [ReadWriteOnce], capacity: 1Gi, storageClassName: miroir-replicated, cacheStorageClassName: miroir-ephemeral, cacheCapacity: 1Gi, cleanupCachePVC: true, cleanupTempPVC: false, enableFileDeletion: true }
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -295,7 +295,7 @@ metadata:
   namespace: home-media
 spec:
   accessModes: [ReadWriteOnce]
-  storageClassName: ceph-block
+  storageClassName: miroir-replicated
   resources: { requests: { storage: 1Gi } }
   dataSourceRef: { apiGroup: volsync.backube, kind: ReplicationDestination, name: seerr-config }
 ---
@@ -306,7 +306,7 @@ metadata:
   namespace: home-media
 spec:
   trigger: { manual: restore-once }
-  restic: { repository: seerr-config-cache-restic, copyMethod: Snapshot, volumeSnapshotClassName: csi-ceph-blockpool, accessModes: [ReadWriteOnce], capacity: 15Gi, storageClassName: ceph-block, cacheStorageClassName: ceph-block, cacheCapacity: 1Gi, cleanupCachePVC: true, cleanupTempPVC: true, enableFileDeletion: true }
+  restic: { repository: seerr-config-cache-restic, copyMethod: Snapshot, volumeSnapshotClassName: miroir-snap, accessModes: [ReadWriteOnce], capacity: 15Gi, storageClassName: miroir-replicated, cacheStorageClassName: miroir-ephemeral, cacheCapacity: 1Gi, cleanupCachePVC: true, cleanupTempPVC: false, enableFileDeletion: true }
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -315,7 +315,7 @@ metadata:
   namespace: home-media
 spec:
   accessModes: [ReadWriteOnce]
-  storageClassName: ceph-block
+  storageClassName: miroir-replicated
   resources: { requests: { storage: 15Gi } }
   dataSourceRef: { apiGroup: volsync.backube, kind: ReplicationDestination, name: seerr-config-cache }
 ---
@@ -326,7 +326,7 @@ metadata:
   namespace: home-media
 spec:
   trigger: { manual: restore-once }
-  restic: { repository: sonarr-config-restic, copyMethod: Snapshot, volumeSnapshotClassName: csi-ceph-blockpool, accessModes: [ReadWriteOnce], capacity: 5Gi, storageClassName: ceph-block, cacheStorageClassName: ceph-block, cacheCapacity: 1Gi, cleanupCachePVC: true, cleanupTempPVC: true, enableFileDeletion: true }
+  restic: { repository: sonarr-config-restic, copyMethod: Snapshot, volumeSnapshotClassName: miroir-snap, accessModes: [ReadWriteOnce], capacity: 5Gi, storageClassName: miroir-replicated, cacheStorageClassName: miroir-ephemeral, cacheCapacity: 1Gi, cleanupCachePVC: true, cleanupTempPVC: false, enableFileDeletion: true }
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -335,7 +335,7 @@ metadata:
   namespace: home-media
 spec:
   accessModes: [ReadWriteOnce]
-  storageClassName: ceph-block
+  storageClassName: miroir-replicated
   resources: { requests: { storage: 5Gi } }
   dataSourceRef: { apiGroup: volsync.backube, kind: ReplicationDestination, name: sonarr-config }
 ---
@@ -346,7 +346,7 @@ metadata:
   namespace: tandoor
 spec:
   trigger: { manual: restore-once }
-  restic: { repository: tandoor-restic, copyMethod: Snapshot, volumeSnapshotClassName: csi-ceph-blockpool, accessModes: [ReadWriteOnce], capacity: 5Gi, storageClassName: ceph-block, cacheStorageClassName: ceph-block, cacheCapacity: 1Gi, cleanupCachePVC: true, cleanupTempPVC: true, enableFileDeletion: true }
+  restic: { repository: tandoor-restic, copyMethod: Snapshot, volumeSnapshotClassName: miroir-snap, accessModes: [ReadWriteOnce], capacity: 5Gi, storageClassName: miroir-replicated, cacheStorageClassName: miroir-ephemeral, cacheCapacity: 1Gi, cleanupCachePVC: true, cleanupTempPVC: false, enableFileDeletion: true }
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -355,7 +355,7 @@ metadata:
   namespace: tandoor
 spec:
   accessModes: [ReadWriteOnce]
-  storageClassName: ceph-block
+  storageClassName: miroir-replicated
   resources: { requests: { storage: 5Gi } }
   dataSourceRef: { apiGroup: volsync.backube, kind: ReplicationDestination, name: tandoor }
 ---
@@ -366,7 +366,7 @@ metadata:
   namespace: sure
 spec:
   trigger: { manual: restore-once }
-  restic: { repository: sure-restic, copyMethod: Snapshot, volumeSnapshotClassName: csi-ceph-blockpool, accessModes: [ReadWriteOnce], capacity: 5Gi, storageClassName: ceph-block, cacheStorageClassName: ceph-block, cacheCapacity: 1Gi, cleanupCachePVC: true, cleanupTempPVC: true, enableFileDeletion: true }
+  restic: { repository: sure-restic, copyMethod: Snapshot, volumeSnapshotClassName: miroir-snap, accessModes: [ReadWriteOnce], capacity: 5Gi, storageClassName: miroir-replicated, cacheStorageClassName: miroir-ephemeral, cacheCapacity: 1Gi, cleanupCachePVC: true, cleanupTempPVC: false, enableFileDeletion: true }
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -375,7 +375,7 @@ metadata:
   namespace: sure
 spec:
   accessModes: [ReadWriteOnce]
-  storageClassName: ceph-block
+  storageClassName: miroir-replicated
   resources: { requests: { storage: 5Gi } }
   dataSourceRef: { apiGroup: volsync.backube, kind: ReplicationDestination, name: sure }
 ---
@@ -386,7 +386,7 @@ metadata:
   namespace: zerobyte
 spec:
   trigger: { manual: restore-once }
-  restic: { repository: zerobyte-restic, copyMethod: Snapshot, volumeSnapshotClassName: csi-ceph-blockpool, accessModes: [ReadWriteOnce], capacity: 10Gi, storageClassName: ceph-block, cacheStorageClassName: ceph-block, cacheCapacity: 1Gi, cleanupCachePVC: true, cleanupTempPVC: true, enableFileDeletion: true }
+  restic: { repository: zerobyte-restic, copyMethod: Snapshot, volumeSnapshotClassName: miroir-snap, accessModes: [ReadWriteOnce], capacity: 10Gi, storageClassName: miroir-replicated, cacheStorageClassName: miroir-ephemeral, cacheCapacity: 1Gi, cleanupCachePVC: true, cleanupTempPVC: false, enableFileDeletion: true }
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -395,6 +395,6 @@ metadata:
   namespace: zerobyte
 spec:
   accessModes: [ReadWriteOnce]
-  storageClassName: ceph-block
+  storageClassName: miroir-replicated
   resources: { requests: { storage: 10Gi } }
   dataSourceRef: { apiGroup: volsync.backube, kind: ReplicationDestination, name: zerobyte }

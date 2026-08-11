@@ -3,6 +3,8 @@ apiVersion: storage.k8s.io/v1
 kind: StorageClass
 metadata:
   name: miroir-replicated
+  annotations:
+    storageclass.kubernetes.io/is-default-class: "true"
 provisioner: miroir.home-operations.com
 reclaimPolicy: Delete
 volumeBindingMode: WaitForFirstConsumer
@@ -48,5 +50,7 @@ apiVersion: snapshot.storage.k8s.io/v1
 kind: VolumeSnapshotClass
 metadata:
   name: miroir-snap
+  annotations:
+    snapshot.storage.kubernetes.io/is-default-class: "true"
 driver: miroir.home-operations.com
 deletionPolicy: Delete

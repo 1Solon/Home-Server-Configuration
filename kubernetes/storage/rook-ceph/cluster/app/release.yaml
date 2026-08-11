@@ -139,7 +139,7 @@ spec:
         storageClass:
           enabled: true
           name: ceph-block
-          isDefault: true
+          isDefault: false
           reclaimPolicy: Delete
           allowVolumeExpansion: true
           volumeBindingMode: Immediate
@@ -160,7 +160,7 @@ spec:
     cephBlockPoolsVolumeSnapshotClass:
       enabled: true
       name: csi-ceph-blockpool
-      isDefault: true
+      isDefault: false
       deletionPolicy: Delete
     cephFileSystems: []
     cephFileSystemVolumeSnapshotClass:

@@ -31,7 +31,7 @@ spec:
       persistentVolume:
         enabled: true
         size: 20Gi
-        storageClassName: ceph-block
+        storageClassName: miroir-replicated
       route:
         enabled: false
       serviceMonitor:

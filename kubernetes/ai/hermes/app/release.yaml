@@ -105,14 +105,8 @@ spec:
               - /bin/bash
               - -c
               - |
-                set -euo pipefail
+                set -eu
                 cp /desired/{config.yaml,SOUL.md} /staging/
-                tar -C /opt/hermes \
-                  --exclude='./.git' \
-                  --exclude='./.playwright' \
-                  --exclude='./.venv' \
-                  -cf - . | tar --no-same-owner -C /agent-source -xf -
-                chmod -R a+rX /agent-source
                 touch /staging/.env
                 HERMES_HOME=/staging HOME=/staging /opt/hermes/.venv/bin/python -c 'from hermes_cli.config import migrate_config; migrate_config(interactive=False,quiet=False)'
                 mkdir -p /opt/data/workspace
@@ -212,72 +206,6 @@ spec:
                 memory: 1Gi
               limits:
                 memory: 4Gi
-          webui:
-            image:
-              repository: ghcr.io/nesquena/hermes-webui
-              tag: 0.52.106@sha256:8f49b0007e3fdc82584f49aeb6dc96384efe4ceb01e2bb9edef7cc9a8bf6041a
-            env:
-              TZ: "${TZ}"
-              HERMES_HOME: /opt/data
-              HERMES_WEBUI_HOST: "0.0.0.0"
-              HERMES_WEBUI_PORT: &webuiPort 8787
-              HERMES_WEBUI_STATE_DIR: /opt/data/webui
-              HERMES_WEBUI_DEFAULT_WORKSPACE: /opt/data/workspace
-              HERMES_API_URL: http://127.0.0.1:8642
-              HERMES_WEBUI_CHAT_BACKEND: gateway
-              HERMES_WEBUI_GATEWAY_BASE_URL: http://127.0.0.1:8642
-              HERMES_WEBUI_PASSWORD:
-                valueFrom:
-                  secretKeyRef:
-                    name: *app
-                    key: API_SERVER_KEY
-              WANTED_UID: "10000"
-              WANTED_GID: "10000"
-              UV_CACHE_DIR: /uv_cache
-            envFrom:
-              - secretRef:
-                  name: *app
-            ports:
-              - name: webui
-                containerPort: *webuiPort
-                protocol: TCP
-            probes:
-              liveness:
-                enabled: true
-                custom: true
-                spec:
-                  httpGet:
-                    path: /health
-                    port: *webuiPort
-                  periodSeconds: 30
-                  timeoutSeconds: 5
-                  failureThreshold: 6
-              readiness:
-                enabled: true
-                custom: true
-                spec:
-                  httpGet:
-                    path: /health
-                    port: *webuiPort
-                  periodSeconds: 10
-                  timeoutSeconds: 5
-                  failureThreshold: 6
-              startup:
-                enabled: true
-                custom: true
-                spec:
-                  httpGet:
-                    path: /health
-                    port: *webuiPort
-                  periodSeconds: 10
-                  timeoutSeconds: 5
-                  failureThreshold: 90
-            resources:
-              requests:
-                cpu: 100m
-                memory: 512Mi
-              limits:
-                memory: 2Gi
     service:
       app:
         controller: *app
@@ -289,11 +217,6 @@ spec:
         ports:
           http:
             port: 9119
-      webui:
-        controller: *app
-        ports:
-          http:
-            port: *webuiPort
 
     route:
       app:
@@ -315,25 +238,6 @@ spec:
           - backendRefs:
               - identifier: dashboard
                 port: http
-      webui:
-        enabled: true
-        annotations:
-          gethomepage.dev/enabled: "true"
-          gethomepage.dev/name: Hermes WebUI
-          gethomepage.dev/description: Full-featured web interface for Hermes Agent
-          gethomepage.dev/group: AI
-          gethomepage.dev/icon: https://cdn.jsdelivr.net/npm/@lobehub/icons-static-svg@latest/icons/hermesagent.svg
-          gethomepage.dev/pod-selector: app.kubernetes.io/name=hermes
-        parentRefs:
-          - name: envoy-internal
-            namespace: networking
-            sectionName: https
-        hostnames:
-          - "hermes-webui.${LOCAL_DOMAIN}"
-        rules:
-          - backendRefs:
-              - identifier: webui
-                port: http
 
     persistence:
       config:
@@ -346,32 +250,6 @@ spec:
               - path: /opt/data
             install-tools:
               - path: /opt/data
-            webui:
-              - path: /opt/data
-
-      agent-source:
-        type: emptyDir
-        advancedMounts:
-          hermes:
-            init-config:
-              - path: /agent-source
-            webui:
-              - path: /home/hermeswebui/.hermes/hermes-agent
-                readOnly: true
-
-      webui-app:
-        type: emptyDir
-        advancedMounts:
-          hermes:
-            webui:
-              - path: /app
-
-      webui-cache:
-        type: emptyDir
-        advancedMounts:
-          hermes:
-            webui:
-              - path: /uv_cache
 
       config-file:
         type: configMap
@@ -414,9 +292,6 @@ spec:
             install-tools:
               - path: /tmp
                 subPath: install-tools
-            webui:
-              - path: /tmp
-                subPath: webui
 
     serviceAccount:
       hermes: {}

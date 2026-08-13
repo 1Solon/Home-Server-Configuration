@@ -1,0 +1,21 @@
+---
+# Every Linux node uses the same Talos-provisioned storage layout. The group
+# keeps future nodes aligned without adding one MiroirNode manifest per host.
+apiVersion: miroir.home-operations.com/v1alpha1
+kind: MiroirNodeGroup
+metadata:
+  name: linux
+spec:
+  nodeSelector:
+    matchLabels:
+      kubernetes.io/os: linux
+  template:
+    pools:
+      # Disposable VolSync cache and diskless/tie-breaker support.
+      - name: client
+        loopfile:
+          baseDir: /var/lib/miroir
+      # Replicated application data.
+      - name: data
+        lvmthin:
+          device: /dev/disk/by-partlabel/r-longhorn-csi

@@ -51,11 +51,11 @@ spec:
                   matchLabels:
                     app.kubernetes.io/name: miroir
                     app.kubernetes.io/component: controller
-    overcommitRatio: 1
-    freeSpaceRatio: 2
+    overcommitRatio: 2
+    freeSpaceRatio: 20
     autoTieBreaker: true
-    autoDiskfulAfter: "30m"
-    autoEvictAfter: ""
+    autoDiskfulAfter: ""
+    autoEvictAfter: "1h"
     storageCapacity:
       enabled: false
     agent:
@@ -63,9 +63,10 @@ spec:
         - /var/lib/miroir
     drbd:
       portBase: 7200
+      alExtents: 6007
       verify:
         algorithm: crc32c
-        schedule: "0 4 * * 0"
+        schedule: ""
     monitoring:
       podMonitor:
         enabled: true

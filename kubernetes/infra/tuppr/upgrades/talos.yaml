@@ -18,10 +18,7 @@ spec:
           kind: ReplicationSource
           expr: |-
               status.conditions.filter(c, c.type == "Synchronizing").all(c, c.status == "False")
-        - apiVersion: ceph.rook.io/v1
-          kind: CephCluster
+        - apiVersion: miroir.home-operations.com/v1alpha1
+          kind: MiroirVolume
           expr: |-
-              status.ceph.health == 'HEALTH_OK' ||
-              (status.ceph.health == 'HEALTH_WARN' &&
-               size(status.ceph.details) == 1 &&
-               'BLUESTORE_SLOW_OP_ALERT' in status.ceph.details)
+              status.phase == 'Ready'

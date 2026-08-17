@@ -10,13 +10,16 @@ kind: ClusterRole
 metadata:
   name: envoy-gateway-migration
 rules:
-  - apiGroups: [admissionregistration.k8s.io]
-    resources: [validatingadmissionpolicies]
-    resourceNames: [safe-upgrades.gateway.networking.k8s.io]
-    verbs: [get, patch]
-  - apiGroups: [admissionregistration.k8s.io]
-    resources: [validatingadmissionpolicybindings]
-    resourceNames: [safe-upgrades.gateway.networking.k8s.io]
+  - apiGroups: [gateway.networking.k8s.io]
+    resources: [tcproutes, udproutes]
+    verbs: [get, list, patch]
+  - apiGroups: [apiextensions.k8s.io]
+    resources: [customresourcedefinitions]
+    resourceNames: [tcproutes.gateway.networking.k8s.io, udproutes.gateway.networking.k8s.io]
+    verbs: [get, watch]
+  - apiGroups: [apiextensions.k8s.io]
+    resources: [customresourcedefinitions/status]
+    resourceNames: [tcproutes.gateway.networking.k8s.io, udproutes.gateway.networking.k8s.io]
     verbs: [get, patch]
 ---
 apiVersion: rbac.authorization.k8s.io/v1
@@ -35,14 +38,14 @@ subjects:
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: envoy-gateway-adopt-safe-upgrades
+  name: envoy-gateway-migrate-route-storage-v1
   namespace: networking
 spec:
   backoffLimit: 2
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: envoy-gateway-adopt-safe-upgrades
+        app.kubernetes.io/name: envoy-gateway-migrate-route-storage-v1
     spec:
       serviceAccountName: envoy-gateway-migration
       restartPolicy: Never
@@ -53,55 +56,91 @@ spec:
         seccompProfile:
           type: RuntimeDefault
       initContainers:
-        - name: label-policy
+        - name: verify-tcproute-v1-served
           image: registry.k8s.io/kubectl:v1.36.3@sha256:6e4fce3c83651edb91b74bc67701c5cd263dd8aa3cd4254b1798d6425a5ab789
           command: [/bin/kubectl]
-          args: [label, validatingadmissionpolicy, safe-upgrades.gateway.networking.k8s.io, app.kubernetes.io/managed-by=Helm, --overwrite]
+          args: [wait, "--for=jsonpath={.spec.versions[?(@.name=='v1')].served}=true", crd/tcproutes.gateway.networking.k8s.io, --timeout=60s]
           securityContext:
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: true
             capabilities:
               drop: [ALL]
-        - name: annotate-policy-release
+        - name: verify-tcproute-v1-storage
           image: registry.k8s.io/kubectl:v1.36.3@sha256:6e4fce3c83651edb91b74bc67701c5cd263dd8aa3cd4254b1798d6425a5ab789
           command: [/bin/kubectl]
-          args: [annotate, validatingadmissionpolicy, safe-upgrades.gateway.networking.k8s.io, meta.helm.sh/release-name=envoy-gateway, --overwrite]
+          args: [wait, "--for=jsonpath={.spec.versions[?(@.name=='v1')].storage}=true", crd/tcproutes.gateway.networking.k8s.io, --timeout=60s]
           securityContext:
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: true
             capabilities:
               drop: [ALL]
-        - name: annotate-policy-namespace
+        - name: verify-udproute-v1-served
           image: registry.k8s.io/kubectl:v1.36.3@sha256:6e4fce3c83651edb91b74bc67701c5cd263dd8aa3cd4254b1798d6425a5ab789
           command: [/bin/kubectl]
-          args: [annotate, validatingadmissionpolicy, safe-upgrades.gateway.networking.k8s.io, meta.helm.sh/release-namespace=networking, --overwrite]
+          args: [wait, "--for=jsonpath={.spec.versions[?(@.name=='v1')].served}=true", crd/udproutes.gateway.networking.k8s.io, --timeout=60s]
           securityContext:
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: true
             capabilities:
               drop: [ALL]
-        - name: label-binding
+        - name: verify-udproute-v1-storage
           image: registry.k8s.io/kubectl:v1.36.3@sha256:6e4fce3c83651edb91b74bc67701c5cd263dd8aa3cd4254b1798d6425a5ab789
           command: [/bin/kubectl]
-          args: [label, validatingadmissionpolicybinding, safe-upgrades.gateway.networking.k8s.io, app.kubernetes.io/managed-by=Helm, --overwrite]
+          args: [wait, "--for=jsonpath={.spec.versions[?(@.name=='v1')].storage}=true", crd/udproutes.gateway.networking.k8s.io, --timeout=60s]
           securityContext:
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: true
             capabilities:
               drop: [ALL]
-        - name: annotate-binding-release
+        - name: rewrite-tcproutes-v1
           image: registry.k8s.io/kubectl:v1.36.3@sha256:6e4fce3c83651edb91b74bc67701c5cd263dd8aa3cd4254b1798d6425a5ab789
           command: [/bin/kubectl]
-          args: [annotate, validatingadmissionpolicybinding, safe-upgrades.gateway.networking.k8s.io, meta.helm.sh/release-name=envoy-gateway, --overwrite]
+          args: [annotate, tcproutes.gateway.networking.k8s.io, --all, --all-namespaces, migration.home-server/storage-version=v1, --overwrite]
           securityContext:
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: true
             capabilities:
               drop: [ALL]
-        - name: annotate-binding-namespace
+        - name: verify-and-clean-tcproutes-v1
           image: registry.k8s.io/kubectl:v1.36.3@sha256:6e4fce3c83651edb91b74bc67701c5cd263dd8aa3cd4254b1798d6425a5ab789
           command: [/bin/kubectl]
-          args: [annotate, validatingadmissionpolicybinding, safe-upgrades.gateway.networking.k8s.io, meta.helm.sh/release-namespace=networking, --overwrite]
+          args: [annotate, tcproutes.gateway.networking.k8s.io, --all, --all-namespaces, migration.home-server/storage-version-]
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop: [ALL]
+        - name: rewrite-udproutes-v1
+          image: registry.k8s.io/kubectl:v1.36.3@sha256:6e4fce3c83651edb91b74bc67701c5cd263dd8aa3cd4254b1798d6425a5ab789
+          command: [/bin/kubectl]
+          args: [annotate, udproutes.gateway.networking.k8s.io, --all, --all-namespaces, migration.home-server/storage-version=v1, --overwrite]
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop: [ALL]
+        - name: verify-and-clean-udproutes-v1
+          image: registry.k8s.io/kubectl:v1.36.3@sha256:6e4fce3c83651edb91b74bc67701c5cd263dd8aa3cd4254b1798d6425a5ab789
+          command: [/bin/kubectl]
+          args: [annotate, udproutes.gateway.networking.k8s.io, --all, --all-namespaces, migration.home-server/storage-version-]
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop: [ALL]
+        - name: set-tcproute-stored-version
+          image: registry.k8s.io/kubectl:v1.36.3@sha256:6e4fce3c83651edb91b74bc67701c5cd263dd8aa3cd4254b1798d6425a5ab789
+          command: [/bin/kubectl]
+          args: [patch, crd, tcproutes.gateway.networking.k8s.io, --subresource=status, --type=merge, -p, '{"status":{"storedVersions":["v1"]}}']
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop: [ALL]
+        - name: set-udproute-stored-version
+          image: registry.k8s.io/kubectl:v1.36.3@sha256:6e4fce3c83651edb91b74bc67701c5cd263dd8aa3cd4254b1798d6425a5ab789
+          command: [/bin/kubectl]
+          args: [patch, crd, udproutes.gateway.networking.k8s.io, --subresource=status, --type=merge, -p, '{"status":{"storedVersions":["v1"]}}']
           securityContext:
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: true
@@ -111,7 +150,7 @@ spec:
         - name: verify
           image: registry.k8s.io/kubectl:v1.36.3@sha256:6e4fce3c83651edb91b74bc67701c5cd263dd8aa3cd4254b1798d6425a5ab789
           command: [/bin/kubectl]
-          args: [get, validatingadmissionpolicy/safe-upgrades.gateway.networking.k8s.io, validatingadmissionpolicybinding/safe-upgrades.gateway.networking.k8s.io]
+          args: [get, crd, tcproutes.gateway.networking.k8s.io, udproutes.gateway.networking.k8s.io]
           securityContext:
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: true

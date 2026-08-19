@@ -11,6 +11,8 @@ spec:
         timeout: 30m
         debug: true
         placement: hard
+        # Do not reboot a node while Miroir volumes are still detaching.
+        waitForVolumeDetach: true
     drain:
         enabled: true
     healthChecks:

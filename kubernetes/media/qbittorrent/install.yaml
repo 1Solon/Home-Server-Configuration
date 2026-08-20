@@ -30,7 +30,7 @@ spec:
       VOLSYNC_SOURCE_PVC: qbittorrent-config-miroir
       VOLSYNC_STORAGE_CLASS: miroir-replicated
       VOLSYNC_VOLUME_SNAPSHOT_CLASS: miroir-snap
-      VOLSYNC_CACHE_STORAGE_CLASS: miroir-ephemeral
+      VOLSYNC_CACHE_STORAGE_CLASS: miroir-replicated
       VOLSYNC_MOVER_APP_NAME: qbittorrent
       VOLSYNC_MOVER_APP_INSTANCE: qbittorrent
       VOLSYNC_SCHEDULE: "16 */6 * * *"

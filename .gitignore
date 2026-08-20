@@ -4,3 +4,4 @@ bgp.conf
 docs/superpowers/*
 !docs/tasks.md
 .worktrees/
+.pi

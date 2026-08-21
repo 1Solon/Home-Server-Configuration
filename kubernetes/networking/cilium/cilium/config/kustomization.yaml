@@ -8,3 +8,4 @@ resources:
   - bgpeerconfig.yaml
   - pool.yaml
   - cluster-api-lb.yaml
+  - grafanadashboard.yaml

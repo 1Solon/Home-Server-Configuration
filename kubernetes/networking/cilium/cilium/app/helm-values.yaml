@@ -24,6 +24,11 @@ envoy:
   enabled: false
 dashboards:
   enabled: true
+prometheus:
+  enabled: true
+  serviceMonitor:
+    enabled: true
+    interval: ""
 hubble:
   enabled: false
 ipam:
@@ -48,6 +53,11 @@ localRedirectPolicy: true
 operator:
   dashboards:
     enabled: true
+  prometheus:
+    enabled: true
+    serviceMonitor:
+      enabled: true
+      interval: ""
   replicas: 1
   rollOutPods: true
 rollOutCiliumPods: true

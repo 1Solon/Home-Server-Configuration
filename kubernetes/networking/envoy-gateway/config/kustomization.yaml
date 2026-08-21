@@ -5,3 +5,4 @@ kind: Kustomization
 resources:
   - ./envoy.yaml
   - ./observability.yaml
+  - ./grafanadashboard.yaml

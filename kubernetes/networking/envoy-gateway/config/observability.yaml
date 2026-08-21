@@ -8,7 +8,7 @@ spec:
   jobLabel: envoy-proxy
   namespaceSelector:
     matchNames:
-      - networking
+      - network
   podMetricsEndpoints:
     - port: metrics
       path: /stats/prometheus
@@ -31,7 +31,7 @@ spec:
   jobLabel: envoy-gateway
   namespaceSelector:
     matchNames:
-      - networking
+      - network
   selector:
     matchLabels:
       control-plane: envoy-gateway

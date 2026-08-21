@@ -31,12 +31,7 @@ spec:
     serviceMonitor:
       enabled: true
     grafanaDashboard:
-      enabled: true
-      mode: GrafanaOperator
-      grafanaOperator:
-        allowCrossNamespaceImport: true
-        matchLabels:
-          dashboards: grafana
+      enabled: false
     resources:
       requests:
         cpu: 50m

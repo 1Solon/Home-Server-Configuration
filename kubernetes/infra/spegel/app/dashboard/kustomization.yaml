@@ -1,0 +1,15 @@
+---
+# yaml-language-server: $schema=https://json.schemastore.org/kustomization
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+# Source: Spegel chart 0.7.4 monitoring/grafana-dashboard.json
+# Source SHA-256: 1959abad37cea350dac3377ebf7277dd83a68dd7f2a310275fd48109e9a28dbe
+# Local correction: use the existing pod variable instead of undefined instance.
+configMapGenerator:
+  - name: spegel-dashboard
+    files:
+      - spegel.json
+generatorOptions:
+  disableNameSuffixHash: true
+  annotations:
+    kustomize.toolkit.fluxcd.io/substitute: disabled

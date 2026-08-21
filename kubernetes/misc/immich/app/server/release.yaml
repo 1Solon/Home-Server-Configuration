@@ -97,15 +97,14 @@ spec:
             port: *port
           metrics:
             port: 8081
-    # serviceMonitor:
-    #   app:
-    #     serviceName: immich
-    #     endpoints:
-    #       - port: metrics
-    #         scheme: http
-    #         path: /metrics
-    #         interval: 1m
-    #         scrapeTimeout: 10s
+    serviceMonitor:
+      app:
+        service:
+          identifier: app
+        endpoints:
+          - port: metrics
+            scheme: http
+            path: /metrics
 
     route:
       app:

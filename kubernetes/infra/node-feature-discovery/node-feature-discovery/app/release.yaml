@@ -37,4 +37,4 @@ spec:
             deviceClassWhitelist: ["02", "0200", "0207", "0300", "0302"]
             deviceLabelFields: ["vendor"]
     prometheus:
-      enable: false # Enable this when I actually have prometheus running
+      enable: true

@@ -48,6 +48,6 @@ spec:
     txtPrefix: k8s.main.
     domainFilters: ["solonsstuff.com"]
     serviceMonitor:
-      enabled: false
+      enabled: true
     podAnnotations:
       secret.reloader.stakater.com/reload: *secret

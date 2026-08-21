@@ -32,9 +32,3 @@ spec:
     cleanupOnFail: true
     remediation:
       retries: 3
-  values:
-    reporting:
-      interval: 30s
-    serviceMonitor:
-      create: true
-      interval: 30s

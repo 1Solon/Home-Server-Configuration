@@ -57,3 +57,10 @@ spec:
         ports:
           http:
             port: 8082
+    serviceMonitor:
+      app:
+        service:
+          identifier: app
+        endpoints:
+          - port: http
+            path: /metrics

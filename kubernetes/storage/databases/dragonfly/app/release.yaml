@@ -90,6 +90,13 @@ spec:
             port: *port
           metrics:
             port: 8080
+    serviceMonitor:
+      app:
+        service:
+          identifier: app
+        endpoints:
+          - port: metrics
+            path: /metrics
     defaultPodOptions:
       automountServiceAccountToken: true
     serviceAccount:

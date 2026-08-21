@@ -58,6 +58,18 @@ spec:
             port: 3901
           api:
             port: 3903
+    serviceMonitor:
+      app:
+        service:
+          identifier: app
+        endpoints:
+          - port: api
+            path: /metrics
+            authorization:
+              type: Bearer
+              credentials:
+                name: garage
+                key: GARAGE_METRICS_TOKEN
 
     route:
       api:

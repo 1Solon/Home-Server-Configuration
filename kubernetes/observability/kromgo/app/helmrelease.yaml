@@ -84,3 +84,10 @@ spec:
             port: *port
           health:
             port: *healthPort
+    serviceMonitor:
+      app:
+        service:
+          identifier: app
+        endpoints:
+          - port: health
+            path: /metrics

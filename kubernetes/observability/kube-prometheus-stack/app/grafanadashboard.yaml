@@ -151,15 +151,3 @@ spec:
     inputName: DS_DS_PROMETHEUS
   url:
     https://git.deuxfleurs.fr/Deuxfleurs/garage/raw/branch/main-v1/script/telemetry/grafana-garage-dashboard-prometheus.json
----
-# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/grafana.integreatly.org/grafanadashboard_v1beta1.json
-apiVersion: grafana.integreatly.org/v1beta1
-kind: GrafanaDashboard
-metadata:
-  name: external-secrets
-spec:
-  allowCrossNamespaceImport: true
-  instanceSelector:
-    matchLabels:
-      dashboards: grafana
-  url: https://raw.githubusercontent.com/external-secrets/external-secrets/cc5bfbc2234ace9cb0caff4ea89c435cf517b27b/deploy/charts/external-secrets/files/monitoring/grafana-dashboard.json

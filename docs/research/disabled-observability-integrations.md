@@ -2,7 +2,7 @@
 
 _Audit date: 2026-08-21_
 
-_Corrections from live validation: Immich used obsolete `IMMICH_METRICS_INCLUDE` instead of `IMMICH_TELEMETRY_INCLUDE`; Garage protects `/metrics` with the declaratively supplied `GARAGE_METRICS_TOKEN`; and VolSync had an undeclared live ServiceMonitor that its current Helm reconciliation does not recreate._
+_Corrections from live validation: Immich used obsolete `IMMICH_METRICS_INCLUDE` instead of `IMMICH_TELEMETRY_INCLUDE`; Garage protects `/metrics` with the declaratively supplied `GARAGE_METRICS_TOKEN`; VolSync had an undeclared live ServiceMonitor that its current Helm reconciliation does not recreate; and both Envoy monitors select namespace `network` while the gateway and proxy workloads run in `networking`, leaving no discovered targets._
 
 ## Executive summary
 
@@ -40,10 +40,10 @@ Severity here is operational impact, not a security rating:
 | D7 | Medium | Tuppr 0.5.0 | ServiceMonitor and PrometheusRule are enabled. | The same chart has a bundled dashboard and Grafana Operator mode, but `monitoring.dashboards.enabled` remains omitted/default false. | `kubernetes/infra/tuppr/app/release.yaml:37-43`. |
 | D8 | Medium | External Secrets 2.9.0 | All three ServiceMonitors are enabled. | The chart-bundled dashboard remains default-disabled because no `grafanaDashboard` override is present. | `kubernetes/security/secrets/external-secrets/app/release.yaml:27-45`. |
 | D9 | Medium | NVIDIA DCGM Exporter chart 4.8.3 | ServiceMonitor is enabled. | NVIDIA ships a first-party DCGM Grafana dashboard, but the active app Kustomization contains only the release. | `kubernetes/infra/nvidia-device-plugin/dcgm-exporter/app/release.yaml:9-12,28-31`; `kubernetes/infra/nvidia-device-plugin/dcgm-exporter/app/kustomization.yaml:3-6`. |
-| D10 | Medium | Envoy Gateway v1.9.0 | Both Envoy proxy and gateway metrics are wired by local PodMonitor/ServiceMonitor resources. | Envoy Gateway's first-party addons chart supplies several dashboards, but the active config only installs `envoy.yaml` and `observability.yaml`. | `kubernetes/networking/envoy-gateway/config/observability.yaml:3-38`; `kubernetes/networking/envoy-gateway/config/kustomization.yaml:3-7`. |
+| P16 / D10 | High | Envoy Gateway v1.9.0 | PodMonitor and ServiceMonitor resources exist, but both select namespace `network`; the Envoy gateway and proxy workloads run in `networking`, so Prometheus discovers neither target. | Envoy Gateway's first-party addons chart supplies several dashboards, but the active config only installs `envoy.yaml` and `observability.yaml`. | `kubernetes/networking/envoy-gateway/config/observability.yaml:3-38`; `kubernetes/networking/envoy-gateway/config/kustomization.yaml:3-7`; live target discovery confirmed zero matching pools. |
 | D11 | Low | Gatus v5.36.0 | Metrics and a ServiceMonitor are enabled. | The first-party Gatus example dashboard is not installed; the two active local dashboards are UPS-specific (`ups-aggregate` and `ups-status`), not the project dashboard. | `kubernetes/observability/gatus/app/resources/config.yaml:1-4`; `kubernetes/observability/gatus/app/helmrelease.yaml:136-141`; `kubernetes/observability/gatus/app/grafanadashboard.yaml:3-33`. |
 
-> Numbering has 15 Prometheus gaps (`P1`–`P15`) and 11 dashboard observations (`D1`–`D11`). D1 and D6 are especially important: their Helm values say “enabled,” but the selected provisioning mode is not consumed, so the dashboards are still not installed in Grafana.
+> Numbering has 16 Prometheus gaps (`P1`–`P16`) and 11 dashboard observations (`D1`–`D11`). D1 and D6 are especially important: their Helm values say “enabled,” but the selected provisioning mode is not consumed, so the dashboards are still not installed in Grafana.
 
 ## Primary-source verification
 
@@ -116,7 +116,7 @@ The following are version-matched first-party sources used for the findings abov
 | Misc | Zerobyte 0.41.0 | None identified | `kubernetes/misc/zerobyte/zerobyte/app/release.yaml` |
 | Networking | cert-manager v1.21.1 | **P13** | `kubernetes/networking/cert-manager/cert-manager/app/release.yaml` |
 | Networking | Cilium 1.20.1 | **P1, D1** | `kubernetes/networking/cilium/cilium/app/` |
-| Networking | Envoy Gateway v1.9.0 | Metrics enabled; **D10** | `kubernetes/networking/envoy-gateway/app/release.yaml`; `config/observability.yaml` |
+| Networking | Envoy Gateway v1.9.0 | Metrics endpoints enabled; **P16, D10** | `kubernetes/networking/envoy-gateway/app/release.yaml`; `config/observability.yaml` |
 | Networking | ExternalDNS 1.21.1 | **P3** | `kubernetes/networking/external-dns/cloudflare/app/release.yaml` |
 | Networking | Cloudflare DDNS 1.17.0 | None identified | `kubernetes/networking/external-dns/cloudflare-ddns/app/release.yaml` |
 | Networking | Tailscale operator 1.102.3 + Connector | **P14** (proxy telemetry only) | `kubernetes/networking/tailscale/tailscale/` |
@@ -169,5 +169,5 @@ The following are version-matched first-party sources used for the findings abov
 1. Fix scrape coverage for P1-P5 and P9/P11/P13.
 2. Convert Cilium and Spegel dashboards to `GrafanaOperator` mode (with `dashboards: grafana` selector and cross-namespace import), and correct the CloudNativePG ConfigMap name/key.
 3. Enable chart-native dashboards for Tuppr and External Secrets.
-4. Add first-party dashboard CRs for Dragonfly, DCGM, Envoy Gateway, Flux, promxy, and optionally Gatus.
+4. Repair P16's Envoy monitor namespace selectors, then add first-party dashboard CRs for Dragonfly, DCGM, Envoy Gateway, Flux, promxy, and optionally Gatus.
 5. Add monitors for Garage, Kromgo, VolSync, and the remaining low-priority integrations, then verify targets and dashboard queries in the live cluster.

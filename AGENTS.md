@@ -42,3 +42,17 @@ Miroir `0.11.22` must use all of the following safeguards:
 - Require healthy Miroir replicas, successful content validation, idle VolSync,
   no activation-skip flags, and no orphan `miroir-snapshot-*` LVs after every
   restore or storage change.
+
+## Agent skills
+
+### Issue tracker
+
+Issues and specs are tracked in GitHub Issues via the `gh` CLI. See `docs/agents/issue-tracker.md`.
+
+### Triage labels
+
+Use the five default triage labels. See `docs/agents/triage-labels.md`.
+
+### Domain docs
+
+This repository uses a single-context domain-doc layout. See `docs/agents/domain.md`.

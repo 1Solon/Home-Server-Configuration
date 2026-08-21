@@ -49,10 +49,6 @@ spec:
       resources:
         requests:
           memory: 768Mi
-      metrics:
-        enabled: true
-        serviceMonitor:
-          enabled: true
       initContainers: &init-db
         - name: init-db
           image: ghcr.io/home-operations/postgres-init:18
@@ -91,8 +87,4 @@ spec:
       resources:
         requests:
           memory: 512Mi
-      metrics:
-        enabled: true
-        serviceMonitor:
-          enabled: true
       initContainers: *init-db

@@ -29,5 +29,3 @@ spec:
     fullnameOverride: *name
     reloader:
       reloadStrategy: annotations
-      podMonitor:
-        enabled: true

@@ -7,3 +7,4 @@ resources:
   - https://raw.githubusercontent.com/dragonflydb/dragonfly-operator/v1.6.1/manifests/crd.yaml
   - ./release.yaml
   - ./rbac.yaml
+  - ./grafanadashboard.yaml

@@ -1,0 +1,48 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/grafana.integreatly.org/grafanadashboard_v1beta1.json
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: envoy-clusters
+spec:
+  allowCrossNamespaceImport: true
+  instanceSelector:
+    matchLabels:
+      dashboards: grafana
+  url: https://raw.githubusercontent.com/envoyproxy/gateway/39763b1c07ec30a5526fe70434a2cfe4181de642/charts/gateway-addons-helm/dashboards/envoy-clusters.json
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/grafana.integreatly.org/grafanadashboard_v1beta1.json
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: envoy-gateway-global
+spec:
+  allowCrossNamespaceImport: true
+  instanceSelector:
+    matchLabels:
+      dashboards: grafana
+  url: https://raw.githubusercontent.com/envoyproxy/gateway/39763b1c07ec30a5526fe70434a2cfe4181de642/charts/gateway-addons-helm/dashboards/envoy-gateway-global.json
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/grafana.integreatly.org/grafanadashboard_v1beta1.json
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: envoy-proxy-global
+spec:
+  allowCrossNamespaceImport: true
+  instanceSelector:
+    matchLabels:
+      dashboards: grafana
+  url: https://raw.githubusercontent.com/envoyproxy/gateway/39763b1c07ec30a5526fe70434a2cfe4181de642/charts/gateway-addons-helm/dashboards/envoy-proxy-global.json
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/grafana.integreatly.org/grafanadashboard_v1beta1.json
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: envoy-resources-monitor
+spec:
+  allowCrossNamespaceImport: true
+  instanceSelector:
+    matchLabels:
+      dashboards: grafana
+  url: https://raw.githubusercontent.com/envoyproxy/gateway/39763b1c07ec30a5526fe70434a2cfe4181de642/charts/gateway-addons-helm/dashboards/resources-monitor.gen.json

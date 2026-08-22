@@ -58,7 +58,9 @@ spec:
         enabled: true
         namespace: observability
 
-    # Existing model weights are staged on an RWX NFS PVC and referenced with
-    # pvc:// sources, so the operator-managed download cache is unnecessary.
+    # Enable llmkube's native remote-model downloader and cache plumbing.
+    # InferenceServices can reuse the existing RWX NFS PVC with modelCache.claimName;
+    # perService mode avoids provisioning an unused second shared 100 GiB claim.
     modelCache:
-      enabled: false
+      enabled: true
+      mode: perService

@@ -64,3 +64,5 @@ spec:
     modelCache:
       enabled: true
       mode: perService
+      size: 25Gi
+      storageClass: miroir-ephemeral

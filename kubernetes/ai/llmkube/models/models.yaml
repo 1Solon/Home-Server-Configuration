@@ -4,8 +4,6 @@ kind: Model
 metadata:
   name: glm-4-7-flash
 spec:
-  # Native llmkube downloader URL pinned to Unsloth's post scoring_func-fix revision (2026-02-12);
-  # do not roll back to pre-Jan-21 revisions (llama.cpp softmax/sigmoid bug causes output loops).
   source: https://huggingface.co/unsloth/GLM-4.7-Flash-GGUF/resolve/0d32489ecb9db6d2a4fc93bd27ef01519f95474d/GLM-4.7-Flash-UD-Q4_K_XL.gguf
   format: gguf
   quantization: UD-Q4_K_XL
@@ -23,10 +21,7 @@ metadata:
   name: glm-4-7-flash
 spec:
   modelRef: glm-4-7-flash
-  # Reuse the existing 100 GiB RWX claim as llmkube's writable persistent cache.
-  # Remote models are downloaded by the operator's native model-downloader init container.
   modelCache:
-    claimName: llmkube-models
     persistence: Cached
   runtime: llamacpp
   mode: chat
@@ -36,12 +31,7 @@ spec:
   contextSize: 65536
   parallelSlots: 1
   flashAttention: true
-  # Start at 24 CPU MoE layers for the ~17 GiB UD-Q4_K_XL weights at 64k context on 16 GiB VRAM,
-  # then tune downward while VRAM allows (community data point: ~24 fits; watch nvidia-smi).
   moeCPULayers: 24
-  # NOTE: this GGUF's MTP/nextn weights are discarded by Unsloth's conversion (~862 tensors), and
-  # llama.cpp --spec-type draft-mtp support for this arch is experimental -- no speculative decoding.
-  # Speed lever here is tuning moeCPULayers down; revisit MTP-inclusive GGUFs later.
   runtimeClassName: nvidia
   nodeSelector:
     kubernetes.io/hostname: kube5
@@ -88,20 +78,16 @@ spec:
     - GLM-4.7-Flash
     - --verbosity
     - "4"
-    # Proper tool-calling requires the GGUF's built-in chat template
     - --jinja
     - --reasoning-format
     - deepseek
     - --no-mmap
-    # Z.ai/Unsloth recommended sampling: tool-calling profile
-    # (chat profile is --temp 1.0 --top-p 0.95 if you want more creative prose)
     - --temp
     - "0.7"
     - --top-p
     - "1.0"
     - --min-p
     - "0.01"
-    # MUST stay 1.0 -- non-neutral repeat penalty breaks GLM tool calls
     - --repeat-penalty
     - "1.0"
     - --no-context-shift

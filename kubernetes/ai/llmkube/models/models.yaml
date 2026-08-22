@@ -28,10 +28,10 @@ spec:
   replicas: 1
   image: ghcr.io/ggml-org/llama.cpp:server-cuda@sha256:cf2e30bc855cf58cdbdc65d05b5b5e02afa95fb788343a5334d704367ac5c9ac
   bindAddress: 0.0.0.0
-  contextSize: 65536
+  contextSize: 131072
   parallelSlots: 1
   flashAttention: true
-  moeCPULayers: 14
+  moeCPULayers: 19
   runtimeClassName: nvidia
   nodeSelector:
     kubernetes.io/hostname: kube5
@@ -82,6 +82,10 @@ spec:
     - --reasoning-format
     - deepseek
     - --no-mmap
+    - --batch-size
+    - "4096"
+    - --ubatch-size
+    - "1024"
     - --cache-type-k
     - q8_0
     - --cache-type-v

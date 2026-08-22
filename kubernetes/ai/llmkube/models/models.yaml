@@ -2,11 +2,13 @@
 apiVersion: inference.llmkube.dev/v1alpha1
 kind: Model
 metadata:
-  name: qwen-agentworld-35b-a3b
+  name: glm-4-7-flash
 spec:
-  source: pvc://llmkube-models/unsloth/Qwen-AgentWorld-35B-A3B-GGUF/3a305abf5cfd119ee999dfe929c433746edd8d63/Qwen-AgentWorld-35B-A3B-UD-Q4_K_M.gguf
+  # unsloth/GLM-4.7-Flash-GGUF @ 0d32489 (2026-02-12) -- post scoring_func-fix re-upload;
+  # do not roll back to pre-Jan-21 revisions (llama.cpp softmax/sigmoid bug causes output loops).
+  source: pvc://llmkube-models/unsloth/GLM-4.7-Flash-GGUF/0d32489ecb9db6d2a4fc93bd27ef01519f95474d/GLM-4.7-Flash-UD-Q4_K_XL.gguf
   format: gguf
-  quantization: UD-Q4_K_M
+  quantization: UD-Q4_K_XL
   hardware:
     accelerator: cuda
     gpu:
@@ -18,9 +20,9 @@ spec:
 apiVersion: inference.llmkube.dev/v1alpha1
 kind: InferenceService
 metadata:
-  name: qwen-agentworld-35b-a3b
+  name: glm-4-7-flash
 spec:
-  modelRef: qwen-agentworld-35b-a3b
+  modelRef: glm-4-7-flash
   runtime: llamacpp
   mode: chat
   replicas: 1
@@ -29,11 +31,12 @@ spec:
   contextSize: 65536
   parallelSlots: 1
   flashAttention: true
-  # 15 is the minimum CPU MoE offload that fits the 65,536-token context on 16 GiB VRAM.
-  # 14 fails while allocating the CUDA compute buffer; all 41/41 model layers remain offloaded.
-  moeCPULayers: 15
-  # reasoningBudget: 16000
-  # reasoningBudgetMessage: "\n\nSYSTEM ERROR!: You have exceeded the reasoning budget. Thinking has been terminiated. You must answer now. "
+  # Start at 24 CPU MoE layers for the ~17 GiB UD-Q4_K_XL weights at 64k context on 16 GiB VRAM,
+  # then tune downward while VRAM allows (community data point: ~24 fits; watch nvidia-smi).
+  moeCPULayers: 24
+  # NOTE: this GGUF's MTP/nextn weights are discarded by Unsloth's conversion (~862 tensors), and
+  # llama.cpp --spec-type draft-mtp support for this arch is experimental -- no speculative decoding.
+  # Speed lever here is tuning moeCPULayers down; revisit MTP-inclusive GGUFs later.
   runtimeClassName: nvidia
   nodeSelector:
     kubernetes.io/hostname: kube5
@@ -77,18 +80,23 @@ spec:
       failureThreshold: 6
   extraArgs:
     - --alias
-    - Qwen-AgentWorld-35B-A3B
+    - GLM-4.7-Flash
     - --verbosity
     - "4"
+    # Proper tool-calling requires the GGUF's built-in chat template
+    - --jinja
     - --reasoning-format
     - deepseek
     - --no-mmap
+    # Z.ai/Unsloth recommended sampling: tool-calling profile
+    # (chat profile is --temp 1.0 --top-p 0.95 if you want more creative prose)
     - --temp
-    - "0.6"
-    - --top-k
-    - "20"
+    - "0.7"
     - --top-p
-    - "0.95"
+    - "1.0"
     - --min-p
-    - "0"
+    - "0.01"
+    # MUST stay 1.0 -- non-neutral repeat penalty breaks GLM tool calls
+    - --repeat-penalty
+    - "1.0"
     - --no-context-shift

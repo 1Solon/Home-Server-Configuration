@@ -2,15 +2,15 @@
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
-  name: qwen-agentworld-35b-a3b
+  name: glm-4-7-flash
 spec:
   parentRefs:
     - name: envoy-internal
       namespace: networking
       sectionName: https
   hostnames:
-    - "agentworld.${LOCAL_DOMAIN}"
+    - "glm-flash.${LOCAL_DOMAIN}"
   rules:
     - backendRefs:
-        - name: qwen-agentworld-35b-a3b
+        - name: glm-4-7-flash
           port: 8080

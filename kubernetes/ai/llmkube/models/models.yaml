@@ -4,9 +4,9 @@ kind: Model
 metadata:
   name: glm-4-7-flash
 spec:
-  # unsloth/GLM-4.7-Flash-GGUF @ 0d32489 (2026-02-12) -- post scoring_func-fix re-upload;
+  # Native llmkube downloader URL pinned to Unsloth's post scoring_func-fix revision (2026-02-12);
   # do not roll back to pre-Jan-21 revisions (llama.cpp softmax/sigmoid bug causes output loops).
-  source: pvc://llmkube-models/unsloth/GLM-4.7-Flash-GGUF/0d32489ecb9db6d2a4fc93bd27ef01519f95474d/GLM-4.7-Flash-UD-Q4_K_XL.gguf
+  source: https://huggingface.co/unsloth/GLM-4.7-Flash-GGUF/resolve/0d32489ecb9db6d2a4fc93bd27ef01519f95474d/GLM-4.7-Flash-UD-Q4_K_XL.gguf
   format: gguf
   quantization: UD-Q4_K_XL
   hardware:
@@ -23,6 +23,11 @@ metadata:
   name: glm-4-7-flash
 spec:
   modelRef: glm-4-7-flash
+  # Reuse the existing 100 GiB RWX claim as llmkube's writable persistent cache.
+  # Remote models are downloaded by the operator's native model-downloader init container.
+  modelCache:
+    claimName: llmkube-models
+    persistence: Cached
   runtime: llamacpp
   mode: chat
   replicas: 1

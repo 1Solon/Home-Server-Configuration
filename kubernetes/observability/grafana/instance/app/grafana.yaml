@@ -16,8 +16,8 @@ spec:
     auth.generic_oauth:
       name: Authentik
       enabled: "true"
-      client_id: ${GF_AUTH_GENERIC_OAUTH_CLIENT_ID}
-      client_secret: ${GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET}
+      # client_id and client_secret are injected via
+      # GF_AUTH_GENERIC_OAUTH_CLIENT_ID/SECRET environment variables below
       auth_url: https://authentik.local.solonsstuff.com/application/o/authorize/
       token_url: https://authentik.local.solonsstuff.com/application/o/token/
       api_url: https://authentik.local.solonsstuff.com/application/o/userinfo/

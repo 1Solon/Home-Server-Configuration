@@ -1,7 +1,7 @@
 ---
 model:
-  provider: openai-codex
-  default: gpt-5.6-sol
+  provider: lmstudio
+  default: GLM-4.7-Flash
 auxiliary:
   vision:
     provider: openai-codex

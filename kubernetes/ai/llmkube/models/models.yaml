@@ -31,7 +31,7 @@ spec:
   contextSize: 131072
   parallelSlots: 1
   flashAttention: true
-  moeCPULayers: 19
+  moeCPULayers: 21
   runtimeClassName: nvidia
   nodeSelector:
     kubernetes.io/hostname: kube5
@@ -85,7 +85,7 @@ spec:
     - --batch-size
     - "8192"
     - --ubatch-size
-    - "1024"
+    - "2048"
     - --threads-batch
     - "8"
     - --cache-type-k

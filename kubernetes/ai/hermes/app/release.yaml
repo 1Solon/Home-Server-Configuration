@@ -133,6 +133,7 @@ spec:
                   - ALL
                 add:
                   - CHOWN
+                  - DAC_OVERRIDE
         containers:
           app:
             image:

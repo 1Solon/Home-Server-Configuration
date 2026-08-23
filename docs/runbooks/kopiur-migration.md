@@ -59,6 +59,8 @@ Edit `kubernetes/storage/kopiur/restores/install.yaml` for one workload and set 
 
 Kopiur `0.10.3` requires an explicit root security context and Linux capabilities for ownership-preserving restores. The restore template records these fields and keeps `skipOwners`, `skipPermissions`, and `skipTimes` false. Do not weaken them without repeating ownership validation. As soon as the scratch PVC is `Bound`, complete the Miroir activation procedure below on every diskful replica. If the one-shot `Restore` has already failed, delete and recreate only the `Restore` after correcting the LV; keep the scratch PVC until validation is complete.
 
+Kopiur `0.10.3` also requires the mover's namespaced `get` access to base `Restore` objects so a retried Job reuses the snapshot ID already pinned in `status.resolved`; the repository component supplies this upstream [issue #401](https://github.com/home-operations/kopiur/issues/401) workaround. Kopia restores directory mtimes as the newest descendant time rather than the original directory mtime ([issue #2058](https://github.com/kopia/kopia/issues/2058)). Treat file contents, file mtimes, numeric ownership, and modes as authoritative during validation; do not use directory mtime differences alone as evidence of corruption.
+
 After the restore reaches `Succeeded`, mount the scratch PVC in a disposable inspection pod and compare representative content and numeric ownership with the source:
 
 ```sh

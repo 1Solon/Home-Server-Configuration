@@ -6,7 +6,7 @@ metadata:
   name: kopiur-pilot-restore
   namespace: flux-system
 spec:
-  suspend: false
+  suspend: true
   targetNamespace: home-media
   path: ./kubernetes/storage/kopiur/restores/app
   prune: true

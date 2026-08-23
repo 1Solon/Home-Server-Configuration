@@ -31,6 +31,7 @@ spec:
       APP: bookorbit
       KOPIUR_SOURCE_PVC: bookorbit-miroir
       KOPIUR_SCHEDULE: "37 */6 * * *"
+      KOPIUR_SUSPEND: "false"
       VOLSYNC_REPOSITORY: s3:http://garage.garage.svc.cluster.local:3900/volsync/books/bookorbit
       VOLSYNC_SOURCE_PVC: bookorbit-miroir
       VOLSYNC_STORAGE_CLASS: miroir-replicated

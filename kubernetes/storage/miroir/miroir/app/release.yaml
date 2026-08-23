@@ -76,6 +76,9 @@ spec:
         enabled: true
       prometheusRule:
         enabled: true
+        overrides:
+          MiroirVolumeRemoteConsumer:
+            disabled: true
       dashboards:
         enabled: true
         grafanaOperator:

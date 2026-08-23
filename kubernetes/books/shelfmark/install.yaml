@@ -31,6 +31,7 @@ spec:
       APP: shelfmark-config
       KOPIUR_SOURCE_PVC: shelfmark-config-miroir
       KOPIUR_SCHEDULE: "33 */6 * * *"
+      KOPIUR_SUSPEND: "false"
       VOLSYNC_REPOSITORY: s3:http://garage.garage.svc.cluster.local:3900/volsync/books/shelfmark-config
       VOLSYNC_SOURCE_PVC: shelfmark-config-miroir
       VOLSYNC_STORAGE_CLASS: miroir-replicated

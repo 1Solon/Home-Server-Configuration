@@ -6,12 +6,15 @@ metadata:
   namespace: flux-system
 spec:
   components:
+    - ../../../../components/kopiur
     - ../../../../components/volsync
   targetNamespace: *app
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
   dependsOn:
+    - name: kopiur-repository-tandoor
+      namespace: flux-system
     - name: volsync
       namespace: flux-system
   path: "./kubernetes/misc/tandoor/tandoor/app"
@@ -26,6 +29,8 @@ spec:
   postBuild:
     substitute:
       APP: tandoor
+      KOPIUR_SOURCE_PVC: tandoor-miroir
+      KOPIUR_SCHEDULE: "7 */6 * * *"
       VOLSYNC_REPOSITORY: s3:http://garage.garage.svc.cluster.local:3900/volsync/tandoor/tandoor
       VOLSYNC_SOURCE_PVC: tandoor-miroir
       VOLSYNC_STORAGE_CLASS: miroir-replicated

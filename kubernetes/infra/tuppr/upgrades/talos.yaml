@@ -20,6 +20,26 @@ spec:
           kind: ReplicationSource
           expr: |-
               status.conditions.filter(c, c.type == "Synchronizing").all(c, c.status == "False")
+        - apiVersion: kopiur.home-operations.com/v1alpha1
+          kind: Snapshot
+          expr: |-
+              status.conditions.filter(c, c.type == "Reconciling").all(c, c.status == "False")
+        - apiVersion: kopiur.home-operations.com/v1alpha1
+          kind: Restore
+          expr: |-
+              status.conditions.filter(c, c.type == "Reconciling").all(c, c.status == "False")
+        - apiVersion: kopiur.home-operations.com/v1alpha1
+          kind: Repository
+          expr: |-
+              status.conditions.exists(c, c.type == "Ready" && c.status == "True")
+        - apiVersion: kopiur.home-operations.com/v1alpha1
+          kind: SnapshotPolicy
+          expr: |-
+              status.conditions.exists(c, c.type == "Ready" && c.status == "True")
+        - apiVersion: kopiur.home-operations.com/v1alpha1
+          kind: SnapshotSchedule
+          expr: |-
+              status.conditions.exists(c, c.type == "Ready" && c.status == "True")
         - apiVersion: miroir.home-operations.com/v1alpha1
           kind: MiroirVolume
           expr: |-

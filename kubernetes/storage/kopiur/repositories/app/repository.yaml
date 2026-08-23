@@ -1,0 +1,39 @@
+---
+apiVersion: kopiur.home-operations.com/v1alpha1
+kind: Repository
+metadata:
+  name: garage
+spec:
+  backend:
+    s3:
+      bucket: volsync
+      prefix: kopiur/${KOPIUR_REPOSITORY_PREFIX}/
+      endpoint: garage.garage.svc.cluster.local:3900
+      region: us-east-1
+      auth:
+        secretRef:
+          name: kopiur-garage
+      tls:
+        disableTls: true
+  encryption:
+    passwordSecretRef:
+      name: kopiur-garage
+      key: KOPIA_PASSWORD
+  create:
+    enabled: true
+  deletionProtection:
+    threshold: 10
+  maintenance:
+    enabled: true
+    schedule:
+      quick:
+        cron: "0 */6 * * *"
+        jitter: 30m
+      full:
+        cron: "0 3 * * *"
+        jitter: 1h
+  mode: ReadWrite
+  onNamespaceDelete: Orphan
+  scheduleDefaults:
+    timezone: Etc/UTC
+  suspend: false

@@ -3,6 +3,7 @@ kind: Namespace
 metadata:
   name: colwiki
   annotations:
+    kopiur.home-operations.com/privileged-movers: "true"
     volsync.backube/privileged-movers: "true"
   labels:
     pod-security.kubernetes.io/enforce: privileged

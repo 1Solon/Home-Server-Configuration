@@ -1,0 +1,68 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/source.toolkit.fluxcd.io/ocirepository_v1.json
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: OCIRepository
+metadata:
+  name: kopiur
+spec:
+  interval: 30m
+  layerSelector:
+    mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
+    operation: copy
+  ref:
+    tag: 0.10.3
+  url: oci://ghcr.io/home-operations/charts/kopiur
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: kopiur
+spec:
+  interval: 30m
+  chartRef:
+    kind: OCIRepository
+    name: kopiur
+  driftDetection:
+    mode: enabled
+  install:
+    crds: Skip
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    crds: Skip
+    remediation:
+      strategy: rollback
+      retries: 3
+  values:
+    installScope: cluster
+    image:
+      tag: 0.10.3
+      digest: sha256:e058bf2f5013efe4001dad21d58027b95194fe01ac2f3c8de42676ca49874557
+    mover:
+      image:
+        tag: 0.10.3
+        digest: sha256:45c3906742702c9f93d57a5e5914711d238d3b17f51260b2a0aa05ba9a3302ae
+    monitoring:
+      serviceMonitor:
+        enabled: true
+      prometheusRule:
+        enabled: true
+        backupStaleAfterSeconds: 21600
+      dashboards:
+        enabled: true
+        grafanaOperator:
+          enabled: true
+          allowCrossNamespaceImport: true
+          folder: Storage
+          matchLabels:
+            dashboards: grafana
+    webhook:
+      image:
+        tag: 0.10.3
+        digest: sha256:88d9a35b24f2bc19b7ea34766a19cd2220be134efa79f48c21511902fe73ab81
+      failurePolicy: Fail
+      serviceMonitor:
+        enabled: true
+        insecureSkipVerify: true

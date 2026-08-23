@@ -7,9 +7,12 @@ metadata:
   namespace: flux-system
 spec:
   components:
+    - ../../../components/kopiur
     - ../../../components/volsync
   dependsOn:
     - name: grafana-mcp
+    - name: kopiur-repository-ai
+      namespace: flux-system
     - name: volsync
       namespace: flux-system
   path: "./kubernetes/ai/hermes/app"
@@ -28,6 +31,8 @@ spec:
   postBuild:
     substitute:
       APP: hermes
+      KOPIUR_SOURCE_PVC: hermes-miroir
+      KOPIUR_SCHEDULE: "9 */6 * * *"
       VOLSYNC_REPOSITORY: s3:http://garage.garage.svc.cluster.local:3900/volsync/ai/hermes
       VOLSYNC_SOURCE_PVC: hermes-miroir
       VOLSYNC_STORAGE_CLASS: miroir-replicated

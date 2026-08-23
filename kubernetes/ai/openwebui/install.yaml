@@ -7,8 +7,11 @@ metadata:
   namespace: flux-system
 spec:
   components:
+    - ../../../components/kopiur
     - ../../../components/volsync
   dependsOn:
+    - name: kopiur-repository-ai
+      namespace: flux-system
     - name: volsync
       namespace: flux-system
   path: "./kubernetes/ai/openwebui/app"
@@ -27,6 +30,8 @@ spec:
   postBuild:
     substitute:
       APP: open-webui-config
+      KOPIUR_SOURCE_PVC: open-webui-config-miroir
+      KOPIUR_SCHEDULE: "15 */6 * * *"
       VOLSYNC_REPOSITORY: s3:http://garage.garage.svc.cluster.local:3900/volsync/ai/open-webui-config
       VOLSYNC_SOURCE_PVC: open-webui-config-miroir
       VOLSYNC_STORAGE_CLASS: miroir-replicated

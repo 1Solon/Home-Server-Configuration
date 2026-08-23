@@ -6,12 +6,15 @@ metadata:
   namespace: flux-system
 spec:
   components:
+    - ../../../components/kopiur
     - ../../../components/volsync
   targetNamespace: home-media
   commonMetadata:
     labels:
       app.kubernetes.io/name: qbittorrent
   dependsOn:
+    - name: kopiur-repository-home-media
+      namespace: flux-system
     - name: volsync
       namespace: flux-system
   path: "./kubernetes/media/qbittorrent/app"
@@ -26,6 +29,8 @@ spec:
   postBuild:
     substitute:
       APP: qbittorrent-config
+      KOPIUR_SOURCE_PVC: qbittorrent-config-miroir
+      KOPIUR_SCHEDULE: "16 */6 * * *"
       VOLSYNC_REPOSITORY: s3:http://garage.garage.svc.cluster.local:3900/volsync/home-media/qbittorrent-config
       VOLSYNC_SOURCE_PVC: qbittorrent-config-miroir
       VOLSYNC_STORAGE_CLASS: miroir-replicated
@@ -48,10 +53,13 @@ metadata:
   namespace: flux-system
 spec:
   components:
+    - ../../../components/kopiur
     - ../../../components/volsync
   targetNamespace: home-media
   dependsOn:
     - name: qbittorrent
+    - name: kopiur-repository-home-media
+      namespace: flux-system
     - name: volsync
       namespace: flux-system
   commonMetadata:
@@ -69,6 +77,8 @@ spec:
   postBuild:
     substitute:
       APP: qui
+      KOPIUR_SOURCE_PVC: qui-miroir
+      KOPIUR_SCHEDULE: "22 */6 * * *"
       VOLSYNC_REPOSITORY: s3:http://garage.garage.svc.cluster.local:3900/volsync/home-media/qui
       VOLSYNC_SOURCE_PVC: qui-miroir
       VOLSYNC_STORAGE_CLASS: miroir-replicated
@@ -113,3 +123,29 @@ spec:
       VOLSYNC_MOVER_APP_NAME: qbittorrent
       VOLSYNC_MOVER_APP_INSTANCE: qbittorrent
       VOLSYNC_SCHEDULE: "25 */6 * * *"
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: seedboxapi-config-kopiur
+  namespace: flux-system
+spec:
+  targetNamespace: home-media
+  dependsOn:
+    - name: qbittorrent
+    - name: kopiur-repository-home-media
+      namespace: flux-system
+  path: "./kubernetes/components/kopiur-standalone"
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  wait: true
+  interval: 30m
+  retryInterval: 1m
+  timeout: 5m
+  postBuild:
+    substitute:
+      APP: seedboxapi-config
+      KOPIUR_SOURCE_PVC: seedboxapi-config-miroir
+      KOPIUR_SCHEDULE: "25 */6 * * *"

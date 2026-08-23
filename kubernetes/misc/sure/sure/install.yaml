@@ -6,12 +6,15 @@ metadata:
   namespace: flux-system
 spec:
   components:
+    - ../../../../components/kopiur
     - ../../../../components/volsync
   targetNamespace: *app
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
   dependsOn:
+    - name: kopiur-repository-sure
+      namespace: flux-system
     - name: volsync
       namespace: flux-system
   path: "./kubernetes/misc/sure/sure/app"
@@ -26,6 +29,8 @@ spec:
   postBuild:
     substitute:
       APP: sure
+      KOPIUR_SOURCE_PVC: sure-miroir
+      KOPIUR_SCHEDULE: "37 */6 * * *"
       VOLSYNC_REPOSITORY: s3:http://garage.garage.svc.cluster.local:3900/volsync/sure/sure
       VOLSYNC_SOURCE_PVC: sure-miroir
       VOLSYNC_STORAGE_CLASS: miroir-replicated

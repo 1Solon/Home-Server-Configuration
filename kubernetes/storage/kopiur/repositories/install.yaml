@@ -1,0 +1,169 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: kopiur-repository-ai
+  namespace: flux-system
+spec:
+  targetNamespace: ai
+  path: ./kubernetes/storage/kopiur/repositories/app
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  dependsOn:
+    - name: kopiur
+      namespace: flux-system
+  wait: true
+  interval: 30m
+  retryInterval: 1m
+  timeout: 5m
+  postBuild:
+    substitute:
+      KOPIUR_REPOSITORY_PREFIX: ai
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: kopiur-repository-books
+  namespace: flux-system
+spec:
+  targetNamespace: books
+  path: ./kubernetes/storage/kopiur/repositories/app
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  dependsOn:
+    - name: kopiur
+      namespace: flux-system
+  wait: true
+  interval: 30m
+  retryInterval: 1m
+  timeout: 5m
+  postBuild:
+    substitute:
+      KOPIUR_REPOSITORY_PREFIX: books
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: kopiur-repository-colwiki
+  namespace: flux-system
+spec:
+  targetNamespace: colwiki
+  path: ./kubernetes/storage/kopiur/repositories/app
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  dependsOn:
+    - name: kopiur
+      namespace: flux-system
+  wait: true
+  interval: 30m
+  retryInterval: 1m
+  timeout: 5m
+  postBuild:
+    substitute:
+      KOPIUR_REPOSITORY_PREFIX: colwiki
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: kopiur-repository-home-media
+  namespace: flux-system
+spec:
+  targetNamespace: home-media
+  path: ./kubernetes/storage/kopiur/repositories/app
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  dependsOn:
+    - name: kopiur
+      namespace: flux-system
+  wait: true
+  interval: 30m
+  retryInterval: 1m
+  timeout: 5m
+  postBuild:
+    substitute:
+      KOPIUR_REPOSITORY_PREFIX: home-media
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: kopiur-repository-sure
+  namespace: flux-system
+spec:
+  targetNamespace: sure
+  path: ./kubernetes/storage/kopiur/repositories/app
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  dependsOn:
+    - name: kopiur
+      namespace: flux-system
+  wait: true
+  interval: 30m
+  retryInterval: 1m
+  timeout: 5m
+  postBuild:
+    substitute:
+      KOPIUR_REPOSITORY_PREFIX: sure
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: kopiur-repository-tandoor
+  namespace: flux-system
+spec:
+  targetNamespace: tandoor
+  path: ./kubernetes/storage/kopiur/repositories/app
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  dependsOn:
+    - name: kopiur
+      namespace: flux-system
+  wait: true
+  interval: 30m
+  retryInterval: 1m
+  timeout: 5m
+  postBuild:
+    substitute:
+      KOPIUR_REPOSITORY_PREFIX: tandoor
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: kopiur-repository-zerobyte
+  namespace: flux-system
+spec:
+  targetNamespace: zerobyte
+  path: ./kubernetes/storage/kopiur/repositories/app
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  dependsOn:
+    - name: kopiur
+      namespace: flux-system
+  wait: true
+  interval: 30m
+  retryInterval: 1m
+  timeout: 5m
+  postBuild:
+    substitute:
+      KOPIUR_REPOSITORY_PREFIX: zerobyte

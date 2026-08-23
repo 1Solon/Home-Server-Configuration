@@ -1,0 +1,47 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# renovate: datasource=github-releases depName=home-operations/kopiur
+version="0.10.3"
+
+case "$(uname -s)" in
+  Darwin) os="darwin" ;;
+  Linux) os="linux" ;;
+  *) echo "unsupported operating system: $(uname -s)" >&2; exit 1 ;;
+esac
+
+case "$(uname -m)" in
+  arm64|aarch64) arch="arm64" ;;
+  x86_64|amd64) arch="amd64" ;;
+  *) echo "unsupported architecture: $(uname -m)" >&2; exit 1 ;;
+esac
+
+case "${os}_${arch}" in
+  darwin_amd64) checksum="129a2d6143bcf3bae0dc670e9bab4cfb3976893d0907453e602241940f79c058" ;;
+  darwin_arm64) checksum="097fb2b1ab6ff1bf449fbc3beb142d6e254b6d2f870c4376e53ae0e40051996a" ;;
+  linux_amd64) checksum="1935f0177e1db5950105c04c07680d335bb7ccd2eca4b615b00c164b9101a530" ;;
+  linux_arm64) checksum="0b6c1562e999bdeaa7d3b411df53bb180641d4b75b436c4617cb14c000e14207" ;;
+esac
+
+cache_root="${XDG_CACHE_HOME:-${HOME}/.cache}/home-server-configuration/kopiur/${version}"
+binary="${cache_root}/kopiur"
+
+if [[ ! -x "${binary}" ]]; then
+  archive="${cache_root}/kubectl-kopiur_${version}_${os}_${arch}.tar.gz"
+  mkdir -p "${cache_root}"
+  curl --fail --location --silent --show-error \
+    "https://github.com/home-operations/kopiur/releases/download/${version}/$(basename "${archive}")" \
+    --output "${archive}"
+
+  if command -v sha256sum >/dev/null 2>&1; then
+    actual_checksum="$(sha256sum "${archive}" | cut -d ' ' -f 1)"
+  else
+    actual_checksum="$(shasum -a 256 "${archive}" | cut -d ' ' -f 1)"
+  fi
+  [[ "${actual_checksum}" == "${checksum}" ]]
+
+  tar -xzf "${archive}" -C "${cache_root}" kopiur
+  chmod +x "${binary}"
+fi
+
+exec "${binary}" "$@"

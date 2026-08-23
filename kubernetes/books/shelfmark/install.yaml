@@ -6,12 +6,15 @@ metadata:
   namespace: flux-system
 spec:
   components:
+    - ../../../components/kopiur
     - ../../../components/volsync
   targetNamespace: books
   commonMetadata:
     labels:
       app.kubernetes.io/name: shelfmark
   dependsOn:
+    - name: kopiur-repository-books
+      namespace: flux-system
     - name: volsync
       namespace: flux-system
   path: "./kubernetes/books/shelfmark/app"
@@ -26,6 +29,8 @@ spec:
   postBuild:
     substitute:
       APP: shelfmark-config
+      KOPIUR_SOURCE_PVC: shelfmark-config-miroir
+      KOPIUR_SCHEDULE: "33 */6 * * *"
       VOLSYNC_REPOSITORY: s3:http://garage.garage.svc.cluster.local:3900/volsync/books/shelfmark-config
       VOLSYNC_SOURCE_PVC: shelfmark-config-miroir
       VOLSYNC_STORAGE_CLASS: miroir-replicated

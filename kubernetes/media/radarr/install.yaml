@@ -6,12 +6,15 @@ metadata:
   namespace: flux-system
 spec:
   components:
+    - ../../../components/kopiur
     - ../../../components/volsync
   targetNamespace: home-media
   commonMetadata:
     labels:
       app.kubernetes.io/name: radarr
   dependsOn:
+    - name: kopiur-repository-home-media
+      namespace: flux-system
     - name: volsync
       namespace: flux-system
   path: "./kubernetes/media/radarr/app"
@@ -30,6 +33,8 @@ spec:
   postBuild:
     substitute:
       APP: radarr-config
+      KOPIUR_SOURCE_PVC: radarr-config-miroir
+      KOPIUR_SCHEDULE: "28 */6 * * *"
       VOLSYNC_REPOSITORY: s3:http://garage.garage.svc.cluster.local:3900/volsync/home-media/radarr-config
       VOLSYNC_SOURCE_PVC: radarr-config-miroir
       VOLSYNC_STORAGE_CLASS: miroir-replicated

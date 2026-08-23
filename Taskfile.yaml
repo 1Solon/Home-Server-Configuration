@@ -1,6 +1,12 @@
 version: "3"
 
 tasks:
+  kopiur:
+    desc: Run the repository-pinned Kopiur CLI
+    cmds:
+      - ./scripts/kopiur {{.CLI_ARGS}}
+    silent: true
+
   apply:
     desc: Apply all cluster configurations one node at a time (kube1 to kube5)
     cmds:

@@ -6,12 +6,15 @@ metadata:
   namespace: flux-system
 spec:
   components:
+    - ../../../../components/kopiur
     - ../../../../components/volsync
   targetNamespace: zerobyte
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
   dependsOn:
+    - name: kopiur-repository-zerobyte
+      namespace: flux-system
     - name: volsync
       namespace: flux-system
   path: "./kubernetes/misc/zerobyte/zerobyte/app"
@@ -26,6 +29,8 @@ spec:
   postBuild:
     substitute:
       APP: zerobyte
+      KOPIUR_SOURCE_PVC: zerobyte-miroir
+      KOPIUR_SCHEDULE: "13 */6 * * *"
       VOLSYNC_REPOSITORY: s3:http://garage.garage.svc.cluster.local:3900/volsync/zerobyte/zerobyte
       VOLSYNC_SOURCE_PVC: zerobyte-miroir
       VOLSYNC_STORAGE_CLASS: miroir-replicated

@@ -1,0 +1,34 @@
+---
+apiVersion: kopiur.home-operations.com/v1alpha1
+kind: SnapshotPolicy
+metadata:
+  name: ${APP}
+spec:
+  repository:
+    kind: Repository
+    name: garage
+  sources:
+    - pvc:
+        name: ${KOPIUR_SOURCE_PVC:=${APP}}
+  copyMethod: Snapshot
+  volumeSnapshotClassName: ${KOPIUR_VOLUME_SNAPSHOT_CLASS:=miroir-snap}
+  staging:
+    storageClassName: ${KOPIUR_STORAGE_CLASS:=miroir-replicated}
+    timeout: ${KOPIUR_STAGING_TIMEOUT:=30m}
+  retention:
+    keepHourly: ${KOPIUR_RETAIN_HOURLY:=4}
+    keepDaily: ${KOPIUR_RETAIN_DAILY:=7}
+    keepWeekly: ${KOPIUR_RETAIN_WEEKLY:=4}
+    keepMonthly: ${KOPIUR_RETAIN_MONTHLY:=3}
+  defaultDeletionPolicy: Delete
+  deletion:
+    onPolicyDelete: Retain
+  suspend: false
+  mover:
+    securityContext:
+      runAsUser: 0
+      runAsNonRoot: false
+      capabilities:
+        add:
+          - DAC_OVERRIDE
+    ttlSecondsAfterFinished: 3600

@@ -7,12 +7,15 @@ metadata:
   namespace: flux-system
 spec:
   components:
+    - ../../../components/kopiur
     - ../../../components/volsync
   targetNamespace: books
   commonMetadata:
     labels:
       app.kubernetes.io/name: libation
   dependsOn:
+    - name: kopiur-repository-books
+      namespace: flux-system
     - name: volsync
       namespace: flux-system
   path: ./kubernetes/books/libation/app
@@ -27,6 +30,8 @@ spec:
   postBuild:
     substitute:
       APP: libation-config
+      KOPIUR_SOURCE_PVC: libation-config-miroir
+      KOPIUR_SCHEDULE: "27 */6 * * *"
       VOLSYNC_REPOSITORY: s3:http://garage.garage.svc.cluster.local:3900/volsync/books/libation-config
       VOLSYNC_SOURCE_PVC: libation-config-miroir
       VOLSYNC_STORAGE_CLASS: miroir-replicated

@@ -39,3 +39,13 @@ metadata:
     snapshot.storage.kubernetes.io/is-default-class: "true"
 driver: miroir.home-operations.com
 deletionPolicy: Delete
+---
+# Group snapshots capture every PVC of an app crash-consistently in one
+# operation. Requires the groupSnapshots feature enabled on the Miroir
+# HelmRelease.
+apiVersion: groupsnapshot.storage.k8s.io/v1beta1
+kind: VolumeGroupSnapshotClass
+metadata:
+  name: miroir-groupsnap
+driver: miroir.home-operations.com
+deletionPolicy: Delete

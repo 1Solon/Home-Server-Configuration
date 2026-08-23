@@ -58,15 +58,23 @@ spec:
     autoEvictAfter: "1h"
     storageCapacity:
       enabled: false
+    # Crash-consistent snapshots across all PVCs of an app at once.
+    groupSnapshots:
+      enabled: true
     agent:
       loopfileBaseDirs:
         - /var/lib/miroir
+      resources:
+        limits:
+          memory: 192Mi
     drbd:
       portBase: 7200
       alExtents: 6007
       verify:
         algorithm: crc32c
-        schedule: ""
+        # Weekly online verification; catches silent replica drift before a
+        # restore depends on it.
+        schedule: "0 4 * * 0"
     monitoring:
       podMonitor:
         enabled: true

@@ -91,7 +91,7 @@ spec:
     persistence:
       config:
         enabled: true
-        existingClaim: shelfmark-config-miroir
+        existingClaim: shelfmark-config-kopiur-replacement
         globalMounts:
           - path: /config
       downloads:

@@ -6,7 +6,7 @@ metadata:
   name: kopiur-pilot-restore
   namespace: flux-system
 spec:
-  suspend: true
+  suspend: false
   targetNamespace: books
   path: ./kubernetes/storage/kopiur/restores/app
   prune: true
@@ -25,5 +25,6 @@ spec:
   timeout: 30m
   postBuild:
     substitute:
-      APP: shelfmark-config
-      KOPIUR_RESTORE_CAPACITY: 20Gi
+      APP: suwayomi
+      KOPIUR_RESTORE_CAPACITY: 5Gi
+      KOPIUR_RESTORE_SNAPSHOT_ID: 19678b0e687bf7b0ced7a087876cb7ee

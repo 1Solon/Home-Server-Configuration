@@ -107,7 +107,7 @@ No loopfile/client pool — no VolSync cache or tie-breaker pool separation.
 | monitoring | podMonitor+prometheusRule+dashboards, cross-ns import | same, cross-ns import seen once | same | Equal |
 | NodeGroup scope | os=linux selector, pools: client loopfile + data lvmthin (partlabel r-longhorn-csi) | all nodes `{}`, single lvmthin `default` pool | onedr0p/solanyn: CP-only, single pool | **kube5 better**: dedicated loopfile client pool isolates VolSync cache/tie-breakers from the thinpool |
 | StorageClass default | miroir-replicated is DEFAULT | none marked default | solanyn marks default | kube5 fine (deliberate) |
-| Replicated SC params | replicas 2, pool data, quorum **freeze**, allowRemoteVolumeAccess true, ext4, WFFC, expansion | replicas 2, quorum freeze, ext4, WFFC, expansion | bjw-s: quorum last-man-standing | Equal (kube5 additionally pins pool + remote access) |
+| Replicated SC params | replicas 2, pool data, quorum **last-man-standing** (switched from freeze on 2026-08-23 — availability over strict consistency; split-brain runbook lives in AGENTS.md), allowRemoteVolumeAccess true, ext4, WFFC, expansion | replicas 2, quorum freeze, ext4, WFFC, expansion | bjw-s: quorum last-man-standing | Now matches bjw-s's choice deliberately; see AGENTS.md for the manual-resolution trade-off |
 | Ephemeral/local SC | miroir-ephemeral replicas 1 pool client | miroir-local replicas 1 (same pool!) | same pattern | **kube5 better** (separates ephemeral IO from replica pool) |
 | VolumeSnapshotClass | miroir-snap Delete (default) | miroir Delete | same | Equal |
 | groupSnapshots.enabled | not enabled | **true** | onedr0p true, solanyn no | Delta — see verdict |
@@ -135,8 +135,9 @@ Concrete, actionable deltas worth considering:
    set schedules online verification, which is exactly why it would differentiate
    kube5's operational posture; pick an off-peak monthly cadence.
 4. ~~Do NOT copy: `autoDiskfulAfter: 1h`~~ **Reversed on 2026-08-23:** enabled at `"6h"` — the divergence concern was specific to `last-man-standing` quorum; our `freeze` classes cannot diverge by design. 6h (not 1h) keeps short-lived VolSync movers from converting. See the comparison-table row for details.
-   `autoTieBreaker: false` (bjw-s), `quorum: last-man-standing` (bjw-s — trades safety
-   for availability; kube5's `freeze` matches the AGENTS.md restore-safety posture),
+   `autoTieBreaker: false` (bjw-s), ~~`quorum: last-man-standing` (bjw-s)~~ **also reversed on
+   2026-08-23:** the cluster switched to last-man-standing after repeated read-only-
+   filesystem incidents under freeze; the split-brain runbook is in AGENTS.md,
    CP-only NodeGroups (reduces replica placement domain vs kube5's os=linux across 5 nodes).
 
 ## Sources

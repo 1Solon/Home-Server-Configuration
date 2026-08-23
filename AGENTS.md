@@ -41,6 +41,32 @@ Miroir `0.11.22` must use all of the following safeguards:
   no activation-skip flags, and no orphan `miroir-snapshot-*` LVs after every
   restore or storage change.
 
+## Quorum: last-man-standing
+
+The `miroir-replicated` StorageClass uses `quorum: last-man-standing`
+(2026-08-23): a surviving replica keeps accepting writes with no peers in
+sight instead of freezing I/O. Consequences every operator must know:
+
+- **Split-brain is possible and stays manual.** If both sides of a volume
+  accept writes while partitioned, DRBD detects it on reconnect and refuses
+  to connect. The volume shows `MiroirVolumeSplitBrain` (critical). Inspect
+  both legs (`drbdadm status <res>` on each node), pick the loser — usually
+  the node whose writes are disposable or older — then on the LOSING node:
+
+  ```sh
+  drbdadm disconnect <res>
+  drbdadm connect --discard-my-data <res>
+  ```
+
+  The losing side's writes since the split are gone. Never run this against
+  the leg you believe holds the good data.
+
+- After any node outage, check for split-brain volumes before assuming
+  resyncs will drain: `kubectl get miroirvolumes -A` for disconnected peers,
+  and the `MiroirVolumeSplitBrain` alert.
+- Volumes under this policy carry no diskless tie-breaker; single-node loss
+  never interrupts writes, but also nothing arbitrates them.
+
 ## Agent skills
 
 ### Issue tracker

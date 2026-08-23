@@ -98,7 +98,7 @@ No loopfile/client pool — no VolSync cache or tie-breaker pool separation.
 | overcommitRatio | 2 | unset (=chart default) | 1× seen at 2 | Equal-ish |
 | freeSpaceRatio | 20 | unset | 1× seen at 20 | Equal-ish |
 | autoTieBreaker | true | unset (default) | bjw-s: false | **kube5 more deliberate**; with 5 nodes tie-breakers are cheap insurance |
-| autoDiskfulAfter | "" (unset) | unset | solanyn: 1h | kube5 conservative; solanyn's 1h is aggressive (auto diskful can mask split-brain data loss) — keep unset |
+| autoDiskfulAfter | "6h" (since 2026-08-23) | unset | solanyn: 1h | Initially kept unset fearing split-brain masking; revisited — that risk applies to `last-man-standing`, not our `quorum: freeze` classes. Enabled at 6h so settled consumers get local I/O; controller caps volumes at 3 diskful legs, and 6h exceeds VolSync mover runtime so transient mounts never convert. Stray replicas (e.g. after a mover restore runs long) are pruned by hand via `spec.replicas`. |
 | autoEvictAfter | 1h | 1h | 1h (10×), solanyn 1h | Equal |
 | storageCapacity.enabled | false | unset | — | Equal |
 | drbd.portBase | 7200 | 7400 (Ceph collision) | mostly default 7000 | **kube5 fine**; both avoid the 7000 default deliberately |
@@ -134,7 +134,7 @@ Concrete, actionable deltas worth considering:
 3. Consider a `drbd.verify.schedule` (crc32c is already set) — nobody in the surveyed
    set schedules online verification, which is exactly why it would differentiate
    kube5's operational posture; pick an off-peak monthly cadence.
-4. Do NOT copy: `autoDiskfulAfter: 1h` (solanyn — risks silent data divergence),
+4. ~~Do NOT copy: `autoDiskfulAfter: 1h`~~ **Reversed on 2026-08-23:** enabled at `"6h"` — the divergence concern was specific to `last-man-standing` quorum; our `freeze` classes cannot diverge by design. 6h (not 1h) keeps short-lived VolSync movers from converting. See the comparison-table row for details.
    `autoTieBreaker: false` (bjw-s), `quorum: last-man-standing` (bjw-s — trades safety
    for availability; kube5's `freeze` matches the AGENTS.md restore-safety posture),
    CP-only NodeGroups (reduces replica placement domain vs kube5's os=linux across 5 nodes).

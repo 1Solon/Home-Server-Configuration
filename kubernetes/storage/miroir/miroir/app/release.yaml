@@ -38,9 +38,6 @@ spec:
   values:
     replicaCount: 2
     global:
-      # The pinned controller digest is arm64-only; agents remain multi-arch.
-      nodeSelector:
-        kubernetes.io/arch: arm64
       affinity:
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
@@ -54,11 +51,10 @@ spec:
     overcommitRatio: 2
     freeSpaceRatio: 20
     autoTieBreaker: true
-    autoDiskfulAfter: ""
+    autoDiskfulAfter: "1h"
     autoEvictAfter: "1h"
     storageCapacity:
-      enabled: false
-    # Crash-consistent snapshots across all PVCs of an app at once.
+      enabled: true
     groupSnapshots:
       enabled: true
     agent:
@@ -72,8 +68,6 @@ spec:
       alExtents: 6007
       verify:
         algorithm: crc32c
-        # Weekly online verification; catches silent replica drift before a
-        # restore depends on it.
         schedule: "0 4 * * 0"
     monitoring:
       podMonitor:

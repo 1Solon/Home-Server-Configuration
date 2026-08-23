@@ -32,6 +32,7 @@ spec:
       APP: libation-config
       KOPIUR_SOURCE_PVC: libation-config-miroir
       KOPIUR_SCHEDULE: "27 */6 * * *"
+      KOPIUR_SUSPEND: "false"
       VOLSYNC_REPOSITORY: s3:http://garage.garage.svc.cluster.local:3900/volsync/books/libation-config
       VOLSYNC_SOURCE_PVC: libation-config-miroir
       VOLSYNC_STORAGE_CLASS: miroir-replicated

@@ -6,7 +6,7 @@ metadata:
   name: kopiur-pilot-restore
   namespace: flux-system
 spec:
-  suspend: true
+  suspend: false
   targetNamespace: books
   path: ./kubernetes/storage/kopiur/restores/app
   prune: true
@@ -27,3 +27,4 @@ spec:
     substitute:
       APP: bookorbit
       KOPIUR_RESTORE_CAPACITY: 10Gi
+      KOPIUR_RESTORE_PVC: bookorbit-kopiur-replacement

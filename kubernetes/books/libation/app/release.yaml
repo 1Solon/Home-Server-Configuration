@@ -60,7 +60,7 @@ spec:
     persistence:
       config:
         enabled: true
-        existingClaim: libation-config-miroir
+        existingClaim: libation-config-kopiur-replacement
         advancedMounts:
           libation:
             app:

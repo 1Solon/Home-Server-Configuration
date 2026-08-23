@@ -6,7 +6,7 @@ metadata:
   name: kopiur-pilot-restore
   namespace: flux-system
 spec:
-  suspend: true
+  suspend: false
   targetNamespace: books
   path: ./kubernetes/storage/kopiur/restores/app
   prune: true
@@ -25,5 +25,5 @@ spec:
   timeout: 30m
   postBuild:
     substitute:
-      APP: audiobookshelf-config
-      KOPIUR_RESTORE_CAPACITY: 20Gi
+      APP: bookorbit
+      KOPIUR_RESTORE_CAPACITY: 10Gi

@@ -168,7 +168,7 @@ spec:
 
     persistence:
       data:
-        existingClaim: bookorbit-miroir
+        existingClaim: bookorbit-kopiur-replacement
         globalMounts:
           - path: /data
       tmp:

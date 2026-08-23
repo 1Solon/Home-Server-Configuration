@@ -105,4 +105,4 @@ spec:
       APP: seerr-config-cache
       KOPIUR_SOURCE_PVC: seerr-config-cache-miroir
       KOPIUR_SCHEDULE: "31 */6 * * *"
-      KOPIUR_SUSPEND: "false"
+      KOPIUR_SUSPEND: "true"

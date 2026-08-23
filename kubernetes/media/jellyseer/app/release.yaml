@@ -106,7 +106,7 @@ spec:
 
       config-cache:
         enabled: true
-        existingClaim: seerr-config-cache-kopiur-replacement
+        existingClaim: seerr-config-cache-miroir
         globalMounts:
           - path: /app/config/cache
 

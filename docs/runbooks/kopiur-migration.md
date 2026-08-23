@@ -5,10 +5,11 @@ This runbook implements the staged migration defined by [ADR 0001](../adr/0001-a
 ## Current state
 
 - Kopiur chart, CRDs, mover images, and `scripts/kopiur` are pinned to `0.10.3`.
-- Every retained workload has a six-hour Kopiur schedule, but all schedules are suspended by default.
-- `seerr-config-cache` is the only active pilot. It is rebuildable and must be removed from permanent protection after the pilot.
+- Every retained workload has a six-hour Kopiur schedule, but schedules are suspended until their workload enters a migration wave.
+- The `seerr-config-cache` pilot completed and is suspended. `audiobookshelf-config` completed the first retained-workload cutover and is the only active schedule.
+- Audiobookshelf runs on `audiobookshelf-config-kopiur-replacement`; both Kopiur and VolSync protect that claim. Its pre-cutover Kopiur snapshot remains pinned.
 - Each protected namespace uses its own Kopia repository under `volsync/kopiur/<namespace>/` in Garage. The Restic prefixes remain separate and unchanged.
-- `kopiur-pilot-restore` is suspended. Its manifest restores the latest pilot snapshot to `seerr-config-cache-kopiur-scratch`.
+- `kopiur-pilot-restore` is the reusable one-workload restore Kustomization. It is suspended after Audiobookshelf validation and currently targets the `books` namespace.
 
 ## Migration waves
 
@@ -52,6 +53,8 @@ kubectl -n <namespace> get snapshot <snapshot> \
 ```
 
 Snapshot failures are investigated first. A workload may move to `Direct` only after repeated Snapshot failures prevent the six-hour RPO and the consistency tradeoff is accepted for that workload.
+
+Kopiur `0.10.3` can leave a `SnapshotSchedule`'s status at the previous `observedGeneration` when `spec.schedule.suspend` changes, causing Flux health checks to time out even though the new spec is applied. After confirming no mover is active and `onScheduleDelete: Retain`, delete only that `SnapshotSchedule` and reconcile its Flux Kustomization so Flux recreates it at generation 1. Do not delete the policy or any snapshots.
 
 ## Scratch restore
 

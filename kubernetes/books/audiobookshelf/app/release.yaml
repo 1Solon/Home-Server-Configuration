@@ -92,7 +92,7 @@ spec:
     persistence:
       config:
         enabled: true
-        existingClaim: audiobookshelf-config-miroir
+        existingClaim: audiobookshelf-config-kopiur-replacement
         advancedMounts:
           audiobookshelf:
             app:

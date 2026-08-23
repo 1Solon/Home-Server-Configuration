@@ -6,7 +6,7 @@ metadata:
   name: kopiur-pilot-restore
   namespace: flux-system
 spec:
-  suspend: true
+  suspend: false
   targetNamespace: home-media
   path: ./kubernetes/storage/kopiur/restores/app
   prune: true
@@ -27,3 +27,4 @@ spec:
     substitute:
       APP: seerr-config-cache
       KOPIUR_RESTORE_CAPACITY: 15Gi
+      KOPIUR_RESTORE_PVC: seerr-config-cache-kopiur-replacement

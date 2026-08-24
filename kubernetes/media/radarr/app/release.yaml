@@ -108,7 +108,7 @@ spec:
     persistence:
       config:
         enabled: true
-        existingClaim: radarr-config-miroir
+        existingClaim: radarr-config-kopiur-replacement
         globalMounts:
           - path: /config
 

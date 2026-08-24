@@ -50,7 +50,7 @@ spec:
                 custom: true
                 spec:
                   httpGet:
-                    path: /request/api/status
+                    path: /api/health
                     port: 8084
               readiness: *probe
               startup: *probe

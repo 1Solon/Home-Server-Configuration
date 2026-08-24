@@ -100,7 +100,7 @@ spec:
     persistence:
       config:
         enabled: true
-        existingClaim: seerr-config-miroir
+        existingClaim: seerr-config-kopiur-replacement
         globalMounts:
           - path: /app/config
 

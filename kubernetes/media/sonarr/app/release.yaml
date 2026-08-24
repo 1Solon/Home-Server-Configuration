@@ -109,7 +109,7 @@ spec:
     persistence:
       config:
         enabled: true
-        existingClaim: sonarr-config-miroir
+        existingClaim: sonarr-config-kopiur-replacement
         globalMounts:
           - path: /config
 

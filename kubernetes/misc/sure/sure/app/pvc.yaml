@@ -2,17 +2,13 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: sure-miroir
+  name: sure-kopiur-replacement
 spec:
   accessModes: [ReadWriteOnce]
   storageClassName: miroir-replicated
   resources:
     requests:
       storage: 5Gi
-  dataSourceRef:
-    apiGroup: volsync.backube
-    kind: ReplicationDestination
-    name: sure-miroir-restore
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim

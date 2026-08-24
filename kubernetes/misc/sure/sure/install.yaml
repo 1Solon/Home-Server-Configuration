@@ -29,10 +29,11 @@ spec:
   postBuild:
     substitute:
       APP: sure
-      KOPIUR_SOURCE_PVC: sure-miroir
+      KOPIUR_SOURCE_PVC: sure-kopiur-replacement
       KOPIUR_SCHEDULE: "37 */6 * * *"
+      KOPIUR_SUSPEND: "false"
       VOLSYNC_REPOSITORY: s3:http://garage.garage.svc.cluster.local:3900/volsync/sure/sure
-      VOLSYNC_SOURCE_PVC: sure-miroir
+      VOLSYNC_SOURCE_PVC: sure-kopiur-replacement
       VOLSYNC_STORAGE_CLASS: miroir-replicated
       VOLSYNC_VOLUME_SNAPSHOT_CLASS: miroir-snap
       VOLSYNC_CACHE_STORAGE_CLASS: miroir-ephemeral

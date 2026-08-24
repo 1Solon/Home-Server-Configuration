@@ -107,7 +107,8 @@ spec:
               - |
                 set -eu
                 cp /desired/{config.yaml,SOUL.md} /staging/
-                touch /staging/.env
+                touch /staging/.env /opt/data/.env
+                sed -i '/^[[:space:]]*API_SERVER_KEY[[:space:]]*=/d' /opt/data/.env
                 HERMES_HOME=/staging HOME=/staging /opt/hermes/.venv/bin/python -c 'from hermes_cli.config import migrate_config; migrate_config(interactive=False,quiet=False)'
                 mkdir -p /opt/data/workspace
                 chown 0:0 /opt/data/workspace

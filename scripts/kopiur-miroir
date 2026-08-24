@@ -50,7 +50,7 @@ activate_pvc() {
   ')
 
   kubectl wait "miroirvolume/${handle}" \
-    --for=jsonpath='{.status.phase}'=Ready --timeout=10m >/dev/null
+    --for=jsonpath='{.status.phase}'=Ready --timeout=30m >/dev/null
   kubectl get miroirvolume "${handle}" -o json | jq -e '
     (.status.readyReplicas | split("/")) as $replicas
     | select($replicas[0] == $replicas[1])
@@ -93,7 +93,14 @@ snapshot() {
     kubectl annotate pvc "${stage_pvc}" -n "${namespace}" \
       "volume.kubernetes.io/selected-node=${node}" --overwrite
   fi
-  activate_pvc "${namespace}" "${stage_pvc}"
+  if ! activate_pvc "${namespace}" "${stage_pvc}"; then
+    kubectl delete snapshot "${name}" -n "${namespace}" --wait=false
+    restore_controller
+    kubectl rollout status deployment "${controller_name}" -n "${controller_namespace}" --timeout=5m
+    kubectl wait snapshot "${name}" -n "${namespace}" --for=delete --timeout=10m
+    trap - EXIT
+    return 1
+  fi
 
   restore_controller
   kubectl rollout status deployment "${controller_name}" -n "${controller_namespace}" --timeout=5m

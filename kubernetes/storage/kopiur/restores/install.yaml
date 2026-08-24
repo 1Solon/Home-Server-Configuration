@@ -6,8 +6,8 @@ metadata:
   name: kopiur-pilot-restore
   namespace: flux-system
 spec:
-  suspend: true
-  targetNamespace: books
+  suspend: false
+  targetNamespace: home-media
   path: ./kubernetes/storage/kopiur/restores/app
   prune: true
   sourceRef:
@@ -15,7 +15,7 @@ spec:
     name: flux-system
     namespace: flux-system
   dependsOn:
-    - name: kopiur-repository-books
+    - name: kopiur-repository-home-media
       namespace: flux-system
     - name: miroir-config
       namespace: flux-system
@@ -25,5 +25,6 @@ spec:
   timeout: 30m
   postBuild:
     substitute:
-      APP: suwayomi
+      APP: autobrr
       KOPIUR_RESTORE_CAPACITY: 5Gi
+      KOPIUR_RESTORE_SNAPSHOT_ID: 2a1e4a99418a7c9ff1f3efe5fb4ee62a

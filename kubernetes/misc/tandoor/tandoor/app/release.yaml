@@ -122,7 +122,7 @@ spec:
 
         persistence:
             data:
-                existingClaim: tandoor-miroir
+                existingClaim: tandoor-kopiur-replacement
                 advancedMounts:
                     tandoor:
                         app:

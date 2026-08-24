@@ -76,4 +76,4 @@ spec:
 
     persistence:
       config:
-        existingClaim: qui-miroir
+        existingClaim: qui-kopiur-replacement

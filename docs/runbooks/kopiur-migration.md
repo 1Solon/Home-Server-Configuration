@@ -5,11 +5,11 @@ This runbook implements the staged migration defined by [ADR 0001](../adr/0001-a
 ## Current state
 
 - Kopiur chart, CRDs, mover images, and `scripts/kopiur` are pinned to `0.10.3`.
-- Every retained workload has a six-hour Kopiur schedule, but schedules are suspended until their workload enters a migration wave.
-- The `seerr-config-cache` pilot completed and is suspended. `audiobookshelf-config` completed the first retained-workload cutover and is the only active schedule.
-- Audiobookshelf runs on `audiobookshelf-config-kopiur-replacement`; both Kopiur and VolSync protect that claim. Its pre-cutover Kopiur snapshot remains pinned.
+- Every retained workload completed its replacement-PVC cutover on 2026-08-24. Kopiur and VolSync both protect the replacement claims, and all retained Kopiur schedules are active.
+- Each retained workload has a pinned pre-cutover snapshot and a successful post-cutover recovery point. The `seerr-config-cache` pilot remains suspended and is not part of permanent protection.
+- VolSync remains installed until the final-cutover retention requirements below are satisfied.
 - Each protected namespace uses its own Kopia repository under `volsync/kopiur/<namespace>/` in Garage. The Restic prefixes remain separate and unchanged.
-- `kopiur-pilot-restore` is the reusable one-workload restore Kustomization. It is suspended after Audiobookshelf validation and currently targets the `books` namespace.
+- `kopiur-pilot-restore` is the reusable one-workload restore Kustomization. It is suspended; migrations used `scripts/kopiur-miroir` to create exact, Miroir-safe snapshots and restores directly.
 
 ## Migration waves
 

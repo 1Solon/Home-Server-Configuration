@@ -229,7 +229,7 @@ spec:
 
     persistence:
       config:
-        existingClaim: qbittorrent-config-miroir
+        existingClaim: qbittorrent-config-kopiur-replacement
         advancedMounts:
           qbittorrent:
             app:

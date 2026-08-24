@@ -2,14 +2,10 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: radarr-config-miroir
+  name: radarr-config-kopiur-replacement
 spec:
   accessModes: [ReadWriteOnce]
   storageClassName: miroir-replicated
   resources:
     requests:
       storage: 5Gi
-  dataSourceRef:
-    apiGroup: volsync.backube
-    kind: ReplicationDestination
-    name: radarr-config-miroir-restore

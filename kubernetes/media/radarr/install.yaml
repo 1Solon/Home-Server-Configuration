@@ -33,10 +33,11 @@ spec:
   postBuild:
     substitute:
       APP: radarr-config
-      KOPIUR_SOURCE_PVC: radarr-config-miroir
+      KOPIUR_SOURCE_PVC: radarr-config-kopiur-replacement
       KOPIUR_SCHEDULE: "28 */6 * * *"
+      KOPIUR_SUSPEND: "false"
       VOLSYNC_REPOSITORY: s3:http://garage.garage.svc.cluster.local:3900/volsync/home-media/radarr-config
-      VOLSYNC_SOURCE_PVC: radarr-config-miroir
+      VOLSYNC_SOURCE_PVC: radarr-config-kopiur-replacement
       VOLSYNC_STORAGE_CLASS: miroir-replicated
       VOLSYNC_VOLUME_SNAPSHOT_CLASS: miroir-snap
       VOLSYNC_CACHE_STORAGE_CLASS: miroir-ephemeral

@@ -9,7 +9,7 @@ spec:
     mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
     operation: copy
   ref:
-    tag: 5.24.0
+    tag: 5.25.0
   url: oci://ghcr.io/grafana/helm-charts/grafana-operator
 ---
 # yaml-language-server: $schema=https://k8s-schemas.home-operations.com/helm.toolkit.fluxcd.io/helmrelease_v2.json
@@ -22,6 +22,8 @@ spec:
     kind: OCIRepository
     name: grafana-operator
   interval: 1h
+  upgrade:
+    crds: CreateReplace
   values:
     dashboard:
       enabled: true

@@ -31,10 +31,11 @@ spec:
   postBuild:
     substitute:
       APP: hermes
-      KOPIUR_SOURCE_PVC: hermes-miroir
+      KOPIUR_SOURCE_PVC: hermes-kopiur-replacement
       KOPIUR_SCHEDULE: "9 */6 * * *"
+      KOPIUR_SUSPEND: "false"
       VOLSYNC_REPOSITORY: s3:http://garage.garage.svc.cluster.local:3900/volsync/ai/hermes
-      VOLSYNC_SOURCE_PVC: hermes-miroir
+      VOLSYNC_SOURCE_PVC: hermes-kopiur-replacement
       VOLSYNC_STORAGE_CLASS: miroir-replicated
       VOLSYNC_VOLUME_SNAPSHOT_CLASS: miroir-snap
       VOLSYNC_CACHE_STORAGE_CLASS: miroir-ephemeral

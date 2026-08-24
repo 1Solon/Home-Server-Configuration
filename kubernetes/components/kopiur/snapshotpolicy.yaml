@@ -10,11 +10,7 @@ spec:
   sources:
     - pvc:
         name: ${KOPIUR_SOURCE_PVC:=${APP}}
-  copyMethod: Snapshot
-  volumeSnapshotClassName: ${KOPIUR_VOLUME_SNAPSHOT_CLASS:=miroir-snap}
-  staging:
-    storageClassName: ${KOPIUR_STORAGE_CLASS:=miroir-replicated}
-    timeout: ${KOPIUR_STAGING_TIMEOUT:=30m}
+  copyMethod: Direct
   retention:
     keepHourly: ${KOPIUR_RETAIN_HOURLY:=4}
     keepDaily: ${KOPIUR_RETAIN_DAILY:=7}

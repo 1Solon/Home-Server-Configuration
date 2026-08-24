@@ -20,7 +20,3 @@ spec:
   resources:
     requests:
       storage: 15Gi
-  dataSourceRef:
-    apiGroup: volsync.backube
-    kind: ReplicationDestination
-    name: seerr-config-cache-miroir-restore

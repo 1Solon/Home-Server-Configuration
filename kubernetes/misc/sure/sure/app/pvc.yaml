@@ -20,7 +20,3 @@ spec:
   resources:
     requests:
       storage: 1Gi
-  dataSourceRef:
-    apiGroup: volsync.backube
-    kind: ReplicationDestination
-    name: sure-redis-miroir-restore

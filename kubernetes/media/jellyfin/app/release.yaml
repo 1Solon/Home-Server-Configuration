@@ -99,7 +99,7 @@ spec:
     persistence:
       config:
         enabled: true
-        existingClaim: jellyfin-config-miroir
+        existingClaim: jellyfin-config-kopiur-replacement
       transcode:
         type: emptyDir
         globalMounts:

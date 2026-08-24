@@ -7,15 +7,12 @@ metadata:
 spec:
   components:
     - ../../../components/kopiur
-    - ../../../components/volsync
   targetNamespace: home-media
   commonMetadata:
     labels:
       app.kubernetes.io/name: qbittorrent
   dependsOn:
     - name: kopiur-repository-home-media
-      namespace: flux-system
-    - name: volsync
       namespace: flux-system
   path: "./kubernetes/media/qbittorrent/app"
   prune: true
@@ -32,15 +29,6 @@ spec:
       KOPIUR_SOURCE_PVC: qbittorrent-config-kopiur-replacement
       KOPIUR_SCHEDULE: "16 */6 * * *"
       KOPIUR_SUSPEND: "false"
-      VOLSYNC_REPOSITORY: s3:http://garage.garage.svc.cluster.local:3900/volsync/home-media/qbittorrent-config
-      VOLSYNC_SOURCE_PVC: qbittorrent-config-kopiur-replacement
-      VOLSYNC_STORAGE_CLASS: miroir-replicated
-      VOLSYNC_VOLUME_SNAPSHOT_CLASS: miroir-snap
-      VOLSYNC_CACHE_STORAGE_CLASS: miroir-replicated
-      VOLSYNC_MOVER_APP_NAME: qbittorrent
-      VOLSYNC_MOVER_APP_INSTANCE: qbittorrent
-      VOLSYNC_SCHEDULE: "16 */6 * * *"
-      VOLSYNC_COPY_METHOD: Direct
     substituteFrom:
       - kind: ConfigMap
         name: cluster-settings
@@ -55,13 +43,10 @@ metadata:
 spec:
   components:
     - ../../../components/kopiur
-    - ../../../components/volsync
   targetNamespace: home-media
   dependsOn:
     - name: qbittorrent
     - name: kopiur-repository-home-media
-      namespace: flux-system
-    - name: volsync
       namespace: flux-system
   commonMetadata:
     labels:
@@ -81,50 +66,10 @@ spec:
       KOPIUR_SOURCE_PVC: qui-kopiur-replacement
       KOPIUR_SCHEDULE: "22 */6 * * *"
       KOPIUR_SUSPEND: "false"
-      VOLSYNC_REPOSITORY: s3:http://garage.garage.svc.cluster.local:3900/volsync/home-media/qui
-      VOLSYNC_SOURCE_PVC: qui-kopiur-replacement
-      VOLSYNC_STORAGE_CLASS: miroir-replicated
-      VOLSYNC_VOLUME_SNAPSHOT_CLASS: miroir-snap
-      VOLSYNC_CACHE_STORAGE_CLASS: miroir-ephemeral
-      VOLSYNC_MOVER_APP_NAME: qui
-      VOLSYNC_MOVER_APP_INSTANCE: qui
-      VOLSYNC_SCHEDULE: "22 */6 * * *"
     substituteFrom:
       - kind: ConfigMap
         name: cluster-settings
         optional: false
----
-apiVersion: kustomize.toolkit.fluxcd.io/v1
-kind: Kustomization
-metadata:
-  name: seedboxapi-config-volsync
-  namespace: flux-system
-spec:
-  targetNamespace: home-media
-  dependsOn:
-    - name: qbittorrent
-    - name: volsync
-      namespace: flux-system
-  path: "./kubernetes/components/volsync-standalone"
-  prune: true
-  sourceRef:
-    kind: GitRepository
-    name: flux-system
-  wait: true
-  interval: 30m
-  retryInterval: 1m
-  timeout: 5m
-  postBuild:
-    substitute:
-      APP: seedboxapi-config
-      VOLSYNC_REPOSITORY: s3:http://garage.garage.svc.cluster.local:3900/volsync/home-media/seedboxapi-config
-      VOLSYNC_SOURCE_PVC: seedboxapi-config-kopiur-replacement
-      VOLSYNC_STORAGE_CLASS: miroir-replicated
-      VOLSYNC_VOLUME_SNAPSHOT_CLASS: miroir-snap
-      VOLSYNC_CACHE_STORAGE_CLASS: miroir-ephemeral
-      VOLSYNC_MOVER_APP_NAME: qbittorrent
-      VOLSYNC_MOVER_APP_INSTANCE: qbittorrent
-      VOLSYNC_SCHEDULE: "25 */6 * * *"
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization

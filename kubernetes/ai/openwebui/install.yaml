@@ -8,11 +8,8 @@ metadata:
 spec:
   components:
     - ../../../components/kopiur
-    - ../../../components/volsync
   dependsOn:
     - name: kopiur-repository-ai
-      namespace: flux-system
-    - name: volsync
       namespace: flux-system
   path: "./kubernetes/ai/openwebui/app"
   targetNamespace: ai
@@ -33,14 +30,6 @@ spec:
       KOPIUR_SOURCE_PVC: open-webui-config-kopiur-replacement
       KOPIUR_SCHEDULE: "15 */6 * * *"
       KOPIUR_SUSPEND: "false"
-      VOLSYNC_REPOSITORY: s3:http://garage.garage.svc.cluster.local:3900/volsync/ai/open-webui-config
-      VOLSYNC_SOURCE_PVC: open-webui-config-kopiur-replacement
-      VOLSYNC_STORAGE_CLASS: miroir-replicated
-      VOLSYNC_VOLUME_SNAPSHOT_CLASS: miroir-snap
-      VOLSYNC_CACHE_STORAGE_CLASS: miroir-ephemeral
-      VOLSYNC_MOVER_APP_NAME: open-webui
-      VOLSYNC_MOVER_APP_INSTANCE: open-webui
-      VOLSYNC_SCHEDULE: "15 */6 * * *"
     substituteFrom:
       - kind: ConfigMap
         name: cluster-settings

@@ -7,15 +7,12 @@ metadata:
 spec:
   components:
     - ../../../../components/kopiur
-    - ../../../../components/volsync
   targetNamespace: zerobyte
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
   dependsOn:
     - name: kopiur-repository-zerobyte
-      namespace: flux-system
-    - name: volsync
       namespace: flux-system
   path: "./kubernetes/misc/zerobyte/zerobyte/app"
   prune: true
@@ -32,14 +29,6 @@ spec:
       KOPIUR_SOURCE_PVC: zerobyte-kopiur-replacement
       KOPIUR_SCHEDULE: "13 */6 * * *"
       KOPIUR_SUSPEND: "false"
-      VOLSYNC_REPOSITORY: s3:http://garage.garage.svc.cluster.local:3900/volsync/zerobyte/zerobyte
-      VOLSYNC_SOURCE_PVC: zerobyte-kopiur-replacement
-      VOLSYNC_STORAGE_CLASS: miroir-replicated
-      VOLSYNC_VOLUME_SNAPSHOT_CLASS: miroir-snap
-      VOLSYNC_CACHE_STORAGE_CLASS: miroir-ephemeral
-      VOLSYNC_MOVER_APP_NAME: zerobyte
-      VOLSYNC_MOVER_APP_INSTANCE: zerobyte
-      VOLSYNC_SCHEDULE: "13 */6 * * *"
     substituteFrom:
       - kind: ConfigMap
         name: cluster-settings

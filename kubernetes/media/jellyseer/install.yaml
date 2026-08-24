@@ -7,15 +7,12 @@ metadata:
 spec:
   components:
     - ../../../components/kopiur
-    - ../../../components/volsync
   targetNamespace: home-media
   commonMetadata:
     labels:
       app.kubernetes.io/name: jellyseerr
   dependsOn:
     - name: kopiur-repository-home-media
-      namespace: flux-system
-    - name: volsync
       namespace: flux-system
   path: "./kubernetes/media/jellyseer/app"
   prune: true
@@ -36,50 +33,10 @@ spec:
       KOPIUR_SOURCE_PVC: seerr-config-kopiur-replacement
       KOPIUR_SCHEDULE: "10 */6 * * *"
       KOPIUR_SUSPEND: "false"
-      VOLSYNC_REPOSITORY: s3:http://garage.garage.svc.cluster.local:3900/volsync/home-media/seerr-config
-      VOLSYNC_SOURCE_PVC: seerr-config-kopiur-replacement
-      VOLSYNC_STORAGE_CLASS: miroir-replicated
-      VOLSYNC_VOLUME_SNAPSHOT_CLASS: miroir-snap
-      VOLSYNC_CACHE_STORAGE_CLASS: miroir-ephemeral
-      VOLSYNC_MOVER_APP_NAME: seerr
-      VOLSYNC_MOVER_APP_INSTANCE: seerr
-      VOLSYNC_SCHEDULE: "10 */6 * * *"
     substituteFrom:
       - kind: ConfigMap
         name: cluster-settings
         optional: false
----
-apiVersion: kustomize.toolkit.fluxcd.io/v1
-kind: Kustomization
-metadata:
-  name: seerr-config-cache-volsync
-  namespace: flux-system
-spec:
-  targetNamespace: home-media
-  dependsOn:
-    - name: jellyseerr
-    - name: volsync
-      namespace: flux-system
-  path: "./kubernetes/components/volsync-standalone"
-  prune: true
-  sourceRef:
-    kind: GitRepository
-    name: flux-system
-  wait: true
-  interval: 30m
-  retryInterval: 1m
-  timeout: 5m
-  postBuild:
-    substitute:
-      APP: seerr-config-cache
-      VOLSYNC_REPOSITORY: s3:http://garage.garage.svc.cluster.local:3900/volsync/home-media/seerr-config-cache
-      VOLSYNC_SOURCE_PVC: seerr-config-cache-miroir
-      VOLSYNC_STORAGE_CLASS: miroir-replicated
-      VOLSYNC_VOLUME_SNAPSHOT_CLASS: miroir-snap
-      VOLSYNC_CACHE_STORAGE_CLASS: miroir-ephemeral
-      VOLSYNC_MOVER_APP_NAME: seerr
-      VOLSYNC_MOVER_APP_INSTANCE: seerr
-      VOLSYNC_SCHEDULE: "31 */6 * * *"
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization

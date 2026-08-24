@@ -7,15 +7,12 @@ metadata:
 spec:
   components:
     - ../../../components/kopiur
-    - ../../../components/volsync
   targetNamespace: books
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
   dependsOn:
     - name: kopiur-repository-books
-      namespace: flux-system
-    - name: volsync
       namespace: flux-system
   path: "./kubernetes/books/suwayomi/app"
   prune: true
@@ -32,14 +29,6 @@ spec:
       KOPIUR_SOURCE_PVC: suwayomi-kopiur-replacement
       KOPIUR_SCHEDULE: "58 */6 * * *"
       KOPIUR_SUSPEND: "false"
-      VOLSYNC_REPOSITORY: s3:http://garage.garage.svc.cluster.local:3900/volsync/manga/suwayomi
-      VOLSYNC_SOURCE_PVC: suwayomi-kopiur-replacement
-      VOLSYNC_STORAGE_CLASS: miroir-replicated
-      VOLSYNC_VOLUME_SNAPSHOT_CLASS: miroir-snap
-      VOLSYNC_CACHE_STORAGE_CLASS: miroir-ephemeral
-      VOLSYNC_MOVER_APP_NAME: suwayomi
-      VOLSYNC_MOVER_APP_INSTANCE: suwayomi
-      VOLSYNC_SCHEDULE: "58 */6 * * *"
     substituteFrom:
       - kind: ConfigMap
         name: cluster-settings

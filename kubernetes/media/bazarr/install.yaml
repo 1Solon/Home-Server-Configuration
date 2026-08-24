@@ -7,15 +7,12 @@ metadata:
 spec:
   components:
     - ../../../components/kopiur
-    - ../../../components/volsync
   targetNamespace: home-media
   commonMetadata:
     labels:
       app.kubernetes.io/name: bazarr
   dependsOn:
     - name: kopiur-repository-home-media
-      namespace: flux-system
-    - name: volsync
       namespace: flux-system
   path: "./kubernetes/media/bazarr/app"
   prune: true
@@ -32,14 +29,6 @@ spec:
       KOPIUR_SOURCE_PVC: bazarr-kopiur-replacement
       KOPIUR_SCHEDULE: "45 */6 * * *"
       KOPIUR_SUSPEND: "false"
-      VOLSYNC_REPOSITORY: s3:http://garage.garage.svc.cluster.local:3900/volsync/home-media/bazarr
-      VOLSYNC_SOURCE_PVC: bazarr-kopiur-replacement
-      VOLSYNC_STORAGE_CLASS: miroir-replicated
-      VOLSYNC_VOLUME_SNAPSHOT_CLASS: miroir-snap
-      VOLSYNC_CACHE_STORAGE_CLASS: miroir-ephemeral
-      VOLSYNC_MOVER_APP_NAME: bazarr
-      VOLSYNC_MOVER_APP_INSTANCE: bazarr
-      VOLSYNC_SCHEDULE: "45 */6 * * *"
     substituteFrom:
       - kind: ConfigMap
         name: cluster-settings

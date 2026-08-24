@@ -7,15 +7,12 @@ metadata:
 spec:
   components:
     - ../../../components/kopiur
-    - ../../../components/volsync
   targetNamespace: home-media
   commonMetadata:
     labels:
       app.kubernetes.io/name: cleanuparr
   dependsOn:
     - name: kopiur-repository-home-media
-      namespace: flux-system
-    - name: volsync
       namespace: flux-system
   path: "./kubernetes/media/cleanuparr/app"
   prune: false
@@ -32,14 +29,6 @@ spec:
       KOPIUR_SOURCE_PVC: cleanuparr-config-kopiur-replacement
       KOPIUR_SCHEDULE: "51 */6 * * *"
       KOPIUR_SUSPEND: "false"
-      VOLSYNC_REPOSITORY: s3:http://garage.garage.svc.cluster.local:3900/volsync/home-media/cleanuparr-config
-      VOLSYNC_SOURCE_PVC: cleanuparr-config-kopiur-replacement
-      VOLSYNC_STORAGE_CLASS: miroir-replicated
-      VOLSYNC_VOLUME_SNAPSHOT_CLASS: miroir-snap
-      VOLSYNC_CACHE_STORAGE_CLASS: miroir-ephemeral
-      VOLSYNC_MOVER_APP_NAME: cleanuparr
-      VOLSYNC_MOVER_APP_INSTANCE: cleanuparr
-      VOLSYNC_SCHEDULE: "51 */6 * * *"
     substituteFrom:
       - kind: ConfigMap
         name: cluster-settings

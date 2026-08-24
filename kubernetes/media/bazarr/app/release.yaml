@@ -90,7 +90,7 @@ spec:
             
     persistence:
       config:
-        existingClaim: bazarr-miroir
+        existingClaim: bazarr-kopiur-replacement
       media:
         enabled: true
         type: nfs

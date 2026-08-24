@@ -23,7 +23,7 @@ spec:
   defaultDeletionPolicy: Delete
   deletion:
     onPolicyDelete: Retain
-  suspend: false
+  suspend: ${KOPIUR_SUSPEND:=false}
   mover:
     securityContext:
       runAsUser: 0

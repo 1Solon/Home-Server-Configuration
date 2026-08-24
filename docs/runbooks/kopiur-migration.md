@@ -1,13 +1,13 @@
 # Kopiur PVC migration
 
-This runbook implements the staged migration defined by [ADR 0001](../adr/0001-adopt-kopiur-for-pvc-backups.md). VolSync remains the production recovery path until every retained workload satisfies the cutover gates. Do not archive VolSync or delete Restic data as part of a workload wave.
+This runbook records the staged migration defined by [ADR 0001](../adr/0001-adopt-kopiur-for-pvc-backups.md). The migration and VolSync retirement completed on 2026-08-24.
 
 ## Current state
 
 - Kopiur chart, CRDs, mover images, and `scripts/kopiur` are pinned to `0.10.3`.
-- Every retained workload completed its replacement-PVC cutover on 2026-08-24. Kopiur and VolSync both protect the replacement claims, and all retained Kopiur schedules are active.
+- Every retained workload completed its replacement-PVC cutover on 2026-08-24. Kopiur protects the replacement claims, and all retained Kopiur schedules are active.
 - Each retained workload has a pinned pre-cutover snapshot and a successful post-cutover recovery point. The `seerr-config-cache` pilot remains suspended and is not part of permanent protection.
-- VolSync remains installed until the final-cutover retention requirements below are satisfied.
+- VolSync manifests and restore templates are archived under `archive/volsync/`. Remote Restic recovery data remains retained through at least 2026-11-22.
 - Each protected namespace uses its own Kopia repository under `volsync/kopiur/<namespace>/` in Garage. The Restic prefixes remain separate and unchanged.
 - `kopiur-pilot-restore` is the reusable one-workload restore Kustomization. It is suspended; migrations used `scripts/kopiur-miroir` to create exact, Miroir-safe snapshots and restores directly.
 
@@ -31,7 +31,7 @@ Complete every item for one workload before activating the next workload in its 
 6. Restore to a replacement PVC, complete the Miroir activation procedure, start the application against it, and validate application behavior.
 7. Delete the old PVC only after replacement startup and content validation succeed.
 8. Confirm a post-cutover Kopiur backup succeeds.
-9. Confirm healthy Miroir replicas, idle VolSync and Kopiur movers, no activation-skip flags, and no orphan `miroir-snapshot-*` LVs.
+9. Confirm healthy Miroir replicas, idle Kopiur movers, no activation-skip flags, and no orphan `miroir-snapshot-*` LVs.
 
 Any corruption, ownership mismatch, failed policy, unhealthy replica, activation-skip flag, or orphan snapshot LV blocks the wave.
 
@@ -41,7 +41,6 @@ Any corruption, ownership mismatch, failed policy, unhealthy replica, activation
 kubectl get repositories,snapshotpolicies,snapshotschedules,snapshots -A
 kubectl get jobs -A -l app.kubernetes.io/managed-by=kopiur
 kubectl get miroirvolumes -A
-kubectl get replicationsources -A
 ```
 
 Inspect the selected snapshot before restoring:
@@ -86,12 +85,6 @@ After deleting temporary restore resources, audit every data node for `miroir-sn
 
 ## Final cutover
 
-VolSync can be archived only when every retained workload has:
+VolSync was archived on 2026-08-24 after explicit operator approval and successful content, ownership, replacement-PVC, startup, post-cutover backup, Miroir, LVM, and snapshot validation. This approval superseded the originally planned three-month overlap.
 
-- three monthly Kopiur recovery points;
-- no stale or failed policy;
-- at least two successful restores;
-- successful content, ownership, replacement-PVC, startup, and post-cutover backup validation;
-- healthy Miroir replicas and clean LVM/snapshot audits.
-
-Archive VolSync manifests with `git mv`. Keep Restic repositories, credentials, and archived restore manifests for another 90 days. Their deletion requires a separate explicit decision.
+Keep Restic repositories, credentials, and archived restore manifests through at least 2026-11-22. Their deletion requires a separate explicit decision. The Garage bucket and `volsync-garage` credential record also back Kopiur and must remain after the Restic prefixes expire.

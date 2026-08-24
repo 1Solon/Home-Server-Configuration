@@ -16,7 +16,7 @@ parameters:
   miroir.home-operations.com/allowRemoteVolumeAccess: "true"
   csi.storage.k8s.io/fstype: ext4
 ---
-# Disposable VolSync cache/staging data only. Application data must use a
+# Disposable client and staging data only. Application data must use a
 # replicated class selecting the `data` pool.
 apiVersion: storage.k8s.io/v1
 kind: StorageClass

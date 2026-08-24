@@ -11,7 +11,7 @@ spec:
       kubernetes.io/os: linux
   template:
     pools:
-      # Disposable VolSync cache and diskless/tie-breaker support.
+      # Disposable client volumes and diskless/tie-breaker support.
       - name: client
         loopfile:
           baseDir: /var/lib/miroir

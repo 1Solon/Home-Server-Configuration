@@ -11,11 +11,9 @@ This is a Flux backed repository, as such, pushing to the repository will trigge
 Until the corresponding upstream issues are fixed, migrations and restores on
 Miroir `0.11.22` must use all of the following safeguards:
 
-- Ensure restore namespaces opt into ownership-preserving VolSync movers with
-  `volsync.backube/privileged-movers: "true"`. Several application namespaces
-  already carry this annotation declaratively; do not fight Flux by removing
-  it live. If an annotation was added only for an ad hoc restore, remove it
-  immediately after the mover succeeds.
+- For an archived VolSync emergency restore, annotate the restore namespace
+  with `volsync.backube/privileged-movers: "true"` before starting the mover,
+  then remove the annotation immediately after it succeeds.
 - Set `spec.restic.cleanupTempPVC: false` on Miroir ReplicationDestinations.
   Keep the temporary destination PVC and its snapshot until the final PVC is
   `Bound` and its contents are verified; deleting the temporary source sooner
@@ -37,9 +35,9 @@ Miroir `0.11.22` must use all of the following safeguards:
 - Ceph rollback was explicitly retired after final restore validation on
   2026-08-11. Rook/Ceph manifests are archived under `archive/rook-ceph/`; do
   not restore them unless rebuilding a new Ceph cluster intentionally.
-- Require healthy Miroir replicas, successful content validation, idle VolSync,
-  no activation-skip flags, and no orphan `miroir-snapshot-*` LVs after every
-  restore or storage change.
+- Require healthy Miroir replicas, successful content validation, idle backup
+  movers, no activation-skip flags, and no orphan `miroir-snapshot-*` LVs after
+  every restore or storage change.
 
 ## Quorum: last-man-standing
 

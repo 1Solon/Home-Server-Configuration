@@ -5,6 +5,5 @@ resources:
   - miroir
   - kopiur
   - snapshot-controller
-  - volsync
   - databases
   - garage/install.yaml

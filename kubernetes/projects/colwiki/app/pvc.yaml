@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: otterwiki-miroir
+  name: otterwiki-kopiur-replacement
 spec:
   accessModes:
     - ReadWriteOnce
@@ -10,7 +10,3 @@ spec:
   resources:
     requests:
       storage: 20Gi
-  dataSourceRef:
-    apiGroup: volsync.backube
-    kind: ReplicationDestination
-    name: otterwiki-miroir-restore

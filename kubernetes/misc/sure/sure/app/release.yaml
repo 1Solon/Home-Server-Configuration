@@ -177,7 +177,7 @@ spec:
 
     persistence:
       storage:
-        existingClaim: sure-miroir
+        existingClaim: sure-kopiur-replacement
         advancedMounts:
           sure:
             app:

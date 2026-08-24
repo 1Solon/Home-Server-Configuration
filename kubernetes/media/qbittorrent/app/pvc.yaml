@@ -17,14 +17,10 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: seedboxapi-config-miroir
+  name: seedboxapi-config-kopiur-replacement
 spec:
   accessModes: [ReadWriteOnce]
   storageClassName: miroir-replicated
   resources:
     requests:
       storage: 1Gi
-  dataSourceRef:
-    apiGroup: volsync.backube
-    kind: ReplicationDestination
-    name: seedboxapi-config-miroir-restore

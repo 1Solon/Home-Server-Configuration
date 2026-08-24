@@ -77,10 +77,11 @@ spec:
   postBuild:
     substitute:
       APP: qui
-      KOPIUR_SOURCE_PVC: qui-miroir
+      KOPIUR_SOURCE_PVC: qui-kopiur-replacement
       KOPIUR_SCHEDULE: "22 */6 * * *"
+      KOPIUR_SUSPEND: "false"
       VOLSYNC_REPOSITORY: s3:http://garage.garage.svc.cluster.local:3900/volsync/home-media/qui
-      VOLSYNC_SOURCE_PVC: qui-miroir
+      VOLSYNC_SOURCE_PVC: qui-kopiur-replacement
       VOLSYNC_STORAGE_CLASS: miroir-replicated
       VOLSYNC_VOLUME_SNAPSHOT_CLASS: miroir-snap
       VOLSYNC_CACHE_STORAGE_CLASS: miroir-ephemeral

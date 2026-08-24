@@ -281,7 +281,7 @@ spec:
                 subPath: Corefile
                 readOnly: true
       seedboxapi-config:
-        existingClaim: seedboxapi-config-miroir
+        existingClaim: seedboxapi-config-kopiur-replacement
         advancedMounts:
           qbittorrent:
             seedboxapi:

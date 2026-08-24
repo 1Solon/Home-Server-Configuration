@@ -155,6 +155,6 @@ spec:
     persistence:
       config:
         enabled: true
-        existingClaim: open-webui-config-miroir
+        existingClaim: open-webui-config-kopiur-replacement
         globalMounts:
           - path: /app/backend/data

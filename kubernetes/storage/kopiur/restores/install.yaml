@@ -6,7 +6,7 @@ metadata:
   name: kopiur-pilot-restore
   namespace: flux-system
 spec:
-  suspend: false
+  suspend: true
   targetNamespace: home-media
   path: ./kubernetes/storage/kopiur/restores/app
   prune: true
@@ -27,4 +27,3 @@ spec:
     substitute:
       APP: autobrr
       KOPIUR_RESTORE_CAPACITY: 5Gi
-      KOPIUR_RESTORE_SNAPSHOT_ID: 2a1e4a99418a7c9ff1f3efe5fb4ee62a

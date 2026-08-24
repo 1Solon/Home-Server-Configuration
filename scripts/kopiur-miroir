@@ -1,0 +1,215 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+controller_namespace="kopiur-system"
+controller_name="kopiur-controller"
+
+usage() {
+  cat >&2 <<'EOF'
+Usage:
+  scripts/kopiur-miroir activate-pvc <namespace> <pvc>
+  scripts/kopiur-miroir snapshot <namespace> <policy> <name> <node> <reason> [pin]
+  scripts/kopiur-miroir restore <namespace> <policy> <restore> <pvc> <capacity> <snapshot-id> [offset]
+  scripts/kopiur-miroir audit <volume-handle>...
+EOF
+  exit 2
+}
+
+agent_for_node() {
+  local node="$1"
+  kubectl get pods -n miroir-system -o json | jq -er --arg node "${node}" '
+    .items[]
+    | select(.spec.nodeName == $node and (.metadata.name | startswith("miroir-agent-")))
+    | .metadata.name
+  '
+}
+
+activate_pvc() {
+  local namespace="$1" pvc="$2" handle node pool agent
+
+  kubectl wait "pvc/${pvc}" -n "${namespace}" \
+    --for=jsonpath='{.status.phase}'=Bound --timeout=10m >/dev/null
+  handle="$(kubectl get pvc "${pvc}" -n "${namespace}" -o jsonpath='{.spec.volumeName}')"
+  [[ "${handle}" == pvc-* ]] || {
+    echo "refusing unexpected volume handle: ${handle}" >&2
+    return 1
+  }
+
+  until kubectl get miroirvolume "${handle}" >/dev/null 2>&1; do sleep 0.2; done
+  while IFS=$'\t' read -r node pool; do
+    agent="$(agent_for_node "${node}")"
+    kubectl exec -n miroir-system "${agent}" -c agent -- \
+      lvchange --setactivationskip n "vg-miroir-${pool}/${handle}"
+    kubectl exec -n miroir-system "${agent}" -c agent -- \
+      lvchange --activate y "vg-miroir-${pool}/${handle}" || \
+      kubectl exec -n miroir-system "${agent}" -c agent -- sh -c \
+        "lvs --noheadings -o lv_attr 'vg-miroir-${pool}/${handle}' | grep -q a"
+  done < <(kubectl get miroirvolume "${handle}" -o json | jq -r '
+    .spec.replicas[] | select(.diskless != true) | [.node, .pool] | @tsv
+  ')
+
+  kubectl wait "miroirvolume/${handle}" \
+    --for=jsonpath='{.status.phase}'=Ready --timeout=10m >/dev/null
+  kubectl get miroirvolume "${handle}" -o json | jq -e '
+    (.status.readyReplicas | split("/")) as $replicas
+    | select($replicas[0] == $replicas[1])
+    | {handle: .metadata.name, phase: .status.phase, readyReplicas: .status.readyReplicas,
+       nodes: [.spec.replicas[] | select(.diskless != true) | .node]}
+  '
+}
+
+snapshot() {
+  local namespace="$1" policy="$2" name="$3" node="$4" reason="$5" pin="${6:-}"
+  local original_replicas stage_pvc phase snapshot_phase files snapshot_id
+
+  [[ -z "$(kubectl get pods -A -l app.kubernetes.io/managed-by=kopiur -o json | jq -r '
+    .items[] | select(.status.phase == "Running" or .status.phase == "Pending") | .metadata.name
+  ')" ]] || {
+    echo "refusing to gate the controller while a Kopiur mover is active" >&2
+    return 1
+  }
+
+  original_replicas="$(kubectl get deployment "${controller_name}" -n "${controller_namespace}" \
+    -o jsonpath='{.spec.replicas}')"
+  restore_controller() {
+    kubectl scale deployment "${controller_name}" -n "${controller_namespace}" \
+      --replicas="${original_replicas}" >/dev/null 2>&1 || true
+  }
+  trap restore_controller EXIT
+
+  "${script_dir}/kopiur" -n "${namespace}" snapshot now --policy "${policy}" \
+    --name "${name}" --tag "reason=${reason}"
+  stage_pvc="${name}-src"
+  until kubectl get pvc "${stage_pvc}" -n "${namespace}" >/dev/null 2>&1; do sleep 0.05; done
+
+  kubectl scale deployment "${controller_name}" -n "${controller_namespace}" --replicas=0
+  kubectl wait pod -n "${controller_namespace}" \
+    -l app.kubernetes.io/name=kopiur-controller --for=delete --timeout=3m >/dev/null
+  kubectl delete job "${name}" -n "${namespace}" --ignore-not-found --wait=true
+
+  phase="$(kubectl get pvc "${stage_pvc}" -n "${namespace}" -o jsonpath='{.status.phase}')"
+  if [[ "${phase}" != "Bound" ]]; then
+    kubectl annotate pvc "${stage_pvc}" -n "${namespace}" \
+      "volume.kubernetes.io/selected-node=${node}" --overwrite
+  fi
+  activate_pvc "${namespace}" "${stage_pvc}"
+
+  restore_controller
+  kubectl rollout status deployment "${controller_name}" -n "${controller_namespace}" --timeout=5m
+  trap - EXIT
+
+  kubectl wait "snapshot/${name}" -n "${namespace}" \
+    --for=jsonpath='{.status.phase}'=Succeeded --timeout=30m >/dev/null
+  snapshot_phase="$(kubectl get snapshot "${name}" -n "${namespace}" -o jsonpath='{.status.phase}')"
+  files="$(kubectl get snapshot "${name}" -n "${namespace}" -o jsonpath='{.status.stats.filesNew}')"
+  [[ "${snapshot_phase}" == "Succeeded" && "${files}" -gt 0 ]] || {
+    echo "snapshot ${namespace}/${name} did not capture any files" >&2
+    return 1
+  }
+
+  if [[ "${pin}" == "pin" ]]; then
+    kubectl patch snapshot "${name}" -n "${namespace}" --type=merge -p '{"spec":{"pin":true}}'
+    kubectl wait "snapshot/${name}" -n "${namespace}" --for=condition=Pinned=True --timeout=10m >/dev/null
+  elif [[ -n "${pin}" ]]; then
+    usage
+  fi
+
+  snapshot_id="$(kubectl get snapshot "${name}" -n "${namespace}" \
+    -o jsonpath='{.status.snapshot.kopiaSnapshotID}')"
+  kubectl get snapshot "${name}" -n "${namespace}" -o json | jq \
+    --arg snapshotID "${snapshot_id}" \
+    '{phase: .status.phase, snapshotID: $snapshotID, stats: .status.stats,
+      pinned: (.status.pinned // false), identity: .status.snapshot.identity}'
+}
+
+restore() {
+  local namespace="$1" policy="$2" restore_name="$3" pvc="$4" capacity="$5" expected_id="$6"
+  local offset="${7:-0}"
+  local resolved_id
+
+  kubectl apply -f - <<EOF
+apiVersion: kopiur.home-operations.com/v1alpha1
+kind: Restore
+metadata:
+  name: ${restore_name}
+  namespace: ${namespace}
+spec:
+  source:
+    fromPolicy:
+      name: ${policy}
+      offset: ${offset}
+  target:
+    pvc:
+      name: ${pvc}
+      storageClassName: miroir-replicated
+      capacity: ${capacity}
+      accessModes:
+        - ReadWriteOnce
+  policy:
+    onMissingSnapshot: Fail
+    waitTimeout: 5m
+  options:
+    enableFileDeletion: true
+    ignorePermissionErrors: false
+    skipOwners: false
+    skipPermissions: false
+    skipTimes: false
+  mover:
+    securityContext:
+      runAsUser: 0
+      runAsNonRoot: false
+      capabilities:
+        add:
+          - CHOWN
+          - DAC_OVERRIDE
+          - FOWNER
+          - FSETID
+    privilegedMode: true
+EOF
+
+  kubectl wait "restore/${restore_name}" -n "${namespace}" \
+    --for=jsonpath='{.status.phase}'=Completed --timeout=30m >/dev/null
+  resolved_id="$(kubectl get restore "${restore_name}" -n "${namespace}" \
+    -o jsonpath='{.status.resolved.kopiaSnapshotID}')"
+  [[ "${resolved_id}" == "${expected_id}" ]] || {
+    echo "restore resolved ${resolved_id}, expected ${expected_id}" >&2
+    return 1
+  }
+  activate_pvc "${namespace}" "${pvc}"
+}
+
+audit() {
+  local handle agent found=0
+  for handle in "$@"; do
+    [[ "${handle}" == pvc-* ]] || {
+      echo "refusing unexpected volume handle: ${handle}" >&2
+      return 1
+    }
+    if kubectl get miroirvolume "${handle}" >/dev/null 2>&1; then
+      echo "MiroirVolume still exists: ${handle}" >&2
+      found=1
+    fi
+    while read -r agent; do
+      if kubectl exec -n miroir-system "${agent}" -c agent -- \
+        lvs --noheadings -o lv_name 2>/dev/null | tr -d ' ' | grep -Fxq "${handle}"; then
+        echo "LV still exists on ${agent}: ${handle}" >&2
+        found=1
+      fi
+    done < <(kubectl get pods -n miroir-system -o json | jq -r '
+      .items[] | select(.metadata.name | startswith("miroir-agent-")) | .metadata.name
+    ')
+  done
+  [[ "${found}" -eq 0 ]]
+}
+
+[[ $# -gt 0 ]] || usage
+command="$1"
+shift
+case "${command}" in
+  activate-pvc) [[ $# -eq 2 ]] || usage; activate_pvc "$@" ;;
+  snapshot) [[ $# -ge 5 && $# -le 6 ]] || usage; snapshot "$@" ;;
+  restore) [[ $# -ge 6 && $# -le 7 ]] || usage; restore "$@" ;;
+  audit) [[ $# -gt 0 ]] || usage; audit "$@" ;;
+  *) usage ;;
+esac

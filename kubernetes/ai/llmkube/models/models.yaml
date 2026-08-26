@@ -2,9 +2,13 @@
 apiVersion: inference.llmkube.dev/v1alpha1
 kind: Model
 metadata:
-  name: glm-4-7-flash
+  name: qwen3-6-35b-a3b
 spec:
-  source: https://huggingface.co/unsloth/GLM-4.7-Flash-GGUF/resolve/0d32489ecb9db6d2a4fc93bd27ef01519f95474d/GLM-4.7-Flash-UD-Q4_K_XL.gguf
+  source: hf://unsloth/Qwen3.6-35B-A3B-MTP-GGUF@5bc3e238d916f48a861bac2f8a1990a0e9b7e98d
+  files:
+    - Qwen3.6-35B-A3B-UD-Q4_K_XL.gguf
+  mmproj: mmproj-F16.gguf
+  sha256: 55983c5a75a1ab969824077b3bb3de4146e82a9234072b48ad4e8f92ad3fe9f1
   format: gguf
   quantization: UD-Q4_K_XL
   hardware:
@@ -18,9 +22,9 @@ spec:
 apiVersion: inference.llmkube.dev/v1alpha1
 kind: InferenceService
 metadata:
-  name: glm-4-7-flash
+  name: qwen3-6-35b-a3b
 spec:
-  modelRef: glm-4-7-flash
+  modelRef: qwen3-6-35b-a3b
   modelCache:
     persistence: Cached
   runtime: llamacpp
@@ -28,16 +32,24 @@ spec:
   replicas: 1
   image: ghcr.io/ggml-org/llama.cpp:server-cuda@sha256:a1c6b2c951e24c704a0d753286742f7b861cdd718e3dc8d7f70d259e1d57d935
   bindAddress: 0.0.0.0
-  contextSize: 131072
+  contextSize: 65536
   parallelSlots: 1
   flashAttention: true
-  moeCPULayers: 21
+  jinja: true
+  cacheTypeK: q8_0
+  cacheTypeV: q8_0
+  moeCPULayers: 22
+  batchSize: 8192
+  uBatchSize: 1024
+  speculativeDecoding:
+    type: draft-mtp
+    nDraftMax: 2
   runtimeClassName: nvidia
   nodeSelector:
     kubernetes.io/hostname: kube5
   resources:
-    cpu: 500m
-    memory: 4Gi
+    cpu: "4"
+    hostMemory: 18Gi
     gpu: 1
   endpoint:
     type: ClusterIP
@@ -75,29 +87,25 @@ spec:
       failureThreshold: 6
   extraArgs:
     - --alias
-    - GLM-4.7-Flash
+    - Qwen3.6-35B-A3B
     - --verbosity
-    - "4"
-    - --jinja
+    - "3"
     - --reasoning-format
     - deepseek
-    - --no-mmap
-    - --batch-size
-    - "8192"
-    - --ubatch-size
-    - "2048"
     - --threads-batch
     - "8"
-    - --cache-type-k
-    - q8_0
-    - --cache-type-v
-    - q8_0
+    - --cache-ram
+    - "4096"
     - --temp
-    - "0.7"
-    - --top-p
     - "1.0"
+    - --top-p
+    - "0.95"
+    - --top-k
+    - "20"
     - --min-p
-    - "0.01"
+    - "0"
+    - --presence-penalty
+    - "0"
     - --repeat-penalty
     - "1.0"
     - --no-context-shift

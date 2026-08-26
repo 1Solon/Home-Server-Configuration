@@ -75,8 +75,8 @@ spec:
               OIDC_ISSUER: https://sso.${REMOTE_DOMAIN}/application/o/sure/
               OIDC_REDIRECT_URI: https://sure.${LOCAL_DOMAIN}/auth/openid_connect/callback
               OPENAI_ACCESS_TOKEN: ollama-local
-              OPENAI_URI_BASE: http://qwen-agentworld-35b-a3b.ai.svc.cluster.local:8080/v1
-              OPENAI_MODEL: Qwen-AgentWorld-35B-A3B
+              OPENAI_URI_BASE: http://qwen3-6-35b-a3b.ai.svc.cluster.local:8080/v1
+              OPENAI_MODEL: Qwen3.6-35B-A3B
               AI_DEBUG_MODE: "true"
             envFrom: *envFrom
             securityContext:

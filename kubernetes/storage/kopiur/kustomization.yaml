@@ -7,4 +7,3 @@ resources:
   - ./crds/install.yaml
   - ./controller/install.yaml
   - ./repositories/install.yaml
-  - ./restores/install.yaml

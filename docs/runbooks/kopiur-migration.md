@@ -9,7 +9,7 @@ This runbook records the staged migration defined by [ADR 0001](../adr/0001-adop
 - Each retained workload has a pinned pre-cutover snapshot and a successful post-cutover recovery point. The `seerr-config-cache` pilot remains suspended and is not part of permanent protection.
 - VolSync manifests and restore templates are archived under `archive/volsync/`. Remote Restic recovery data remains retained through at least 2026-11-22.
 - Each protected namespace uses its own Kopia repository under `volsync/kopiur/<namespace>/` in Garage. The Restic prefixes remain separate and unchanged.
-- `kopiur-pilot-restore` is the reusable one-workload restore Kustomization. It is suspended; migrations used `scripts/kopiur-miroir` to create exact, Miroir-safe snapshots and restores directly.
+- One-workload restores use `scripts/kopiur-miroir restore`, which checks the resolved Kopia snapshot ID and performs the Miroir activation checks.
 
 ## Migration waves
 
@@ -57,20 +57,29 @@ Kopiur `0.10.3` can leave a `SnapshotSchedule`'s status at the previous `observe
 
 ## Scratch restore
 
-Edit `kubernetes/storage/kopiur/restores/install.yaml` for one workload and set `spec.suspend: false`. Set `APP`, `KOPIUR_RESTORE_CAPACITY`, and, when needed, `KOPIUR_RESTORE_OFFSET`. Reconcile only after reviewing the selected policy and destination name.
+Select the intended recovery point, record its Kopia snapshot ID, and restore one workload directly:
 
-Kopiur `0.10.3` requires an explicit root security context and Linux capabilities for ownership-preserving restores. The restore template records these fields and keeps `skipOwners`, `skipPermissions`, and `skipTimes` false. Do not weaken them without repeating ownership validation. As soon as the scratch PVC is `Bound`, complete the Miroir activation procedure below on every diskful replica. If the one-shot `Restore` has already failed, delete and recreate only the `Restore` after correcting the LV; keep the scratch PVC until validation is complete.
+```sh
+kubectl -n <namespace> get snapshot <snapshot> \
+  -o jsonpath='{.status.snapshot.kopiaSnapshotID}{"\n"}'
+scripts/kopiur-miroir restore \
+  <namespace> <policy> <restore-name> <pvc> <capacity> <snapshot-id> [offset]
+```
+
+The script refuses a restore whose resolved Kopia snapshot ID differs from `<snapshot-id>` and activates the target PVC on every diskful Miroir replica. Use a unique restore and PVC name, and review the policy, capacity, snapshot ID, and optional offset before running it.
+
+Kopiur `0.10.3` requires an explicit root security context and Linux capabilities for ownership-preserving restores. The script records these fields and keeps `skipOwners`, `skipPermissions`, and `skipTimes` false. Do not weaken them without repeating ownership validation. If the one-shot `Restore` has already failed, delete and recreate only the `Restore` after correcting the LV; keep the scratch PVC until validation is complete.
 
 Kopiur `0.10.3` also requires the mover's namespaced `get` access to base `Restore` objects so a retried Job reuses the snapshot ID already pinned in `status.resolved`; the repository component supplies this upstream [issue #401](https://github.com/home-operations/kopiur/issues/401) workaround. Kopia restores directory mtimes as the newest descendant time rather than the original directory mtime ([issue #2058](https://github.com/kopia/kopia/issues/2058)). Treat file contents, file mtimes, numeric ownership, and modes as authoritative during validation; do not use directory mtime differences alone as evidence of corruption.
 
-After the restore reaches `Succeeded`, mount the scratch PVC in a disposable inspection pod and compare representative content and numeric ownership with the source:
+After the restore reaches `Completed`, mount the scratch PVC in a disposable inspection pod and compare representative content and numeric ownership with the source:
 
 ```sh
 kubectl -n <namespace> get restore,pvc
-kubectl -n <namespace> describe restore <app>-scratch-restore
+kubectl -n <namespace> describe restore <restore-name>
 ```
 
-Suspend the restore Kustomization again and delete temporary restore resources only after validation.
+Delete the temporary `Restore` and scratch PVC only after validation.
 
 ## Miroir checks
 

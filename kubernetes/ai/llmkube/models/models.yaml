@@ -38,7 +38,7 @@ spec:
   jinja: true
   cacheTypeK: q8_0
   cacheTypeV: q8_0
-  moeCPULayers: 22
+  moeCPULayers: 20
   batchSize: 8192
   uBatchSize: 1024
   speculativeDecoding:

@@ -5,7 +5,25 @@
 
 ## Decision
 
-Use **`unsloth/Qwen3.6-35B-A3B-MTP-GGUF` at `UD-Q4_K_XL`** with `mmproj-F16.gguf`, 65,536 context, one slot, and enough MoE expert layers retained on CPU to preserve at least llama.cpp's default 1,024 MiB fit margin. It is a better hardware match than dense 27B: the 35B-A3B file is larger, but only 3B parameters are active and its expert tensors can be selectively kept in host RAM; dense 27B requires broad layer offload on this 16 GiB GPU. Treat this as a benchmark candidate, not a fit guarantee: MTP, the projector, and the full 65K allocation must be measured on kube5 before deployment.
+Use **`unsloth/Qwen3.6-35B-A3B-MTP-GGUF` at `UD-Q4_K_XL`** with `mmproj-F16.gguf`, 65,536 context, one slot, and enough MoE expert layers retained on CPU to preserve at least llama.cpp's default 1,024 MiB fit margin. It is a better hardware match than dense 27B: the 35B-A3B file is larger, but only 3B parameters are active and its expert tensors can be selectively kept in host RAM; dense 27B requires broad layer offload on this 16 GiB GPU.
+
+## Controlled kube5 tuning result
+
+A live sweep on 2026-08-27 used the pinned model and server image, one slot, a 44,812-token uncached non-thinking prefill, and two deterministic 512-token non-thinking decodes per variant. Each variant received a fresh server pod. The balanced score is the geometric mean of prompt and decode throughput.
+
+| Variant | Prompt tok/s | Decode tok/s | Balanced score |
+|---|---:|---:|---:|
+| MTP 2, mmap, threads 4, ubatch 1024 | 1,258.58 | 31.89 | 200.34 |
+| MTP 2, mmap, threads 6, ubatch 1024 | 1,260.82 | 38.96 | 221.63 |
+| MTP 2, mmap, threads 8, ubatch 1024 | 1,262.01 | 39.87 | 224.30 |
+| MTP 3, simple, threads 8, ubatch 1024 | 1,261.50 | 36.51 | 214.60 |
+| MTP 3, p-min 0.75 and q8 draft caches | 1,257.13 | 36.61 | 214.52 |
+| MTP 2, threads 8, ubatch 512 | 865.89 | 39.84 | 185.73 |
+| **MTP 2, threads 8, ubatch 2048** | **1,607.23** | **39.71** | **252.63** |
+
+The measured winner is `batchSize: 8192`, `uBatchSize: 2048`, `--threads 8`, `--threads-batch 8`, `--spec-draft-n-max 2`, and `--mmap`. Compared with ubatch 1024, ubatch 2048 improved prefill by 27.4% without materially changing decode speed. Draft max 3 reduced decode throughput by about 8%. `--load-mode none` closed the server connection during the long prefill through two independent transports and is rejected as unstable for this workload.
+
+At the winning setting, the pod reported 14,352 MiB GPU use with 1,599 MiB free and approximately 25,498 MiB resident host memory after the benchmark. The manifest therefore reserves 28 GiB host memory and four CPUs while permitting the unbounded process to use all eight logical CPUs. These measurements apply to this pinned build and workload; output-dependent MTP acceptance still causes generation-speed variance.
 
 ## Exact artifacts
 
@@ -90,4 +108,4 @@ The currently pinned CUDA image digest (`sha256:190d82...`) identifies llama.cpp
 
 ## Gaps
 
-No live kube5 MTP startup log or full-context benchmark was available in the repository, so exact CUDA/host allocations, required `moeCPULayers`, and net throughput remain unknown. Before manifests are changed, run an isolated canary that captures llama.cpp's projected buffers, full-65K prefill memory, draft acceptance, prompt/decode throughput, and tool-call correctness for 35B-A3B `UD-Q4_K_XL`; fall back to `UD-Q3_K_XL` only if CPU-MoE tuning cannot provide safe margin.
+The live tuning sweep reached 44,812 prompt tokens rather than the full 65,536-token context. It measured text throughput and MTP acceptance but did not repeat image, long-context retrieval, or structured tool-call quality tests for every performance variant. GPU coexistence with active Jellyfin or Immich inference also remains untested; time slicing still provides no VRAM isolation.

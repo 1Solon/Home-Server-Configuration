@@ -40,14 +40,14 @@ spec:
   reasoningBudget: 8192
   reasoningBudgetMessage: "Stop reasoning and produce the implementation, tool call, or final answer."
   moeCPULayers: 20
-  batchSize: 4096
-  uBatchSize: 512
+  batchSize: 8192
+  uBatchSize: 2048
   runtimeClassName: nvidia
   nodeSelector:
     kubernetes.io/hostname: kube5
   resources:
-    cpu: "500m"
-    hostMemory: 18Gi
+    cpu: "4"
+    hostMemory: 28Gi
     gpu: 1
   env:
     - name: CUDA_VISIBLE_DEVICES
@@ -63,22 +63,13 @@ spec:
     - --cont-batching
     - --spec-type
     - draft-mtp
-    - --spec-draft-p-min
-    - "0.75"
     - --spec-draft-n-max
-    - "3"
-    - --spec-draft-type-k
-    - q8_0
-    - --spec-draft-type-v
-    - q8_0
-    - -sps
-    - "0.75"
+    - "2"
     - --cache-prompt
     - --threads-batch
     - "8"
     - --threads
-    - "4"
-    - --kv-unified
+    - "8"
     - --cache-ram
     - "8192"
     - --temp

@@ -17,6 +17,15 @@ auxiliary:
     provider: auto
   curator:
     provider: auto
+  # Auto-title competes with the first user turn for llama.cpp's single slot.
+  # Keep this cosmetic auxiliary direct so it cannot queue the visible answer.
+  title_generation:
+    provider: auto
+    reasoning_effort: none
+    extra_body:
+      chat_template_kwargs:
+        enable_thinking: false
+      thinking_budget_tokens: 0
 web:
   backend: firecrawl
 tools:

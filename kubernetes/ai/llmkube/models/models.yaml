@@ -31,71 +31,54 @@ spec:
   mode: chat
   replicas: 1
   image: ghcr.io/ggml-org/llama.cpp:server-cuda@sha256:a1c6b2c951e24c704a0d753286742f7b861cdd718e3dc8d7f70d259e1d57d935
-  bindAddress: 0.0.0.0
   contextSize: 65536
   parallelSlots: 1
   flashAttention: true
   jinja: true
   cacheTypeK: q8_0
   cacheTypeV: q8_0
+  reasoningBudget: 8192
+  reasoningBudgetMessage: "Stop reasoning and produce the implementation, tool call, or final answer."
   moeCPULayers: 20
-  batchSize: 8192
-  uBatchSize: 1024
-  speculativeDecoding:
-    type: draft-mtp
-    nDraftMax: 2
+  batchSize: 4096
+  uBatchSize: 512
   runtimeClassName: nvidia
   nodeSelector:
     kubernetes.io/hostname: kube5
   resources:
-    cpu: "4"
+    cpu: "500m"
     hostMemory: 18Gi
     gpu: 1
-  endpoint:
-    type: ClusterIP
-    port: 8080
   env:
     - name: CUDA_VISIBLE_DEVICES
       value: "0"
-  podSecurityContext:
-    fsGroup: 1000
-    fsGroupChangePolicy: OnRootMismatch
-    seccompProfile:
-      type: RuntimeDefault
-  securityContext:
-    allowPrivilegeEscalation: false
-    capabilities:
-      drop:
-        - ALL
-  probeOverrides:
-    startup:
-      httpGet: { path: /health, port: 8080 }
-      periodSeconds: 10
-      timeoutSeconds: 5
-      failureThreshold: 540
-    liveness:
-      httpGet: { path: /health, port: 8080 }
-      initialDelaySeconds: 30
-      periodSeconds: 30
-      timeoutSeconds: 5
-      failureThreshold: 6
-    readiness:
-      httpGet: { path: /health, port: 8080 }
-      initialDelaySeconds: 20
-      periodSeconds: 10
-      timeoutSeconds: 5
-      failureThreshold: 6
   extraArgs:
     - --alias
     - Qwen3.6-35B-A3B
     - --verbosity
     - "3"
-    - --reasoning-format
-    - deepseek
-    - --reasoning-budget
-    - "8192"
+    - --no-mmproj-offload
+    - --image-min-tokens
+    - "1024"
+    - --cont-batching
+    - --spec-type
+    - draft-mtp
+    - --spec-draft-p-min
+    - "0.75"
+    - --spec-draft-n-max
+    - "3"
+    - --spec-draft-type-k
+    - q8_0
+    - --spec-draft-type-v
+    - q8_0
+    - -sps
+    - "0.75"
+    - --cache-prompt
     - --threads-batch
     - "8"
+    - --threads
+    - "4"
+    - --kv-unified
     - --cache-ram
     - "8192"
     - --temp
@@ -111,3 +94,30 @@ spec:
     - --repeat-penalty
     - "1.0"
     - --no-context-shift
+    - --mmap
+    --n-predict
+    - "16384"
+  endpoint:
+    port: 8080
+    type: ClusterIP
+  probeOverrides:
+      startup:
+        httpGet:
+          path: /health
+          port: 8080
+        periodSeconds: 10
+        failureThreshold: 360
+      liveness:
+        httpGet:
+          path: /health
+          port: 8080
+        initialDelaySeconds: 30
+        periodSeconds: 30
+        failureThreshold: 6
+      readiness:
+        httpGet:
+          path: /health
+          port: 8080
+        initialDelaySeconds: 20
+        periodSeconds: 10
+        failureThreshold: 6

@@ -92,6 +92,8 @@ spec:
     - "3"
     - --reasoning-format
     - deepseek
+    - --reasoning-budget
+    - "8192"
     - --threads-batch
     - "8"
     - --cache-ram

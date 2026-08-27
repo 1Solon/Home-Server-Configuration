@@ -23,7 +23,9 @@ A live sweep on 2026-08-27 used the pinned model and server image, one slot, a 4
 
 The measured winner is `batchSize: 8192`, `uBatchSize: 2048`, `--threads 8`, `--threads-batch 8`, `--spec-draft-n-max 2`, and `--mmap`. Compared with ubatch 1024, ubatch 2048 improved prefill by 27.4% without materially changing decode speed. Draft max 3 reduced decode throughput by about 8%. `--load-mode none` closed the server connection during the long prefill through two independent transports and is rejected as unstable for this workload.
 
-At the winning setting, the pod reported 14,352 MiB GPU use with 1,599 MiB free and approximately 25,498 MiB resident host memory after the benchmark. The manifest therefore reserves 28 GiB host memory and four CPUs while permitting the unbounded process to use all eight logical CPUs. These measurements apply to this pinned build and workload; output-dependent MTP acceptance still causes generation-speed variance.
+At the winning 65,536-context setting, the pod reported 14,352 MiB GPU use with 1,599 MiB free and approximately 25,498 MiB resident host memory after the benchmark. The manifest therefore reserves 28 GiB host memory and four CPUs while permitting the unbounded process to use all eight logical CPUs. These measurements apply to this pinned build and workload; output-dependent MTP acceptance still causes generation-speed variance.
+
+A subsequent 131,072-context acceptance test retained the winning throughput settings and successfully served 119,012 prompt tokens plus 64 generated tokens. It processed the long prompt at 1,253.55 tok/s and decoded at 26.46 tok/s at that context depth. GPU use reached 15,786 MiB with 165 MiB free. This intentionally leaves virtually no VRAM margin and assumes no concurrent GPU-memory consumer; the service may fail if another workload allocates meaningful VRAM.
 
 ## Exact artifacts
 
@@ -108,4 +110,4 @@ The currently pinned CUDA image digest (`sha256:190d82...`) identifies llama.cpp
 
 ## Gaps
 
-The live tuning sweep reached 44,812 prompt tokens rather than the full 65,536-token context. It measured text throughput and MTP acceptance but did not repeat image, long-context retrieval, or structured tool-call quality tests for every performance variant. GPU coexistence with active Jellyfin or Immich inference also remains untested; time slicing still provides no VRAM isolation.
+The live context acceptance test reached 119,012 prompt tokens of the configured 131,072-token window. It measured text throughput and MTP acceptance but did not repeat image, long-context retrieval, or structured tool-call quality tests at that depth. GPU coexistence with active Jellyfin or Immich inference also remains untested; time slicing still provides no VRAM isolation.

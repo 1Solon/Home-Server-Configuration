@@ -95,7 +95,7 @@ spec:
     - --threads-batch
     - "8"
     - --cache-ram
-    - "4096"
+    - "8192"
     - --temp
     - "1.0"
     - --top-p

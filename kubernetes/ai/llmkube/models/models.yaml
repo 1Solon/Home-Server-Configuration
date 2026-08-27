@@ -20,11 +20,27 @@ spec:
       layers: -1
 ---
 apiVersion: inference.llmkube.dev/v1alpha1
+kind: Model
+metadata:
+  name: qwen3-6-35b-a3b-dflash
+spec:
+  source: hf://williamliao/Qwen3.6-35B-A3B-DFlash-GGUF@928b3632c9f72c10fa5402c9024bf1b31f66c0ab
+  files:
+    - Qwen3.6-35B-A3B-DFlash-Q8_0.gguf
+  sha256: fc79ee2c84688674e4f134d5797a6baee4884167659a6eec8866c7789ee1318b
+  format: gguf
+  quantization: Q8_0
+---
+apiVersion: inference.llmkube.dev/v1alpha1
 kind: InferenceService
 metadata:
   name: qwen3-6-35b-a3b
 spec:
   modelRef: qwen3-6-35b-a3b
+  speculativeDecoding:
+    type: draft-dflash
+    draftModelRef: qwen3-6-35b-a3b-dflash
+    nDraftMax: 3
   modelCache:
     persistence: Cached
   runtime: llamacpp
@@ -39,7 +55,7 @@ spec:
   cacheTypeV: q8_0
   reasoningBudget: 8192
   reasoningBudgetMessage: "Stop reasoning and produce the implementation, tool call, or final answer."
-  moeCPULayers: 20
+  moeCPULayers: 23
   batchSize: 8192
   uBatchSize: 2048
   runtimeClassName: nvidia
@@ -61,10 +77,6 @@ spec:
     - --image-min-tokens
     - "1024"
     - --cont-batching
-    - --spec-type
-    - draft-mtp
-    - --spec-draft-n-max
-    - "2"
     - --cache-prompt
     - --threads-batch
     - "8"

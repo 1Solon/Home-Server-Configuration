@@ -1,25 +1,14 @@
 ---
 model:
-  provider: custom:qwen-local
-  default: Qwen3.6-35B-A3B
-providers:
-  qwen-local:
-    name: qwen-local
-    api: http://qwen3-6-35b-a3b.ai.svc.cluster.local:8080/v1
-    transport: chat_completions
-    default_model: Qwen3.6-35B-A3B
-    extra_body:
-      chat_template_kwargs:
-        enable_thinking: true
+  provider: openai-codex
+  default: gpt-5.6-luna
 auxiliary:
   vision:
-    provider: auto
+    provider: openai-codex
+    model: gpt-5.6-luna
   curator:
-    provider: auto
-  # API sessions otherwise launch a cosmetic model call that competes with the
-  # user-visible turn for llama.cpp's single slot.
-  title_generation:
-    enabled: false
+    provider: openai-codex
+    model: gpt-5.6-sol
 web:
   backend: firecrawl
 tools:
@@ -56,6 +45,7 @@ display:
   skin: mono
 agent:
   reasoning_effort: medium
+  service_tier: fast
 streaming:
   enabled: true
 security:

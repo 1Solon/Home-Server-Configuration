@@ -57,7 +57,7 @@ spec:
   reasoningBudgetMessage: "Stop reasoning and produce the implementation, tool call, or final answer."
   moeCPULayers: 23
   batchSize: 8192
-  uBatchSize: 2048
+  uBatchSize: 512
   runtimeClassName: nvidia
   nodeSelector:
     kubernetes.io/hostname: kube5

@@ -95,7 +95,7 @@ spec:
     - "1.0"
     - --no-context-shift
     - --mmap
-    --n-predict
+    - --n-predict
     - "16384"
   endpoint:
     port: 8080

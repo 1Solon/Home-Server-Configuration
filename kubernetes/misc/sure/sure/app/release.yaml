@@ -176,6 +176,15 @@ spec:
                 name: *app
 
     persistence:
+      config:
+        type: configMap
+        name: sure-config
+        advancedMounts:
+          sure:
+            app:
+              - path: /rails/config/initializers/session_store.rb
+                subPath: session_store.rb
+                readOnly: true
       storage:
         existingClaim: sure-kopiur-replacement
         advancedMounts:

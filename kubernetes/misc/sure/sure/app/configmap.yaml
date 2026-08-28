@@ -1,0 +1,15 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: sure-config
+data:
+  session_store.rb: |
+    # Work around https://github.com/we-promise/sure/issues/1571.
+    # OmniAuth's callback data can exceed Rails' 4 KiB CookieStore limit.
+    Rails.application.config.session_store :cache_store,
+      key: "_sure_session",
+      expire_after: 1.hour,
+      httponly: true,
+      secure: Rails.env.production?,
+      same_site: :lax

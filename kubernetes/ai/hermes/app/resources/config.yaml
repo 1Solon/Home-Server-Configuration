@@ -1,7 +1,10 @@
 ---
 model:
-  provider: openai-codex
-  default: gpt-5.6-luna
+  provider: custom
+  default: Qwen3.6-35B-A3B
+  base_url: http://qwen3-6-35b-a3b.ai.svc.cluster.local:8080/v1
+  api_mode: chat_completions
+  context_length: 131072
 auxiliary:
   vision:
     provider: openai-codex

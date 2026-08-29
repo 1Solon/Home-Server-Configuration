@@ -80,7 +80,7 @@ spec:
           app:
             image:
               repository: ghcr.io/bookorbit/bookorbit
-              tag: 2.8.0@sha256:545a874debdb84a04c51b6bb2204376098779a227533bac69f5b087c034ffcff
+              tag: 2.8.1@sha256:cc1ecc94135464888313e599467f5f3834325edfaf47c5cf2f96d5c7c92ceca8
             env:
               TZ: ${TZ}
               NODE_ENV: production

@@ -9,7 +9,7 @@ spec:
   interval: 30m
   ref:
     # renovate: datasource=github-releases depName=home-operations/kopiur
-    tag: 0.10.4
+    tag: 0.10.5
   url: https://github.com/home-operations/kopiur
 ---
 # yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json

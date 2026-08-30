@@ -2,15 +2,14 @@
 apiVersion: inference.llmkube.dev/v1alpha1
 kind: Model
 metadata:
-  name: qwen3-6-35b-a3b
+  name: ornith-1-5-35b
 spec:
-  source: hf://unsloth/Qwen3.6-35B-A3B-MTP-GGUF@5bc3e238d916f48a861bac2f8a1990a0e9b7e98d
+  source: hf://ornith-ai/Ornith-1.5-35B-A3B-GGUF@12393612fd4f730ff5aadc23e9b8f9648aa49ceb
   files:
-    - Qwen3.6-35B-A3B-UD-Q4_K_XL.gguf
-  mmproj: mmproj-F16.gguf
-  sha256: 55983c5a75a1ab969824077b3bb3de4146e82a9234072b48ad4e8f92ad3fe9f1
+    - Ornith-1.5-35B-Q4_K_M.gguf
+  sha256: 42739874cc2ccfdb8523b23fbe52e29b2a7555c8176737ca9ca0b5d59859d41f
   format: gguf
-  quantization: UD-Q4_K_XL
+  quantization: Q4_K_M
   hardware:
     accelerator: cuda
     gpu:
@@ -20,44 +19,25 @@ spec:
       layers: -1
 ---
 apiVersion: inference.llmkube.dev/v1alpha1
-kind: Model
-metadata:
-  name: qwen3-6-35b-a3b-dflash
-spec:
-  source: hf://williamliao/Qwen3.6-35B-A3B-DFlash-GGUF@928b3632c9f72c10fa5402c9024bf1b31f66c0ab
-  files:
-    - Qwen3.6-35B-A3B-DFlash-Q8_0.gguf
-  sha256: fc79ee2c84688674e4f134d5797a6baee4884167659a6eec8866c7789ee1318b
-  format: gguf
-  quantization: Q8_0
----
-apiVersion: inference.llmkube.dev/v1alpha1
 kind: InferenceService
 metadata:
-  name: qwen3-6-35b-a3b
+  name: ornith-1-5-35b
 spec:
-  modelRef: qwen3-6-35b-a3b
+  modelRef: ornith-1-5-35b
   speculativeDecoding:
-    type: draft-dflash
-    draftModelRef: qwen3-6-35b-a3b-dflash
-    nDraftMax: 5
+    type: draft-mtp
+    nDraftMax: 2
   modelCache:
     persistence: Cached
   runtime: llamacpp
   mode: chat
   replicas: 1
   image: ghcr.io/ggml-org/llama.cpp:server-cuda@sha256:a2d04d1d1c2b2abe287fef9a22a3700a7fa20aec4c4ab56135e0099f38119848
-  contextSize: 131072
+  contextSize: 65536
   parallelSlots: 1
   flashAttention: true
   jinja: true
-  cacheTypeK: q8_0
-  cacheTypeV: q8_0
-  reasoningBudget: 8192
-  reasoningBudgetMessage: "Stop reasoning and produce the implementation, tool call, or final answer."
-  moeCPULayers: 23
-  batchSize: 8192
-  uBatchSize: 768
+  batchSize: 1024
   runtimeClassName: nvidia
   nodeSelector:
     kubernetes.io/hostname: kube5
@@ -70,37 +50,19 @@ spec:
       value: "0"
   extraArgs:
     - --alias
-    - Qwen3.6-35B-A3B
+    - ornith-1.5-35b
     - --verbosity
     - "3"
-    - --no-mmproj-offload
-    - --image-min-tokens
-    - "1024"
-    - --cont-batching
-    - --cache-prompt
-    - --threads-batch
-    - "8"
-    - --threads
-    - "8"
-    - --cache-ram
-    - "8192"
+    - --fit
+    - "on"
+    - --fit-target
+    - "256"
     - --temp
-    - "1.0"
+    - "0.6"
     - --top-p
     - "0.95"
     - --top-k
     - "20"
-    - --min-p
-    - "0"
-    - --presence-penalty
-    - "0"
-    - --repeat-penalty
-    - "1.0"
-    - --no-context-shift
-    - --load-mode
-    - mmap
-    - --n-predict
-    - "16384"
   endpoint:
     port: 8080
     type: ClusterIP

@@ -55,6 +55,8 @@ spec:
               ENABLE_OPENAI_API: True
               ENABLE_OLLAMA_API: False
               ENABLE_BASE_MODELS_CACHE: "false"
+              # Keep Git and ExternalSecret values authoritative over database-backed ConfigVars.
+              ENABLE_PERSISTENT_CONFIG: "false"
               ENABLE_RAG_WEB_SEARCH: true
               ENABLE_SEARCH_QUERY: true
               ENABLE_PIP_INSTALL_FRONTMATTER_REQUIREMENTS: "false"

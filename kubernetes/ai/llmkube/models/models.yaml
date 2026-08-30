@@ -56,6 +56,9 @@ spec:
     - "on"
     - --fit-target
     - "256"
+    # llmkube 0.9.23 injects 99 whenever a GPU is requested; reset it so --fit can choose.
+    - --n-gpu-layers
+    - "-1"
     - --temp
     - "0.6"
     - --top-p

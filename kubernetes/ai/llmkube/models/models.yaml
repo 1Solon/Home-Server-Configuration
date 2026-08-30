@@ -16,7 +16,6 @@ spec:
       enabled: true
       vendor: nvidia
       count: 1
-      layers: -1
 ---
 apiVersion: inference.llmkube.dev/v1alpha1
 kind: InferenceService

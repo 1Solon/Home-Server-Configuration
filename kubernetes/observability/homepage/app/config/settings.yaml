@@ -48,7 +48,7 @@ layout:
   Storage:
     tab: Infrastructure
     style: row
-    columns: 2
+    columns: 1
     icon: mdi-desktop-tower
     useEqualHeights: true
   Networking:

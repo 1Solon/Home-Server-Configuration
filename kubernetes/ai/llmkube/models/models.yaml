@@ -65,6 +65,9 @@ spec:
     - "0.95"
     - --top-k
     - "20"
+    - --reasoning-preserve
+    - --repeat-penalty
+    - "1.1"
   endpoint:
     port: 8080
     type: ClusterIP

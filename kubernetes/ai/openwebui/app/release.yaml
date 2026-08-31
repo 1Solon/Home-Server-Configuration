@@ -57,11 +57,11 @@ spec:
               ENABLE_BASE_MODELS_CACHE: "false"
               # Keep Git and ExternalSecret values authoritative over database-backed ConfigVars.
               ENABLE_PERSISTENT_CONFIG: "false"
-              ENABLE_RAG_WEB_SEARCH: true
-              ENABLE_SEARCH_QUERY: true
+              ENABLE_WEB_SEARCH: true
+              ENABLE_SEARCH_QUERY_GENERATION: true
               ENABLE_PIP_INSTALL_FRONTMATTER_REQUIREMENTS: "false"
               CHAT_RESPONSE_MAX_TOOL_CALL_ITERATIONS: "8"
-              RAG_WEB_SEARCH_ENGINE: searxng
+              WEB_SEARCH_ENGINE: searxng
               SEARXNG_QUERY_URL: http://searxng.ai.svc.cluster.local:8080/search?q=<query>
               ENABLE_WEBSOCKET_SUPPORT: "true"
               WEBSOCKET_MANAGER: "redis"

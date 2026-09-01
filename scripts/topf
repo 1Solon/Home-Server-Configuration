@@ -1,0 +1,72 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Update the version and all platform checksums together.
+topf_version=v0.5.0
+# Update the version and all platform checksums together.
+sops_version=v3.12.2
+
+case "$(uname -s)" in
+  Darwin) os="darwin" ;;
+  Linux) os="linux" ;;
+  *) echo "unsupported operating system: $(uname -s)" >&2; exit 1 ;;
+esac
+
+case "$(uname -m)" in
+  arm64|aarch64) arch="arm64" ;;
+  x86_64|amd64) arch="amd64" ;;
+  *) echo "unsupported architecture: $(uname -m)" >&2; exit 1 ;;
+esac
+
+case "${os}_${arch}" in
+  darwin_amd64)
+    topf_checksum="5075cf8120e2512065b174f444c725171663b2155faeceab5f85d45bb6740ea1"
+    sops_checksum="767c0dcb42e052fd6f2ac17d4473eca6f5fc4910e2b70127f1308d86c606c022"
+    ;;
+  darwin_arm64)
+    topf_checksum="e7de2cde889c1fba552a35c18e500f03ca120d79eb1a7643ee7503eb2572c166"
+    sops_checksum="284edc64acf91ca249f227ffa2b444632656e4e1ac02baa26bed7051a7d51ce5"
+    ;;
+  linux_amd64)
+    topf_checksum="0a5ba8187887972acc7905cf12e804317b1869219bbf070d8dd2a9e29b70570c"
+    sops_checksum="14e2e1ba3bef31e74b70cf0b674f6443c80f6c5f3df15d05ffc57c34851b4998"
+    ;;
+  linux_arm64)
+    topf_checksum="d8aa6515ae9de54588fc0bba3fad9fe37a93c08cf20adc931baed4a67912cef1"
+    sops_checksum="f66de6f528dca946e910d74fa36a62a7714c11d0db16bd3c9bd8acf73b66704b"
+    ;;
+esac
+
+sha256() {
+  if command -v sha256sum >/dev/null 2>&1; then
+    sha256sum "$1" | cut -d ' ' -f 1
+  else
+    shasum -a 256 "$1" | cut -d ' ' -f 1
+  fi
+}
+
+cache_root="${XDG_CACHE_HOME:-${HOME}/.cache}/home-server-configuration/topf/${topf_version}"
+topf_binary="${cache_root}/topf"
+sops_binary="${cache_root}/sops"
+
+if [[ ! -x "${topf_binary}" ]]; then
+  archive="${cache_root}/topf_${os}_${arch}.tar.gz"
+  mkdir -p "${cache_root}"
+  curl --fail --location --silent --show-error \
+    "https://github.com/postfinance/topf/releases/download/${topf_version}/$(basename "${archive}")" \
+    --output "${archive}"
+  [[ "$(sha256 "${archive}")" == "${topf_checksum}" ]]
+  tar -xzf "${archive}" -C "${cache_root}" topf
+  chmod +x "${topf_binary}"
+fi
+
+if [[ ! -x "${sops_binary}" ]]; then
+  sops_asset="sops-${sops_version}.${os}.${arch}"
+  curl --fail --location --silent --show-error \
+    "https://github.com/getsops/sops/releases/download/${sops_version}/${sops_asset}" \
+    --output "${sops_binary}"
+  [[ "$(sha256 "${sops_binary}")" == "${sops_checksum}" ]]
+  chmod +x "${sops_binary}"
+fi
+
+PATH="${cache_root}:${PATH}" exec "${topf_binary}" "$@"

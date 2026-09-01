@@ -1,0 +1,10 @@
+---
+overlay:
+  name: turingrk1
+  image: siderolabs/sbc-rockchip
+customization:
+  systemExtensions:
+    officialExtensions:
+      - siderolabs/drbd
+      - siderolabs/iscsi-tools
+      - siderolabs/util-linux-tools

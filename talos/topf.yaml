@@ -1,0 +1,52 @@
+---
+# renovate: datasource=custom.talos-factory depName=siderolabs/talos
+talosVersion: v1.13.9
+
+# renovate: datasource=docker depName=ghcr.io/siderolabs/kubelet
+kubernetesVersion: v1.36.4
+
+clusterName: home-cluster
+clusterEndpoint: https://192.168.5.100:6443
+secretsPath: talsecret.sops.yaml
+schematicId: "@schematics/turing-rk1.yaml"
+
+data:
+  gateway: 192.168.1.1
+  nameserver: 192.168.1.1
+
+nodes:
+  - host: kube1
+    ip: 192.168.1.101
+    role: control-plane
+    data:
+      installDisk: /dev/nvme0n1
+      networkInterface: end0
+
+  - host: kube2
+    ip: 192.168.1.102
+    role: control-plane
+    data:
+      installDisk: /dev/nvme0n1
+      networkInterface: end0
+
+  - host: kube3
+    ip: 192.168.1.103
+    role: control-plane
+    data:
+      installDisk: /dev/nvme0n1
+      networkInterface: end0
+
+  - host: kube4
+    ip: 192.168.1.104
+    role: worker
+    data:
+      installDisk: /dev/nvme0n1
+      networkInterface: end0
+
+  - host: kube5
+    ip: 192.168.1.105
+    role: worker
+    schematicId: "@schematics/nvidia.yaml"
+    data:
+      installDisk: /dev/vda
+      networkInterface: ens3

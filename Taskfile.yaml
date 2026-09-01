@@ -8,8 +8,54 @@ tasks:
     silent: true
 
   gen:
-    desc: Generate cluster configurations
+    desc: Render Talos machine and client configurations
     dir: talos
+    preconditions:
+      - sh: test -f talsecret.sops.yaml
+        msg: The existing Talos secrets bundle is required
+      - sh: grep -q '^sops:' talsecret.sops.yaml
+        msg: Refusing to render without a SOPS-encrypted Talos secrets bundle
     cmds:
-      - talhelper genconfig
+      - |
+        output_dir="$(mktemp -d)"
+        secrets_backup="$(mktemp)"
+        cp talsecret.sops.yaml "${secrets_backup}"
+
+        finish() {
+          status=$?
+          trap - EXIT
+          rm -rf "${output_dir}"
+          rm -f ./clusterconfig/*.tmp
+          if ! cmp -s "${secrets_backup}" talsecret.sops.yaml; then
+            cp "${secrets_backup}" talsecret.sops.yaml
+            echo "TOPF changed the Talos secrets bundle; the encrypted original was restored" >&2
+            status=1
+          fi
+          rm -f "${secrets_backup}"
+          exit "${status}"
+        }
+        trap finish EXIT
+
+        talos_version="$(awk '/^talosVersion:/ { print $2 }' topf.yaml)"
+        ../scripts/talosctl version --client --short | grep -q "Talos ${talos_version}$"
+
+        ../scripts/topf render --output "${output_dir}"
+        ../scripts/topf talosconfig > "${output_dir}/talosconfig"
+        chmod 0600 "${output_dir}/talosconfig"
+
+        if ! cmp -s "${secrets_backup}" talsecret.sops.yaml; then
+          cp "${secrets_backup}" talsecret.sops.yaml
+          echo "TOPF changed the Talos secrets bundle; refusing generated output" >&2
+          exit 1
+        fi
+
+        for config in "${output_dir}"/*.yaml; do
+          ../scripts/talosctl validate --strict --mode metal --config "${config}"
+        done
+
+        for config in "${output_dir}"/*; do
+          destination="./clusterconfig/$(basename "${config}")"
+          install -m 0600 "${config}" "${destination}.tmp"
+          mv "${destination}.tmp" "${destination}"
+        done
     silent: false

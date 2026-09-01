@@ -1,0 +1,20 @@
+---
+apiVersion: v1alpha1
+kind: VolumeConfig
+name: EPHEMERAL
+provisioning:
+  diskSelector:
+    match: system_disk
+  minSize: 100GB
+  maxSize: 100GB
+---
+# The legacy name determines the existing partition label r-longhorn-csi.
+# Miroir actively uses that partition; renaming it would risk reprovisioning.
+apiVersion: v1alpha1
+kind: RawVolumeConfig
+name: longhorn-csi
+provisioning:
+  diskSelector:
+    match: system_disk
+  minSize: 100GB
+  grow: true

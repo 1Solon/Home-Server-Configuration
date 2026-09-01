@@ -14,8 +14,8 @@ _GitOps-managed Kubernetes cluster running on Talos Linux with Flux CD and Renov
 ![GitHub forks](https://img.shields.io/github/forks/1Solon/Home-Server-Configuration?style=for-the-badge)
 ![GitHub last commit](https://img.shields.io/github/last-commit/1Solon/Home-Server-Configuration?style=for-the-badge)
 
-![Kubernetes](https://img.shields.io/badge/kubernetes-v1.35.0-blue?style=for-the-badge&logo=kubernetes)
-![Talos](https://img.shields.io/badge/talos-v1.12.1-blue?style=for-the-badge&logo=talos)
+![Kubernetes](https://img.shields.io/badge/kubernetes-v1.36.4-blue?style=for-the-badge&logo=kubernetes)
+![Talos](https://img.shields.io/badge/talos-v1.13.9-blue?style=for-the-badge&logo=talos)
 ![Renovate](https://img.shields.io/badge/renovate-enabled-brightgreen?style=for-the-badge&logo=renovatebot)
 
 </div>
@@ -25,10 +25,10 @@ _GitOps-managed Kubernetes cluster running on Talos Linux with Flux CD and Renov
 This is a **GitOps-managed Kubernetes home server** with the following stack:
 
 - **Nodes**: 5-node hybrid cluster (4x ARM64, 1x x86_64)
-- **OS**: Talos Linux v1.12.1 (immutable, API-configured)
-- **Kubernetes**: v1.35.0
+- **OS**: Talos Linux v1.13.9 (immutable, API-configured)
+- **Kubernetes**: v1.36.4
 - **GitOps**: Flux CD manages all workloads from this repository
-- **Storage**: Longhorn for persistent volumes, Crunchy Postgres for databases, Dragonfly for caching
+- **Storage**: Miroir for persistent volumes, Crunchy Postgres for databases, Dragonfly for caching
 - **Networking**: Cilium CNI, Envoy Gateway, Cloudflare DNS/DDNS, Tailscale VPN
 - **Secrets**: SOPS with AGE encryption + 1Password via External Secrets Operator (mostly this, some former)
 
@@ -117,8 +117,9 @@ The Git repository contains the following directories:
         │   └──📁 postgres
         ├──📁 garage
         │   └──📁 webui
-        └──📁 longhorn
-            └──📁 longhorn
+        └──📁 miroir
+            ├──📁 config
+            └──📁 miroir
 ```
 
 ## 🖥️ Software
@@ -148,7 +149,7 @@ The Git repository contains the following directories:
 | [Kube Prometheus Stack](https://github.com/prometheus-operator/kube-prometheus-stack) | Observability    | Complete monitoring stack with Prometheus and Grafana.    |
 | [Kube State Metrics](https://github.com/kubernetes/kube-state-metrics)                | Observability    | Exposes cluster-level Kubernetes object metrics.          |
 | [LiteLLM](https://github.com/BerriAI/litellm)                                         | Applications     | Proxy server for LLM API calls with unified interface.    |
-| [Longhorn](https://longhorn.io)                                                       | Storage          | Distributed block storage for Kubernetes.                 |
+| [Miroir](https://github.com/home-operations/miroir)                                  | Storage          | Replicated block storage for Kubernetes.                  |
 | [Metrics Server](https://github.com/kubernetes-sigs/metrics-server)                   | Observability    | Cluster-wide aggregator of resource usage data.           |
 | [Node Exporter](https://github.com/prometheus/node_exporter)                          | Observability    | Prometheus exporter for hardware and OS metrics.          |
 | [Node Feature Discovery](https://github.com/kubernetes-sigs/node-feature-discovery)   | Node Management  | Detects hardware features available on each node.         |
@@ -173,6 +174,6 @@ The Git repository contains the following directories:
 
 | Device                                                                                       | Count | OS Disk Size | Data Disk Size | Ram  | Operating System | Purpose             |
 | -------------------------------------------------------------------------------------------- | ----- | ------------ | -------------- | ---- | ---------------- | ------------------- |
-| [Turing RK1](https://turingpi.com/product/turing-rk1/?attribute_ram=16+GB)                   | 4     | 2TB NVMe     | -              | 16GB | Talos v1.12.1    | ARM64 Cluster Nodes |
+| [Turing RK1](https://turingpi.com/product/turing-rk1/?attribute_ram=16+GB)                   | 4     | 2TB NVMe     | -              | 16GB | Talos v1.13.9    | ARM64 Cluster Nodes |
 | [Turing Pi 2](https://turingpi.com/product/turing-pi-2-5/)                                   | 1     | -            | -              | -    | -                | Baseboard and KVM   |
-| [CWWK AMD-7940HS](https://www.amazon.com/CWWK-NAS-display-network-motherboard/dp/B0D5M2M3Y5) | 1     | 1TB NVMe     | 8TB HDD (2x)   | 32GB | Talos v1.12.1    | x86_64 Cluster Node |
+| [CWWK AMD-7940HS](https://www.amazon.com/CWWK-NAS-display-network-motherboard/dp/B0D5M2M3Y5) | 1     | 1TB NVMe     | 8TB HDD (2x)   | 32GB | Talos v1.13.9    | x86_64 Cluster Node |

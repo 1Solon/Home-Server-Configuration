@@ -1,0 +1,5 @@
+---
+machine:
+  sysctls:
+    net.core.bpf_jit_harden: 1
+    vm.max_map_count: 262144

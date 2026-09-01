@@ -4,23 +4,23 @@ Research snapshot: **2026-09-01**
 
 ## Executive recommendation
 
-**Pilot [TOPF](https://github.com/postfinance/topf) as the replacement for Talhelper's generation role, pinned to `v0.5.0`, but keep this repository's existing Longhorn-aware `talosctl` apply and reset scripts during the first migration. Do not adopt [talstomize](https://github.com/mirceanton/talstomize) for production yet.**
+**Use [TOPF](https://github.com/postfinance/topf) as the replacement for Talhelper's generation role, pinned to `v0.5.0`. Keep apply, upgrade, reset, and bootstrap outside repository tasks until their operational workflows are designed for the current Miroir storage stack. Do not adopt [talstomize](https://github.com/mirceanton/talstomize) for production yet.**
 
 This recommendation is an **inference** from the primary-source evidence below:
 
 - TOPF has a stable `v0.5.0` release, a documented Talos `v1.13.x` support range, a dedicated Talhelper migration guide, several months of release history, multiple human contributors, and broader lifecycle/preflight behavior. Its latest stable release is nevertheless pre-1.0 and embeds Talos machinery `v1.13.8`, so it should be validated against this cluster's `v1.13.9` output before use. [TOPF releases](https://github.com/postfinance/topf/releases) [TOPF `v0.5.0`](https://github.com/postfinance/topf/releases/tag/v0.5.0) [supported versions](https://github.com/postfinance/topf/blob/d33d33aca63de7a74f5f35e03de0804d41a26e9a/docs/getting-started.md#L3-L9) [`v0.5.0` dependencies](https://github.com/postfinance/topf/blob/d33d33aca63de7a74f5f35e03de0804d41a26e9a/go.mod#L5-L14) [migration guide](https://github.com/postfinance/topf/blob/d33d33aca63de7a74f5f35e03de0804d41a26e9a/docs/migration-from-talhelper.md)
 - talstomize is attractive because its single-file, inline/file patch model is closer to the present Talhelper input, but its only release is `v0.1.0-rc.1`; it has no stable release, support matrix, or migration guide, and important Talos/Kubernetes drift checks plus the `v1.13.9` machinery update are only on unreleased `main`. [prerelease](https://github.com/mirceanton/talstomize/releases/tag/v0.1.0-rc.1) [release-to-main comparison](https://github.com/mirceanton/talstomize/compare/f3bd54a80ee2ec3fede1cd04a5148634ed41c570...c668be9d7f617dd16f7b3a87560fdc0a99f2c653) [current machinery dependency](https://github.com/mirceanton/talstomize/blob/c668be9d7f617dd16f7b3a87560fdc0a99f2c653/go.mod#L3-L10)
-- Neither candidate is a drop-in replacement. Rendered files are named `<host>.yaml`, while the current safety tasks consume `talos/clusterconfig/home-cluster-<host>.yaml`; task paths or an output adaptation would be required after a migration. [current tasks](../../Taskfile.yaml#L20-L74) [TOPF render output](https://github.com/postfinance/topf/blob/21831714b9adf33a20c9bf8688a4ac8202744ece/cmd/topf/render.go#L51-L84) [talstomize build output](https://github.com/mirceanton/talstomize/blob/c668be9d7f617dd16f7b3a87560fdc0a99f2c653/internal/cli/build.go#L40-L85)
+- Neither candidate is a drop-in replacement. TOPF names rendered files `<host>.yaml`, so the migration must update the generated-output ignore list and any consumers of Talhelper's `home-cluster-<host>.yaml` names. [TOPF render output](https://github.com/postfinance/topf/blob/21831714b9adf33a20c9bf8688a4ac8202744ece/cmd/topf/render.go#L51-L84) [talstomize build output](https://github.com/mirceanton/talstomize/blob/c668be9d7f617dd16f7b3a87560fdc0a99f2c653/internal/cli/build.go#L40-L85)
 
-## Current repository baseline
+## Repository baseline used for comparison
 
-The local repository currently:
+At the time of the comparison, the repository:
 
-- runs `talhelper genconfig` from `talos/` through `task gen`; generated per-node configs and `talosconfig` are ignored rather than committed, matching Talos's recommended patch-based reproducible workflow. [generation task](../../Taskfile.yaml#L142-L147) [generated-file ignore list](../../talos/clusterconfig/.gitignore) [official reproducible-configuration guidance](https://docs.siderolabs.com/talos/v1.13/configure-your-talos-cluster/system-configuration/reproducible-machine-configuration.md)
-- declares Talos `v1.13.9`, Kubernetes `v1.36.4`, three control planes and two workers, global/control-plane/node strategic-merge patches, multi-document Talos configuration, two Image Factory schematic families, ARM64 Turing RK1 overlays, NVIDIA extensions, and no JSON6902 patch arrays. [current Talhelper configuration](../../talos/talconfig.yaml)
-- retains its Talos secrets bundle as SOPS/age-encrypted `talos/talsecret.sops.yaml`. [encrypted bundle](../../talos/talsecret.sops.yaml#L1-L43)
-- uses Renovate annotations for both Talos and Kubernetes versions and a custom YAML regex manager. [version annotations](../../talos/talconfig.yaml#L1-L7) [Renovate configuration](../../renovate.json#L138-L168)
-- applies rendered configs one node at a time only after Longhorn replica evacuation and a Kubernetes drain, then reboots, waits for readiness, and restores scheduling. This project-specific protection should not be replaced by either candidate's generic `apply` during the initial migration. [safe apply](../../scripts/talos-safe-apply.ps1#L62-L113) [apply tasks](../../Taskfile.yaml#L10-L74)
+- ran `talhelper genconfig` from `talos/` through `task gen`; generated per-node configs and `talosconfig` were ignored rather than committed, matching Talos's recommended patch-based reproducible workflow. [official reproducible-configuration guidance](https://docs.siderolabs.com/talos/v1.13/configure-your-talos-cluster/system-configuration/reproducible-machine-configuration.md)
+- declared Talos `v1.13.9`, Kubernetes `v1.36.4`, three control planes and two workers, global/control-plane/node strategic-merge patches, multi-document Talos configuration, two Image Factory schematic families, ARM64 Turing RK1 overlays, NVIDIA extensions, and no JSON6902 patch arrays.
+- retained its Talos secrets bundle as SOPS/age-encrypted `talos/talsecret.sops.yaml`. [encrypted bundle](../../talos/talsecret.sops.yaml#L1-L43)
+- used Renovate annotations for both Talos and Kubernetes versions and a custom YAML regex manager. The annotations remain in [TOPF configuration](../../talos/topf.yaml#L1-L7). [Renovate configuration](../../renovate.json#L138-L169)
+- had Longhorn-aware apply/reset workflows. Those workflows were removed when Longhorn was retired; the TOPF migration intentionally adds render and client-config generation only.
 
 ## Comparison
 
@@ -48,7 +48,7 @@ The local repository currently:
 2. **A failed SOPS encryption can become plaintext without failing the command.** The local secrets provider retains the plaintext input when `sops encrypt` errors and writes it mode `0600`. File mode does not protect a later Git commit. [source](https://github.com/postfinance/topf/blob/21831714b9adf33a20c9bf8688a4ac8202744ece/pkg/providers/secrets_filesystem.go#L34-L49)
 3. **Migration is structurally invasive.** This repo's common, role and five node configurations must be decomposed into directories and files; TOPF does not infer the Talos hostname from `nodes[].host`. [TOPF migration guide](https://github.com/postfinance/topf/blob/d33d33aca63de7a74f5f35e03de0804d41a26e9a/docs/migration-from-talhelper.md#L18-L121) [hostname behavior](https://github.com/postfinance/topf/blob/21831714b9adf33a20c9bf8688a4ac8202744ece/README.md#L70-L83)
 4. **No strict tool-config schema was found.** Render comparison is necessary because an unknown/misspelled TOPF-specific field may not be rejected before generation. [loader](https://github.com/postfinance/topf/blob/21831714b9adf33a20c9bf8688a4ac8202744ece/pkg/config/topf_config.go#L59-L133)
-5. **Its generic lifecycle commands do not know this repo's storage safeguards.** Direct TOPF apply/reset should not bypass Longhorn evacuation or other cluster-specific runbooks.
+5. **Its generic lifecycle commands do not know this repo's storage safeguards.** Direct TOPF apply/reset should not bypass Miroir health checks or other cluster-specific runbooks.
 
 ### talstomize
 
@@ -59,24 +59,24 @@ The local repository currently:
 5. **No strict schema or migration proof exists.** There is no migration guide, compatibility matrix, JSON Schema, real-cluster CI, or established user issue history.
 6. **Trusted-input hardening has gaps.** Node names are used in output paths and interpolated into hostname YAML without demonstrated path/name constraints; remote HTTPS patches have no required digest/signature. These are source-based risk inferences, not reported exploits. [node validation](https://github.com/mirceanton/talstomize/blob/c668be9d7f617dd16f7b3a87560fdc0a99f2c653/internal/config/types.go#L245-L259) [path use](https://github.com/mirceanton/talstomize/blob/c668be9d7f617dd16f7b3a87560fdc0a99f2c653/internal/cli/build.go#L51-L64) [hostname interpolation](https://github.com/mirceanton/talstomize/blob/c668be9d7f617dd16f7b3a87560fdc0a99f2c653/internal/talos/engine.go#L232-L241)
 
-## Recommended migration proof
+## Implemented migration proof
 
-The following is a proposed validation sequence, not a claim that migration has been completed:
+The migration branch implements the following controls:
 
-1. Pin TOPF `v0.5.0`; keep Talos at `v1.13.9` during the pilot.
-2. Convert only the declarative inputs: `topf.yaml`, a shared Turing RK1 schematic, a per-`kube5` NVIDIA schematic, and deterministic `all/`, `control-plane/`, `worker/`, and `node/<host>/` patches.
-3. Point `secretsPath` at the existing SOPS bundle and prohibit TOPF from writing it. Verify the file still has top-level `sops` metadata after every TOPF invocation.
-4. Run `topf render` into a temporary directory; do not run `topf apply`.
-5. Regenerate the current Talhelper outputs and compare each pair semantically, accounting for comments and ordering. Validate all TOPF outputs with the matching Talos tooling.
-6. Confirm the Turing RK1 overlay installer and `kube5` NVIDIA installer/schematic IDs exactly match the intended Talhelper results.
-7. Adapt the output filename boundary only after equivalence is proven, then continue using the existing one-node-at-a-time PowerShell safety workflow.
-8. Exercise one worker first, observe node readiness and storage state, then proceed one node at a time. Keep the Talhelper inputs and known-good rendered outputs until all five nodes have completed a full apply/reboot cycle.
-9. Re-evaluate TOPF before Talos v1.14; require a released fix for issue #127 and repeat render comparison.
+1. TOPF is pinned to `v0.5.0`; Talos remains at `v1.13.9`.
+2. The declarative inputs are split into `topf.yaml`, shared and per-node schematics, and deterministic `all/`, `control-plane/`, and `node/<host>/` patches.
+3. `secretsPath` points at the existing SOPS bundle. Repository tasks only render machine/client configurations and do not invoke TOPF apply, reset, upgrade, or bootstrap commands.
+4. TOPF was run against generated dummy secrets outside the workspace. All five rendered machine configurations passed strict Talos `v1.13.9` metal-mode validation.
+5. The dummy-secret TOPF output was compared structurally with Talhelper `v3.1.17` output. The only machine-config difference was the intentional removal of the retired `/var/lib/longhorn` kubelet bind mount.
+6. The Turing RK1 and `kube5` NVIDIA schematic IDs and resulting installer image references matched Talhelper exactly.
+7. The legacy `longhorn-csi` raw-volume identity is preserved because Miroir actively uses the existing `r-longhorn-csi` partition label.
+8. TOPF, SOPS, and the matching Talos CLI downloads are repository-pinned and SHA-256 verified. Generated files are staged, strictly validated, then replaced using TOPF's `<host>.yaml` convention.
+9. TOPF must be re-evaluated before Talos v1.14; require a released fix for issue #127 and repeat render comparison.
 
 ## Uncertainty and evidence gaps
 
-- Static source review cannot prove byte- or semantic-equivalent output for this specific Talhelper configuration. No candidate was executed against the local secrets/config because Go is unavailable and decrypting operational secrets was unnecessary for research.
-- TOPF's documented `v1.13.x` support includes this repo's `v1.13.9`, but stable `v0.5.0` embeds `v1.13.8` Talos machinery. Compatibility is plausible within the documented minor line but remains to be proven by rendering.
+- Validation used generated dummy secrets, not the production SOPS bundle. A holder of the AGE private key must run `task gen` before operational use.
+- TOPF's documented `v1.13.x` support includes this repo's `v1.13.9`, but stable `v0.5.0` embeds Talos machinery `v1.13.8`. Rendering and strict Talos `v1.13.9` validation succeeded; live-cluster behavior is still not proven.
 - talstomize submits schematic YAML opaquely enough that an Image Factory overlay may work, but its documentation and tests only establish customization examples and metal image construction, not this Turing RK1 overlay.
 - GitHub repository/release/activity counts are a point-in-time snapshot and will change. They indicate activity and adoption signals, not software correctness.
 - Absence findings such as no `SECURITY.md`, CodeQL, SBOM or schema mean none was found in the repositories' public trees/workflows at the snapshot; private organization controls and GitHub security settings were not visible.

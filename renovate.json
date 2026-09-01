@@ -150,7 +150,8 @@
       "managerFilePatterns": [
         "/(^|/).+\\.env(?:\\.j2)?$/",
         "/(^|/).+\\.sh(?:\\.j2)?$/",
-        "/(^|/).+\\.ya?ml(?:\\.j2)?$/"
+        "/(^|/).+\\.ya?ml(?:\\.j2)?$/",
+        "/^scripts/kopiur$/"
       ],
       "matchStrings": [
         "datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)( repository=(?<registryUrl>\\S+))?\\n.+(:\\s|=)(&\\S+\\s)?(?<currentValue>\\S+)",

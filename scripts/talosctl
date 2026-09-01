@@ -1,0 +1,44 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Keep this version aligned with talos/topf.yaml and update all checksums together.
+version=v1.13.9
+
+case "$(uname -s)" in
+  Darwin) os="darwin" ;;
+  Linux) os="linux" ;;
+  *) echo "unsupported operating system: $(uname -s)" >&2; exit 1 ;;
+esac
+
+case "$(uname -m)" in
+  arm64|aarch64) arch="arm64" ;;
+  x86_64|amd64) arch="amd64" ;;
+  *) echo "unsupported architecture: $(uname -m)" >&2; exit 1 ;;
+esac
+
+case "${os}_${arch}" in
+  darwin_amd64) checksum="55902fec33e93d11b64e5e01ddd9dde7ae50679328b8f3556e6d86a51dbce866" ;;
+  darwin_arm64) checksum="ab4c27a959ff6c52f62c6cc2af07b22ca86ed27f1a138ed57582fa67f7b50f98" ;;
+  linux_amd64) checksum="7e1d4b7d5846964bdcf63a794e3c8161bb6ef2983d5ace58ea5322f3bf32a27e" ;;
+  linux_arm64) checksum="51caed158eda73d2888cbf2df2d67551f9c9f8229aa42d3725e481d073e76f0b" ;;
+esac
+
+cache_root="${XDG_CACHE_HOME:-${HOME}/.cache}/home-server-configuration/talosctl/${version}"
+binary="${cache_root}/talosctl"
+
+if [[ ! -x "${binary}" ]]; then
+  mkdir -p "${cache_root}"
+  curl --fail --location --silent --show-error \
+    "https://github.com/siderolabs/talos/releases/download/${version}/talosctl-${os}-${arch}" \
+    --output "${binary}"
+
+  if command -v sha256sum >/dev/null 2>&1; then
+    actual_checksum="$(sha256sum "${binary}" | cut -d ' ' -f 1)"
+  else
+    actual_checksum="$(shasum -a 256 "${binary}" | cut -d ' ' -f 1)"
+  fi
+  [[ "${actual_checksum}" == "${checksum}" ]]
+  chmod +x "${binary}"
+fi
+
+exec "${binary}" "$@"

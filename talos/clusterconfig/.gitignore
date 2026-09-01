@@ -1,6 +1,12 @@
+kube1.yaml
+kube2.yaml
+kube3.yaml
+kube4.yaml
+kube5.yaml
+talosconfig
 home-cluster-kube1.yaml
 home-cluster-kube2.yaml
 home-cluster-kube3.yaml
 home-cluster-kube4.yaml
 home-cluster-kube5.yaml
-talosconfig
+*.tmp

@@ -1,7 +1,6 @@
 language-server-log.txt
 *decrypted*
 bgp.conf
-docs/superpowers/*
-!docs/tasks.md
+docs/
 .worktrees/
 .pi

@@ -9,6 +9,7 @@ spec:
   components:
     - ../../../components/kopiur
   dependsOn:
+    - name: firecrawl
     - name: grafana-mcp
     - name: kopiur-repository-ai
       namespace: flux-system

@@ -161,7 +161,7 @@ spec:
               HERMES_DASHBOARD_OIDC_ISSUER: https://sso.${REMOTE_DOMAIN}/application/o/hermes/
               HERMES_DASHBOARD_PUBLIC_URL: https://hermes.${LOCAL_DOMAIN}
               AGENT_BROWSER_ARGS: "--no-sandbox,--disable-dev-shm-usage"
-              FIRECRAWL_API_URL: https://api.firecrawl.dev
+              FIRECRAWL_API_URL: http://firecrawl-api.ai.svc.cluster.local:3002
               SEARXNG_URL: http://searxng.ai.svc.cluster.local:8080
             envFrom:
               - secretRef:

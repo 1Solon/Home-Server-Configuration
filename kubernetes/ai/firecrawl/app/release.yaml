@@ -1,0 +1,352 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app firecrawl
+spec:
+  interval: 30m
+  timeout: 15m
+  chart:
+    spec:
+      chart: app-template
+      version: 5.1.0
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s-charts
+        namespace: flux-system
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      strategy: rollback
+      retries: 3
+  values:
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        seccompProfile:
+          type: RuntimeDefault
+
+    controllers:
+      api:
+        replicas: 1
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          app:
+            image: &firecrawlImage
+              repository: ghcr.io/firecrawl/firecrawl
+              tag: 2.11@sha256:0693c1a69c9120c5970eec67d19b36392c273dd669d57d913a4c3511083fba83
+            command:
+              - node
+              - --max-old-space-size=6144
+              - dist/src/index.js
+            env: &firecrawlEnv
+              TZ: ${TZ}
+              FLY_PROCESS_GROUP: app
+              PORT: &apiPort 3002
+              # This low-volume deployment intentionally shares Dragonfly;
+              # isolate Firecrawl if queue traffic causes memory pressure.
+              REDIS_URL: redis://dragonfly.databases.svc.cluster.local:6379
+              REDIS_RATE_LIMIT_URL: redis://dragonfly.databases.svc.cluster.local:6379
+              PLAYWRIGHT_MICROSERVICE_URL: http://firecrawl-playwright.ai.svc.cluster.local:3000/scrape
+              SEARXNG_ENDPOINT: http://searxng.ai.svc.cluster.local:8080
+              USE_DB_AUTHENTICATION: "false"
+              ENV: production
+              LOGGING_LEVEL: INFO
+              IS_KUBERNETES: "true"
+              HOST: 0.0.0.0
+            envFrom: &firecrawlEnvFrom
+              - secretRef:
+                  name: *app
+            ports:
+              - name: http
+                containerPort: *apiPort
+                protocol: TCP
+            probes:
+              liveness:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /v0/health/liveness
+                    port: *apiPort
+                  initialDelaySeconds: 30
+                  periodSeconds: 30
+                  timeoutSeconds: 5
+                  failureThreshold: 3
+              readiness:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /v0/health/readiness
+                    port: *apiPort
+                  initialDelaySeconds: 30
+                  periodSeconds: 30
+                  timeoutSeconds: 5
+                  failureThreshold: 3
+            securityContext: &securityContext
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities:
+                drop:
+                  - ALL
+            resources:
+              requests:
+                cpu: 2
+                memory: 4Gi
+              limits:
+                cpu: 2
+                memory: 6Gi
+
+      worker:
+        replicas: 1
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          app:
+            image: *firecrawlImage
+            command:
+              - node
+              - --max-old-space-size=3072
+              - dist/src/services/queue-worker.js
+            env:
+              <<: *firecrawlEnv
+              FLY_PROCESS_GROUP: worker
+              PORT: &workerPort 3005
+            envFrom: *firecrawlEnvFrom
+            ports:
+              - name: http
+                containerPort: *workerPort
+                protocol: TCP
+            probes:
+              liveness:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /liveness
+                    port: *workerPort
+                  initialDelaySeconds: 5
+                  periodSeconds: 5
+                  timeoutSeconds: 5
+                  failureThreshold: 3
+            securityContext: *securityContext
+            resources:
+              requests:
+                cpu: 1
+                memory: 3Gi
+              limits:
+                cpu: 1
+                memory: 4Gi
+
+      nuq-worker:
+        replicas: 1
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          app:
+            image: *firecrawlImage
+            command:
+              - node
+              - --max-old-space-size=3072
+              - dist/src/services/worker/nuq-worker.js
+            env:
+              <<: *firecrawlEnv
+              FLY_PROCESS_GROUP: nuq
+              NUQ_WORKER_PORT: &nuqWorkerPort 3006
+            envFrom: *firecrawlEnvFrom
+            ports:
+              - name: http
+                containerPort: *nuqWorkerPort
+                protocol: TCP
+            probes:
+              liveness:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /health
+                    port: *nuqWorkerPort
+                  initialDelaySeconds: 5
+                  periodSeconds: 5
+                  timeoutSeconds: 5
+                  failureThreshold: 3
+            securityContext: *securityContext
+            resources:
+              requests:
+                cpu: 1
+                memory: 3Gi
+              limits:
+                cpu: 1
+                memory: 4Gi
+
+      playwright-service:
+        replicas: 1
+        containers:
+          app:
+            image:
+              repository: ghcr.io/firecrawl/playwright-service
+              tag: latest@sha256:df1a393ce8bfc3801570a826a9b0dcc400ae48789adb4a0ad9d6cbf0229b059b
+            env:
+              PORT: &playwrightPort 3000
+              BLOCK_MEDIA: "true"
+              MAX_CONCURRENT_PAGES: "10"
+              COREPACK_HOME: /tmp/corepack
+            ports:
+              - name: http
+                containerPort: *playwrightPort
+                protocol: TCP
+            probes:
+              liveness:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /health
+                    port: *playwrightPort
+                  initialDelaySeconds: 30
+                  periodSeconds: 30
+                  timeoutSeconds: 5
+                  failureThreshold: 3
+              readiness:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /health
+                    port: *playwrightPort
+                  initialDelaySeconds: 10
+                  periodSeconds: 10
+                  timeoutSeconds: 5
+                  failureThreshold: 6
+            securityContext: *securityContext
+            resources:
+              requests:
+                cpu: 1
+                memory: 2Gi
+              limits:
+                cpu: 2
+                memory: 4Gi
+
+      nuq-postgres:
+        replicas: 1
+        strategy: Recreate
+        pod:
+          securityContext:
+            fsGroup: 999
+            fsGroupChangePolicy: OnRootMismatch
+            seccompProfile:
+              type: RuntimeDefault
+        initContainers:
+          init-permissions:
+            image: &nuqPostgresImage
+              repository: ghcr.io/firecrawl/nuq-postgres
+              tag: latest@sha256:4ca6718b2cef40404b046db5cd37ae45db3e44d1a5750c80522f3587a5b193d5
+            command:
+              - chown
+              - -R
+              - 999:999
+              - /var/lib/postgresql/data
+            securityContext:
+              runAsUser: 0
+              runAsNonRoot: false
+              allowPrivilegeEscalation: false
+              capabilities:
+                drop:
+                  - ALL
+                add:
+                  - CHOWN
+        containers:
+          app:
+            image: *nuqPostgresImage
+            env:
+              POSTGRES_USER: postgres
+              POSTGRES_DB: postgres
+            envFrom: *firecrawlEnvFrom
+            ports:
+              - name: postgres
+                containerPort: &postgresPort 5432
+                protocol: TCP
+            probes:
+              liveness:
+                enabled: true
+                custom: true
+                spec:
+                  exec:
+                    command:
+                      - pg_isready
+                      - --username=postgres
+                      - --dbname=postgres
+                  initialDelaySeconds: 30
+                  periodSeconds: 30
+                  timeoutSeconds: 5
+                  failureThreshold: 3
+              readiness:
+                enabled: true
+                custom: true
+                spec:
+                  exec:
+                    command:
+                      - pg_isready
+                      - --username=postgres
+                      - --dbname=postgres
+                  initialDelaySeconds: 5
+                  periodSeconds: 5
+                  timeoutSeconds: 5
+                  failureThreshold: 12
+            securityContext:
+              runAsUser: 999
+              runAsGroup: 999
+              runAsNonRoot: true
+              allowPrivilegeEscalation: false
+              capabilities:
+                drop:
+                  - ALL
+            resources:
+              requests:
+                cpu: 250m
+                memory: 512Mi
+              limits:
+                cpu: 500m
+                memory: 1Gi
+
+    service:
+      api:
+        controller: api
+        ports:
+          http:
+            port: *apiPort
+      playwright:
+        controller: playwright-service
+        ports:
+          http:
+            port: *playwrightPort
+      nuq-postgres:
+        controller: nuq-postgres
+        ports:
+          postgres:
+            port: *postgresPort
+
+    persistence:
+      tmp:
+        type: emptyDir
+        globalMounts:
+          - path: /tmp
+      nuq-data:
+        # Firecrawl's NuQ schema requires pg_cron and instance-wide tuning that
+        # are not available on the shared CNPG image. The queue is deliberately
+        # ephemeral: a restart may fail in-flight scrapes but stores no content.
+        type: emptyDir
+        advancedMounts:
+          nuq-postgres:
+            init-permissions:
+              - path: /var/lib/postgresql/data
+            app:
+              - path: /var/lib/postgresql/data

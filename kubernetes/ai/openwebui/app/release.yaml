@@ -63,6 +63,8 @@ spec:
               CHAT_RESPONSE_MAX_TOOL_CALL_ITERATIONS: "8"
               WEB_SEARCH_ENGINE: searxng
               SEARXNG_QUERY_URL: http://searxng.ai.svc.cluster.local:8080/search?q=<query>
+              WEB_LOADER_ENGINE: firecrawl
+              FIRECRAWL_API_BASE_URL: http://firecrawl-api.ai.svc.cluster.local:3002
               ENABLE_WEBSOCKET_SUPPORT: "true"
               WEBSOCKET_MANAGER: "redis"
               WEBSOCKET_REDIS_URL: redis://dragonfly.databases.svc.cluster.local:6379

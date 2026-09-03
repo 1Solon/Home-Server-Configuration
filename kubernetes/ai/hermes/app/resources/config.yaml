@@ -10,7 +10,8 @@ auxiliary:
     provider: openai-codex
     model: gpt-5.6-sol
 web:
-  backend: firecrawl
+  search_backend: searxng
+  extract_backend: firecrawl
 tools:
   tool_search:
     enabled: "on"

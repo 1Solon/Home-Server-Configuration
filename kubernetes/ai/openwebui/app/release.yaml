@@ -59,6 +59,8 @@ spec:
               ENABLE_PERSISTENT_CONFIG: "false"
               ENABLE_WEB_SEARCH: true
               ENABLE_SEARCH_QUERY_GENERATION: true
+              ENABLE_FOLLOW_UP_GENERATION: "false"
+              ENABLE_TAGS_GENERATION: "false"
               ENABLE_PIP_INSTALL_FRONTMATTER_REQUIREMENTS: "false"
               CHAT_RESPONSE_MAX_TOOL_CALL_ITERATIONS: "8"
               WEB_SEARCH_ENGINE: searxng

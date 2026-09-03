@@ -248,7 +248,7 @@ spec:
           init-permissions:
             image: &nuqPostgresImage
               repository: ghcr.io/firecrawl/nuq-postgres
-              tag: latest@sha256:4ca6718b2cef40404b046db5cd37ae45db3e44d1a5750c80522f3587a5b193d5
+              tag: latest@sha256:aed86f62858f29bd971abddcdeb301c12888098d2cf5d33c1ba42b053bc460f6
             command:
               - chown
               - -R

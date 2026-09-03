@@ -63,9 +63,13 @@ spec:
               ENABLE_TAGS_GENERATION: "false"
               ENABLE_PIP_INSTALL_FRONTMATTER_REQUIREMENTS: "false"
               CHAT_RESPONSE_MAX_TOOL_CALL_ITERATIONS: "8"
+              ENABLE_CONTEXT_COMPACTION: "true"
+              CONTEXT_COMPACTION_TOKEN_THRESHOLD: "209715"
+              CONTEXT_COMPACTION_TOKEN_CAP: "209715"
               WEB_SEARCH_ENGINE: searxng
               SEARXNG_QUERY_URL: http://searxng.ai.svc.cluster.local:8080/search?q=<query>
               WEB_LOADER_ENGINE: firecrawl
+              WEB_FETCH_MAX_CONTENT_LENGTH: "30000"
               FIRECRAWL_API_BASE_URL: http://firecrawl-api.ai.svc.cluster.local:3002
               ENABLE_WEBSOCKET_SUPPORT: "true"
               WEBSOCKET_MANAGER: "redis"

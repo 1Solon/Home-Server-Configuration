@@ -2,7 +2,7 @@
 set -euo pipefail
 
 # Keep this version aligned with talos/topf.yaml and update all checksums together.
-version=v1.13.9
+version=v1.14.0
 
 case "$(uname -s)" in
   Darwin) os="darwin" ;;
@@ -17,10 +17,10 @@ case "$(uname -m)" in
 esac
 
 case "${os}_${arch}" in
-  darwin_amd64) checksum="55902fec33e93d11b64e5e01ddd9dde7ae50679328b8f3556e6d86a51dbce866" ;;
-  darwin_arm64) checksum="ab4c27a959ff6c52f62c6cc2af07b22ca86ed27f1a138ed57582fa67f7b50f98" ;;
-  linux_amd64) checksum="7e1d4b7d5846964bdcf63a794e3c8161bb6ef2983d5ace58ea5322f3bf32a27e" ;;
-  linux_arm64) checksum="51caed158eda73d2888cbf2df2d67551f9c9f8229aa42d3725e481d073e76f0b" ;;
+  darwin_amd64) checksum="6563baa43774ef5c351e0d9f2fd720941c482da01fe3aed53ee9644b552453c5" ;;
+  darwin_arm64) checksum="f0c65a0e970b6f23cf0160e432e7496ba93957a49f369780d4e53888ed66ef46" ;;
+  linux_amd64) checksum="2c147c4a99d124c95bd5c190fe054e0b3c93495f2243fd652ebd423adb8377c7" ;;
+  linux_arm64) checksum="19615e1d0eb222de86ec2f1487e7d6e74f5171a9038e73aeacde8cc647e3d9e0" ;;
 esac
 
 cache_root="${XDG_CACHE_HOME:-${HOME}/.cache}/home-server-configuration/talosctl/${version}"

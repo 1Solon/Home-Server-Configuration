@@ -29,6 +29,23 @@
   },
   "packageRules": [
     {
+      "description": "CNPG PostgreSQL major upgrades require a planned database migration, not an unattended image rollout",
+      "matchDatasources": ["docker"],
+      "matchPackageNames": [
+        "ghcr.io/cloudnative-pg/postgresql",
+        "ghcr.io/tensorchord/cloudnative-vectorchord"
+      ],
+      "matchUpdateTypes": ["major"],
+      "dependencyDashboardApproval": true,
+      "automerge": false
+    },
+    {
+      "description": "Jellyfin changed from three-part versions to two-part versions in 12.0; exclude floating, nightly, and platform tags",
+      "matchDatasources": ["docker"],
+      "matchPackageNames": ["jellyfin/jellyfin"],
+      "versioning": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)(?:\\.(?<patch>\\d+))?$"
+    },
+    {
       "description": "CoreDNS Group",
       "groupName": "CoreDNS",
       "matchDatasources": ["docker"],
@@ -144,6 +161,18 @@
     }
   ],
   "customManagers": [
+    {
+      "description": "Track CNPG Cluster imageName fields missed by the Kubernetes manager",
+      "customType": "regex",
+      "managerFilePatterns": [
+        "/^kubernetes/storage/databases/cloudnative-postgres/cluster/.+\\.ya?ml$/"
+      ],
+      "matchStrings": [
+        "(?:^|\\n)[ \\t]+imageName:[ \\t]+[\"']?(?<depName>[^\\s\"'@]+):(?<currentValue>[^\\s\"':@]+)(?:@(?<currentDigest>sha256:[a-fA-F0-9]{64}))?[\"']?[ \\t]*(?:#[^\\r\\n]*)?(?:\\r?\\n|$)"
+      ],
+      "datasourceTemplate": "docker",
+      "versioningTemplate": "docker"
+    },
     {
       "description": "Process annotated dependencies",
       "customType": "regex",

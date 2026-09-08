@@ -44,7 +44,8 @@ spec:
     kubernetes.io/hostname: kube5
   resources:
     cpu: "4"
-    hostMemory: 28Gi
+    # 0.9.25 also limits memory: leave headroom above the 20.3Gi peak for the 10Gi RAM cache.
+    hostMemory: 34Gi
     gpu: 1
   env:
     - name: CUDA_VISIBLE_DEVICES

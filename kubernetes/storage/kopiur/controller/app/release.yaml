@@ -10,7 +10,7 @@ spec:
     mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
     operation: copy
   ref:
-    tag: 0.10.7
+    tag: 0.10.8
   url: oci://ghcr.io/home-operations/charts/kopiur
 ---
 # yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
@@ -38,12 +38,12 @@ spec:
   values:
     installScope: cluster
     image:
-      tag: 0.10.7
-      digest: sha256:ce50917db136e4f19b480724d5cff7a4e1eeed9431e737aeb7808b2693dcefe5
+      tag: 0.10.8
+      digest: sha256:8d62c667ec20fc05b23a0eb10d2ce9be8a83c9eb60042ca2e23775c57a2175b2
     mover:
       image:
-        tag: 0.10.7
-        digest: sha256:b6efbb3dedb88a87bc01f089f5f5e61dc3b306a4003a604c3bf01b1d3c335033
+        tag: 0.10.8
+        digest: sha256:6b079d549320d126e16a3beecf071997aaea6eb42a434316000484f6f14dc595
     monitoring:
       serviceMonitor:
         enabled: true
@@ -60,8 +60,8 @@ spec:
             dashboards: grafana
     webhook:
       image:
-        tag: 0.10.7
-        digest: sha256:788171c81579946053479fb81c7762564471761c3bdf45721dc6a0eacebfc6fa
+        tag: 0.10.8
+        digest: sha256:7dbe59cdd08c24d8a11b7a1e1851d664be87e7005f7eb37a03d1da1e4c64187e
       failurePolicy: Fail
       serviceMonitor:
         enabled: true

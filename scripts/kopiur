@@ -17,10 +17,10 @@ case "$(uname -m)" in
 esac
 
 case "${os}_${arch}" in
-  darwin_amd64) checksum="129a2d6143bcf3bae0dc670e9bab4cfb3976893d0907453e602241940f79c058" ;;
-  darwin_arm64) checksum="097fb2b1ab6ff1bf449fbc3beb142d6e254b6d2f870c4376e53ae0e40051996a" ;;
-  linux_amd64) checksum="1935f0177e1db5950105c04c07680d335bb7ccd2eca4b615b00c164b9101a530" ;;
-  linux_arm64) checksum="0b6c1562e999bdeaa7d3b411df53bb180641d4b75b436c4617cb14c000e14207" ;;
+  darwin_amd64) checksum="af8edbb2fd9b6ad84f4aa4cb4f4ed7bce506b203c1f116bf00d81bf00830eea6" ;;
+  darwin_arm64) checksum="ad789987a97b47ab55207c25bcd2895d7c007eb6a6a75d611ecc414bd323bbae" ;;
+  linux_amd64) checksum="eb2901d70c05915fb8f6a51a77fcdd266db716e3a666ccd7c2921c78814ded5f" ;;
+  linux_arm64) checksum="fc3c35556f78a664badb4184f47fbb73801c1ec83f116baaba52503fe91aaeb9" ;;
 esac
 
 cache_root="${XDG_CACHE_HOME:-${HOME}/.cache}/home-server-configuration/kopiur/${version}"

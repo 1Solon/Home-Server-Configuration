@@ -47,7 +47,7 @@ spec:
                     app:
                         image:
                             repository: ghcr.io/tandoorrecipes/recipes
-                            tag: 2.6.13@sha256:f6c58afdea7a721d079ebd6ee5483f2c9da77dd1e709e16d60a82c218e80a451
+                            tag: 2.6.15@sha256:2e759dd1478a2ed119ee474e28522079fb1cfa50b3fd25cba89f6b9a67abad72
                         env:
                             TZ: ${TZ}
                             ALLOWED_HOSTS: recipes.${REMOTE_DOMAIN}

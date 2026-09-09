@@ -6,6 +6,7 @@
         description: Media Server
         widget:
             type: jellyfin
+            version: 2
             url: http://jellyfin.home-media.svc.cluster.local:8096
             key: {{HOMEPAGE_VAR_JELLYFIN_TOKEN}}
             enableNowPlaying: true

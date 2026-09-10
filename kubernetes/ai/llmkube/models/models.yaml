@@ -31,7 +31,7 @@ spec:
   runtime: llamacpp
   mode: chat
   replicas: 1
-  image: ghcr.io/ggml-org/llama.cpp:server-cuda@sha256:7625abb46c6bb8357e214f949b409a152c0944228e5a653fbab112f98ad2de7e
+  image: ghcr.io/ggml-org/llama.cpp:server-cuda@sha256:3307a6cd90a76127de7dd960c020d5cf55c65c7b202b725f29895a67416c3021
   contextSize: 262144
   parallelSlots: 4
   flashAttention: true

@@ -20,6 +20,11 @@ spec:
           - name: alertname
             value: Watchdog
             matchType: =
+      - receiver: blackhole
+        matchers:
+          - name: alertname
+            value: KubeMemoryOvercommit
+            matchType: =
       - receiver: discord
         matchers:
           - name: severity

@@ -24,6 +24,11 @@ spec:
     name: kube-prometheus-stack
   interval: 15m
   dependsOn: []
+  # Upgrade operator CRDs before reconciling the chart's custom resources.
+  install:
+    crds: CreateReplace
+  upgrade:
+    crds: CreateReplace
   values:
     additionalPrometheusRulesMap:
       dockerhub-rules:

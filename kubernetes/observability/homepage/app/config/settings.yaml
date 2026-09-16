@@ -1,6 +1,7 @@
 ---
 title: Dashboard
-favicon: https://raw.githubusercontent.com/auricom/home-ops/main/docs/src/assets/logo.png
+# Pin the original image; upstream removed it from main.
+favicon: https://raw.githubusercontent.com/auricom/home-ops/fde0f42b098408973cf56b70b7e7cb839e54a366/docs/src/assets/logo.png
 background: 
   image: https://www.nasa.gov/wp-content/uploads/2025/05/54470656907-2362dd2f92-o.jpg?auto=format&fit=crop&w=2560&q=80
   opacity: 30

@@ -33,6 +33,8 @@ spec:
         - name: Default
           pluginConfig:
             - name: DefaultEvictor
+              args:
+                noEvictionPolicy: Mandatory
             - name: LowNodeUtilization
               args:
                 metricsUtilization:

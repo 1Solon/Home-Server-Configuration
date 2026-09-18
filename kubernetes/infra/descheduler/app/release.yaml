@@ -27,22 +27,12 @@ spec:
     kind: Deployment
     deschedulerPolicyAPIVersion: descheduler/v1alpha2
     deschedulerPolicy:
-      metricsProviders:
-        - source: KubernetesMetrics
       profiles:
         - name: Default
           pluginConfig:
             - name: DefaultEvictor
               args:
                 noEvictionPolicy: Mandatory
-            - name: LowNodeUtilization
-              args:
-                metricsUtilization:
-                  source: KubernetesMetrics
-                thresholds:
-                  memory: 35
-                targetThresholds:
-                  memory: 55
             - name: RemoveFailedPods
               args:
                 reasons:
@@ -69,7 +59,8 @@ spec:
           plugins:
             balance:
               enabled:
-                - LowNodeUtilization
+                # Utilization balancing caused repeated evictions onto the same
+                # nodes, interrupting admission webhooks without relieving load.
                 - RemovePodsViolatingTopologySpreadConstraint
             deschedule:
               enabled:

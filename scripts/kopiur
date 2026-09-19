@@ -2,7 +2,7 @@
 set -euo pipefail
 
 # renovate: datasource=github-releases depName=home-operations/kopiur
-version=0.10.8
+version=0.10.9
 
 case "$(uname -s)" in
   Darwin) os="darwin" ;;

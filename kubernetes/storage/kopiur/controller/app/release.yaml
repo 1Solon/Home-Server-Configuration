@@ -38,12 +38,12 @@ spec:
   values:
     installScope: cluster
     image:
-      tag: 0.10.8
-      digest: sha256:8d62c667ec20fc05b23a0eb10d2ce9be8a83c9eb60042ca2e23775c57a2175b2
+      tag: 0.10.9
+      digest: sha256:8048ef02bf1154d896f91c49fa7d241fc062fbfa64becb2df456bd4f78966a37
     mover:
       image:
-        tag: 0.10.8
-        digest: sha256:6b079d549320d126e16a3beecf071997aaea6eb42a434316000484f6f14dc595
+        tag: 0.10.9
+        digest: sha256:f909a37cb9f6de6dba4a3190e75b0b505c4d61f28005b729bd8e0976fff1c8fd
     monitoring:
       serviceMonitor:
         enabled: true
@@ -60,8 +60,8 @@ spec:
             dashboards: grafana
     webhook:
       image:
-        tag: 0.10.8
-        digest: sha256:7dbe59cdd08c24d8a11b7a1e1851d664be87e7005f7eb37a03d1da1e4c64187e
+        tag: 0.10.9
+        digest: sha256:b3bc914480d9e9c9e3c0c9e10208d4155f02216c709cdb782046a2d722ff0a36
       failurePolicy: Fail
       serviceMonitor:
         enabled: true

@@ -6,7 +6,7 @@ metadata:
   name: unifi-network-mcp
 spec:
   # renovate: depName=ghcr.io/sirkirby/unifi-network-mcp
-  image: ghcr.io/sirkirby/unifi-network-mcp:0.32.10@sha256:900ae8a02c9edc35e3d8c2bcb5416657fd9752a632d4802ea8e121eac14ea187
+  image: ghcr.io/sirkirby/unifi-network-mcp:0.32.10@sha256:606b4ccb21c1d1b655fc333a40768a5be92a80fa1fcfef397bf604fba73eb81d
   transport: streamable-http
   mcpPort: 3000
   groupRef:

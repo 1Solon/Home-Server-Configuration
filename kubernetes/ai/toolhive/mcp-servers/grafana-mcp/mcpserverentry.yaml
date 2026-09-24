@@ -7,7 +7,7 @@ kind: MCPServerEntry
 metadata:
   name: grafana
 spec:
-  remoteUrl: http://mcp-grafana.observability:8000/mcp
+  remoteUrl: http://mcp-grafana.observability.svc.cluster.local:8000/mcp
   transport: streamable-http
   groupRef:
     name: mcp-tools

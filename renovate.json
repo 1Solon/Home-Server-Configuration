@@ -46,6 +46,12 @@
       "versioning": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)(?:\\.(?<patch>\\d+))?$"
     },
     {
+      "description": "SearXNG date-based tags carry a commit hash suffix, not a variant suffix; compare by date and ignore the hash",
+      "matchDatasources": ["docker"],
+      "matchPackageNames": ["ghcr.io/searxng/searxng"],
+      "versioning": "regex:^(?<major>\\d{4})\\.(?<minor>\\d{1,2})\\.(?<patch>\\d{1,2})-[a-f0-9]+$"
+    },
+    {
       "description": "CoreDNS Group",
       "groupName": "CoreDNS",
       "matchDatasources": ["docker"],

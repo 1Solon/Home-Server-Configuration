@@ -1,0 +1,20 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/toolhive.stacklok.dev/mcpserver_v1beta1.json
+apiVersion: toolhive.stacklok.dev/v1beta1
+kind: MCPServer
+metadata:
+  name: kubesearch
+spec:
+  # renovate: depName=ghcr.io/perfectra1n/kubesearch-mcp
+  image: ghcr.io/perfectra1n/kubesearch-mcp:sha-405e7b2
+  transport: stdio
+  proxyMode: streamable-http
+  proxyPort: 8080
+  resources:
+    requests:
+      cpu: 50m
+      memory: 64Mi
+    limits:
+      memory: 256Mi
+  groupRef:
+    name: mcp-tools

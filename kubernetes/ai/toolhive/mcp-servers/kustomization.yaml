@@ -1,0 +1,15 @@
+---
+# yaml-language-server: $schema=https://json.schemastore.org/kustomization
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+# Flux builds each subdir's own kustomization as part of this set; each pins
+# its resources to the ai namespace.
+resources:
+  - ./flux-mcp
+  - ./kubectl-mcp
+  - ./github-mcp
+  - ./grafana-mcp
+  - ./kubesearch-mcp
+  - ./arr-mcp
+  - ./seerr-mcp
+  - ./unifi-network-mcp

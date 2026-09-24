@@ -1,0 +1,54 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/toolhive.stacklok.dev/mcpserver_v1beta1.json
+apiVersion: toolhive.stacklok.dev/v1beta1
+kind: MCPServer
+metadata:
+  name: unifi-network-mcp
+spec:
+  # renovate: depName=ghcr.io/sirkirby/unifi-network-mcp
+  image: ghcr.io/sirkirby/unifi-network-mcp:0.32.10@sha256:900ae8a02c9edc35e3d8c2bcb5416657fd9752a632d4802ea8e121eac14ea187
+  transport: streamable-http
+  mcpPort: 3000
+  groupRef:
+    name: mcp-tools
+  env:
+    - name: UNIFI_NETWORK_HOST
+      value: https://unifi.${LOCAL_DOMAIN}
+    - name: UNIFI_NETWORK_VERIFY_SSL
+      value: "false"
+    - name: UNIFI_NETWORK_SITE
+      value: default
+    - name: UNIFI_MCP_HTTP_ENABLED
+      value: "true"
+    - name: UNIFI_MCP_HTTP_TRANSPORT
+      value: streamable-http
+    - name: UNIFI_MCP_HOST
+      value: 0.0.0.0
+    - name: UNIFI_MCP_PORT
+      value: "3000"
+    - name: UNIFI_MCP_ENABLE_DNS_REBINDING_PROTECTION
+      value: "false"
+    - name: UNIFI_TOOL_REGISTRATION_MODE
+      value: meta_only
+    - name: UNIFI_POLICY_CREATE
+      value: "false"
+    - name: UNIFI_POLICY_UPDATE
+      value: "false"
+    - name: UNIFI_POLICY_DELETE
+      value: "false"
+    - name: UNIFI_TOOL_PERMISSION_MODE
+      value: confirm
+  secrets:
+    - name: toolhive-unifi-network-username
+      key: UNIFI_NETWORK_USERNAME
+      targetEnvName: UNIFI_NETWORK_USERNAME
+    - name: toolhive-unifi-network-password
+      key: UNIFI_NETWORK_PASSWORD
+      targetEnvName: UNIFI_NETWORK_PASSWORD
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 200m
+      memory: 256Mi

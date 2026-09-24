@@ -9,3 +9,4 @@ resources:
 - ./llmkube/install.yaml
 - ./openwebui/install.yaml
 - ./searxng/install.yaml
+- ./toolhive/install.yaml

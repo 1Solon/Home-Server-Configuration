@@ -1,0 +1,47 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/toolhive.stacklok.dev/virtualmcpserver_v1beta1.json
+apiVersion: toolhive.stacklok.dev/v1beta1
+kind: VirtualMCPServer
+metadata:
+  name: mcp-gateway-internal
+spec:
+  groupRef:
+    name: mcp-tools
+  config:
+    aggregation:
+      conflictResolution: prefix
+      conflictResolutionConfig:
+        prefixFormat: "{workload}_"
+    optimizer:
+      embeddingModel: embed
+      embeddingProvider: openai
+      # Direct to the LLMKube embedding service (Qwen3-Embedding, llama.cpp).
+      # Sized for a single-user tool search: one CPU replica, no LiteLLM proxy.
+      embeddingService: http://embed-1.ai.svc.cluster.local:8080/v1
+      embeddingServiceTimeout: 180s
+  incomingAuth:
+    type: anonymous
+  outgoingAuth:
+    source: discovered
+  podTemplateSpec:
+    spec:
+      containers:
+        - name: vmcp
+          env:
+            # sentry/litellm-style OpenAI clients require a key; the LLMKube
+            # llama.cpp embedding endpoint performs no authentication.
+            - name: OPENAI_API_KEY
+              value: sk-llmkube-noauth
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              memory: 1Gi
+  # Shares the cluster Dragonfly (firecrawl does the same). db 1 keeps the
+  # MCP session keyspace separate from the default db.
+  sessionStorage:
+    address: dragonfly.databases.svc.cluster.local:6379
+    db: 1
+    keyPrefix: "toolhive:vmcp:"
+    provider: redis

@@ -10,6 +10,10 @@ spec:
   transport: stdio
   proxyMode: streamable-http
   proxyPort: 8080
+  env:
+    # SQLite query scratch files need the writable cache mount; /tmp is read-only.
+    - name: SQLITE_TMPDIR
+      value: /data
   resources:
     requests:
       cpu: 50m

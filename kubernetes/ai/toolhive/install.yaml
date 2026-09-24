@@ -7,6 +7,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 30m
+  targetNamespace: flux-system
   path: ./kubernetes/ai/toolhive/crds
   wait: false
   prune: true

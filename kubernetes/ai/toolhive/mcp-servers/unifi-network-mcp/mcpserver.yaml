@@ -13,7 +13,8 @@ spec:
     name: mcp-tools
   env:
     - name: UNIFI_NETWORK_HOST
-      value: https://unifi.${LOCAL_DOMAIN}
+      # The client adds the URL scheme; this must be a bare hostname.
+      value: unifi.${LOCAL_DOMAIN}
     - name: UNIFI_NETWORK_VERIFY_SSL
       value: "false"
     - name: UNIFI_NETWORK_SITE

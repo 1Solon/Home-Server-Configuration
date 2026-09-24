@@ -47,8 +47,11 @@ by request), `talos-mcp` (needs Talos `ServiceAccount` API-server support /
   - `GITHUB_PERSONAL_ACCESS_TOKEN` - **populated** with the gh CLI token
     (`gho_`, scopes `repo`, `workflow`, `read:org`, `gist`, `write:packages`). Rotate
     to a fine-grained PAT if you want narrower scopes for the MCP server.
-  - `UNIFI_NETWORK_USERNAME` / `UNIFI_NETWORK_PASSWORD` - **empty, fill these in** so
-    unifi-network-mcp can talk to the controller.
+  - `UNIFI_NETWORK_USERNAME` / `UNIFI_NETWORK_PASSWORD` - use a dedicated local
+    UniFi account with read-only Network access. SSO accounts requiring MFA cannot
+    complete the connector's unattended username/password login.
+- `UNIFI_NETWORK_HOST` must be a bare hostname, without `https://`; the client
+  adds the scheme and uses port 443 by default.
 - Existing items already referenced by other apps are reused verbatim: `sonarr`
   (`SONARR__API_KEY`), `radarr` (`RADARR__API_KEY`), `prowlarr` (`PROWLARR__API_KEY`),
   `seerr` (`SEERR_API_KEY`).

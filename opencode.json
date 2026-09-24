@@ -1,0 +1,15 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "mcp": {
+    "servers": {
+      "toolhive": {
+        "type": "remote",
+        "url": "https://mcp.local.solonsstuff.com/mcp",
+        "timeout": {
+          "startup": 180000,
+          "catalog": 180000
+        }
+      }
+    }
+  }
+}

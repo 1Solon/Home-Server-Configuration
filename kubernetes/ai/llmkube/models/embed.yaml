@@ -11,15 +11,6 @@ spec:
   hardware:
     accelerator: cpu
 ---
-apiVersion: scheduling.k8s.io/v1
-kind: PriorityClass
-metadata:
-  name: toolhive-embedding
-value: 0
-globalDefault: false
-preemptionPolicy: Never
-description: Background tool embeddings must not preempt application workloads.
----
 # yaml-language-server: $schema=https://k8s-schemas.home-operations.com/inference.llmkube.dev/inferenceservice_v1alpha1.json
 apiVersion: inference.llmkube.dev/v1alpha1
 kind: InferenceService
@@ -33,7 +24,6 @@ spec:
   # exceeded the 4Gi limit during ToolHive indexing.
   image: ghcr.io/ggml-org/llama.cpp:server@sha256:fffcc1af1105bafc713a47b6680fb7cf5856ed43ea2e9e8bca5a62bbd6365edf
   replicas: 1
-  priorityClassName: toolhive-embedding
   contextSize: 8192
   parallelSlots: 2
   flashAttention: true

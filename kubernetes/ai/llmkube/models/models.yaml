@@ -45,8 +45,10 @@ spec:
     kubernetes.io/hostname: kube5
   resources:
     cpu: "4"
-    # 0.9.25 also limits memory: leave headroom above the 20.3Gi peak for the 10Gi RAM cache.
-    hostMemory: 34Gi
+    # Reserve the normal working set, while allowing inference/cache bursts.
+    # The seven-day peak was 20.8Gi; retain the 34Gi ceiling for the 10Gi RAM cache.
+    hostMemory: 16Gi
+    memoryLimit: 34Gi
     gpu: 1
   env:
     - name: CUDA_VISIBLE_DEVICES

@@ -55,7 +55,7 @@ spec:
               requests:
                 cpu: 10m
                 nvidia.com/gpu: 1
-                memory: 2560Mi
+                memory: 768Mi
               limits:
                 nvidia.com/gpu: 1
                 memory: 4000Mi

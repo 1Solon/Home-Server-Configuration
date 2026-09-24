@@ -31,7 +31,9 @@ spec:
   uBatchSize: 1024
   resources:
     cpu: "2"
-    memory: 4Gi
+    # Two-slot indexing can burst above its reservation without reserving the ceiling.
+    memory: 2Gi
+    memoryLimit: 4Gi
   mode: embedding
   extraArgs:
     - --alias

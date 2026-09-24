@@ -133,6 +133,7 @@ spec:
         resources:
           requests:
             cpu: 100m
+            memory: 1Gi
           limits:
             memory: 3000Mi
         version: v2.55.1 # override 'unsupported Prometheus version' error for prompp

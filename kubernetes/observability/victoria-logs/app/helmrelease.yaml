@@ -28,6 +28,25 @@ spec:
       enabled: true
     fullnameOverride: victoria-logs
     server:
+      # Preserve the placement established during the September 17 recovery.
+      # These are the original volume's diskful replicas; prefer its current node.
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: kubernetes.io/hostname
+                    operator: In
+                    values: [kube1, kube4, kube5]
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              preference:
+                matchExpressions:
+                  - key: kubernetes.io/hostname
+                    operator: In
+                    values: [kube4]
+      podAnnotations:
+        descheduler.alpha.kubernetes.io/prefer-no-eviction: "true"
       persistentVolume:
         enabled: true
         size: 20Gi

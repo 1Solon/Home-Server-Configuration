@@ -17,6 +17,9 @@ spec:
       embeddingProvider: openai
       # Direct to the LLMKube embedding service (Qwen3-Embedding, llama.cpp).
       # Sized for a single-user tool search: one CPU replica, no LiteLLM proxy.
+      # ToolHive 0.51.1 emits EmbeddingServiceManual on every reconciliation.
+      # embeddingServerRef only supports ToolHive-managed TEI servers, not this
+      # LLMKube service; keep the explicit URL until upstream supports external refs.
       embeddingService: http://embed-1.ai.svc.cluster.local:8080/v1
       embeddingServiceTimeout: 180s
   incomingAuth:

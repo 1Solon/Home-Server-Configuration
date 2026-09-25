@@ -1,0 +1,73 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: nic-watchdog
+spec:
+  chart:
+    spec:
+      chart: app-template
+      version: 5.2.1
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s-charts
+        namespace: flux-system
+  interval: 15m
+  values:
+    controllers:
+      nic-watchdog:
+        type: daemonset
+        annotations:
+          reloader.stakater.com/auto: "true"
+        pod:
+          # Needs full access to the node so it can reset the network card, write to the kernel log and reboot.
+          hostNetwork: true
+          priorityClassName: system-node-critical
+          # Only the Turing RK1 nodes (the arm64 ones) have this network card.
+          nodeSelector:
+            kubernetes.io/arch: arm64
+          tolerations:
+            - operator: Exists
+        containers:
+          app:
+            image:
+              repository: docker.io/library/busybox
+              tag: 1.38.0-musl@sha256:ea2b9914a16a4ac1981994af97b318f7c7d4db76b580c56177f08bf76f4a0be8
+            command: ["/bin/sh", "/scripts/nic-watchdog.sh"]
+            env:
+              IFACE: end0
+              # The router and every node. Each node skips its own address.
+              TARGETS: >-
+                192.168.1.1 192.168.1.101 192.168.1.102 192.168.1.103
+                192.168.1.104 192.168.1.105
+              HOST_IP:
+                valueFrom:
+                  fieldRef:
+                    fieldPath: status.hostIP
+              DRY_RUN: "false"
+            probes:
+              liveness:
+                enabled: false
+              readiness:
+                enabled: false
+              startup:
+                enabled: false
+            securityContext:
+              privileged: true
+            resources:
+              requests:
+                cpu: 5m
+                memory: 8Mi
+              limits:
+                memory: 32Mi
+    service:
+      app:
+        enabled: false
+    persistence:
+      scripts:
+        type: configMap
+        name: nic-watchdog-configmap
+        globalMounts:
+          - path: /scripts
+            readOnly: true

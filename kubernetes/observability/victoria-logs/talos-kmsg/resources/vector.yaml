@@ -1,0 +1,44 @@
+---
+# Talos sends this node's kernel log here, and we pass it on to VictoriaLogs.
+# Anything we can't deliver yet is kept on the node's disk, so if the node
+# loses its network we'll still send the logs once it's back, even if it had
+# to be rebooted in between.
+data_dir: /var/lib/vector
+
+sources:
+  talos_kmsg:
+    type: socket
+    mode: tcp
+    address: 127.0.0.1:6050
+    decoding:
+      codec: json
+    framing:
+      method: newline_delimited
+
+transforms:
+  kernel:
+    type: remap
+    inputs: [talos_kmsg]
+    source: |
+      .node = "${NODE_NAME}"
+      del(.host)
+      del(.port)
+      del(.source_type)
+      del(.timestamp)
+
+sinks:
+  victoria_logs:
+    type: http
+    inputs: [kernel]
+    uri: http://victoria-logs-server.observability.svc.cluster.local:9428/insert/jsonline?_stream_fields=node,facility&_msg_field=msg&_time_field=talos-time
+    encoding:
+      codec: json
+    framing:
+      method: newline_delimited
+    compression: gzip
+    healthcheck:
+      enabled: false
+    buffer:
+      type: disk
+      max_size: 268435488
+      when_full: drop_newest

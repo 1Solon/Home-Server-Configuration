@@ -9,3 +9,4 @@ resources:
 - descheduler/install.yaml
 - tuppr/install.yaml
 - spegel/install.yaml
+- nic-watchdog/install.yaml

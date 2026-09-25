@@ -11,6 +11,7 @@ resources:
 - ./metrics-server/install.yaml
 - ./victoria-logs/install.yaml
 - ./victoria-logs/collector/install.yaml
+- ./victoria-logs/talos-kmsg/install.yaml
 - ./grafana/mcp/install.yaml
 - ./gatus/install.yaml
 - ./karma/install.yaml

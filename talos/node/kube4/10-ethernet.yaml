@@ -1,0 +1,19 @@
+---
+# kube4's network card sometimes stops sending and receiving under heavy
+# traffic, even though the cable still shows as connected. The only fix so far
+# has been a power cycle. Turning off the card's offload features is the usual
+# workaround on this chip (RK3588), so we're trying it on kube4 first before
+# doing the same on the other RK1 nodes.
+apiVersion: v1alpha1
+kind: EthernetConfig
+name: end0
+features:
+  tx-tcp-segmentation: false
+  tx-tcp6-segmentation: false
+  tx-generic-segmentation: false
+  tx-udp-segmentation: false
+  tx-checksum-ipv4: false
+  tx-checksum-ipv6: false
+rings:
+  rx: 1024
+  tx: 1024

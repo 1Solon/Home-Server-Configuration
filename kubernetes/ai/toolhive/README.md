@@ -35,7 +35,7 @@ minus the parts this cluster does not need.
 | arr | MCPServer | `mcp-arr-server` npx against Sonarr/Radarr/Prowlarr (`home-media`) |
 | seerr | MCPServer | `overseerr-mcp` npx against Jellyseerr (`home-media`) |
 | unifi | MCPServer | `sirkirby/unifi-network-mcp` against `https://unifi.${LOCAL_DOMAIN}` |
-| talos | MCPServer | `eleboucher/talos-mcp`, `os:reader` talosconfig from a `talos.dev/v1alpha1/ServiceAccount` |
+| talos | MCPServer | `eleboucher/talos-mcp`, `os:admin` talosconfig from a `talos.dev/v1alpha1/ServiceAccount` |
 
 The Talos credential requires `machine.features.kubernetesTalosAPIAccess` to allow
 naming the `ai` namespace (`talos/control-plane/10-api-access.yaml`); its secret

@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "toolhive": {
+      "type": "http",
+      "url": "https://mcp.local.solonsstuff.com/mcp"
+    }
+  }
+}

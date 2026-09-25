@@ -20,7 +20,7 @@ transforms:
     type: remap
     inputs: [talos_kmsg]
     source: |
-      .node = "${NODE_NAME}"
+      .node = get_env_var!("NODE_NAME")
       del(.host)
       del(.port)
       del(.source_type)

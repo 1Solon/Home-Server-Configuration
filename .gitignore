@@ -4,3 +4,4 @@ bgp.conf
 docs/
 .worktrees/
 .pi
+.claude

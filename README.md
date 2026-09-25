@@ -20,18 +20,6 @@ _GitOps-managed Kubernetes cluster running on Talos Linux with Flux CD and Renov
 
 </div>
 
-## 🏗️ Architecture Overview
-
-This is a **GitOps-managed Kubernetes home server** with the following stack:
-
-- **Nodes**: 5-node hybrid cluster (4x ARM64, 1x x86_64)
-- **OS**: Talos Linux v1.13.9 (immutable, API-configured)
-- **Kubernetes**: v1.36.4
-- **GitOps**: Flux CD manages all workloads from this repository
-- **Storage**: Miroir for persistent volumes, CloudNativePG for PostgreSQL databases, Dragonfly for caching
-- **Networking**: Cilium CNI, Envoy Gateway, Cloudflare DNS/DDNS, Tailscale VPN
-- **Secrets**: SOPS with AGE encryption + 1Password via External Secrets Operator (mostly this, some former)
-
 ## 📂 Repository structure
 
 Selective tree of the current Kubernetes categories and applications; nested implementation directories and most files are omitted. `archive/` contains historical manifests and is not reconciled by Flux.
@@ -120,10 +108,6 @@ Selective tree of the current Kubernetes categories and applications; nested imp
 ```
 
 ## 🖥️ Software
-
-This inventory describes software configured in the repository, not verified live health. It includes principal applications, chart components, and support services, which do not always have their own directories; it is not an exhaustive list of transitive dependencies.
-
-### Applications
 
 | Software | Category | Purpose |
 | --- | --- | --- |

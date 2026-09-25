@@ -11,6 +11,9 @@ metadata:
 # its rules field owned by the aggregation controller, which overwrites any rules written
 # alongside it. Both roles are bound to the same ServiceAccount.
 #
+# Do not set `rules` (not even `rules: []`) on the aggregated role: Flux would apply the
+# empty list every reconcile, wiping the aggregated rules and reporting "configured".
+#
 # - kubectl-mcp-readonly: aggregation only, same selector as built-in "view" - expands with
 #   operators that ship rbac.authorization.k8s.io/aggregate-to-view ClusterRoles.
 # - kubectl-mcp-readonly-explicit: the rules the aggregation does not cover.
@@ -24,7 +27,6 @@ aggregationRule:
   clusterRoleSelectors:
     - matchLabels:
         rbac.authorization.k8s.io/aggregate-to-view: "true"
-rules: []
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole

@@ -13,3 +13,4 @@ resources:
   - ./arr-mcp
   - ./seerr-mcp
   - ./unifi-network-mcp
+  - ./talos-mcp

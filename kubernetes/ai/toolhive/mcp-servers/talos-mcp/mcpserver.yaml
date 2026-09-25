@@ -1,0 +1,34 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/toolhive.stacklok.dev/mcpserver_v1beta1.json
+apiVersion: toolhive.stacklok.dev/v1beta1
+kind: MCPServer
+metadata:
+  name: talos-mcp
+spec:
+  # renovate: depName=registry.erwanleboucher.dev/eleboucher/talos-mcp
+  image: registry.erwanleboucher.dev/eleboucher/talos-mcp@sha256:ad1b388e20cbe171763ba0ff85ed32856f2573c9c40f5081a83c96b3b57f0d35
+  transport: streamable-http
+  mcpPort: 8080
+  groupRef:
+    name: mcp-tools
+  permissionProfile:
+    type: builtin
+    name: network
+  env:
+    - name: TALOS_MCP_TRANSPORT
+      value: http
+    - name: TALOS_MCP_HTTP_ADDR
+      value: ":8080"
+  podTemplateSpec:
+    spec:
+      containers:
+        - name: mcp
+          volumeMounts:
+            - name: talosconfig
+              mountPath: /var/run/secrets/talos.dev
+              readOnly: true
+      volumes:
+        - name: talosconfig
+          secret:
+            secretName: talos-mcp-talosconfig
+            defaultMode: 0400

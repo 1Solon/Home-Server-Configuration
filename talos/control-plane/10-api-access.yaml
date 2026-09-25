@@ -5,5 +5,7 @@ machine:
       enabled: true
       allowedRoles:
         - os:admin
+        - os:reader
       allowedKubernetesNamespaces:
         - kube-system
+        - ai

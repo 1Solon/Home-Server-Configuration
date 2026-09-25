@@ -1,0 +1,8 @@
+---
+# Send each node's kernel log to the small Vector pod running on that same
+# node. Vector saves the logs to disk before forwarding them, so if the
+# network card stops working we still get to read what happened afterwards.
+apiVersion: v1alpha1
+kind: KmsgLogConfig
+name: talos-kmsg
+url: tcp://127.0.0.1:6050/

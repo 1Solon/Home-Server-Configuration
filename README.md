@@ -26,7 +26,7 @@ Selective tree of the current Kubernetes categories and applications; nested imp
 
 ```text
 .
-├── archive/                         # Historical, non-reconciled manifests
+├── archive/                         
 └── kubernetes/
     ├── ai/
     │   ├── firecrawl/
@@ -39,12 +39,12 @@ Selective tree of the current Kubernetes categories and applications; nested imp
     │   ├── bookorbit/
     │   ├── libation/
     │   ├── opds-proxy/
-    │   ├── shelfmark/               # Shelfmark Lite image variant
+    │   ├── shelfmark/               
     │   └── suwayomi/
-    ├── components/                 # Reusable components consumed indirectly
+    ├── components/                 
     │   ├── kopiur/
     │   └── kopiur-standalone/
-    ├── games/                      # Namespace only
+    ├── games/                      
     ├── infra/
     │   ├── descheduler/
     │   ├── flux/
@@ -61,7 +61,7 @@ Selective tree of the current Kubernetes categories and applications; nested imp
     │   ├── croc/
     │   ├── flaresolver/
     │   ├── jellyfin/
-    │   ├── jellyseer/               # Seerr; historical directory name
+    │   ├── jellyseer/               
     │   ├── prowlarr/
     │   ├── qbittorrent/
     │   ├── radarr/
@@ -93,7 +93,7 @@ Selective tree of the current Kubernetes categories and applications; nested imp
     │   ├── silence-operator/
     │   └── victoria-logs/
     ├── projects/
-    │   └── colwiki/                 # OtterWiki
+    │   └── colwiki/                 
     ├── security/
     │   ├── authentik/
     │   └── secrets/

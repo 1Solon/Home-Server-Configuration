@@ -79,6 +79,23 @@
       }
     },
     {
+      "description": "Kopiur Group: the chart, CRDs and CLI come from one release and must upgrade together",
+      "groupName": "Kopiur",
+      "matchPackageNames": [
+        "ghcr.io/home-operations/charts/kopiur",
+        "home-operations/kopiur"
+      ],
+      "group": {
+        "commitMessageTopic": "{{{groupName}}} group"
+      }
+    },
+    {
+      "description": "The kopiur-crds GitRepository tag is tracked by its home-operations/kopiur annotation; skip the duplicate Flux detection",
+      "matchManagers": ["flux"],
+      "matchDepNames": ["kopiur-crds"],
+      "enabled": false
+    },
+    {
       "description": "Auto-merge GitHub Actions",
       "matchManagers": ["github-actions"],
       "automerge": true,

@@ -30,7 +30,10 @@ spec:
   batchSize: 1024
   uBatchSize: 1024
   resources:
-    cpu: "2"
+    # Indexing peaked at ~1 core over seven days. There is no CPU limit, so the two
+    # threads still burst; a smaller request leaves kube5 room for the rolling-update
+    # surge pod, which the node-local model cache pins there.
+    cpu: "1"
     # Two-slot indexing can burst above its reservation without reserving the ceiling.
     memory: 2Gi
     memoryLimit: 4Gi

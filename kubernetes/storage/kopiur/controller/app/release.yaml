@@ -37,9 +37,6 @@ spec:
       retries: 3
   values:
     installScope: cluster
-    # Controller, mover and webhook images come from the chart, which pins each
-    # to the digest of its own appVersion; overriding them here stops chart
-    # upgrades from updating the running binaries.
     monitoring:
       serviceMonitor:
         enabled: true

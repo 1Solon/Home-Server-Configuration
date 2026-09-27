@@ -37,13 +37,6 @@ spec:
       retries: 3
   values:
     installScope: cluster
-    image:
-      tag: 0.10.10
-      digest: sha256:53932cb3084f36f01d47b32a73abb375dd10077f5b1e865d022bb7df9573b0a5
-    mover:
-      image:
-        tag: 0.10.10
-        digest: sha256:15d096c8ea2f0e0510b2d686771a45c9dead74ac2aa1354201210635c00c3128
     monitoring:
       serviceMonitor:
         enabled: true
@@ -59,9 +52,6 @@ spec:
           matchLabels:
             dashboards: grafana
     webhook:
-      image:
-        tag: 0.10.10
-        digest: sha256:58dabec849b472d04c53499c2f6ea060f6c44f7babf8b465670c40fec625d7e5
       failurePolicy: Fail
       serviceMonitor:
         enabled: true

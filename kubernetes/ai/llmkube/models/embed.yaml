@@ -30,7 +30,7 @@ spec:
   batchSize: 1024
   uBatchSize: 1024
   resources:
-    cpu: "2"
+    cpu: "1"
     # Two-slot indexing can burst above its reservation without reserving the ceiling.
     memory: 2Gi
     memoryLimit: 4Gi

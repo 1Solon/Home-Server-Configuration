@@ -51,26 +51,14 @@ spec:
   monitoring:
     enablePodMonitor: true
 
-  backup:
-    retentionPolicy: 30d
-    barmanObjectStore: &barmanObjectStore
-      data:
-        compression: bzip2
-      wal:
-        compression: bzip2
-        maxParallel: 8
-      destinationPath: s3://cloudnative-pg/
-      endpointURL: https://s3.${LOCAL_DOMAIN}
-      # Note: serverName version needs to be incremented
-      # when recovering from an existing cnpg cluster
-      serverName: pgvector17-v3
-      s3Credentials:
-        accessKeyId:
-          name: cloudnative-pg-secret
-          key: aws-access-key-id
-        secretAccessKey:
-          name: cloudnative-pg-secret
-          key: aws-secret-access-key
+  plugins:
+    - name: barman-cloud.cloudnative-pg.io
+      isWALArchiver: true
+      parameters:
+        barmanObjectName: pgvector17
+        # Note: serverName version needs to be incremented
+        # when recovering from an existing cnpg cluster
+        serverName: pgvector17-v3
 
   # Note: This is the path I used to port from crunchy-postgres to cloudnative-pg.
   # externalClusters:

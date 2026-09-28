@@ -6,9 +6,7 @@ metadata:
   name: postgres17
 spec:
   instances: 3
-  # The system variant bundles barman-cloud, which the in-tree
-  # barmanObjectStore backup below needs; standard/minimal do not.
-  imageName: ghcr.io/cloudnative-pg/postgresql:17.11-system-trixie@sha256:720c9f9864f029196751edeeee71ddfd9358ef8db5317f5261aba497cad25b3b
+  imageName: ghcr.io/cloudnative-pg/postgresql:17.11-standard-trixie@sha256:02a0b52d53704b826d949af6f46856b08a14bc66a7e438611f79d4eb75571bee
   primaryUpdateStrategy: unsupervised
   primaryUpdateMethod: switchover
   bootstrap:
@@ -42,26 +40,14 @@ spec:
   monitoring:
     enablePodMonitor: true
 
-  backup:
-    retentionPolicy: 30d
-    barmanObjectStore: &barmanObjectStore
-      data:
-        compression: bzip2
-      wal:
-        compression: bzip2
-        maxParallel: 8
-      destinationPath: s3://cloudnative-pg/
-      endpointURL: https://s3.${LOCAL_DOMAIN}
-      # Note: serverName version needs to be incremented
-      # when recovering from an existing cnpg cluster
-      serverName: postgres17-v3
-      s3Credentials:
-        accessKeyId:
-          name: cloudnative-pg-secret
-          key: aws-access-key-id
-        secretAccessKey:
-          name: cloudnative-pg-secret
-          key: aws-secret-access-key
+  plugins:
+    - name: barman-cloud.cloudnative-pg.io
+      isWALArchiver: true
+      parameters:
+        barmanObjectName: postgres17
+        # Note: serverName version needs to be incremented
+        # when recovering from an existing cnpg cluster
+        serverName: postgres17-v3
 
   # Note: previousCluster needs to be set to the name of the previous
   # cluster when recovering from an existing cnpg cluster
@@ -71,9 +57,11 @@ spec:
   # Note: externalClusters is needed when recovering from an existing cnpg cluster
   # externalClusters:
   #   - name: *previousCluster
-  #     barmanObjectStore:
-  #       <<: *barmanObjectStore
-  #       serverName: *previousCluster
+  #     plugin:
+  #       name: barman-cloud.cloudnative-pg.io
+  #       parameters:
+  #         barmanObjectName: postgres17
+  #         serverName: *previousCluster
 
   # Note: This is the path I used to port from crunchy-postgres to cloudnative-pg.
   # bootstrap:

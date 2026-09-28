@@ -8,7 +8,7 @@ spec:
   instances: 3
   # The system variant bundles barman-cloud, which the in-tree
   # barmanObjectStore backup below needs; standard/minimal do not.
-  imageName: ghcr.io/cloudnative-pg/postgresql:17.11-system-trixie@sha256:720c9f9864f029196751edeeee71ddfd9358ef8db5317f5261aba497cad25b3b
+  imageName: ghcr.io/cloudnative-pg/postgresql:17.11-system-trixie@sha256:2807511f27fc549f2534a31db55d2cf7704e3b8d7e2a4f6e6a09e13bb604c5bb
   primaryUpdateStrategy: unsupervised
   primaryUpdateMethod: switchover
   bootstrap:

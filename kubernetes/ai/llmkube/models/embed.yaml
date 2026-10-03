@@ -22,7 +22,7 @@ spec:
   # CPU embedding service for the ToolHive gateway tool search.
   # Bound concurrent embedding work: eight slots and 2048-token batches
   # exceeded the 4Gi limit during ToolHive indexing.
-  image: ghcr.io/ggml-org/llama.cpp:server@sha256:6257697a7f5d034b8fb499ddb07af3e250506352f94102054252a23f3b85e0af
+  image: ghcr.io/ggml-org/llama.cpp:server@sha256:460ff87b6dfd6b9e8ee0f4018540e007eb333a574994033b70dd6be46069de01
   replicas: 1
   contextSize: 8192
   parallelSlots: 2

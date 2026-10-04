@@ -5,14 +5,21 @@ metadata:
   name: miroir-replicated
   annotations:
     storageclass.kubernetes.io/is-default-class: "true"
+    # Kubernetes won't let a StorageClass's parameters change in place, so
+    # Flux deletes and recreates it on any change. Existing volumes are not
+    # touched; only new ones pick up the new settings.
+    kustomize.toolkit.fluxcd.io/force: enabled
 provisioner: miroir.home-operations.com
 reclaimPolicy: Delete
 volumeBindingMode: WaitForFirstConsumer
 allowVolumeExpansion: true
 parameters:
-  miroir.home-operations.com/replicas: "2"
+  # Three full copies, and writes pause if fewer than two can see each other.
+  # One node can be down without interrupting anything, and split-brain
+  # can't happen. See AGENTS.md "Replicas and quorum".
+  miroir.home-operations.com/replicas: "3"
   miroir.home-operations.com/pool: data
-  miroir.home-operations.com/quorum: last-man-standing
+  miroir.home-operations.com/quorum: freeze
   miroir.home-operations.com/allowRemoteVolumeAccess: "true"
   csi.storage.k8s.io/fstype: ext4
 ---

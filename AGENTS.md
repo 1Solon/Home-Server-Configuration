@@ -6,64 +6,71 @@ When asked to remove or archive an old application, move the application's manif
 
 This is a Flux backed repository, as such, pushing to the repository will trigger a Flux reconciliation, affecting the cluster. You should never do this without permission.
 
-# Miroir Migration Workarounds
+# Miroir Restores and Storage Changes
 
-Until the corresponding upstream issues are fixed, migrations and restores on
-Miroir `0.11.22` must use all of the following safeguards:
+Miroir runs chart `0.12.x`. Backups go through kopiur; VolSync is archived and
+Rook/Ceph was retired on 2026-08-11 (manifests under `archive/rook-ceph/` —
+don't bring them back unless you're deliberately building a new Ceph cluster).
 
-- For an archived VolSync emergency restore, annotate the restore namespace
-  with `volsync.backube/privileged-movers: "true"` before starting the mover,
-  then remove the annotation immediately after it succeeds.
-- Set `spec.restic.cleanupTempPVC: false` on Miroir ReplicationDestinations.
-  Keep the temporary destination PVC and its snapshot until the final PVC is
-  `Bound` and its contents are verified; deleting the temporary source sooner
-  makes the ready snapshot unusable by Miroir.
-- After every snapshot- or VolSync-restored PVC is `Ready`, clear LVM's
-  activation-skip flag on the restored volume LV on every diskful replica and
-  activate it. Derive the volume handle and replica nodes from the PVC/PV and
-  `MiroirVolume`; never run this against `miroir-snapshot-*` LVs:
+After every restore or storage change, check all of the following:
+
+- Every replica of the affected volumes is healthy and the restored data has
+  been checked by hand.
+- No backup jobs are still running.
+- No restored volume is stuck with LVM's activation-skip flag. This was an
+  upstream bug (home-operations/miroir#490) fixed in `0.12.3`; if it ever
+  shows up again, clear it on each node that holds a full copy. Work out the
+  volume handle and nodes from the PV and `MiroirVolume`, and never run this
+  against a `miroir-snapshot-*` LV:
 
   ```sh
   lvchange --setactivationskip n vg-miroir-<pool>/<volume-handle>
   lvchange --activate y vg-miroir-<pool>/<volume-handle>
   ```
 
-- After deleting temporary restore resources, audit every data node for
-  `miroir-snapshot-*` LVs. Remove an LV only after proving that no
-  `MiroirSnapshot` CR or `MiroirVolume.spec.source` references it. Never use a
-  wildcard removal.
-- Ceph rollback was explicitly retired after final restore validation on
-  2026-08-11. Rook/Ceph manifests are archived under `archive/rook-ceph/`; do
-  not restore them unless rebuilding a new Ceph cluster intentionally.
-- Require healthy Miroir replicas, successful content validation, idle backup
-  movers, no activation-skip flags, and no orphan `miroir-snapshot-*` LVs after
-  every restore or storage change.
+- No leftover `miroir-snapshot-*` LVs on any data node. Only remove one after
+  confirming no `MiroirSnapshot` and no `MiroirVolume.spec.source` points at
+  it, and remove them one at a time by name — never with a wildcard.
 
-## Quorum: last-man-standing
+If you ever restore from the archived VolSync backups: annotate the restore
+namespace with `volsync.backube/privileged-movers: "true"` only while the
+mover runs, and set `spec.restic.cleanupTempPVC: false` on the
+ReplicationDestination so the temporary PVC and its snapshot survive until the
+final PVC is `Bound` and its contents are verified.
 
-The `miroir-replicated` StorageClass uses `quorum: last-man-standing`
-(2026-08-23): a surviving replica keeps accepting writes with no peers in
-sight instead of freezing I/O. Consequences every operator must know:
+## Replicas and quorum
 
-- **Split-brain is possible and stays manual.** If both sides of a volume
-  accept writes while partitioned, DRBD detects it on reconnect and refuses
-  to connect. The volume shows `MiroirVolumeSplitBrain` (critical). Inspect
-  both legs (`drbdadm status <res>` on each node), pick the loser — usually
-  the node whose writes are disposable or older — then on the LOSING node:
+`miroir-replicated` keeps 3 full copies of every volume and uses
+`quorum: freeze` (since 2026-10-04). A volume only accepts writes while at
+least 2 of its 3 copies can see each other.
+
+- **One node down:** nothing happens. Writes carry on with the other two
+  copies and the missing copy catches up when the node returns.
+- **Two nodes down:** any volume with copies on both of them stops accepting
+  writes and its filesystem can go read-only. This is on purpose — it's what
+  prevents split-brain. Bring a node back rather than forcing the volume;
+  pods recover once 2 copies can talk again (restart them if the filesystem
+  went read-only).
+- **Split-brain should not happen** under `freeze`. If `MiroirVolumeSplitBrain`
+  ever fires anyway (for example on a volume still using
+  `last-man-standing`), check both copies with `drbdadm status <res>`, decide
+  which side's recent writes you can afford to lose, and on THAT node only:
 
   ```sh
   drbdadm disconnect <res>
   drbdadm connect --discard-my-data <res>
   ```
 
-  The losing side's writes since the split are gone. Never run this against
-  the leg you believe holds the good data.
-
-- After any node outage, check for split-brain volumes before assuming
-  resyncs will drain: `kubectl get miroirvolumes -A` for disconnected peers,
-  and the `MiroirVolumeSplitBrain` alert.
-- Volumes under this policy carry no diskless tie-breaker; single-node loss
-  never interrupts writes, but also nothing arbitrates them.
+- Volumes created before 2026-10-04 were made with 2 copies and
+  `last-man-standing`. Changing the StorageClass only affects new volumes;
+  existing ones are moved over by editing `MiroirVolume.spec.quorumPolicy`
+  and `spec.replicas` directly (both can change on a live volume). Check
+  `kubectl get miroirvolumes` for any that still have 2 copies or the old
+  policy.
+- Pods can run on any node. A pod on a node without a copy reads and writes
+  over the network (`allowRemoteVolumeAccess`). Miroir won't move a copy to
+  follow it: 3 is the most a volume can have, and Miroir never drops a copy
+  on its own. To move a copy, edit `spec.replicas` on the `MiroirVolume`.
 
 ## Agent skills
 

@@ -3,6 +3,8 @@ overlay:
   name: turingrk1
   image: siderolabs/sbc-rockchip
 customization:
+  extraKernelArgs:
+    - cpufreq.default_governor=performance
   systemExtensions:
     officialExtensions:
       - siderolabs/drbd

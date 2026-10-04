@@ -5,14 +5,15 @@ metadata:
   name: miroir-replicated
   annotations:
     storageclass.kubernetes.io/is-default-class: "true"
+    kustomize.toolkit.fluxcd.io/force: enabled
 provisioner: miroir.home-operations.com
 reclaimPolicy: Delete
 volumeBindingMode: WaitForFirstConsumer
 allowVolumeExpansion: true
 parameters:
-  miroir.home-operations.com/replicas: "2"
+  miroir.home-operations.com/replicas: "3"
   miroir.home-operations.com/pool: data
-  miroir.home-operations.com/quorum: last-man-standing
+  miroir.home-operations.com/quorum: freeze
   miroir.home-operations.com/allowRemoteVolumeAccess: "true"
   csi.storage.k8s.io/fstype: ext4
 ---

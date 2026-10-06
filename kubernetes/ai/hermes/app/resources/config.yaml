@@ -5,11 +5,11 @@ model:
   default: glm-5.3-flash
 auxiliary:
   vision:
-    provider: openai-codex
-    model: gpt-5.6-luna
+    provider: opencode-go
+    model: glm-5.3-flash
   curator:
-    provider: openai-codex
-    model: gpt-5.6-sol
+    provider: opencode-go
+    model: glm-5.3
 web:
   search_backend: searxng
   extract_backend: firecrawl

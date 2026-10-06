@@ -104,7 +104,7 @@ spec:
                 fi
 
                 # renovate: datasource=pypi depName=mnemosyne-hermes
-                MNEMOSYNE_HERMES=0.7.4
+                MNEMOSYNE_HERMES=0.7.2
                 # renovate: datasource=pypi depName=mnemosyne-memory
                 MNEMOSYNE_MEMORY=3.15.1
                 MNEMOSYNE_VENV="$P/mnemosyne"

@@ -90,6 +90,21 @@
       }
     },
     {
+      "description": "Mnemosyne Group: mnemosyne-hermes pins a minimum mnemosyne-memory, so both must upgrade together",
+      "groupName": "Mnemosyne",
+      "matchDatasources": ["pypi"],
+      "matchPackageNames": ["mnemosyne-hermes", "mnemosyne-memory"],
+      "group": {
+        "commitMessageTopic": "{{{groupName}}} group"
+      }
+    },
+    {
+      "description": "mnemosyne-hermes 0.7.3+ requires the mnemosyne-memory 4.0 betas; hold it until mnemosyne-memory 4.0.0 is stable",
+      "matchDatasources": ["pypi"],
+      "matchPackageNames": ["mnemosyne-hermes"],
+      "allowedVersions": "<0.7.3"
+    },
+    {
       "description": "The kopiur-crds GitRepository tag is tracked by its home-operations/kopiur annotation; skip the duplicate Flux detection",
       "matchManagers": ["flux"],
       "matchDepNames": ["kopiur-crds"],

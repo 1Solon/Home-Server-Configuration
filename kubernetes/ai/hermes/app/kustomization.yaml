@@ -12,5 +12,6 @@ configMapGenerator:
     files:
       - ./resources/config.yaml
       - ./resources/SOUL.md
+      - ./resources/profile.sh
 generatorOptions:
   disableNameSuffixHash: true

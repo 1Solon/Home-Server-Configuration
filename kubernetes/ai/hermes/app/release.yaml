@@ -151,7 +151,10 @@ spec:
               HOMEBREW_CELLAR: /opt/data/.local/homebrew/Cellar
               HOMEBREW_PREFIX: /opt/data/.local/homebrew
               HOMEBREW_REPOSITORY: /opt/data/.local/homebrew
-              PATH: /opt/hermes/bin:/opt/hermes/.venv/bin:/opt/data/.local/mnemosyne/bin:/opt/data/.local/bin:/opt/data/.local/go/bin:/opt/data/.local/homebrew/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+              PATH: &path /opt/hermes/bin:/opt/hermes/.venv/bin:/opt/data/.local/mnemosyne/bin:/opt/data/.local/bin:/opt/data/.local/go/bin:/opt/data/.local/homebrew/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+              # The terminal's login shell resets PATH from /etc/profile;
+              # resources/profile.sh restores it from CONTAINER_PATH.
+              CONTAINER_PATH: *path
               TERM: xterm-256color
               MNEMOSYNE_HOME: /opt/data/mnemosyne
               # Summarise and extract facts through Hermes' auxiliary model.
@@ -264,6 +267,10 @@ spec:
         name: hermes-config
         advancedMounts:
           hermes:
+            app:
+              - path: /opt/terminal/profile.sh
+                subPath: profile.sh
+                readOnly: true
             init-config:
               - path: /desired/config.yaml
                 subPath: config.yaml

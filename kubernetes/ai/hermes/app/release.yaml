@@ -52,7 +52,16 @@ spec:
               - -c
               - |
                 set -euo pipefail
-                GH=2.96.0 GO=1.26.5 BREW=6.0.12 P=/opt/data/.local
+                P=/opt/data/.local
+                # Keep one version per line so Renovate can find and bump them.
+                # renovate: datasource=github-releases depName=cli/cli
+                GH=2.96.0
+                # renovate: datasource=golang-version depName=go
+                GO=1.26.5
+                # Homebrew keeps itself up to date once installed, so this
+                # only picks the version for a fresh install.
+                # renovate: datasource=github-releases depName=Homebrew/brew
+                BREW=6.0.12
                 case "$(uname -m)" in
                   x86_64) A=amd64 ;;
                   aarch64|arm64) A=arm64 ;;
@@ -60,17 +69,30 @@ spec:
                 esac
                 mkdir -p "$P/bin"
 
-                if [ ! -x "$P/bin/gh" ]; then
+                # Reinstall whenever the installed version doesn't match the
+                # pin, and check every download against its published checksum.
+                INSTALLED_GH=$("$P/bin/gh" --version 2>/dev/null || true)
+                if [[ "$INSTALLED_GH" != "gh version $GH "* ]]; then
                   G=gh_"$GH"_linux_"$A"
-                  curl -fsSL "https://github.com/cli/cli/releases/download/v$GH/$G.tar.gz" | tar xOz "$G/bin/gh" >/tmp/gh
+                  C=gh_"$GH"_checksums.txt
+                  U="https://github.com/cli/cli/releases/download/v$GH"
+                  curl -fsSLo "/tmp/$G.tar.gz" "$U/$G.tar.gz"
+                  curl -fsSL "$U/$C" | awk -v f="$G.tar.gz" '$2 == f' | (cd /tmp && sha256sum -c -)
+                  tar xOzf "/tmp/$G.tar.gz" "$G/bin/gh" >/tmp/gh
                   install -o 10000 -g 10000 -m 755 /tmp/gh "$P/bin/gh"
+                  rm -f "/tmp/$G.tar.gz" /tmp/gh
                 fi
 
-                if [ ! -x "$P/go/bin/go" ]; then
-                  rm -rf "$P/.go" "$P/go"
+                if [ "$(head -n1 "$P/go/VERSION" 2>/dev/null)" != "go$GO" ]; then
+                  T=go"$GO".linux-"$A".tar.gz
+                  curl -fsSLo "/tmp/$T" "https://dl.google.com/go/$T"
+                  echo "$(curl -fsSL "https://dl.google.com/go/$T.sha256")  /tmp/$T" | sha256sum -c -
+                  rm -rf "$P/.go"
                   mkdir "$P/.go"
-                  curl -fsSL "https://go.dev/dl/go$GO.linux-$A.tar.gz" | tar xz -C "$P/.go" --strip-components=1
+                  tar xzf "/tmp/$T" -C "$P/.go" --strip-components=1
+                  rm -f "/tmp/$T"
                   chown -R 10000:10000 "$P/.go"
+                  rm -rf "$P/go"
                   mv "$P/.go" "$P/go"
                 fi
 
@@ -81,7 +103,9 @@ spec:
                   mv "$P/.homebrew" "$P/homebrew"
                 fi
 
+                # renovate: datasource=pypi depName=mnemosyne-hermes
                 MNEMOSYNE_HERMES=0.5.0
+                # renovate: datasource=pypi depName=mnemosyne-memory
                 MNEMOSYNE_MEMORY=3.14.0
                 MNEMOSYNE_VENV="$P/mnemosyne"
                 if [ ! -x "$MNEMOSYNE_VENV/bin/python" ]; then
@@ -156,6 +180,12 @@ spec:
               # resources/profile.sh restores it from CONTAINER_PATH.
               CONTAINER_PATH: *path
               TERM: xterm-256color
+              # Keep download caches off the data volume. They can be
+              # refetched, so there's no point copying them three times and
+              # backing them up. uv can't hardlink across volumes, so it copies.
+              npm_config_cache: /opt/cache/npm
+              UV_CACHE_DIR: /opt/cache/uv
+              UV_LINK_MODE: copy
               MNEMOSYNE_HOME: /opt/data/mnemosyne
               # Summarise and extract facts through Hermes' auxiliary model.
               MNEMOSYNE_HOST_LLM_ENABLED: "true"
@@ -285,6 +315,14 @@ spec:
           hermes:
             init-config:
               - path: /staging
+
+      cache:
+        type: emptyDir
+        sizeLimit: 8Gi
+        advancedMounts:
+          hermes:
+            app:
+              - path: /opt/cache
 
       shm:
         type: emptyDir

@@ -106,7 +106,7 @@ spec:
                 # renovate: datasource=pypi depName=mnemosyne-hermes
                 MNEMOSYNE_HERMES=0.5.0
                 # renovate: datasource=pypi depName=mnemosyne-memory
-                MNEMOSYNE_MEMORY=3.14.0
+                MNEMOSYNE_MEMORY=3.15.1
                 MNEMOSYNE_VENV="$P/mnemosyne"
                 if [ ! -x "$MNEMOSYNE_VENV/bin/python" ]; then
                   uv venv --python /opt/hermes/.venv/bin/python "$MNEMOSYNE_VENV"

@@ -10,7 +10,7 @@ spec:
     - ../../../components/kopiur
   dependsOn:
     - name: firecrawl
-    - name: grafana-mcp
+    - name: toolhive-config
     - name: kopiur-repository-ai
       namespace: flux-system
   path: "./kubernetes/ai/hermes/app"

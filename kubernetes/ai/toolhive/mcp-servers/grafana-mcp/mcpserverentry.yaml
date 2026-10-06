@@ -8,6 +8,8 @@ metadata:
   name: grafana
 spec:
   remoteUrl: http://mcp-grafana.observability.svc.cluster.local:8000/mcp
+  # ToolHive rejects cluster.local remote URLs (SSRF guard) unless this is set.
+  allowPrivateEndpoint: true
   transport: streamable-http
   groupRef:
     name: mcp-tools

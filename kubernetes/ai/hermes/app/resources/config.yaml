@@ -20,9 +20,9 @@ dashboard:
   theme: mono
   font: jetbrains-mono
 mcp_servers:
-  grafana:
-    url: http://mcp-grafana.observability.svc.cluster.local:8000/mcp
-    timeout: 60
+  toolhive:
+    url: http://vmcp-mcp-gateway-internal.ai.svc.cluster.local:4483/mcp
+    timeout: 180
     connect_timeout: 30
 terminal:
   backend: local

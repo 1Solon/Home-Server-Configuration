@@ -26,6 +26,9 @@ spec:
     defaultPodOptions:
       automountServiceAccountToken: true
       terminationGracePeriodSeconds: 600
+      # Tools installed onto the PVC are architecture-specific.
+      nodeSelector:
+        kubernetes.io/arch: arm64
       securityContext:
         fsGroup: 10000
         fsGroupChangePolicy: OnRootMismatch
@@ -151,6 +154,9 @@ spec:
               PATH: /opt/hermes/bin:/opt/hermes/.venv/bin:/opt/data/.local/mnemosyne/bin:/opt/data/.local/bin:/opt/data/.local/go/bin:/opt/data/.local/homebrew/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
               TERM: xterm-256color
               MNEMOSYNE_HOME: /opt/data/mnemosyne
+              # Summarise and extract facts through Hermes' auxiliary model.
+              MNEMOSYNE_HOST_LLM_ENABLED: "true"
+              MNEMOSYNE_HOST_LLM_TIMEOUT: "60"
               API_SERVER_ENABLED: "true"
               API_SERVER_HOST: "0.0.0.0"
               API_SERVER_PORT: &apiPort 8642

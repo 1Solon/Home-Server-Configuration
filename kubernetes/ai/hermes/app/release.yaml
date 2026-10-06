@@ -55,7 +55,7 @@ spec:
                 P=/opt/data/.local
                 # Keep one version per line so Renovate can find and bump them.
                 # renovate: datasource=github-releases depName=cli/cli
-                GH=2.96.0
+                GH=2.102.0
                 # renovate: datasource=golang-version depName=go
                 GO=1.26.5
                 # Homebrew keeps itself up to date once installed, so this

@@ -61,7 +61,7 @@ spec:
                 # Homebrew keeps itself up to date once installed, so this
                 # only picks the version for a fresh install.
                 # renovate: datasource=github-releases depName=Homebrew/brew
-                BREW=6.0.12
+                BREW=7.0.8
                 case "$(uname -m)" in
                   x86_64) A=amd64 ;;
                   aarch64|arm64) A=arm64 ;;

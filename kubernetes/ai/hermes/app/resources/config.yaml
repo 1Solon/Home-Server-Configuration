@@ -29,6 +29,8 @@ terminal:
   cwd: /opt/data/workspace
   timeout: 180
   persistent_shell: true
+  shell_init_files:
+    - /opt/terminal/profile.sh
 memory:
   provider: mnemosyne
   auto_migrate: true

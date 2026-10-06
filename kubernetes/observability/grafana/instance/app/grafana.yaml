@@ -40,6 +40,9 @@ spec:
       news_feed_enabled: "false"
     plugins:
       plugin_admin_enabled: "false"
+      # Bundled plugins live on the read-only root filesystem, so auto-updating
+      # them (e.g. elasticsearch) fails on every start.
+      preinstall_auto_update: "false"
     security:
       angular_support_enabled: "true"
     server:

@@ -31,7 +31,7 @@ spec:
           app:
             image:
               repository: docker.io/timberio/vector
-              tag: 0.58.0-distroless-libc@sha256:6c93dfe2554cc7e38316d618961cd657d5271c7a7aa727e0007502b28cb82c2e
+              tag: 0.59.0-distroless-libc@sha256:54a7c01056e98305fce80545ace22779035747af9e89114508330fe94f829831
             args: ["--config", "/etc/vector/vector.yaml"]
             env:
               NODE_NAME:

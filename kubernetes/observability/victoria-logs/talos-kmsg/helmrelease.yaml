@@ -14,6 +14,17 @@ spec:
         name: bjw-s-charts
         namespace: flux-system
   interval: 15m
+  # One node at a time, and kube5 (the only amd64 node) can't pull the image
+  # from its peers, so a full rollout can take longer than Helm's default 5m.
+  timeout: 10m
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      strategy: rollback
+      retries: 3
   values:
     controllers:
       talos-kmsg:

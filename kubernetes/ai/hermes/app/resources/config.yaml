@@ -48,7 +48,7 @@ display:
   show_reasoning: true
   skin: mono
 agent:
-  reasoning_effort: high
+  reasoning_effort: max
 streaming:
   enabled: true
 security:

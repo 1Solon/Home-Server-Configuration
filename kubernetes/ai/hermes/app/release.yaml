@@ -57,7 +57,7 @@ spec:
                 # renovate: datasource=github-releases depName=cli/cli
                 GH=2.102.0
                 # renovate: datasource=golang-version depName=go
-                GO=1.27.1
+                GO=1.27.2
                 # Homebrew keeps itself up to date once installed, so this
                 # only picks the version for a fresh install.
                 # renovate: datasource=github-releases depName=Homebrew/brew

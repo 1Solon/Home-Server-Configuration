@@ -103,17 +103,21 @@ spec:
                   mv "$P/.homebrew" "$P/homebrew"
                 fi
 
-                # Mnemosyne is unpinned: mnemosyne-hermes declares the
-                # mnemosyne-memory range it needs, so let uv pick the newest
-                # stable pair that resolves. Keep the existing install if the
-                # upgrade fails (e.g. PyPI unreachable).
+                # Pin both: mnemosyne-hermes 0.7.0-0.7.2 declare
+                # mnemosyne-memory>=3.11.1 but import symbols that only exist
+                # in the 4.0 betas, so uv's "compatible" pick is broken.
+                # renovate: datasource=pypi depName=mnemosyne-hermes
+                MNEMOSYNE_HERMES=0.5.0
+                # renovate: datasource=pypi depName=mnemosyne-memory
+                MNEMOSYNE_MEMORY=3.15.1
                 MNEMOSYNE_VENV="$P/mnemosyne"
                 if [ ! -x "$MNEMOSYNE_VENV/bin/python" ]; then
                   uv venv --python /opt/hermes/.venv/bin/python "$MNEMOSYNE_VENV"
                 fi
-                if ! uv pip install --python "$MNEMOSYNE_VENV/bin/python" --upgrade mnemosyne-hermes; then
-                  [ -x "$MNEMOSYNE_VENV/bin/mnemosyne-hermes" ] || exit 1
-                  echo "mnemosyne upgrade failed; keeping the installed version" >&2
+                if ! "$MNEMOSYNE_VENV/bin/python" -c "import importlib.metadata as m; assert m.version('mnemosyne-hermes') == '$MNEMOSYNE_HERMES'; assert m.version('mnemosyne-memory') == '$MNEMOSYNE_MEMORY'" 2>/dev/null; then
+                  uv pip install --python "$MNEMOSYNE_VENV/bin/python" --upgrade \
+                    "mnemosyne-hermes==$MNEMOSYNE_HERMES" \
+                    "mnemosyne-memory[embeddings]==$MNEMOSYNE_MEMORY"
                 fi
 
                 rm -rf /opt/data/plugins/mnemosyne

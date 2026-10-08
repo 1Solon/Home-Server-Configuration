@@ -99,10 +99,10 @@
       }
     },
     {
-      "description": "mnemosyne-hermes 0.7.3+ requires the mnemosyne-memory 4.0 betas; hold it until mnemosyne-memory 4.0.0 is stable",
+      "description": "mnemosyne-hermes 0.7.x imports symbols that only exist in the mnemosyne-memory 4.0 betas (0.7.0-0.7.2 under-declare it); hold it until mnemosyne-memory 4.0.0 is stable",
       "matchDatasources": ["pypi"],
       "matchPackageNames": ["mnemosyne-hermes"],
-      "allowedVersions": "<0.7.3"
+      "allowedVersions": "<0.7.0"
     },
     {
       "description": "The kopiur-crds GitRepository tag is tracked by its home-operations/kopiur annotation; skip the duplicate Flux detection",

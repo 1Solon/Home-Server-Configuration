@@ -64,7 +64,8 @@ spec:
               ENABLE_PIP_INSTALL_FRONTMATTER_REQUIREMENTS: "false"
               CHAT_RESPONSE_MAX_TOOL_CALL_ITERATIONS: "8"
               ENABLE_CONTEXT_COMPACTION: "true"
-              CONTEXT_COMPACTION_TOKEN_THRESHOLD: "209715"
+              # Stay under the local Qwen model's 131072-token window (llmkube/models/models.yaml).
+              CONTEXT_COMPACTION_TOKEN_THRESHOLD: "100000"
               CONTEXT_COMPACTION_TOKEN_CAP: "209715"
               WEB_SEARCH_ENGINE: searxng
               SEARXNG_QUERY_URL: http://searxng.ai.svc.cluster.local:8080/search?q=<query>

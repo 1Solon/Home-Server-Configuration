@@ -15,7 +15,7 @@ web:
   extract_backend: firecrawl
 tools:
   tool_search:
-    enabled: "on"
+    enabled: "off"
 dashboard:
   theme: mono
   font: jetbrains-mono

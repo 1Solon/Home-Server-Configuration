@@ -33,6 +33,7 @@ terminal:
     - /opt/terminal/profile.sh
 memory:
   provider: mnemosyne
+  memory_char_limit: 4000
   auto_migrate: true
   auto_summarize:
     threshold: 50

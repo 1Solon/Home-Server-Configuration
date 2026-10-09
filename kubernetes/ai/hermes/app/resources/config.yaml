@@ -2,7 +2,7 @@
 group_sessions_per_user: true
 model:
   provider: opencode-go
-  default: glm-5.3-flash
+  default: claude-haiku-5-5
 auxiliary:
   vision:
     provider: opencode-go
@@ -51,7 +51,10 @@ display:
   show_reasoning: true
   skin: mono
 agent:
-  reasoning_effort: max
+  # Anthropic suggests high for Haiku 5.5 on longer agent tasks. Hermes
+  # doesn't pass this setting on to Haiku models yet (as of v2026.9.24), so
+  # until it does, Haiku runs at its own default of medium.
+  reasoning_effort: high
 streaming:
   enabled: true
 security:

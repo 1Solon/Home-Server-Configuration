@@ -13,6 +13,8 @@ auxiliary:
 web:
   search_backend: searxng
   extract_backend: firecrawl
+browser:
+  cdp_url: ws://browserless.ai.svc.cluster.local:3000
 tools:
   tool_search:
     enabled: "off"
@@ -60,6 +62,7 @@ privacy:
   redact_pii: true
 platform_toolsets:
   cli:
+    - browser
     - clarify
     - delegation
     - file
@@ -69,6 +72,7 @@ platform_toolsets:
     - todo
     - web
   api_server:
+    - browser
     - clarify
     - delegation
     - file
@@ -78,6 +82,7 @@ platform_toolsets:
     - todo
     - web
   discord:
+    - browser
     - clarify
     - delegation
     - file

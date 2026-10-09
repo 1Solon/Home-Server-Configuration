@@ -1,14 +1,28 @@
 ---
 group_sessions_per_user: true
+# OpenCode Go only serves Claude over the Anthropic messages API, but
+# Hermes' built-in opencode-go provider sends Claude models to the OpenAI
+# chat endpoint, which rejects them ("Model does not support this
+# protocol"). This entry points at the same OpenCode Go account and forces
+# the Anthropic format. Hermes adds /v1/messages to the URL itself.
+providers:
+  opencode-go-anthropic:
+    api: https://opencode.ai/zen/go
+    key_env: OPENCODE_GO_API_KEY
+    transport: anthropic_messages
+    models:
+      claude-haiku-5-5:
+        context_length: 1000000
+        prompt_caching: true
 model:
-  provider: opencode-go
+  provider: custom:opencode-go-anthropic
   default: claude-haiku-5-5
 auxiliary:
   vision:
-    provider: opencode-go
+    provider: custom:opencode-go-anthropic
     model: claude-haiku-5-5
   curator:
-    provider: opencode-go
+    provider: custom:opencode-go-anthropic
     model: claude-haiku-5-5
 web:
   search_backend: searxng

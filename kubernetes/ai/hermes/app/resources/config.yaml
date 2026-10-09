@@ -6,10 +6,10 @@ model:
 auxiliary:
   vision:
     provider: opencode-go
-    model: glm-5.3-flash
+    model: claude-haiku-5-5
   curator:
     provider: opencode-go
-    model: glm-5.3
+    model: claude-haiku-5-5
 web:
   search_backend: searxng
   extract_backend: firecrawl

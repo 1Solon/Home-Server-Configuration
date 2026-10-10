@@ -31,7 +31,7 @@ spec:
   runtime: llamacpp
   mode: chat
   replicas: 1
-  image: ghcr.io/ggml-org/llama.cpp:server-cuda@sha256:185d70a45b05b10c005d1f66b79646fad988bb70278d620dcf5edac2a4a025d4
+  image: ghcr.io/ggml-org/llama.cpp:server-cuda@sha256:e1483fa3edd47a527c3939139409f7e3b60bd59878152b64825852d040570f9b
   # 131K frees cache/compute VRAM for ~1.42GiB more weights at unchanged UD-IQ4_NL.
   contextSize: 131072
   parallelSlots: 4

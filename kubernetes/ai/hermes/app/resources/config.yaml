@@ -1,5 +1,6 @@
 ---
 group_sessions_per_user: true
+# Used by the vision and curator helpers below, which stay on Claude Haiku.
 # OpenCode Go only serves Claude over the Anthropic messages API, but
 # Hermes' built-in opencode-go provider sends Claude models to the OpenAI
 # chat endpoint, which rejects them ("Model does not support this
@@ -15,8 +16,8 @@ providers:
         context_length: 1000000
         prompt_caching: true
 model:
-  provider: custom:opencode-go-anthropic
-  default: claude-haiku-5-5
+  provider: opencode-go
+  default: deepseek-v4.1-flash
 auxiliary:
   vision:
     provider: custom:opencode-go-anthropic
@@ -65,10 +66,7 @@ display:
   show_reasoning: true
   skin: mono
 agent:
-  # Anthropic suggests high for Haiku 5.5 on longer agent tasks. Hermes
-  # doesn't pass this setting on to Haiku models yet (as of v2026.9.24), so
-  # until it does, Haiku runs at its own default of medium.
-  reasoning_effort: high
+  reasoning_effort: max
 streaming:
   enabled: true
 security:

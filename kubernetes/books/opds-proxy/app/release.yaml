@@ -45,18 +45,32 @@ spec:
               - secretRef:
                   name: opds-proxy-secret
             probes:
-              liveness: &probe
+              # The home page fetches from BookOrbit, so it takes about half a
+              # second to load, and longer when BookOrbit is busy. The liveness
+              # check only makes sure the port is open, so a slow page doesn't
+              # get the pod restarted. The readiness check loads the real page
+              # but waits up to 5 seconds for it.
+              liveness:
+                enabled: true
+                custom: true
+                spec:
+                  tcpSocket:
+                    port: 5000
+                  initialDelaySeconds: 10
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+              readiness:
                 enabled: true
                 custom: true
                 spec:
                   httpGet:
                     path: /
-                    port: &port 5000
-                  initialDelaySeconds: 0
+                    port: 5000
+                  initialDelaySeconds: 10
                   periodSeconds: 10
-                  timeoutSeconds: 1
+                  timeoutSeconds: 5
                   failureThreshold: 3
-              readiness: *probe
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: false

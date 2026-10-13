@@ -1,0 +1,83 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/batch/cronjob_v1.json
+# Takes a daily etcd snapshot through the Talos API and uploads it to Garage.
+# Snapshots are encrypted to the same age key that SOPS uses in this repo, so
+# restoring one needs that private key (keep a copy outside the cluster).
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: talos-backup
+spec:
+  schedule: "30 2 * * *"
+  timeZone: Etc/UTC
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 1
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      backoffLimit: 3
+      ttlSecondsAfterFinished: 86400
+      template:
+        spec:
+          restartPolicy: OnFailure
+          automountServiceAccountToken: false
+          securityContext:
+            runAsUser: 1000
+            runAsGroup: 1000
+            runAsNonRoot: true
+            seccompProfile:
+              type: RuntimeDefault
+          containers:
+            - name: talos-backup
+              image: ghcr.io/siderolabs/talos-backup:v0.1.0-beta.3@sha256:05c86663b251a407551dc948097e32e163a345818117eb52c573b0447bd0c7a7
+              command:
+                - /talos-backup
+              workingDir: /tmp
+              env:
+                - name: CUSTOM_S3_ENDPOINT
+                  value: http://garage.garage.svc.cluster.local:3900
+                - name: USE_PATH_STYLE
+                  value: "true"
+                - name: AWS_REGION
+                  value: us-east-1
+                - name: BUCKET
+                  value: volsync
+                - name: S3_PREFIX
+                  value: etcd
+                - name: CLUSTER_NAME
+                  value: home-cluster
+                - name: AGE_RECIPIENT_PUBLIC_KEY
+                  value: age13arp4yu8k7s9ck59ryj4vzedkggkp8eph6hq9ukdtcpdvnf8f9uqypjty6
+                - name: ENABLE_COMPRESSION
+                  value: "true"
+              envFrom:
+                - secretRef:
+                    name: talos-backup-garage
+              securityContext:
+                allowPrivilegeEscalation: false
+                readOnlyRootFilesystem: true
+                capabilities:
+                  drop:
+                    - ALL
+              resources:
+                requests:
+                  cpu: 50m
+                  memory: 128Mi
+                limits:
+                  memory: 1Gi
+              volumeMounts:
+                - name: tmp
+                  mountPath: /tmp
+                - name: talos
+                  mountPath: /.talos
+                - name: talos-secrets
+                  mountPath: /var/run/secrets/talos.dev
+                  readOnly: true
+          volumes:
+            - name: tmp
+              emptyDir: {}
+            - name: talos
+              emptyDir: {}
+            - name: talos-secrets
+              secret:
+                secretName: talos-backup

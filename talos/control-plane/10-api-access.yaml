@@ -6,6 +6,8 @@ machine:
       allowedRoles:
         - os:admin
         - os:reader
+        # Lets the talos-backup CronJob in kube-system take etcd snapshots.
+        - os:etcd:backup
       allowedKubernetesNamespaces:
         - kube-system
         - ai

@@ -5,6 +5,11 @@ metadata:
   name: &app immich-server
   namespace: flux-system
 spec:
+  dependsOn:
+    - name: external-secrets-stores
+      namespace: secrets
+    - name: cloudnative-pg-cluster
+      namespace: flux-system
   targetNamespace: immich
   commonMetadata:
     labels:
@@ -37,6 +42,8 @@ spec:
       app.kubernetes.io/name: *app
   dependsOn:
     - name: immich-server
+    - name: miroir-config
+      namespace: flux-system
   path: "./kubernetes/misc/immich/app/machine-learning"
   prune: false
   sourceRef:

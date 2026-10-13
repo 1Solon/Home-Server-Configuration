@@ -6,6 +6,8 @@ metadata:
   namespace: flux-system
 spec:
   interval: 1h
+  retryInterval: 1m
+  timeout: 5m
   path: ./kubernetes/infra/tuppr/app
   prune: true
   sourceRef:
@@ -24,6 +26,8 @@ spec:
   dependsOn:
     - name: tuppr
   interval: 1h
+  retryInterval: 1m
+  timeout: 5m
   path: ./kubernetes/infra/tuppr/upgrades
   prune: true
   sourceRef:

@@ -14,6 +14,12 @@ spec:
   dependsOn:
     - name: kopiur-repository-home-media
       namespace: flux-system
+    - name: external-secrets-stores
+      namespace: secrets
+    - name: miroir-config
+      namespace: flux-system
+    - name: cloudnative-pg-cluster
+      namespace: flux-system
   path: "./kubernetes/media/sonarr/app"
   prune: false
   sourceRef:

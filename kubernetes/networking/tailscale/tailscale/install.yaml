@@ -6,10 +6,14 @@ metadata:
   name: &app tailscale
   namespace: &namespace flux-system
 spec:
+  dependsOn:
+    - name: external-secrets-stores
+      namespace: secrets
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
   interval: 30m
+  retryInterval: 1m
   path: ./kubernetes/networking/tailscale/tailscale/app
   prune: true # never should be deleted
   sourceRef:
@@ -18,8 +22,8 @@ spec:
     namespace: flux-system
   targetNamespace: tailscale
   timeout: 5m
-  wait: false
-  
+  wait: true
+
 ---
 # yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/kustomization-kustomize-v1.json
 apiVersion: kustomize.toolkit.fluxcd.io/v1
@@ -34,6 +38,7 @@ spec:
   dependsOn:
     - name: tailscale
   interval: 30m
+  retryInterval: 1m
   path: ./kubernetes/networking/tailscale/tailscale/config
   prune: true # never should be deleted
   sourceRef:

@@ -5,6 +5,11 @@ metadata:
   name: authentik
   namespace: flux-system
 spec:
+  dependsOn:
+    - name: external-secrets-stores
+      namespace: secrets
+    - name: cloudnative-pg-cluster
+      namespace: flux-system
   targetNamespace: authentik
   commonMetadata:
     labels:

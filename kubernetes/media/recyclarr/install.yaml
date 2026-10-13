@@ -5,6 +5,11 @@ metadata:
   name: recyclarr
   namespace: flux-system
 spec:
+  dependsOn:
+    - name: external-secrets-stores
+      namespace: secrets
+    - name: miroir-config
+      namespace: flux-system
   targetNamespace: home-media
   commonMetadata:
     labels:

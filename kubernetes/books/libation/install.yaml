@@ -15,6 +15,10 @@ spec:
   dependsOn:
     - name: kopiur-repository-books
       namespace: flux-system
+    - name: external-secrets-stores
+      namespace: secrets
+    - name: miroir-config
+      namespace: flux-system
   path: ./kubernetes/books/libation/app
   prune: true
   sourceRef:

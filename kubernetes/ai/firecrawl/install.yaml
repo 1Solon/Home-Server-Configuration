@@ -9,6 +9,8 @@ spec:
   dependsOn:
     - name: dragonfly-cluster
     - name: searxng
+    - name: external-secrets-stores
+      namespace: secrets
   path: "./kubernetes/ai/firecrawl/app"
   targetNamespace: ai
   prune: true

@@ -8,6 +8,8 @@ metadata:
 spec:
   dependsOn:
     - name: kube-prometheus-stack
+    - name: miroir-config
+      namespace: flux-system
   path: "./kubernetes/ai/llmkube/app"
   targetNamespace: ai
   prune: true
@@ -32,6 +34,8 @@ spec:
   dependsOn:
     - name: llmkube
     - name: nvidia-device-plugin
+    - name: miroir-config
+      namespace: flux-system
   path: "./kubernetes/ai/llmkube/models"
   targetNamespace: ai
   prune: true

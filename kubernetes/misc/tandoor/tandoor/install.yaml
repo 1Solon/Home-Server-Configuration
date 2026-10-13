@@ -14,6 +14,12 @@ spec:
   dependsOn:
     - name: kopiur-repository-tandoor
       namespace: flux-system
+    - name: external-secrets-stores
+      namespace: secrets
+    - name: miroir-config
+      namespace: flux-system
+    - name: cloudnative-pg-cluster
+      namespace: flux-system
   path: "./kubernetes/misc/tandoor/tandoor/app"
   prune: false
   sourceRef:

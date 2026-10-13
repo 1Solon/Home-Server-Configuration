@@ -13,6 +13,7 @@ spec:
     labels:
       app.kubernetes.io/name: dcgm-exporter
   interval: 1h
+  retryInterval: 1m
   path: ./kubernetes/infra/nvidia-device-plugin/dcgm-exporter/app
   prune: true
   sourceRef:

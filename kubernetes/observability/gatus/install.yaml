@@ -8,10 +8,13 @@ spec:
   dependsOn:
     - name: kube-prometheus-stack
     - name: grafana-operator
+    - name: miroir-config
+      namespace: flux-system
   commonMetadata:
     labels:
       app.kubernetes.io/name: *appname
   interval: 1h
+  retryInterval: 1m
   path: "./kubernetes/observability/gatus/app"
   prune: true
   sourceRef:

@@ -6,7 +6,7 @@ metadata:
   name: talos-mcp
 spec:
   # renovate: depName=registry.erwanleboucher.dev/eleboucher/talos-mcp
-  image: registry.erwanleboucher.dev/eleboucher/talos-mcp@sha256:571d9d6f77221bc7420ac3af44db94dc587c1c13fa4281ba1e6cc8dfbf27381a
+  image: registry.erwanleboucher.dev/eleboucher/talos-mcp:latest@sha256:571d9d6f77221bc7420ac3af44db94dc587c1c13fa4281ba1e6cc8dfbf27381a
   transport: streamable-http
   mcpPort: 8080
   groupRef:

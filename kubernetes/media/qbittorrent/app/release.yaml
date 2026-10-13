@@ -52,7 +52,7 @@ spec:
           coredns:
             image:
               repository: mirror.gcr.io/coredns/coredns
-              tag: 1.14.7
+              tag: 1.14.7@sha256:7efd3c635b03efd68c4e8398fc45f0d993d0e9ab016f72c1cefb0fd6d01aa286
             args:
               - -conf
               - /etc/coredns/Corefile
@@ -77,7 +77,7 @@ spec:
             dependsOn: coredns
             image:
               repository: ghcr.io/qdm12/gluetun
-              tag: v3.41.3
+              tag: v3.41.3@sha256:fa19cc76b2af13d57a8d3dc3066f2ada061b1c761b8aecf989b3877c0486e027
             env:
               TZ: "${TZ}"
               VPN_SERVICE_PROVIDER: airvpn

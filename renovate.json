@@ -212,6 +212,17 @@
       "versioningTemplate": "docker"
     },
     {
+      "description": "Track npm packages that MCP servers run with npx (pinned as package@version in args)",
+      "customType": "regex",
+      "managerFilePatterns": [
+        "/^kubernetes/ai/toolhive/mcp-servers/.+\\.ya?ml$/"
+      ],
+      "matchStrings": [
+        "(?:^|\\n)[ \\t]+-[ \\t]+npx\\n[ \\t]+args:\\n[ \\t]+-[ \\t]+-y\\n[ \\t]+-[ \\t]+\"?(?<depName>(?:@[^/\\s\"]+/)?[^@\\s\"]+)@(?<currentValue>\\d[^\\s\"]*)\"?"
+      ],
+      "datasourceTemplate": "npm"
+    },
+    {
       "description": "Process annotated dependencies",
       "customType": "regex",
       "managerFilePatterns": [

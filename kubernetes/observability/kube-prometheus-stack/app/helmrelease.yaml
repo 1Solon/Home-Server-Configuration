@@ -146,7 +146,7 @@ spec:
         image:
           registry: mirror.gcr.io
           repository: prompp/prompp
-          tag: 3.8.14
+          tag: 3.8.14@sha256:49e437533a87afac089f920933a2c777f7d53e9676e6ba52eab786c7de5c6b2f
         securityContext:
           runAsNonRoot: true
           runAsUser: 64535

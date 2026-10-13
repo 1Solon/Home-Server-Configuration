@@ -10,6 +10,7 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   interval: 30m
+  retryInterval: 1m
   path: ./kubernetes/networking/cilium/cilium/app
   prune: false # never should be deleted
   sourceRef:
@@ -27,10 +28,13 @@ metadata:
   name: &app cilium-config
   namespace: &namespace kube-system
 spec:
+  dependsOn:
+    - name: cilium
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
   interval: 30m
+  retryInterval: 1m
   path: ./kubernetes/networking/cilium/cilium/config
   prune: true
   sourceRef:

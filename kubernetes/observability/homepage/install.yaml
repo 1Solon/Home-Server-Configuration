@@ -5,6 +5,9 @@ metadata:
   name: &app homepage
   namespace: flux-system
 spec:
+  dependsOn:
+    - name: external-secrets-stores
+      namespace: secrets
   targetNamespace: home-dashboard
   commonMetadata:
     labels:

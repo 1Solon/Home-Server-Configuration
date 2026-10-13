@@ -5,6 +5,9 @@ metadata:
   name: &app cloudnative-pg
   namespace: flux-system
 spec:
+  dependsOn:
+    - name: external-secrets-stores
+      namespace: secrets
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
@@ -31,6 +34,8 @@ spec:
       app.kubernetes.io/name: *app
   dependsOn:
     - name: cloudnative-pg
+    - name: miroir-config
+      namespace: flux-system
   interval: 30m
   path: ./kubernetes/storage/databases/cloudnative-postgres/cluster
   prune: true

@@ -7,10 +7,15 @@ metadata:
 spec:
   dependsOn:
     - name: grafana-operator
+    - name: external-secrets-stores
+      namespace: secrets
+    - name: miroir-config
+      namespace: flux-system
   commonMetadata:
     labels:
       app.kubernetes.io/name: *appname
   interval: 1h
+  retryInterval: 1m
   path: "./kubernetes/observability/kube-prometheus-stack/app"
   prune: true
   sourceRef:

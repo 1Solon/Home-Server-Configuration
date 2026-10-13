@@ -5,10 +5,14 @@ metadata:
   name: &appname grafana-operator
   namespace: flux-system
 spec:
+  dependsOn:
+    - name: external-secrets-stores
+      namespace: secrets
   commonMetadata:
     labels:
       app.kubernetes.io/name: *appname
   interval: 1h
+  retryInterval: 1m
   path: "./kubernetes/observability/grafana/operator/app"
   prune: true
   sourceRef:

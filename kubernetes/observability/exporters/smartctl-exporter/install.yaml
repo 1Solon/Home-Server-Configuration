@@ -12,6 +12,7 @@ spec:
     labels:
       app.kubernetes.io/name: *appname
   interval: 1h
+  retryInterval: 1m
   path: "./kubernetes/observability/exporters/smartctl-exporter/app"
   prune: true
   sourceRef:

@@ -10,6 +10,8 @@ spec:
     labels:
       app.kubernetes.io/name: reflector
   interval: 10m
+  retryInterval: 1m
+  timeout: 5m
   path: "./kubernetes/infra/reloader/reloader/app"
   prune: false
   sourceRef:

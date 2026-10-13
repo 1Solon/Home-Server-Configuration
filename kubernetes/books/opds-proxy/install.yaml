@@ -5,6 +5,9 @@ metadata:
   name: opds-proxy
   namespace: flux-system
 spec:
+  dependsOn:
+    - name: external-secrets-stores
+      namespace: secrets
   targetNamespace: books
   commonMetadata:
     labels:

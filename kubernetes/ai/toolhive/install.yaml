@@ -7,9 +7,11 @@ metadata:
   namespace: flux-system
 spec:
   interval: 30m
+  retryInterval: 1m
+  timeout: 5m
   targetNamespace: flux-system
   path: ./kubernetes/ai/toolhive/crds
-  wait: false
+  wait: true
   prune: true
   sourceRef:
     kind: GitRepository
@@ -30,8 +32,10 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   interval: 30m
+  retryInterval: 1m
+  timeout: 5m
   path: ./kubernetes/ai/toolhive/app
-  wait: false
+  wait: true
   prune: true
   sourceRef:
     kind: GitRepository
@@ -56,6 +60,7 @@ spec:
     labels:
       app.kubernetes.io/name: *config
   interval: 30m
+  retryInterval: 1m
   path: ./kubernetes/ai/toolhive/config
   wait: true
   prune: true
@@ -79,11 +84,15 @@ metadata:
 spec:
   dependsOn:
     - name: toolhive-config
+    - name: external-secrets-stores
+      namespace: secrets
   targetNamespace: ai
   commonMetadata:
     labels:
       app.kubernetes.io/name: *servers
   interval: 30m
+  retryInterval: 1m
+  timeout: 5m
   path: ./kubernetes/ai/toolhive/mcp-servers
   wait: true
   prune: true

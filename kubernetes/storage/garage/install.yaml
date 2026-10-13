@@ -6,6 +6,9 @@ metadata:
   name: &app garage
   namespace: flux-system
 spec:
+  dependsOn:
+    - name: external-secrets-stores
+      namespace: secrets
   path: ./kubernetes/storage/garage/app
   prune: true
   sourceRef:

@@ -14,6 +14,8 @@ spec:
   dependsOn:
     - name: kopiur-repository-colwiki
       namespace: flux-system
+    - name: miroir-config
+      namespace: flux-system
   path: "./kubernetes/projects/colwiki/app"
   prune: false
   sourceRef:

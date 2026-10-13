@@ -12,6 +12,12 @@ spec:
     - name: firecrawl
     - name: kopiur-repository-ai
       namespace: flux-system
+    - name: external-secrets-stores
+      namespace: secrets
+    - name: miroir-config
+      namespace: flux-system
+    - name: cloudnative-pg-cluster
+      namespace: flux-system
   path: "./kubernetes/ai/openwebui/app"
   targetNamespace: ai
   prune: true

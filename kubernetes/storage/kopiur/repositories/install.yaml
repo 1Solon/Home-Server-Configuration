@@ -16,6 +16,8 @@ spec:
   dependsOn:
     - name: kopiur
       namespace: flux-system
+    - name: external-secrets-stores
+      namespace: secrets
   wait: true
   interval: 30m
   retryInterval: 1m
@@ -40,6 +42,8 @@ spec:
   dependsOn:
     - name: kopiur
       namespace: flux-system
+    - name: external-secrets-stores
+      namespace: secrets
   wait: true
   interval: 30m
   retryInterval: 1m
@@ -64,6 +68,8 @@ spec:
   dependsOn:
     - name: kopiur
       namespace: flux-system
+    - name: external-secrets-stores
+      namespace: secrets
   wait: true
   interval: 30m
   retryInterval: 1m
@@ -88,6 +94,8 @@ spec:
   dependsOn:
     - name: kopiur
       namespace: flux-system
+    - name: external-secrets-stores
+      namespace: secrets
   wait: true
   interval: 30m
   retryInterval: 1m
@@ -112,6 +120,8 @@ spec:
   dependsOn:
     - name: kopiur
       namespace: flux-system
+    - name: external-secrets-stores
+      namespace: secrets
   wait: true
   interval: 30m
   retryInterval: 1m
@@ -136,6 +146,8 @@ spec:
   dependsOn:
     - name: kopiur
       namespace: flux-system
+    - name: external-secrets-stores
+      namespace: secrets
   wait: true
   interval: 30m
   retryInterval: 1m
@@ -160,6 +172,8 @@ spec:
   dependsOn:
     - name: kopiur
       namespace: flux-system
+    - name: external-secrets-stores
+      namespace: secrets
   wait: true
   interval: 30m
   retryInterval: 1m

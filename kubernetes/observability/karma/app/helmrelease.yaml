@@ -16,6 +16,14 @@ spec:
   interval: 15m
   dependsOn:
   - name: kube-prometheus-stack
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      strategy: rollback
+      retries: 3
   values:
     defaultPodOptions:
       securityContext:

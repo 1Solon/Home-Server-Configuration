@@ -23,6 +23,14 @@ spec:
     kind: OCIRepository
     name: descheduler
   interval: 15m
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      strategy: rollback
+      retries: 3
   values:
     kind: Deployment
     deschedulerPolicyAPIVersion: descheduler/v1alpha2

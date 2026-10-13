@@ -24,6 +24,14 @@ spec:
     name: metrics-server
   interval: 15m
   dependsOn: []
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      strategy: rollback
+      retries: 3
   values:
     args:
     - --kubelet-insecure-tls

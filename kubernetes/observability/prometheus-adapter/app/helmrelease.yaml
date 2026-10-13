@@ -9,6 +9,14 @@ spec:
     kind: OCIRepository
     name: prometheus-adapter
   interval: 1h
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      strategy: rollback
+      retries: 3
   values:
     prometheus:
       url: http://prometheus-operated.observability.svc.cluster.local

@@ -6,7 +6,7 @@ metadata:
   name: kubesearch
 spec:
   # renovate: depName=ghcr.io/perfectra1n/kubesearch-mcp
-  image: ghcr.io/perfectra1n/kubesearch-mcp:sha-405e7b2
+  image: ghcr.io/perfectra1n/kubesearch-mcp:sha-405e7b2@sha256:6d37df97523963d6457bb7306534518b7fbf2559468ce779afa35e39da768ee7
   transport: stdio
   proxyMode: streamable-http
   proxyPort: 8080

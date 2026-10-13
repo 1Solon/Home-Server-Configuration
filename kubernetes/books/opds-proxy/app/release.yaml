@@ -40,7 +40,7 @@ spec:
           app:
             image:
               repository: ghcr.io/chrisms150/kindle-opds-proxy
-              tag: 0.1.0
+              tag: 0.1.0@sha256:3c28ba5f1423c72bb93320d0320653714b49a0984d9bc21c41c088ceb58ab10a
             envFrom:
               - secretRef:
                   name: opds-proxy-secret

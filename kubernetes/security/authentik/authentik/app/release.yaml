@@ -55,7 +55,7 @@ spec:
           enabled: true
       initContainers: &init-db
         - name: init-db
-          image: ghcr.io/home-operations/postgres-init:18
+          image: ghcr.io/home-operations/postgres-init:18@sha256:b6d3af974df781c673d37e49bdddfa14a6f5be28b18d2cb7713f0449bea4057b
           envFrom:
             - secretRef:
                 name: authentik-db-secret

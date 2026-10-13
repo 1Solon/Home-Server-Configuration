@@ -47,15 +47,6 @@ spec:
   dependsOn:
     - name: snapshot-controller-crds
       namespace: flux-system
-  patches:
-    - target:
-        kind: Deployment
-        name: snapshot-controller
-        namespace: kube-system
-      patch: |-
-        - op: replace
-          path: /spec/template/spec/containers/0/image
-          value: registry.k8s.io/sig-storage/snapshot-controller:v8.5.0
   wait: true
 ---
 # yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json

@@ -40,6 +40,12 @@
       "automerge": false
     },
     {
+      "description": "github-mcp-server 2.x sends typed output schemas the ToolHive gateway can't decode (tools/list fails and the backend goes offline); hold on 1.x until ToolHive supports them",
+      "matchDatasources": ["docker"],
+      "matchPackageNames": ["ghcr.io/github/github-mcp-server"],
+      "allowedVersions": "<2.0.0"
+    },
+    {
       "description": "Jellyfin changed from three-part versions to two-part versions in 12.0; exclude floating, nightly, and platform tags",
       "matchDatasources": ["docker"],
       "matchPackageNames": ["jellyfin/jellyfin"],

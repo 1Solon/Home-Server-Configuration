@@ -27,8 +27,14 @@ spec:
   # Upgrade operator CRDs before reconciling the chart's custom resources.
   install:
     crds: CreateReplace
+    remediation:
+      retries: 3
   upgrade:
     crds: CreateReplace
+    cleanupOnFail: true
+    remediation:
+      strategy: rollback
+      retries: 3
   values:
     additionalPrometheusRulesMap:
       dockerhub-rules:

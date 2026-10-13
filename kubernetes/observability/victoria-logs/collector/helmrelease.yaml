@@ -23,6 +23,14 @@ spec:
     kind: OCIRepository
     name: victoria-logs-collector
   interval: 1h
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      strategy: rollback
+      retries: 3
   values:
     fullnameOverride: victoria-logs-collector
     podMonitor:

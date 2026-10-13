@@ -4,7 +4,6 @@ kind: Kustomization
 resources:
 - cluster-vars.yaml
 - misc
-- games
 - observability
 - infra
 - networking

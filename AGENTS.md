@@ -76,12 +76,14 @@ least 2 of its 3 copies can see each other.
 
 ### Issue tracker
 
-Issues and specs are tracked in GitHub Issues via the `gh` CLI. See `docs/agents/issue-tracker.md`.
+Issues and specs are tracked in this repository's GitHub Issues via the `gh` CLI.
 
 ### Triage labels
 
-Use the five default triage labels. See `docs/agents/triage-labels.md`.
+Triage with the labels that already exist on the repository (`gh label list`).
+`ready-for-agent` marks an issue that is fully specified for an unattended agent.
 
 ### Domain docs
 
-This repository uses a single-context domain-doc layout. See `docs/agents/domain.md`.
+This repository uses a single-context domain-doc layout: the shared domain
+language lives in `CONTEXT.md` at the repository root.

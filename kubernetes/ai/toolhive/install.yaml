@@ -63,6 +63,14 @@ spec:
   retryInterval: 1m
   path: ./kubernetes/ai/toolhive/config
   wait: true
+  # The gateway reports Degraded whenever any MCP server behind it is unhealthy.
+  # Count that as healthy here: toolhive-servers waits on this Kustomization,
+  # so otherwise one broken server blocks the very deploy that would fix it.
+  healthCheckExprs:
+    - apiVersion: toolhive.stacklok.dev/v1beta1
+      kind: VirtualMCPServer
+      current: status.observedGeneration == metadata.generation && status.phase in ['Ready', 'Degraded']
+      failed: status.phase == 'Failed'
   prune: true
   timeout: 5m
   sourceRef:

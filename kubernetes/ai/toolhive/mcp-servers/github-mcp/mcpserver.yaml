@@ -5,7 +5,9 @@ kind: MCPServer
 metadata:
   name: github
 spec:
-  image: ghcr.io/github/github-mcp-server:v2.0.2@sha256:ffced0d76e77428532a2ced185516992d77fd146d69eec2f244e6237d1a97796
+  # Held on 1.x: 2.0 sends typed output schemas that the ToolHive gateway
+  # can't parse yet, which takes this backend offline. See renovate.json.
+  image: ghcr.io/github/github-mcp-server:v1.14.0@sha256:7aaeeec9ae4fe9a736d100c1ff0798f3c219b5009e05f5d3945fcacb13cc196b
   transport: stdio
   proxyMode: streamable-http
   proxyPort: 8080

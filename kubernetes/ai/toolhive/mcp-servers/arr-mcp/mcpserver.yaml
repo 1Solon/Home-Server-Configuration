@@ -45,7 +45,7 @@ spec:
             - npx
           args:
             - -y
-            - mcp-arr-server@1.5.4
+            - mcp-arr-server@1.7.3
           volumeMounts:
             - name: tmp
               mountPath: /tmp

@@ -36,8 +36,9 @@ spec:
   replicas: 1
   image: ghcr.io/ggml-org/llama.cpp:server-cuda@sha256:917569d70ebd333d3d80877ac7bb1d9f9b59c1b34bfccf4e287bbe18d37aaa0a
   # Dense model: every layer must stay in VRAM or prompt processing (TTFT) collapses.
-  # Only 16 of 64 layers keep KV, so 64K at q4_0 fits beside UD-IQ4_XS and the MTP head.
-  contextSize: 65536
+  # 64K at q4_0 runs out of VRAM by ~420MiB with two slots and the MTP head, even with
+  # the GPU otherwise empty; 32K is the largest power of two that fits.
+  contextSize: 32768
   parallelSlots: 2
   flashAttention: true
   jinja: true
@@ -69,8 +70,8 @@ spec:
     - qwen3.8-27b
     - --verbosity
     - "3"
-    # --fit over-estimates this model and spills layers to the CPU at 64K, halving decode;
-    # keep llmkube's injected --n-gpu-layers 99 so every layer stays on the GPU.
+    # --fit spills layers to the CPU rather than fail, which halves decode; keep llmkube's
+    # injected --n-gpu-layers 99 so a VRAM shortfall fails loudly at startup instead.
     - --fit
     - "off"
     - --spec-draft-type-k

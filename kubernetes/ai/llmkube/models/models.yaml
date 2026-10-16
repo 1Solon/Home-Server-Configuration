@@ -8,7 +8,8 @@ spec:
   source: hf://unsloth/Qwen3.8-27B-GGUF@4ca720788d1e01f1bff70c033e0d0028fd02e502
   files:
     - Qwen3.8-27B-UD-IQ4_XS.gguf
-  sha256: 40fac4050e940397dbf13087afd50f4734a11805bf9d65ef8ddd7483470e6199
+  fileSha256:
+    Qwen3.8-27B-UD-IQ4_XS.gguf: 40fac4050e940397dbf13087afd50f4734a11805bf9d65ef8ddd7483470e6199
   format: gguf
   quantization: UD-IQ4_XS
   hardware:

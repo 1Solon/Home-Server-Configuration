@@ -27,7 +27,8 @@ spec:
   modelRef: qwen3-8-27b
   speculativeDecoding:
     type: draft-mtp
-    nDraftMax: 2
+    # n3 measured ~11% faster than n2 on a 4060 Ti 16GB; n4 fails to load (sudoingX/qwen38-mtp).
+    nDraftMax: 3
   modelCache:
     persistence: Cached
   runtime: llamacpp
@@ -35,7 +36,8 @@ spec:
   replicas: 1
   image: ghcr.io/ggml-org/llama.cpp:server-cuda@sha256:917569d70ebd333d3d80877ac7bb1d9f9b59c1b34bfccf4e287bbe18d37aaa0a
   # Dense model: every layer must stay in VRAM or prompt processing (TTFT) collapses.
-  # contextSize is left unset so --fit shrinks the context, not the GPU layer count.
+  # Only 16 of 64 layers keep KV, so 64K at q4_0 fits beside UD-IQ4_XS and the MTP head.
+  contextSize: 65536
   parallelSlots: 2
   flashAttention: true
   jinja: true
@@ -60,6 +62,9 @@ spec:
     - --cache-ram
     - "10240"
     - --reasoning-preserve
+    # The template defaults to xhigh, which can think for thousands of tokens on trivial prompts.
+    - --reasoning-effort
+    - medium
     - --alias
     - qwen3.8-27b
     - --verbosity
@@ -68,8 +73,6 @@ spec:
     - "on"
     - --fit-target
     - "256"
-    - --fit-ctx
-    - "32768"
     # llmkube 0.9.23 injects 99 whenever a GPU is requested; reset it so --fit can choose.
     - --n-gpu-layers
     - "-1"
@@ -89,8 +92,6 @@ spec:
     # Only sampling and embedding lookups run on the CPU now.
     - --threads
     - "4"
-    - --seed
-    - "42"
     - --timeout
     - "7200"
   endpoint:

@@ -69,13 +69,10 @@ spec:
     - qwen3.8-27b
     - --verbosity
     - "3"
+    # --fit over-estimates this model and spills layers to the CPU at 64K, halving decode;
+    # keep llmkube's injected --n-gpu-layers 99 so every layer stays on the GPU.
     - --fit
-    - "on"
-    - --fit-target
-    - "256"
-    # llmkube 0.9.23 injects 99 whenever a GPU is requested; reset it so --fit can choose.
-    - --n-gpu-layers
-    - "-1"
+    - "off"
     - --spec-draft-type-k
     - q4_0
     - --spec-draft-type-v

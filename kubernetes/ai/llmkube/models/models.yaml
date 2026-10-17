@@ -34,7 +34,7 @@ spec:
   runtime: llamacpp
   mode: chat
   replicas: 1
-  image: ghcr.io/ggml-org/llama.cpp:server-cuda@sha256:b6196663956f9fec05dffd7d3c6a4655d967155c6dcdb24c4668086f47f8c867
+  image: ghcr.io/ggml-org/llama.cpp:server-cuda@sha256:6ba3f6072d55dd3870051583d611a0ecae46dea21e8e3bcbb4e33ea67f80812b
   # Dense model: every layer must stay in VRAM or prompt processing (TTFT) collapses.
   # 64K at q4_0 runs out of VRAM by ~420MiB with two slots and the MTP head, even with
   # the GPU otherwise empty; 32K is the largest power of two that fits.

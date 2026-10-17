@@ -40,8 +40,6 @@ spec:
 
     controllerManager:
       replicaCount: 1
-      leaderElection:
-        enabled: false
 
     metrics:
       enabled: true

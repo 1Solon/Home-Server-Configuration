@@ -24,6 +24,8 @@ spec:
       retries: 3
   values:
     defaultPodOptions:
+      # homarr's Kubernetes tool reads the service account token (see rbac.yaml)
+      automountServiceAccountToken: true
       securityContext:
         fsGroup: 1000
         fsGroupChangePolicy: OnRootMismatch

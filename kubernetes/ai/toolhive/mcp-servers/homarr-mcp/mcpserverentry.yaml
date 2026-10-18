@@ -1,0 +1,21 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/toolhive.stacklok.dev/mcpserverentry_v1beta1.json
+# Points at homarr's built-in MCP endpoint (kubernetes/observability/homarr).
+# Tools run with the permissions of the API key's owner (the homarr admin).
+apiVersion: toolhive.stacklok.dev/v1beta1
+kind: MCPServerEntry
+metadata:
+  name: homarr
+spec:
+  remoteUrl: http://homarr.homarr.svc.cluster.local:7575/api/mcp/mcp
+  # ToolHive rejects cluster.local remote URLs (SSRF guard) unless this is set.
+  allowPrivateEndpoint: true
+  transport: streamable-http
+  headerForward:
+    addHeadersFromSecret:
+      - headerName: ApiKey
+        valueSecretRef:
+          name: toolhive-homarr
+          key: HOMARR_MCP_API_KEY
+  groupRef:
+    name: mcp-tools

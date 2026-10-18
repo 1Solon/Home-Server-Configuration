@@ -14,3 +14,4 @@ resources:
   - ./seerr-mcp
   - ./unifi-network-mcp
   - ./talos-mcp
+  - ./homarr-mcp

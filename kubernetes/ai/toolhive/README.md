@@ -36,7 +36,6 @@ minus the parts this cluster does not need.
 | seerr | MCPServer | `overseerr-mcp` npx against Jellyseerr (`home-media`) |
 | unifi | MCPServer | `sirkirby/unifi-network-mcp` against `https://unifi.${LOCAL_DOMAIN}` |
 | talos | MCPServer | `eleboucher/talos-mcp`, `os:admin` talosconfig from a `talos.dev/v1alpha1/ServiceAccount` |
-| homarr | MCPServerEntry | homarr's built-in endpoint in `homarr` (`/api/mcp/mcp`), `ApiKey` header from 1Password |
 
 The Talos credential requires `machine.features.kubernetesTalosAPIAccess` to allow
 naming the `ai` namespace (`talos/control-plane/10-api-access.yaml`); its secret
@@ -59,8 +58,6 @@ by request), `dispatch-mcp`, `plan-shop-eat-mcp`.
 - Existing items already referenced by other apps are reused verbatim: `sonarr`
   (`SONARR__API_KEY`), `radarr` (`RADARR__API_KEY`), `prowlarr` (`PROWLARR__API_KEY`),
   `seerr` (`SEERR_API_KEY`).
-- `homarr` (`HOMARR_MCP_API_KEY`) holds an API key created in homarr by the local
-  `admin` user, so MCP tools act with admin permissions.
 
 ## Client endpoint
 

@@ -28,6 +28,8 @@ rules:
       - apps
     resources:
       - deployments
+      # Read to resolve a pod's owning Deployment (missing from the upstream chart)
+      - replicasets
     verbs:
       - get
       - list

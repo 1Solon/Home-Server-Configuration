@@ -155,6 +155,12 @@ spec:
     route:
       app:
         enabled: true
+        annotations:
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/name: BookOrbit
+          gethomepage.dev/description: Reading Space
+          gethomepage.dev/group: Books
+          gethomepage.dev/icon: https://raw.githubusercontent.com/bookorbit/bookorbit/main/client/src/assets/logo.svg
         parentRefs:
           - name: envoy-internal
             namespace: networking

@@ -5,8 +5,6 @@ resources:
 - ./namespace.yaml
 - ./homepage/namespace.yaml
 - ./homepage/install.yaml
-- ./homarr/namespace.yaml
-- ./homarr/install.yaml
 - ./grafana/operator/install.yaml
 - ./grafana/instance/install.yaml
 - ./kube-prometheus-stack/install.yaml

@@ -35,6 +35,8 @@ spec:
         strategy: Recreate
         annotations:
           reloader.stakater.com/auto: "true"
+        serviceAccount:
+          identifier: homarr
         containers:
           app:
             image:
@@ -57,6 +59,9 @@ spec:
               AUTH_OIDC_SCOPE_OVERWRITE: openid email profile
               AUTH_OIDC_GROUPS_ATTRIBUTE: groups
               AUTH_LOGOUT_REDIRECT_URL: https://sso.${REMOTE_DOMAIN}/application/o/homarr/end-session/
+              # In-cluster, read-only Kubernetes tool (see rbac.yaml)
+              ENABLE_KUBERNETES: "true"
+              KUBERNETES_SERVICE_ACCOUNT_NAME: homarr
             envFrom:
               - secretRef:
                   name: homarr-secret
@@ -92,6 +97,9 @@ spec:
                 memory: 256Mi
               limits:
                 memory: 1Gi
+
+    serviceAccount:
+      homarr: {}
 
     service:
       app:

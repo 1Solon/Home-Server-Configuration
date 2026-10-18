@@ -1,0 +1,12 @@
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: homarr
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: miroir-replicated
+  resources:
+    requests:
+      storage: 2Gi

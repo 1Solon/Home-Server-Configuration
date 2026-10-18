@@ -1,7 +1,6 @@
 ---
 # Read-only access for homarr's Kubernetes tool, based on the homarr-labs chart
-# (charts/homarr/templates/homarr-rbac.yaml). Secrets are left out on purpose:
-# homarr only lists their names, but list on secrets returns their contents.
+# (charts/homarr/templates/homarr-rbac.yaml).
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
@@ -24,6 +23,15 @@ rules:
       - get
       - list
       - watch
+  # homarr only shows secret names and counts, and its Resources panel fails
+  # without this. Accepted trade-off: list returns every secret's contents, so
+  # homarr admins and the MCP gateway can read all secret values through it.
+  - apiGroups:
+      - ""
+    resources:
+      - secrets
+    verbs:
+      - list
   - apiGroups:
       - apps
     resources:

@@ -31,7 +31,7 @@ spec:
     substitute:
       APP: zerobyte
       KOPIUR_SOURCE_PVC: zerobyte-kopiur-replacement
-      KOPIUR_SCHEDULE: "13 */6 * * *"
+      KOPIUR_SCHEDULE: "13 1 * * *"
       KOPIUR_SUSPEND: "false"
     substituteFrom:
       - kind: ConfigMap

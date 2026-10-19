@@ -12,10 +12,10 @@ spec:
         name: ${KOPIUR_SOURCE_PVC:=${APP}}
   copyMethod: Direct
   retention:
-    keepHourly: ${KOPIUR_RETAIN_HOURLY:=4}
+    keepHourly: ${KOPIUR_RETAIN_HOURLY:=0}
     keepDaily: ${KOPIUR_RETAIN_DAILY:=7}
-    keepWeekly: ${KOPIUR_RETAIN_WEEKLY:=4}
-    keepMonthly: ${KOPIUR_RETAIN_MONTHLY:=3}
+    keepWeekly: ${KOPIUR_RETAIN_WEEKLY:=0}
+    keepMonthly: ${KOPIUR_RETAIN_MONTHLY:=0}
   defaultDeletionPolicy: Delete
   deletion:
     onPolicyDelete: Retain

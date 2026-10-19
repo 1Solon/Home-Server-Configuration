@@ -37,7 +37,7 @@ spec:
     substitute:
       APP: sonarr-config
       KOPIUR_SOURCE_PVC: sonarr-config-kopiur-replacement
-      KOPIUR_SCHEDULE: "40 */6 * * *"
+      KOPIUR_SCHEDULE: "40 1 * * *"
       KOPIUR_SUSPEND: "false"
     substituteFrom:
       - kind: ConfigMap

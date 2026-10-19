@@ -33,7 +33,7 @@ spec:
     substitute:
       APP: jellyfin-config
       KOPIUR_SOURCE_PVC: jellyfin-config-kopiur-replacement
-      KOPIUR_SCHEDULE: "4 */6 * * *"
+      KOPIUR_SCHEDULE: "4 1 * * *"
       KOPIUR_SUSPEND: "false"
     substituteFrom:
       - kind: ConfigMap

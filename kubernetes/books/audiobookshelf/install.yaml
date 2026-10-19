@@ -29,7 +29,7 @@ spec:
     substitute:
       APP: audiobookshelf-config
       KOPIUR_SOURCE_PVC: audiobookshelf-config-kopiur-replacement
-      KOPIUR_SCHEDULE: "17 */6 * * *"
+      KOPIUR_SCHEDULE: "17 1 * * *"
       KOPIUR_SUSPEND: "false"
     substituteFrom:
       - kind: ConfigMap

@@ -31,7 +31,7 @@ spec:
     substitute:
       APP: qbittorrent-config
       KOPIUR_SOURCE_PVC: qbittorrent-config-kopiur-replacement
-      KOPIUR_SCHEDULE: "16 */6 * * *"
+      KOPIUR_SCHEDULE: "16 1 * * *"
       KOPIUR_SUSPEND: "false"
     substituteFrom:
       - kind: ConfigMap
@@ -72,7 +72,7 @@ spec:
     substitute:
       APP: qui
       KOPIUR_SOURCE_PVC: qui-kopiur-replacement
-      KOPIUR_SCHEDULE: "22 */6 * * *"
+      KOPIUR_SCHEDULE: "22 1 * * *"
       KOPIUR_SUSPEND: "false"
     substituteFrom:
       - kind: ConfigMap
@@ -103,5 +103,5 @@ spec:
     substitute:
       APP: seedboxapi-config
       KOPIUR_SOURCE_PVC: seedboxapi-config-kopiur-replacement
-      KOPIUR_SCHEDULE: "25 */6 * * *"
+      KOPIUR_SCHEDULE: "25 1 * * *"
       KOPIUR_SUSPEND: "false"

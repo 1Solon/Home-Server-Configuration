@@ -37,7 +37,7 @@ spec:
     substitute:
       APP: radarr-config
       KOPIUR_SOURCE_PVC: radarr-config-kopiur-replacement
-      KOPIUR_SCHEDULE: "28 */6 * * *"
+      KOPIUR_SCHEDULE: "28 1 * * *"
       KOPIUR_SUSPEND: "false"
     substituteFrom:
       - kind: ConfigMap

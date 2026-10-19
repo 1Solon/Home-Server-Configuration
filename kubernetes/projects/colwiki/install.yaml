@@ -29,7 +29,7 @@ spec:
     substitute:
       APP: otterwiki
       KOPIUR_SOURCE_PVC: otterwiki-kopiur-replacement
-      KOPIUR_SCHEDULE: "19 */6 * * *"
+      KOPIUR_SCHEDULE: "19 1 * * *"
       KOPIUR_SUSPEND: "false"
     substituteFrom:
       - kind: ConfigMap

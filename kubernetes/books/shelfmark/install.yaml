@@ -31,7 +31,7 @@ spec:
     substitute:
       APP: shelfmark-config
       KOPIUR_SOURCE_PVC: shelfmark-config-kopiur-replacement
-      KOPIUR_SCHEDULE: "33 */6 * * *"
+      KOPIUR_SCHEDULE: "33 1 * * *"
       KOPIUR_SUSPEND: "false"
     substituteFrom:
       - kind: ConfigMap

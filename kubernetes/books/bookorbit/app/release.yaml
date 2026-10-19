@@ -160,7 +160,7 @@ spec:
           gethomepage.dev/name: BookOrbit
           gethomepage.dev/description: Reading Space
           gethomepage.dev/group: Books
-          gethomepage.dev/icon: https://raw.githubusercontent.com/bookorbit/bookorbit/main/client/src/assets/logo.svg
+          gethomepage.dev/icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/bookorbit.png
         parentRefs:
           - name: envoy-internal
             namespace: networking

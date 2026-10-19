@@ -32,11 +32,8 @@ After every restore or storage change, check all of the following:
   confirming no `MiroirSnapshot` and no `MiroirVolume.spec.source` points at
   it, and remove them one at a time by name — never with a wildcard.
 
-If you ever restore from the archived VolSync backups: annotate the restore
-namespace with `volsync.backube/privileged-movers: "true"` only while the
-mover runs, and set `spec.restic.cleanupTempPVC: false` on the
-ReplicationDestination so the temporary PVC and its snapshot survive until the
-final PVC is `Bound` and its contents are verified.
+The old VolSync backups were deleted from Garage on 2026-10-19, so kopiur is
+the only place to restore app volumes from.
 
 ## Replicas and quorum
 

@@ -3,6 +3,9 @@
 # Takes a daily etcd snapshot through the Talos API and uploads it to Garage.
 # Snapshots are encrypted to the same age key that SOPS uses in this repo, so
 # restoring one needs that private key (keep a copy outside the cluster).
+# This job never deletes old snapshots. A lifecycle rule on the Garage "volsync"
+# bucket removes anything under etcd/ after 14 days. That rule lives in Garage,
+# not in this repo, so set it again if the bucket is ever recreated.
 apiVersion: batch/v1
 kind: CronJob
 metadata:

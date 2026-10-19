@@ -34,7 +34,7 @@ spec:
     substitute:
       APP: hermes
       KOPIUR_SOURCE_PVC: hermes-kopiur-replacement
-      KOPIUR_SCHEDULE: "9 */6 * * *"
+      KOPIUR_SCHEDULE: "9 1 * * *"
       KOPIUR_SUSPEND: "false"
     substituteFrom:
       - kind: ConfigMap

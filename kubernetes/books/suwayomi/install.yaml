@@ -29,7 +29,7 @@ spec:
     substitute:
       APP: suwayomi
       KOPIUR_SOURCE_PVC: suwayomi-kopiur-replacement
-      KOPIUR_SCHEDULE: "58 */6 * * *"
+      KOPIUR_SCHEDULE: "58 1 * * *"
       KOPIUR_SUSPEND: "false"
     substituteFrom:
       - kind: ConfigMap

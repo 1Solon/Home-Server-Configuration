@@ -7,7 +7,7 @@ spec:
   policyRef:
     name: ${APP}
   schedule:
-    cron: "${KOPIUR_SCHEDULE:=17 */6 * * *}"
+    cron: "${KOPIUR_SCHEDULE:=17 1 * * *}"
     timezone: ${KOPIUR_TIMEZONE:=Etc/UTC}
     runOnCreate: false
     suspend: ${KOPIUR_SUSPEND:=true}

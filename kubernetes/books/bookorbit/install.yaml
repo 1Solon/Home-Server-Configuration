@@ -33,7 +33,7 @@ spec:
     substitute:
       APP: bookorbit
       KOPIUR_SOURCE_PVC: bookorbit-kopiur-replacement
-      KOPIUR_SCHEDULE: "37 */6 * * *"
+      KOPIUR_SCHEDULE: "37 1 * * *"
       KOPIUR_SUSPEND: "false"
     substituteFrom:
       - kind: ConfigMap

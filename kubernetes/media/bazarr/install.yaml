@@ -29,7 +29,7 @@ spec:
     substitute:
       APP: bazarr
       KOPIUR_SOURCE_PVC: bazarr-kopiur-replacement
-      KOPIUR_SCHEDULE: "45 */6 * * *"
+      KOPIUR_SCHEDULE: "45 1 * * *"
       KOPIUR_SUSPEND: "false"
     substituteFrom:
       - kind: ConfigMap

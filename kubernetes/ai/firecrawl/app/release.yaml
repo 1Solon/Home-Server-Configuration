@@ -41,7 +41,7 @@ spec:
           app:
             image: &firecrawlImage
               repository: ghcr.io/firecrawl/firecrawl
-              tag: 2.11.543@sha256:2a1c4dcd57b79b15dbc22cc55dcf2bc50b6ebe931e42508310fcfc7611e3cbbd
+              tag: 2.11.563@sha256:7af2b614403f724d92513e543a6c71f2dd26bb0314d25d1aa0ecee07e1d597d0
             command:
               - node
               - --max-old-space-size=6144

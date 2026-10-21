@@ -42,7 +42,7 @@ spec:
         enabled: true
       prometheusRule:
         enabled: true
-        backupStaleAfterSeconds: 21600
+        backupStaleAfterSeconds: 108000 # daily schedule + 6h grace
       dashboards:
         enabled: true
         grafanaOperator:

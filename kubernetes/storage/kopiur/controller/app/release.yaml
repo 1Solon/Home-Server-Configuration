@@ -56,3 +56,29 @@ spec:
       serviceMonitor:
         enabled: true
         insecureSkipVerify: true
+    # Web console on envoy-internal (see route.yaml). No login: every request
+    # runs as one fixed identity
+    ui:
+      enabled: true
+      auth:
+        anonymous:
+          enabled: true
+          user: kopiur-ui-anonymous
+      rbac:
+        userRoles: true
+        browseRole: false
+        bindings:
+          - role: user
+            users:
+              - kopiur-ui-anonymous
+      networkPolicy:
+        enabled: true
+        proxySelector:
+          namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: networking
+          podSelector:
+            matchLabels:
+              gateway.envoyproxy.io/owning-gateway-name: envoy-internal
+      serviceMonitor:
+        enabled: true

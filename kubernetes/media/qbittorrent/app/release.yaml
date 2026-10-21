@@ -167,6 +167,12 @@ spec:
             image:
               repository: myanonamouse/seedboxapi
               tag: latest@sha256:4712ede49e8c17ca1aee4cf61a145e249ddbb9498390b469c64b0b3086628259
+            # Wait for the VPN, otherwise MAM rejects the cookie and the container
+            # crash-loops, which makes Helm fail the upgrade as stalled
+            command:
+              - /bin/sh
+              - -c
+              - until curl -sf -o /dev/null http://127.0.0.1:9999/; do sleep 2; done; exec /wrapper.sh
             env:
               DEBUG: "1"
               interval: "1"

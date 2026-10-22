@@ -134,17 +134,6 @@ spec:
               TZ: "${TZ}"
               QBT_WEBUI_PORT: &port 80
               QBT_TORRENTING_PORT: "20508"
-              QBT_Application__MemoryWorkingSetLimit:
-                valueFrom:
-                  resourceFieldRef:
-                    containerName: app
-                    resource: limits.memory
-                    divisor: 1Mi
-              QBT_Preferences__WebUI__AlternativeUIEnabled: false
-              QBT_Preferences__WebUI__AuthSubnetWhitelistEnabled: true
-              QBT_Preferences__WebUI__AuthSubnetWhitelist: |-
-                192.168.0.0/16, 0.0.0.0/0
-              QBT_Preferences__WebUI__LocalHostAuth: false
 
             securityContext:
               runAsUser: 1000
@@ -158,9 +147,9 @@ spec:
             resources:
               requests:
                 cpu: 100m
-                memory: 2Gi
+                memory: 512Mi
               limits:
-                memory: 10Gi
+                memory: 4Gi
 
           seedboxapi:
             dependsOn: gluetun
@@ -174,7 +163,6 @@ spec:
               - -c
               - until curl -sf -o /dev/null http://127.0.0.1:9999/; do sleep 2; done; exec /wrapper.sh
             env:
-              DEBUG: "1"
               interval: "1"
             envFrom:
               - secretRef:
@@ -208,10 +196,6 @@ spec:
           .qbt.toml: |-
             [qbittorrent]
             addr = "http://localhost:80"
-      port-forward:
-        data:
-          crontab: |-
-            */5 * * * * /app/script.sh
       coredns:
         data:
           Corefile: |-
@@ -276,15 +260,6 @@ spec:
           qbittorrent:
             gluetun:
               - path: /tmp/gluetun
-      port-forward-config:
-        type: configMap
-        identifier: port-forward
-        advancedMounts:
-          qbittorrent:
-            port-forward:
-              - path: /config/crontab
-                subPath: crontab
-                readOnly: true
       coredns-config:
         type: configMap
         identifier: coredns

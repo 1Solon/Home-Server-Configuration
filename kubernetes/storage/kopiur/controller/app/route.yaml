@@ -9,6 +9,7 @@ metadata:
     gethomepage.dev/name: Kopiur
     gethomepage.dev/icon: kopia.svg
     gethomepage.dev/description: Backup console
+    gethomepage.dev/pod-selector: app.kubernetes.io/name=kopiur,app.kubernetes.io/component=ui
 spec:
   parentRefs:
     - name: envoy-internal

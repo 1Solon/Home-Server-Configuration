@@ -21,8 +21,17 @@ spec:
   serviceAccount: kubectl-mcp-readonly
   podTemplateSpec:
     spec:
+      # Image runs as UID 10001 since 2.0.0 (WORKDIR /home/mcp is 10001-owned);
+      # ToolHive otherwise defaults to 1000 and the server can't read its cwd.
+      securityContext:
+        runAsUser: 10001
+        runAsGroup: 10001
+        fsGroup: 10001
       containers:
         - name: mcp
+          securityContext:
+            runAsUser: 10001
+            runAsGroup: 10001
           args:
             - --transport
             - streamable-http
@@ -31,6 +40,10 @@ spec:
             - --port
             - "8000"
             - --read-only
+            # 2.0.0 refuses a non-loopback bind without auth; the ToolHive proxy
+            # reaches it over the headless Service (same unauthenticated, read-only
+            # posture as 1.x).
+            - --allow-unauthenticated
           env:
             - name: MCP_K8S_PROVIDER
               value: in-cluster

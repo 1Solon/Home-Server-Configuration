@@ -193,7 +193,7 @@ spec:
           app:
             image:
               repository: ghcr.io/firecrawl/playwright-service
-              tag: latest@sha256:5c6690c0d6606aaffbe146398526fecbe82bcba6eb4af881969745908c90d00d
+              tag: latest@sha256:d0f0dd32edc9a63a441b25567115ce79d4cea456ccd81a971d630b28e1e74447
             env:
               PORT: &playwrightPort 3000
               BLOCK_MEDIA: "true"

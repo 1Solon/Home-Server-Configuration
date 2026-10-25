@@ -47,7 +47,7 @@ spec:
                     app:
                         image:
                             repository: ghcr.io/tandoorrecipes/recipes
-                            tag: 2.6.15@sha256:2e759dd1478a2ed119ee474e28522079fb1cfa50b3fd25cba89f6b9a67abad72
+                            tag: 2.7.1@sha256:10e3d2cef6b4eaa24a9c548a25dc892ce70266fc888bd85d4b349eb5a7143945
                         env:
                             TZ: ${TZ}
                             ALLOWED_HOSTS: recipes.${REMOTE_DOMAIN}
@@ -56,12 +56,11 @@ spec:
                             DB_ENGINE: django.db.backends.postgresql
                             DEBUG: "0"
                             DEFAULT_FROM_EMAIL: recipes@${REMOTE_DOMAIN}
-                            ENABLE_SIGNUP: "0"
+                            ENABLE_SIGNUP: "1"
                             FRACTION_PREF_DEFAULT: "0"
                             GUNICORN_MEDIA: "0"
                             SHOPPING_MIN_AUTOSYNC_INTERVAL: "5"
                             SOCIAL_PROVIDERS: allauth.socialaccount.providers.openid_connect
-                            SOCIALACCOUNT_AUTO_SIGNUP: "1"
                             SOCIALACCOUNT_EMAIL_AUTHENTICATION: "1"
                             SOCIALACCOUNT_EMAIL_AUTHENTICATION_AUTO_CONNECT: "1"
                             TANDOOR_PORT: &port 80

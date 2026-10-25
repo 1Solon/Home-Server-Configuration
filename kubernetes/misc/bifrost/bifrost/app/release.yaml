@@ -1,0 +1,97 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app bifrost
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: app-template
+      version: 5.3.0
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s-charts
+        namespace: flux-system
+  maxHistory: 2
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      strategy: rollback
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+        seccompProfile: { type: RuntimeDefault }
+
+    controllers:
+      bifrost:
+        # Two pods on the same bot tokens would relay every message twice.
+        replicas: 1
+        strategy: Recreate
+        annotations:
+          reloader.stakater.com/auto: "true"
+
+        containers:
+          app:
+            image:
+              repository: kartoffelchipss/bifrost
+              tag: 1.7.5@sha256:769f4413d686dca76ec1d4cd480cfdefcd4bd8883564980a83a4cb57d832a7bc
+            env:
+              TZ: "${TZ}"
+              BF_COMMAND_PREFIX: "!b "
+              BF_DB_DIALECT: sqlite
+              BF_METRICS_PORT: &port 9091
+              BF_ENABLE_WEB_DASHBOARD: "false"
+            envFrom:
+              - secretRef:
+                  name: bifrost-secret
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities:
+                drop:
+                  - ALL
+            resources:
+              requests:
+                cpu: 10m
+                memory: 128Mi
+              limits:
+                memory: 512Mi
+
+    service:
+      app:
+        controller: *app
+        ports:
+          metrics:
+            port: *port
+
+    serviceMonitor:
+      app:
+        service:
+          identifier: app
+        endpoints:
+          - port: metrics
+            path: /metrics
+
+    persistence:
+      config:
+        existingClaim: bifrost-config
+        globalMounts:
+          - path: /config
+
+      tmp:
+        type: emptyDir
+        globalMounts:
+          - path: /tmp

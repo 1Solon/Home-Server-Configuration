@@ -52,11 +52,25 @@ spec:
               TZ: "${TZ}"
               BF_COMMAND_PREFIX: "!b "
               BF_DB_DIALECT: sqlite
-              BF_METRICS_PORT: &port 9091
-              BF_ENABLE_WEB_DASHBOARD: "false"
+              BF_METRICS_PORT: &metricsPort 9091
+              BF_ENABLE_WEB_DASHBOARD: "true"
+              BF_WEB_PORT: &port 9092
+              BF_WEB_PUBLIC_URL: https://bifrost.${LOCAL_DOMAIN}
             envFrom:
               - secretRef:
                   name: bifrost-secret
+            probes:
+              liveness: &probe
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /api/auth/me
+                    port: *port
+                  periodSeconds: 30
+                  timeoutSeconds: 5
+                  failureThreshold: 3
+              readiness: *probe
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
@@ -74,8 +88,10 @@ spec:
       app:
         controller: *app
         ports:
-          metrics:
+          http:
             port: *port
+          metrics:
+            port: *metricsPort
 
     serviceMonitor:
       app:
@@ -84,6 +100,25 @@ spec:
         endpoints:
           - port: metrics
             path: /metrics
+
+    route:
+      app:
+        annotations:
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/name: Bifrost
+          gethomepage.dev/description: Discord <-> Fluxer bridge
+          gethomepage.dev/group: Applications
+          gethomepage.dev/icon: discord.png
+        parentRefs:
+          - name: envoy-internal
+            namespace: networking
+            sectionName: https
+        hostnames:
+          - bifrost.${LOCAL_DOMAIN}
+        rules:
+          - backendRefs:
+              - name: *app
+                port: *port
 
     persistence:
       config:

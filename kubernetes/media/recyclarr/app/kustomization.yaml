@@ -9,5 +9,9 @@ configMapGenerator:
   - name: recyclarr-configmap
     files:
       - ./config/recyclarr.yaml
+      - ./config/settings.yml
+      - ./config/guides/metadata.json
+      - ./config/guides/sonarr-quality-size-series.json
+      - ./config/guides/sonarr-quality-size-anime.json
 generatorOptions:
   disableNameSuffixHash: true

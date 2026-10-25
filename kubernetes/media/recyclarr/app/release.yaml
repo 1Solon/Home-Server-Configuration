@@ -70,6 +70,18 @@ spec:
           - path: /config/recyclarr.yaml
             subPath: recyclarr.yaml
             readOnly: true
+          - path: /config/settings.yml
+            subPath: settings.yml
+            readOnly: true
+          - path: /guides/metadata.json
+            subPath: metadata.json
+            readOnly: true
+          - path: /guides/sonarr/quality-size/series.json
+            subPath: sonarr-quality-size-series.json
+            readOnly: true
+          - path: /guides/sonarr/quality-size/anime.json
+            subPath: sonarr-quality-size-anime.json
+            readOnly: true
       tmpfs:
         type: emptyDir
         advancedMounts:

@@ -1,0 +1,6 @@
+---
+# yaml-language-server: $schema=https://schemas.recyclarr.dev/latest/settings-schema.json
+resource_providers:
+  - name: local
+    type: trash-guides
+    path: /guides

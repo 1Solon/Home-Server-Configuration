@@ -1,0 +1,7 @@
+{
+  "json_paths": {
+    "sonarr": {
+      "qualities": ["sonarr/quality-size"]
+    }
+  }
+}

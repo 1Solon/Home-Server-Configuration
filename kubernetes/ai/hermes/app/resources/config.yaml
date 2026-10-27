@@ -2,14 +2,14 @@
 group_sessions_per_user: true
 model:
   provider: opencode-go
-  default: glm-5.3-flash
+  default: deepseek-v4.1-flash
 auxiliary:
   vision:
     provider: opencode-go
-    model: glm-5.3-flash
+    model: deepseek-v4.1-flash
   curator:
     provider: opencode-go
-    model: glm-5.3-flash
+    model: deepseek-v4.1-flash
 web:
   search_backend: searxng
   extract_backend: firecrawl

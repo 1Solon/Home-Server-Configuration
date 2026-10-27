@@ -11,3 +11,4 @@ resources:
 - spegel/install.yaml
 - nic-watchdog/install.yaml
 - talos-backup/install.yaml
+- etcd-defrag/install.yaml

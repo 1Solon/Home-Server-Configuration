@@ -1,0 +1,231 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2beta2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app silo
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: app-template
+      version: 5.3.0
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s-charts
+        namespace: flux-system
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      strategy: rollback
+      retries: 3
+  values:
+    defaultPodOptions:
+      runtimeClassName: nvidia
+      enableServiceLinks: false
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+        seccompProfile: { type: RuntimeDefault }
+      # Silo fails readiness, keeps serving for SILO_SHUTDOWN_DELAY, then
+      # finishes in-flight requests; upstream gives it two minutes.
+      terminationGracePeriodSeconds: 120
+
+    controllers:
+      silo:
+        strategy: Recreate
+        annotations:
+          reloader.stakater.com/auto: "true"
+        initContainers:
+          init-db:
+            image: &postgres-init
+              repository: ghcr.io/home-operations/postgres-init
+              tag: 18@sha256:87627baaddb0cabed4ebe033e75038e5c7b6b081c18e86514c99067179a90719
+            envFrom:
+              - secretRef:
+                  name: &secret silo-secret
+            securityContext: &security
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: { drop: ["ALL"] }
+          # The silo role is not a superuser, so the extensions its first
+          # migration asks for have to exist before it runs.
+          init-extensions:
+            dependsOn: init-db
+            image: *postgres-init
+            command: ["psql"]
+            args:
+              - --set=ON_ERROR_STOP=1
+              - --command=CREATE EXTENSION IF NOT EXISTS vector WITH SCHEMA public; CREATE EXTENSION IF NOT EXISTS pg_trgm; CREATE EXTENSION IF NOT EXISTS citext;
+            env:
+              PGHOST:
+                valueFrom:
+                  secretKeyRef: { name: *secret, key: INIT_POSTGRES_HOST }
+              PGDATABASE:
+                valueFrom:
+                  secretKeyRef: { name: *secret, key: INIT_POSTGRES_DBNAME }
+              PGUSER:
+                valueFrom:
+                  secretKeyRef: { name: *secret, key: INIT_POSTGRES_SUPER_USER }
+              PGPASSWORD:
+                valueFrom:
+                  secretKeyRef: { name: *secret, key: INIT_POSTGRES_SUPER_PASS }
+            securityContext: *security
+        containers:
+          app:
+            image:
+              repository: ghcr.io/silo-server/silo-server
+              tag: build-1768@sha256:98b14060cbd6f7d3e1b07e6cbdfe7a2074bf47d1cc3451f751c99d58026bb9fa
+            env:
+              TZ: ${TZ}
+              MODE: integrated
+              PORT: &port 8080
+              JF_PORT: &jfPort 8096
+              # The image has no passwd entry for the non-root user
+              HOME: /tmp
+              REDIS_URL: redis://dragonfly.databases.svc.cluster.local:6379
+              # Plugins live in Postgres; this is only a local cache
+              SILO_PLUGIN_CACHE_DIR: /tmp/silo-plugins
+              # Only Envoy (in the pod network) may set X-Forwarded-For
+              SILO_TRUSTED_PROXIES: 10.244.0.0/16
+              # CNPG owns the PostgreSQL config and blocks ALTER SYSTEM.
+              POSTGRES_TUNE: "off"
+              SILO_METRICS_LISTEN: 0.0.0.0:9091
+              NVIDIA_DRIVER_CAPABILITIES: compute,video,utility
+              NVIDIA_VISIBLE_DEVICES: all
+            envFrom:
+              - secretRef:
+                  name: *secret
+            probes:
+              liveness:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /api/v1/health
+                    port: *port
+                  periodSeconds: 30
+                  timeoutSeconds: 5
+                  failureThreshold: 5
+              readiness:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /api/v1/ready
+                    port: *port
+                  periodSeconds: 10
+                  timeoutSeconds: 5
+                  failureThreshold: 3
+              # Migrations run before the listener starts and are allowed 20
+              # minutes (SILO_MIGRATE_TIMEOUT); don't restart mid-migration.
+              startup:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /api/v1/health
+                    port: *port
+                  periodSeconds: 10
+                  timeoutSeconds: 5
+                  failureThreshold: 126
+            securityContext: *security
+            resources:
+              requests:
+                cpu: 100m
+                memory: 1Gi
+                nvidia.com/gpu: 1
+              limits:
+                memory: 6Gi
+                nvidia.com/gpu: 1
+
+    service:
+      app:
+        controller: silo
+        ports:
+          http:
+            port: *port
+          jellyfin:
+            port: *jfPort
+          metrics:
+            port: 9091
+
+    serviceMonitor:
+      app:
+        service:
+          identifier: app
+        endpoints:
+          - port: metrics
+            scheme: http
+            path: /metrics
+            # Labels upstream's rules and dashboard aggregate on
+            relabelings:
+              - sourceLabels: [__meta_kubernetes_pod_name]
+                targetLabel: instance
+              - targetLabel: process_role
+                replacement: api
+
+    route:
+      app:
+        enabled: true
+        annotations:
+          external-dns.alpha.kubernetes.io/target: ipv4.${REMOTE_DOMAIN}
+        parentRefs:
+          - name: envoy-external
+            namespace: networking
+            sectionName: https
+        hostnames:
+          - "silo.${REMOTE_DOMAIN}"
+        rules:
+          - backendRefs:
+              - port: *port
+                name: *app
+      # Jellyfin/Emby-compatible API for clients such as Infuse and Findroid.
+      jellyfin:
+        enabled: true
+        annotations:
+          external-dns.alpha.kubernetes.io/target: ipv4.${REMOTE_DOMAIN}
+        parentRefs:
+          - name: envoy-external
+            namespace: networking
+            sectionName: https
+        hostnames:
+          - "silo-jf.${REMOTE_DOMAIN}"
+        rules:
+          - backendRefs:
+              - port: *jfPort
+                name: *app
+
+    persistence:
+      data:
+        existingClaim: silo
+        advancedMounts:
+          silo:
+            app:
+              - path: /var/lib/silo/artwork
+                subPath: artwork
+              - path: /var/lib/silo/compat
+                subPath: compat
+      # Transcodes, prepared downloads, uploads and the plugin cache
+      tmp:
+        type: emptyDir
+        sizeLimit: 30Gi
+        advancedMounts:
+          silo:
+            app:
+              - path: /tmp
+      media:
+        type: nfs
+        server: ${TRUENAS_IP}
+        path: /mnt/STORAGE-01/Media-Storage
+        advancedMounts:
+          silo:
+            app:
+              - path: /media
+                readOnly: true

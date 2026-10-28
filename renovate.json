@@ -52,6 +52,12 @@
       "versioning": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)(?:\\.(?<patch>\\d+))?$"
     },
     {
+      "description": "Silo is pre-release and only publishes ordered build-N tags (plus latest and commit SHAs) until 1.0",
+      "matchDatasources": ["docker"],
+      "matchPackageNames": ["ghcr.io/silo-server/silo-server"],
+      "versioning": "regex:^build-(?<major>\\d+)$"
+    },
+    {
       "description": "SearXNG date-based tags carry a commit hash suffix, not a variant suffix; compare by date and ignore the hash",
       "matchDatasources": ["docker"],
       "matchPackageNames": ["ghcr.io/searxng/searxng"],

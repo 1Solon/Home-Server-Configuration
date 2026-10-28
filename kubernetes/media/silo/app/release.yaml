@@ -97,6 +97,9 @@ spec:
               # CNPG owns the PostgreSQL config and blocks ALTER SYSTEM.
               POSTGRES_TUNE: "off"
               SILO_METRICS_LISTEN: 0.0.0.0:9091
+              # libvips work leaves ~64 MiB glibc arenas per thread resident
+              # (3.5 GiB idle after the first scan); cap the arena count.
+              MALLOC_ARENA_MAX: "2"
               NVIDIA_DRIVER_CAPABILITIES: compute,video,utility
               NVIDIA_VISIBLE_DEVICES: all
             envFrom:

@@ -37,6 +37,9 @@ spec:
       value: "false"
     - name: UNIFI_POLICY_DELETE
       value: "false"
+    # Allows client edits such as fixed IPs / DHCP reservations.
+    - name: UNIFI_POLICY_NETWORK_CLIENTS_UPDATE
+      value: "true"
     - name: UNIFI_TOOL_PERMISSION_MODE
       value: confirm
   secrets:

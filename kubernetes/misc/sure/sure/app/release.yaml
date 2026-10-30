@@ -74,9 +74,11 @@ spec:
               WEBAUTHN_ALLOWED_ORIGINS: https://sure.${LOCAL_DOMAIN}
               OIDC_ISSUER: https://sso.${REMOTE_DOMAIN}/application/o/sure/
               OIDC_REDIRECT_URI: https://sure.${LOCAL_DOMAIN}/auth/openid_connect/callback
-              OPENAI_ACCESS_TOKEN: ollama-local
-              OPENAI_URI_BASE: http://qwen3-8-27b.ai.svc.cluster.local:8080/v1
-              OPENAI_MODEL: qwen3.8-27b
+              # DeepSeek V4.1 Flash on the DGX Sparks; OPENAI_ACCESS_TOKEN comes from sure-secret.
+              OPENAI_URI_BASE: http://192.168.1.106:8888/v1
+              OPENAI_MODEL: DeepSeek-V4.1-Flash-1017
+              # TensorFold refuses response_format, so skip the strict attempt that would 400 first.
+              LLM_JSON_MODE: none
               AI_DEBUG_MODE: "true"
             envFrom: *envFrom
             securityContext:

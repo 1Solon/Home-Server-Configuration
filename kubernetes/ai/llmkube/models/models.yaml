@@ -33,7 +33,8 @@ spec:
     persistence: Cached
   runtime: llamacpp
   mode: chat
-  replicas: 1
+  # Scaled down 2026-10-30: its users moved to DeepSeek V4.1 Flash on the DGX Sparks. Set to 1 to bring it back.
+  replicas: 0
   image: ghcr.io/ggml-org/llama.cpp:server-cuda@sha256:d854233e9f043046f363953047ff518a9792b044cea1d53f86d299e88344cd5f
   # Dense model: every layer must stay in VRAM or prompt processing (TTFT) collapses.
   # 64K at q4_0 runs out of VRAM by ~420MiB with two slots and the MTP head, even with

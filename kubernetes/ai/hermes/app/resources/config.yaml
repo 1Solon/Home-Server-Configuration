@@ -1,15 +1,24 @@
 ---
 group_sessions_per_user: true
 model:
-  provider: opencode-go
-  default: glm-5.3-flash
+  provider: dgx-spark
+  default: DeepSeek-V4.1-Flash-1017
+# DeepSeek V4.1 Flash on the two DGX Sparks (head 192.168.1.106, outside the cluster). OpenCode Go stays
+# available through OPENCODE_GO_API_KEY for /model.
+providers:
+  dgx-spark:
+    name: DGX Sparks
+    base_url: http://192.168.1.106:8888/v1
+    key_env: DGX_SPARK_API_KEY
+    default_model: DeepSeek-V4.1-Flash-1017
+    context_length: 524288
 auxiliary:
   vision:
-    provider: opencode-go
-    model: glm-5.3-flash
+    provider: dgx-spark
+    model: DeepSeek-V4.1-Flash-1017
   curator:
-    provider: opencode-go
-    model: glm-5.3-flash
+    provider: dgx-spark
+    model: DeepSeek-V4.1-Flash-1017
 web:
   search_backend: searxng
   extract_backend: firecrawl

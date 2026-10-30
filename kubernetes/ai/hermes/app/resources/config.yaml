@@ -60,7 +60,8 @@ display:
   show_reasoning: true
   skin: mono
 agent:
-  reasoning_effort: max
+  # high (75 of 100) is the model's default; max loops in agent turns on this quant (DeepSeek recipe issues #33, #37).
+  reasoning_effort: high
 streaming:
   enabled: true
 security:

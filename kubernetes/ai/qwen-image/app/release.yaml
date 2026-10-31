@@ -6,6 +6,9 @@ metadata:
   name: &app qwen-image
 spec:
   interval: 30m
+  # Covers the first-start weight download; at the 5m default, install remediation
+  # uninstalls the release and deletes the half-filled PVC.
+  timeout: 30m
   chart:
     spec:
       chart: app-template
@@ -180,5 +183,6 @@ spec:
         storageClass: miroir-ephemeral
         accessMode: ReadWriteOnce
         size: 20Gi
+        retain: true
         globalMounts:
           - path: /models

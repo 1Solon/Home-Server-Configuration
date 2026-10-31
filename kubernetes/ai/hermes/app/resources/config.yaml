@@ -19,6 +19,13 @@ auxiliary:
   curator:
     provider: dgx-spark
     model: DeepSeek-V4.1-Flash-1017
+image_gen:
+  provider: openai
+  openai:
+    base_url: http://qwen-image.ai.svc.cluster.local:8080/v1
+    # sd-server has no auth, but the provider won't run without a key.
+    key_env: QWEN_IMAGE_API_KEY
+    model: qwen-image-2.1-turbo
 web:
   search_backend: searxng
   extract_backend: firecrawl
@@ -76,6 +83,7 @@ platform_toolsets:
     - clarify
     - delegation
     - file
+    - image_gen
     - memory
     - skills
     - terminal
@@ -86,6 +94,7 @@ platform_toolsets:
     - clarify
     - delegation
     - file
+    - image_gen
     - memory
     - skills
     - terminal
@@ -96,6 +105,7 @@ platform_toolsets:
     - clarify
     - delegation
     - file
+    - image_gen
     - memory
     - skills
     - terminal

@@ -6,6 +6,14 @@ When asked to remove or archive an old application, move the application's manif
 
 This is a Flux backed repository, as such, pushing to the repository will trigger a Flux reconciliation, affecting the cluster. You should never do this without permission.
 
+# Comments in Manifests
+
+Comment only what a reader can't get from the YAML and its schema: why a
+value was chosen, a measured limit, an upstream bug or version requirement,
+or a gotcha. Keep each to a line or two and link the issue or PR when there
+is one. What a field does and what it's set to are already in the YAML, so
+leave those uncommented.
+
 # Miroir Restores and Storage Changes
 
 Miroir runs chart `0.12.x`. Backups go through kopiur; VolSync is archived and

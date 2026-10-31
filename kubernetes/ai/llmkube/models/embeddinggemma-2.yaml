@@ -1,0 +1,91 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/inference.llmkube.dev/model_v1alpha1.json
+apiVersion: inference.llmkube.dev/v1alpha1
+kind: Model
+metadata:
+  name: embeddinggemma-2
+spec:
+  source: hf://ggml-org/embeddinggemma-2-GGUF@58faf90940886df2d62be555c8765d00dac362c5
+  files:
+    - embeddinggemma-2-Q8_0.gguf
+  mmproj: mmproj-embeddinggemma-2-Q8_0.gguf
+  fileSha256:
+    embeddinggemma-2-Q8_0.gguf: 2188ac1deca4b77dffefd603c2776a9d76d9d74ec01841392982ebb840b09135
+    mmproj-embeddinggemma-2-Q8_0.gguf: c4a8a52691ecef40618438928bdf9e68379b854e24166f292592353db0aab64f
+  format: gguf
+  quantization: Q8_0
+  hardware:
+    accelerator: cuda
+    gpu:
+      enabled: true
+      vendor: nvidia
+      count: 1
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/inference.llmkube.dev/inferenceservice_v1alpha1.json
+apiVersion: inference.llmkube.dev/v1alpha1
+kind: InferenceService
+metadata:
+  name: embeddinggemma-2
+spec:
+  modelRef: embeddinggemma-2
+  runtime: llamacpp
+  mode: embedding
+  # Needs llama.cpp with gemma-embedding2 support (ggml-org/llama.cpp#30054).
+  image: ghcr.io/ggml-org/llama.cpp:server-cuda@sha256:c1d664830580e1651c1cc8d3bbc161af474800a56a83226e6e22f94bb8ba1c59
+  replicas: 1
+  # 8192 tokens per slot, the model's native context.
+  contextSize: 16384
+  parallelSlots: 2
+  flashAttention: true
+  # Bidirectional model: min(batchSize, uBatchSize) caps the tokens per input.
+  batchSize: 8192
+  uBatchSize: 8192
+  runtimeClassName: nvidia
+  nodeSelector:
+    kubernetes.io/hostname: kube5
+  resources:
+    cpu: 500m
+    memory: 1Gi
+    memoryLimit: 4Gi
+    gpu: 1
+  env:
+    - name: CUDA_VISIBLE_DEVICES
+      value: "0"
+  extraArgs:
+    - --alias
+    - embeddinggemma-2
+    # gemma-embedding2 requires mean pooling.
+    - --pooling
+    - mean
+    - --cont-batching
+    # One-shot embeddings never reuse the host prompt cache; it only grows.
+    - --cache-ram
+    - "0"
+    - --threads
+    - "2"
+    - --threads-batch
+    - "2"
+  endpoint:
+    port: 8080
+    type: ClusterIP
+  probeOverrides:
+    startup:
+      httpGet:
+        path: /health
+        port: 8080
+      periodSeconds: 10
+      failureThreshold: 360
+    liveness:
+      httpGet:
+        path: /health
+        port: 8080
+      initialDelaySeconds: 30
+      periodSeconds: 30
+      failureThreshold: 6
+    readiness:
+      httpGet:
+        path: /health
+        port: 8080
+      initialDelaySeconds: 20
+      periodSeconds: 10
+      failureThreshold: 6

@@ -9,9 +9,9 @@ minus the parts this cluster does not need.
 - Tool names are prefixed with their owning server (`flux_`, `kubectl_`, ...) to avoid
   collisions.
 - Embedded **tool search** (optimizer) serves only mode-relevant tools to the client;
-  embeddings are computed by a CPU-only LLMKube service running
-  [Qwen3-Embedding-0.6B](https://huggingface.co/Qwen/Qwen3-Embedding-0.6B-GGUF)
-  (`kubernetes/ai/llmkube/models/embed.yaml`). No LiteLLM: a single client does not need
+  embeddings are computed by an LLMKube service on kube5's GPU running
+  [EmbeddingGemma 2](https://huggingface.co/ggml-org/embeddinggemma-2-GGUF)
+  (`kubernetes/ai/llmkube/models/embeddinggemma-2.yaml`). No LiteLLM: a single client does not need
   the proxy, database or SSO that Jory's shared inference platform carries.
 - MCP session state is stored in the shared Dragonfly, db 1.
 - The endpoint is internal-only (envoy-internal gateway, no external route, no key auth).

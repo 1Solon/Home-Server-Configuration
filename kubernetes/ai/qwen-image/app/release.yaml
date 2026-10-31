@@ -1,0 +1,184 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app qwen-image
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: app-template
+      version: 5.3.0
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s-charts
+        namespace: flux-system
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      strategy: rollback
+      retries: 3
+  values:
+    defaultPodOptions:
+      runtimeClassName: nvidia
+      nodeSelector:
+        kubernetes.io/hostname: kube5
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+        seccompProfile:
+          type: RuntimeDefault
+
+    controllers:
+      app:
+        replicas: 1
+        strategy: Recreate
+        initContainers:
+          download:
+            image:
+              repository: docker.io/curlimages/curl
+              tag: 8.23.0@sha256:3fb7e13e5d179a845c97d78204f3f1064d1907037f26a3ebf91710571151fd93
+            command:
+              - /bin/sh
+              - -c
+              - |
+                set -eu
+                cd /models
+                fetch() {
+                  name=$1 sha=$2 url=$3
+                  if [ -f "$name" ] && [ "$(cat "$name.sha256" 2>/dev/null)" = "$sha" ]; then
+                    return
+                  fi
+                  curl -fL --retry 5 --retry-all-errors -C - -o "$name.part" "$url"
+                  echo "$sha  $name.part" | sha256sum -c - || { rm -f "$name.part"; exit 1; }
+                  mv "$name.part" "$name"
+                  echo "$sha" > "$name.sha256"
+                }
+                fetch qwen-image-2.1-turbo-Q4_K_M.gguf \
+                  8940e8b522af886e0c0f5afddf720e82dd223cb9a43580b5f61c4d740452ac20 \
+                  https://huggingface.co/unsloth/Qwen-Image-2.1-Turbo-GGUF/resolve/5d1f9f759ea877ae556cda88dbec958b62ad3809/qwen-image-2.1-turbo-Q4_K_M.gguf
+                fetch Qwen3VL-8B-Instruct-Q4_K_M.gguf \
+                  67d1659bfe71b89d50b45a4ad1a9e5b997e5bb16ce5da66a6a6167abd569e9e2 \
+                  https://huggingface.co/Qwen/Qwen3-VL-8B-Instruct-GGUF/resolve/f982a07559d4a2f6c8744d840bf6fccab30eea96/Qwen3VL-8B-Instruct-Q4_K_M.gguf
+                fetch mmproj-Qwen3VL-8B-Instruct-F16.gguf \
+                  ca524100ebf825c9a870db1c580d03879e0da0ab2541697e2458e64891cf9d38 \
+                  https://huggingface.co/Qwen/Qwen3-VL-8B-Instruct-GGUF/resolve/f982a07559d4a2f6c8744d840bf6fccab30eea96/mmproj-Qwen3VL-8B-Instruct-F16.gguf
+                fetch qwen_image_2.1_vae_bf16.safetensors \
+                  bb21f7473051e1ac368515dd3f2e15cd44d7a11748ee8823e1ddca3e4876b7c9 \
+                  https://huggingface.co/Comfy-Org/Qwen-Image-2.1/resolve/aacf31a6d48e707f352ecba714cee0680da3479b/vae/qwen_image_2.1_vae_bf16.safetensors
+            securityContext:
+              allowPrivilegeEscalation: false
+              capabilities:
+                drop:
+                  - ALL
+            resources:
+              requests:
+                cpu: 100m
+                memory: 64Mi
+              limits:
+                memory: 256Mi
+        containers:
+          app:
+            image:
+              repository: ghcr.io/leejet/stable-diffusion.cpp
+              tag: master-cuda@sha256:370755315a7f32d74a9063ed53f597a1259bd5307f426bbc7aad01e867998c4d
+            command:
+              - /sd-server
+            args:
+              - --listen-ip
+              - 0.0.0.0
+              - --listen-port
+              - "8080"
+              - --diffusion-model
+              - /models/qwen-image-2.1-turbo-Q4_K_M.gguf
+              - --llm
+              - /models/Qwen3VL-8B-Instruct-Q4_K_M.gguf
+              # Needed for image edits.
+              - --llm_vision
+              - /models/mmproj-Qwen3VL-8B-Instruct-F16.gguf
+              - --vae
+              - /models/qwen_image_2.1_vae_bf16.safetensors
+              - --sigmas
+              - qwen-image-2.1-turbo
+              - --steps
+              - "8"
+              - --cfg-scale
+              - "1.0"
+              - --sampling-method
+              - euler
+              - -W
+              - "1024"
+              - -H
+              - "1024"
+              - --flash-attn
+              - "on"
+              # GPU time-slicing doesn't cap VRAM per pod; this keeps room for the other tenants.
+              - --offload-to-cpu
+              - --max-vram
+              - "6"
+            probes:
+              startup:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /v1/models
+                    port: 8080
+                  periodSeconds: 10
+                  failureThreshold: 60
+              liveness:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /v1/models
+                    port: 8080
+                  periodSeconds: 30
+                  timeoutSeconds: 10
+                  failureThreshold: 6
+              readiness:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /v1/models
+                    port: 8080
+                  periodSeconds: 10
+                  timeoutSeconds: 10
+                  failureThreshold: 3
+            securityContext:
+              allowPrivilegeEscalation: false
+              capabilities:
+                drop:
+                  - ALL
+            resources:
+              requests:
+                cpu: "1"
+                memory: 12Gi
+                nvidia.com/gpu: 1
+              limits:
+                memory: 16Gi
+                nvidia.com/gpu: 1
+
+    service:
+      app:
+        controller: app
+        ports:
+          http:
+            port: 8080
+
+    persistence:
+      models:
+        type: persistentVolumeClaim
+        storageClass: miroir-ephemeral
+        accessMode: ReadWriteOnce
+        size: 20Gi
+        globalMounts:
+          - path: /models

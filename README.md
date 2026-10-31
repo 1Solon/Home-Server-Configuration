@@ -200,4 +200,4 @@ The kube-prometheus-stack deployment uses the **Prom++** image. Its bundled Graf
 | -------------------------------------------------------------------------------------------- | ----- | ------------ | -------------- | ---- | ---------------- | ------------------- |
 | [Turing RK1](https://turingpi.com/product/turing-rk1/?attribute_ram=16+GB)                   | 4     | 2TB NVMe     | -              | 16GB | Talos v1.13.9    | ARM64 Cluster Nodes |
 | [Turing Pi 2](https://turingpi.com/product/turing-pi-2-5/)                                   | 1     | -            | -              | -    | -                | Baseboard and KVM   |
-| [CWWK AMD-7940HS](https://www.amazon.com/CWWK-NAS-display-network-motherboard/dp/B0D5M2M3Y5) | 1     | 1TB NVMe     | 8TB HDD (2x)   | 32GB | Talos v1.13.9    | x86_64 Cluster Node |
+| [CWWK AMD-7940HS](https://www.amazon.com/CWWK-NAS-display-network-motherboard/dp/B0D5M2M3Y5) in a [SilverStone CS351](https://www.silverstonetek.com/en/product/info/computer-chassis/cs351/) | 1     | 1TB NVMe     | 8TB HDD (2x)   | 32GB | Talos v1.13.9    | x86_64 Cluster Node |

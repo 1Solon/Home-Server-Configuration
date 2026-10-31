@@ -9,5 +9,6 @@ resources:
 - ./hermes/install.yaml
 - ./llmkube/install.yaml
 - ./openwebui/install.yaml
+- ./qwen-image/install.yaml
 - ./searxng/install.yaml
 - ./toolhive/install.yaml

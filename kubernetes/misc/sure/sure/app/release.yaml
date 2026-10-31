@@ -55,7 +55,7 @@ spec:
           migrate:
             image: &image
               repository: ghcr.io/we-promise/sure
-              tag: 0.7.6-alpha.1@sha256:1fcc07a0d0b9e4a7fe7e97830764f9b4ffc4315333eab06d4c3b60e51814484d
+              tag: 0.7.7-alpha.1@sha256:831e79bb2d5fd67371a0352f7e79a1cbb53aba7278d464db615b3e29525227ff
             command:
               - /bin/sh
               - -c

@@ -2,23 +2,23 @@
 group_sessions_per_user: true
 model:
   provider: dgx-spark
-  default: DeepSeek-V4.1-Flash-1017
-# DeepSeek V4.1 Flash on the two DGX Sparks (head 192.168.1.106, outside the cluster). OpenCode Go stays
+  default: GLM-5.3-Flash-EXL3
+# GLM-5.3 Flash on the two DGX Sparks (head 192.168.1.106, outside the cluster). OpenCode Go stays
 # available through OPENCODE_GO_API_KEY for /model.
 providers:
   dgx-spark:
     name: DGX Sparks
     base_url: http://192.168.1.106:8888/v1
     key_env: DGX_SPARK_API_KEY
-    default_model: DeepSeek-V4.1-Flash-1017
-    context_length: 524288
+    default_model: GLM-5.3-Flash-EXL3
+    context_length: 1048576
 auxiliary:
   vision:
     provider: dgx-spark
-    model: DeepSeek-V4.1-Flash-1017
+    model: GLM-5.3-Flash-EXL3
   curator:
     provider: dgx-spark
-    model: DeepSeek-V4.1-Flash-1017
+    model: GLM-5.3-Flash-EXL3
 image_gen:
   provider: openai
   openai:
@@ -67,7 +67,7 @@ display:
   show_reasoning: true
   skin: mono
 agent:
-  # high (75 of 100) is the model's default; max loops in agent turns on this quant (DeepSeek recipe issues #33, #37).
+  # GLM's template thinks at max when no effort is sent; the server accepts only low, high and max.
   reasoning_effort: high
 streaming:
   enabled: true

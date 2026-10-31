@@ -13,14 +13,16 @@ spec:
       conflictResolutionConfig:
         prefixFormat: "{workload}_"
     optimizer:
-      embeddingModel: embed
+      embeddingModel: embeddinggemma-2
       embeddingProvider: openai
-      # Direct to the LLMKube embedding service (Qwen3-Embedding, llama.cpp).
-      # Sized for a single-user tool search: one CPU replica, no LiteLLM proxy.
+      # Direct to the LLMKube embedding service, sized for a single-user tool search:
+      # one replica, no LiteLLM proxy.
+      # The optimizer has no query/document prefix setting, so EmbeddingGemma's
+      # task prompts are not applied.
       # ToolHive 0.51.1 emits EmbeddingServiceManual on every reconciliation.
       # embeddingServerRef only supports ToolHive-managed TEI servers, not this
       # LLMKube service; keep the explicit URL until upstream supports external refs.
-      embeddingService: http://embed-1.ai.svc.cluster.local:8080/v1
+      embeddingService: http://embeddinggemma-2.ai.svc.cluster.local:8080/v1
       embeddingServiceTimeout: 180s
   incomingAuth:
     type: anonymous

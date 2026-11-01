@@ -8,6 +8,7 @@ resources:
 - ./firecrawl/install.yaml
 - ./hermes/install.yaml
 - ./llmkube/install.yaml
+- ./mem0/install.yaml
 - ./openwebui/install.yaml
 - ./qwen-image/install.yaml
 - ./searxng/install.yaml

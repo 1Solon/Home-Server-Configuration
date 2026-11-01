@@ -1,0 +1,42 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: &app mem0
+  namespace: flux-system
+spec:
+  components:
+    - ../../../components/kopiur
+  dependsOn:
+    - name: kopiur-repository-ai
+      namespace: flux-system
+    - name: external-secrets-stores
+      namespace: secrets
+    - name: miroir-config
+      namespace: flux-system
+    - name: cloudnative-pg-cluster
+      namespace: flux-system
+  path: "./kubernetes/ai/mem0/app"
+  targetNamespace: ai
+  prune: true
+  wait: true
+  interval: 30m
+  retryInterval: 1m
+  timeout: 10m
+  commonMetadata:
+    labels:
+      app.kubernetes.io/name: *app
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  postBuild:
+    substitute:
+      APP: mem0
+      KOPIUR_SOURCE_PVC: mem0-kopiur-replacement
+      KOPIUR_SCHEDULE: "31 1 * * *"
+      KOPIUR_SUSPEND: "false"
+    substituteFrom:
+      - kind: ConfigMap
+        name: cluster-settings
+        optional: false

@@ -1,0 +1,170 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app mem0
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: app-template
+      version: 5.3.0
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s-charts
+        namespace: flux-system
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      # The entrypoint runs one-way alembic migrations on the app database.
+      retries: 0
+      remediateLastFailure: false
+  values:
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 65534
+        runAsGroup: 65534
+        fsGroup: 65534
+        fsGroupChangePolicy: OnRootMismatch
+        seccompProfile: { type: RuntimeDefault }
+
+    controllers:
+      mem0:
+        strategy: Recreate
+        annotations:
+          reloader.stakater.com/auto: "true"
+        initContainers:
+          init-db:
+            image:
+              repository: ghcr.io/home-operations/postgres-init
+              tag: 18@sha256:87627baaddb0cabed4ebe033e75038e5c7b6b081c18e86514c99067179a90719
+            envFrom: &envFrom
+              - secretRef:
+                  name: mem0-secret
+            securityContext: &securityContext
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities:
+                drop:
+                  - ALL
+          # mem0 runs CREATE EXTENSION itself, which needs a superuser.
+          init-extensions:
+            image:
+              repository: docker.io/library/postgres
+              tag: 18.6-alpine@sha256:10a5c69a83035ab5239f5620d708520e8b28f5aa1f2b20143e6024532edadfb5
+            command:
+              - /bin/sh
+              - -ec
+              - |
+                export PGPASSWORD="$INIT_POSTGRES_SUPER_PASS"
+                psql \
+                  --host="$INIT_POSTGRES_HOST" \
+                  --username="$INIT_POSTGRES_SUPER_USER" \
+                  --dbname=mem0 \
+                  --set=ON_ERROR_STOP=1 \
+                  --command="CREATE EXTENSION IF NOT EXISTS vector;"
+            env:
+              HOME: /tmp
+            envFrom: *envFrom
+            securityContext: *securityContext
+        containers:
+          app:
+            image:
+              repository: ghcr.io/1solon/mem0
+              tag: 2.2.1@sha256:b76b45ede5fb052f9b82409d0fa1c174af0fdc416813f300540dd31bb8b0dc5a
+            env:
+              TZ: ${TZ}
+              POSTGRES_HOST: pgvector17-rw.databases.svc.cluster.local
+              POSTGRES_PORT: "5432"
+              POSTGRES_USER: mem0
+              POSTGRES_DB: mem0
+              POSTGRES_COLLECTION_NAME: memories
+              APP_DB_NAME: mem0_app
+              HISTORY_DB_PATH: /data/history.db
+              MEM0_TELEMETRY: "false"
+              DASHBOARD_URL: https://mem0.${LOCAL_DOMAIN}
+              # The chat model reads OPENAI_BASE_URL and the embedder reads OPENAI_API_BASE first,
+              # which lets them point at different backends.
+              OPENAI_BASE_URL: http://192.168.1.106:8888/v1
+              OPENAI_API_BASE: http://embeddinggemma-2.ai.svc.cluster.local:8080/v1
+              MEM0_DEFAULT_LLM_MODEL: GLM-5.3-Flash-EXL3
+              MEM0_DEFAULT_EMBEDDER_MODEL: embeddinggemma-2
+              # Replaces the server's stored runtime config on every start (apps/mem0 in 1Solon/containers).
+              # GLM thinks at max unless an effort is sent; mem0 only sends one, and drops its 2000-token
+              # max_tokens cap, for models flagged as reasoning models. EmbeddingGemma 2 returns 768 dims.
+              MEM0_CONFIG_OVERRIDES: >-
+                {"llm": {"config": {"is_reasoning_model": true, "reasoning_effort": "low"}},
+                "vector_store": {"config": {"embedding_model_dims": 768}}}
+            envFrom: *envFrom
+            probes:
+              liveness: &probe
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /openapi.json
+                    port: &port 8000
+                  periodSeconds: 30
+                  timeoutSeconds: 5
+                  failureThreshold: 3
+              readiness: *probe
+              startup:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /openapi.json
+                    port: *port
+                  periodSeconds: 5
+                  timeoutSeconds: 5
+                  failureThreshold: 60
+            securityContext: *securityContext
+            resources:
+              requests:
+                cpu: 50m
+                memory: 256Mi
+              limits:
+                memory: 1Gi
+
+    service:
+      app:
+        controller: *app
+        ports:
+          http:
+            port: *port
+
+    route:
+      app:
+        enabled: true
+        annotations:
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/name: Mem0
+          gethomepage.dev/description: Shared memory for Hermes and OpenCode
+          gethomepage.dev/group: AI
+          gethomepage.dev/icon: mdi-memory
+          gethomepage.dev/pod-selector: app.kubernetes.io/name=mem0
+        parentRefs:
+          - name: envoy-internal
+            namespace: networking
+            sectionName: https
+        hostnames:
+          - "mem0.${LOCAL_DOMAIN}"
+        rules:
+          - backendRefs:
+              - identifier: app
+                port: *port
+
+    persistence:
+      data:
+        existingClaim: mem0-kopiur-replacement
+        globalMounts:
+          - path: /data
+      tmp:
+        type: emptyDir
+        globalMounts:
+          - path: /tmp

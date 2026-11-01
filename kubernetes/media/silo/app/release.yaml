@@ -81,7 +81,7 @@ spec:
           app:
             image:
               repository: ghcr.io/silo-server/silo-server
-              tag: build-1872@sha256:1dfee31ae64582ac2e2aa39a2897c93e7da70e717a22e5ebebe7d3845db25c76
+              tag: build-1904@sha256:18b0b05cf5964d2e4e1e131f38df1ea1416a805f3152f80bef1a806b2d994b46
             env:
               TZ: ${TZ}
               MODE: integrated

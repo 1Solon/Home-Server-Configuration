@@ -50,10 +50,11 @@ terminal:
   shell_init_files:
     - /opt/terminal/profile.sh
 memory:
-  # Settings in mem0.json. No user_id there on purpose: each Discord user gets their own memory
-  # (Saul's is shared with OpenCode); api_server, CLI and cron fall back to "hermes-user".
-  provider: mem0
+  provider: mnemosyne
   memory_char_limit: 4000
+  auto_migrate: true
+  auto_summarize:
+    threshold: 50
 approvals:
   destructive_slash_confirm: false
 compression:

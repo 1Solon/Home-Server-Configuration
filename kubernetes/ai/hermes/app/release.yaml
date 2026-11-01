@@ -103,30 +103,9 @@ spec:
                   mv "$P/.homebrew" "$P/homebrew"
                 fi
 
-                # Pin both: mnemosyne-hermes 0.7.0-0.7.2 declare
-                # mnemosyne-memory>=3.11.1 but import symbols that only exist
-                # in the 4.0 betas, so uv's "compatible" pick is broken.
-                # renovate: datasource=pypi depName=mnemosyne-hermes
-                MNEMOSYNE_HERMES=0.5.0
-                # renovate: datasource=pypi depName=mnemosyne-memory
-                MNEMOSYNE_MEMORY=3.15.1
-                MNEMOSYNE_VENV="$P/mnemosyne"
-                if [ ! -x "$MNEMOSYNE_VENV/bin/python" ]; then
-                  uv venv --python /opt/hermes/.venv/bin/python "$MNEMOSYNE_VENV"
-                fi
-                if ! "$MNEMOSYNE_VENV/bin/python" -c "import importlib.metadata as m; assert m.version('mnemosyne-hermes') == '$MNEMOSYNE_HERMES'; assert m.version('mnemosyne-memory') == '$MNEMOSYNE_MEMORY'" 2>/dev/null; then
-                  uv pip install --python "$MNEMOSYNE_VENV/bin/python" --upgrade \
-                    "mnemosyne-hermes==$MNEMOSYNE_HERMES" \
-                    "mnemosyne-memory[embeddings]==$MNEMOSYNE_MEMORY"
-                fi
-
+                # Memory moved to mem0. /opt/data/mnemosyne (the old database)
+                # stays on the volume until the port has been checked.
                 rm -rf /opt/data/plugins/mnemosyne
-                HERMES_HOME=/opt/data "$MNEMOSYNE_VENV/bin/mnemosyne-hermes" install \
-                  --mode wrapper \
-                  --python "$MNEMOSYNE_VENV/bin/python"
-                HERMES_HOME=/opt/data "$MNEMOSYNE_VENV/bin/mnemosyne-hermes" status
-                mkdir -p /opt/data/mnemosyne
-                chown -R 10000:10000 /opt/data/mnemosyne
           init-config:
             image:
               repository: nousresearch/hermes-agent
@@ -136,7 +115,7 @@ spec:
               - -c
               - |
                 set -eu
-                cp /desired/{config.yaml,SOUL.md} /staging/
+                cp /desired/{config.yaml,SOUL.md,mem0.json} /staging/
                 touch /staging/.env /opt/data/.env
                 sed -i '/^[[:space:]]*API_SERVER_KEY[[:space:]]*=/d' /opt/data/.env
                 HERMES_HOME=/staging HOME=/staging /opt/hermes/.venv/bin/python -c 'from hermes_cli.config import migrate_config; migrate_config(interactive=False,quiet=False)'
@@ -144,7 +123,7 @@ spec:
                 chown 0:0 /opt/data/workspace
                 chmod 750 /opt/data/workspace
                 chown 10000:10000 /opt/data/workspace
-                for f in config.yaml SOUL.md; do
+                for f in config.yaml SOUL.md mem0.json; do
                   rm -f "/opt/data/.$f.new"
                   install -m 600 "/staging/$f" "/opt/data/.$f.new"
                   chown 10000:10000 "/opt/data/.$f.new"
@@ -178,7 +157,7 @@ spec:
               HOMEBREW_CELLAR: /opt/data/.local/homebrew/Cellar
               HOMEBREW_PREFIX: /opt/data/.local/homebrew
               HOMEBREW_REPOSITORY: /opt/data/.local/homebrew
-              PATH: &path /opt/hermes/bin:/opt/hermes/.venv/bin:/opt/data/.local/mnemosyne/bin:/opt/data/.local/bin:/opt/data/.local/go/bin:/opt/data/.local/homebrew/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+              PATH: &path /opt/hermes/bin:/opt/hermes/.venv/bin:/opt/data/.local/bin:/opt/data/.local/go/bin:/opt/data/.local/homebrew/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
               # The terminal's login shell resets PATH from /etc/profile;
               # resources/profile.sh restores it from CONTAINER_PATH.
               CONTAINER_PATH: *path
@@ -189,10 +168,6 @@ spec:
               npm_config_cache: /opt/cache/npm
               UV_CACHE_DIR: /opt/cache/uv
               UV_LINK_MODE: copy
-              MNEMOSYNE_HOME: /opt/data/mnemosyne
-              # Summarise and extract facts through Hermes' auxiliary model.
-              MNEMOSYNE_HOST_LLM_ENABLED: "true"
-              MNEMOSYNE_HOST_LLM_TIMEOUT: "60"
               API_SERVER_ENABLED: "true"
               API_SERVER_HOST: "0.0.0.0"
               API_SERVER_PORT: &apiPort 8642
@@ -311,6 +286,9 @@ spec:
                 readOnly: true
               - path: /desired/SOUL.md
                 subPath: SOUL.md
+                readOnly: true
+              - path: /desired/mem0.json
+                subPath: mem0.json
                 readOnly: true
 
       config-staging:

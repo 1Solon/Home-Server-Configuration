@@ -1,0 +1,5 @@
+{
+  "host": "http://mem0.ai.svc.cluster.local:8000",
+  "agent_id": "hermes",
+  "sync_max_chars": 4000
+}

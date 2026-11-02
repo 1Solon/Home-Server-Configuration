@@ -15,4 +15,3 @@ resources:
   - ./cleanuparr/install.yaml
   - ./autobrr/install.yaml
   - ./bazarr/install.yaml
-  - ./silo/install.yaml

@@ -103,11 +103,13 @@ spec:
                   mv "$P/.homebrew" "$P/homebrew"
                 fi
 
-                # Pin both: mnemosyne-hermes 0.7.0-0.7.2 declare
-                # mnemosyne-memory>=3.11.1 but import symbols that only exist
-                # in the 4.0 betas, so uv's "compatible" pick is broken.
+                # Pin as a pair: mnemosyne-hermes declares a floor on
+                # mnemosyne-memory, not an exact pin, so a free uv pick can
+                # land a broken combination (0.7.0-0.7.2 + 3.x failed every
+                # memory tool call with an ImportError). 0.7.7 requires
+                # mnemosyne-memory>=4.0.0.
                 # renovate: datasource=pypi depName=mnemosyne-hermes
-                MNEMOSYNE_HERMES=0.5.0
+                MNEMOSYNE_HERMES=0.7.7
                 # renovate: datasource=pypi depName=mnemosyne-memory
                 MNEMOSYNE_MEMORY=4.0.0
                 MNEMOSYNE_VENV="$P/mnemosyne"

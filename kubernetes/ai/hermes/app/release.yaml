@@ -117,7 +117,12 @@ spec:
                   uv venv --python /opt/hermes/.venv/bin/python "$MNEMOSYNE_VENV"
                 fi
                 if ! "$MNEMOSYNE_VENV/bin/python" -c "import importlib.metadata as m; assert m.version('mnemosyne-hermes') == '$MNEMOSYNE_HERMES'; assert m.version('mnemosyne-memory') == '$MNEMOSYNE_MEMORY'" 2>/dev/null; then
-                  uv pip install --python "$MNEMOSYNE_VENV/bin/python" --upgrade \
+                  # The hermes-agent image quarantines PyPI uploads for 14
+                  # days (exclude-newer in its bundled pyproject.toml), so
+                  # fresh mnemosyne releases cannot resolve for two weeks.
+                  # Deliberately bypassed here: both packages are exact-pinned
+                  # above, so the quarantine buys nothing for this install.
+                  UV_EXCLUDE_NEWER="0 days" uv pip install --python "$MNEMOSYNE_VENV/bin/python" --upgrade \
                     "mnemosyne-hermes==$MNEMOSYNE_HERMES" \
                     "mnemosyne-memory[embeddings]==$MNEMOSYNE_MEMORY"
                 fi

@@ -49,8 +49,11 @@ the only place to restore app volumes from.
 `quorum: freeze` (since 2026-10-04). A volume only accepts writes while at
 least 2 of its 3 copies can see each other.
 
-- **One node down:** nothing happens. Writes carry on with the other two
-  copies and the missing copy catches up when the node returns.
+- **One node down:** writes carry on with the other two copies, and the missing
+  copy catches up if the node returns within an hour. After `autoEvictAfter`
+  (`1h`), Miroir rebuilds that node's copies on other nodes and wipes the old
+  ones when it returns. Before longer planned work, set `spec.autoEvict: false`
+  on its `MiroirNode`.
 - **Two nodes down:** any volume with copies on both of them stops accepting
   writes and its filesystem can go read-only. This is on purpose — it's what
   prevents split-brain. Bring a node back rather than forcing the volume;
@@ -73,9 +76,10 @@ least 2 of its 3 copies can see each other.
   `kubectl get miroirvolumes` for any that still have 2 copies or the old
   policy.
 - Pods can run on any node. A pod on a node without a copy reads and writes
-  over the network (`allowRemoteVolumeAccess`). Miroir won't move a copy to
-  follow it: 3 is the most a volume can have, and Miroir never drops a copy
-  on its own. To move a copy, edit `spec.replicas` on the `MiroirVolume`.
+  over the network (`allowRemoteVolumeAccess`). Below 3 copies, Miroir adds one
+  on the pod's node after an hour (`autoDiskfulAfter`). At 3 copies, the most a
+  volume can have, it won't drop one to follow a pod. To move a copy, edit
+  `spec.replicas` on the `MiroirVolume`.
 
 ## Agent skills
 

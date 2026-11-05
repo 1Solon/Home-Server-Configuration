@@ -1,0 +1,144 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app job-ops
+spec:
+  interval: 30m
+  # The image carries Firefox, Camoufox, LaTeX and two CLIs, so the first pull is slow.
+  timeout: 15m
+  chart:
+    spec:
+      chart: app-template
+      version: 5.3.0
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s-charts
+        namespace: flux-system
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      strategy: rollback
+      retries: 3
+  values:
+    defaultPodOptions:
+      # Upstream has no non-root mode: Camoufox and the Tectonic cache live under /root.
+      securityContext:
+        runAsNonRoot: false
+        runAsUser: 0
+        runAsGroup: 0
+        seccompProfile:
+          type: RuntimeDefault
+
+    controllers:
+      job-ops:
+        # One SQLite database on an RWO volume.
+        strategy: Recreate
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          app:
+            image:
+              repository: ghcr.io/dakheera47/job-ops
+              tag: v0.14.0@sha256:4e94e734b03030a6299b4562d9d52b21185d7e3b797342bb30926039dfc92ab1
+            env:
+              TZ: ${TZ}
+              # Also the SSO redirect base: Express has no trust proxy, so the request origin would be http://.
+              JOBOPS_PUBLIC_BASE_URL: https://job-ops.${LOCAL_DOMAIN}
+              # Without this the page loads Umami and OpenPanel, which report page URLs to upstream's servers.
+              JOBOPS_DISABLE_ANALYTICS: "true"
+              SSO_OIDC_ISSUER_URL: https://sso.${REMOTE_DOMAIN}/application/o/job-ops/
+              SSO_OIDC_DISPLAY_NAME: Authentik
+              # GLM-5.3 Flash on the DGX Sparks. Settings in the app override these.
+              LLM_PROVIDER: openai_compatible
+              LLM_BASE_URL: http://192.168.1.106:8888/v1
+              MODEL: GLM-5.3-Flash-EXL3
+            envFrom:
+              - secretRef:
+                  name: job-ops-secret
+            probes:
+              liveness: &probe
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /health
+                    port: &port 3001
+                  periodSeconds: 30
+                  timeoutSeconds: 10
+                  failureThreshold: 3
+              readiness: *probe
+              # Database migrations run before the server starts.
+              startup:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /health
+                    port: *port
+                  periodSeconds: 5
+                  timeoutSeconds: 5
+                  failureThreshold: 60
+            securityContext:
+              allowPrivilegeEscalation: false
+              capabilities:
+                drop:
+                  - ALL
+            resources:
+              requests:
+                cpu: 100m
+                memory: 512Mi
+              limits:
+                memory: 4Gi
+
+    service:
+      app:
+        controller: *app
+        ports:
+          http:
+            port: *port
+
+    route:
+      app:
+        enabled: true
+        annotations:
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/name: JobOps
+          gethomepage.dev/description: Job search pipeline and tailored CVs
+          gethomepage.dev/group: Applications
+          gethomepage.dev/icon: https://raw.githubusercontent.com/DaKheera47/job-ops/main/orchestrator/public/favicon.png
+          gethomepage.dev/pod-selector: app.kubernetes.io/name=job-ops
+        parentRefs:
+          - name: envoy-internal
+            namespace: networking
+            sectionName: https
+        hostnames:
+          - job-ops.${LOCAL_DOMAIN}
+        rules:
+          - backendRefs:
+              - port: *port
+                name: *app
+
+    persistence:
+      data:
+        existingClaim: job-ops
+        advancedMounts:
+          job-ops:
+            app:
+              - path: /app/data
+              # Upstream persists this: re-downloading the LaTeX bundle on every restart can hit HTTP 429.
+              - path: /root/.cache/Tectonic
+                subPath: tectonic-cache
+      # Firefox and Camoufox use shared memory, and the container default is only 64 MiB.
+      shm:
+        type: emptyDir
+        medium: Memory
+        sizeLimit: 1Gi
+        advancedMounts:
+          job-ops:
+            app:
+              - path: /dev/shm

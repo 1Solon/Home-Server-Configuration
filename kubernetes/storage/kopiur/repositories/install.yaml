@@ -133,6 +133,32 @@ spec:
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
+  name: kopiur-repository-job-ops
+  namespace: flux-system
+spec:
+  targetNamespace: job-ops
+  path: ./kubernetes/storage/kopiur/repositories/app
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  dependsOn:
+    - name: kopiur
+      namespace: flux-system
+    - name: external-secrets-stores
+      namespace: secrets
+  wait: true
+  interval: 30m
+  retryInterval: 1m
+  timeout: 5m
+  postBuild:
+    substitute:
+      KOPIUR_REPOSITORY_PREFIX: job-ops
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
   name: kopiur-repository-sure
   namespace: flux-system
 spec:

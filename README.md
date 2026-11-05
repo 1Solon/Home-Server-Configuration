@@ -69,6 +69,7 @@ Selective tree of the current Kubernetes categories and applications; nested imp
     │   └── sonarr/
     ├── misc/
     │   ├── immich/
+    │   ├── job-ops/
     │   ├── sure/
     │   ├── syncthing/
     │   ├── tandoor/
@@ -136,6 +137,7 @@ Selective tree of the current Kubernetes categories and applications; nested imp
 | [Sonarr](https://sonarr.tv) | Media Automation | Automated TV show download and management. |
 | [Homepage](https://github.com/gethomepage/homepage) | Dashboard | Customizable dashboard for services. |
 | [Immich](https://immich.app) | Photos | Self-hosted photo and video backup and management. |
+| [JobOps](https://github.com/DaKheera47/job-ops) | Job Search | Scrapes job boards, scores roles and tailors CVs. |
 | [OtterWiki](https://github.com/redimp/otterwiki) | Wiki | Git-backed wiki; manifests live in `projects/colwiki`. |
 | [Sure](https://github.com/we-promise/sure) | Finance | Personal finance and account tracking. |
 | [Syncthing](https://syncthing.net) | Files | Continuous file synchronization. |

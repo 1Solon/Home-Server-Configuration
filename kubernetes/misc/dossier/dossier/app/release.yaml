@@ -25,6 +25,9 @@ spec:
       retries: 3
   values:
     defaultPodOptions:
+      # Upstream only publishes amd64 images, and kube5 is the only amd64 node.
+      nodeSelector:
+        kubernetes.io/arch: amd64
       # A Service named dossier would otherwise inject DOSSIER_* variables into the app's own config namespace.
       enableServiceLinks: false
       securityContext:

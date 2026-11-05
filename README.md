@@ -68,6 +68,7 @@ Selective tree of the current Kubernetes categories and applications; nested imp
     │   ├── recyclarr/
     │   └── sonarr/
     ├── misc/
+    │   ├── dossier/
     │   ├── immich/
     │   ├── sure/
     │   ├── syncthing/

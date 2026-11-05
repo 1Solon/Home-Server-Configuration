@@ -6,7 +6,7 @@ metadata:
   name: &app job-ops
 spec:
   interval: 30m
-  # The image carries Firefox, Camoufox, LaTeX and two CLIs, so the first pull is slow.
+  # The image carries Firefox, Camoufox and two CLIs: the first pull took 7m22s on kube1.
   timeout: 15m
   chart:
     spec:
@@ -88,6 +88,7 @@ spec:
               capabilities:
                 drop:
                   - ALL
+            # Peaked at 3.1 GiB including page cache across browser and LaTeX test runs, not a full pipeline.
             resources:
               requests:
                 cpu: 100m

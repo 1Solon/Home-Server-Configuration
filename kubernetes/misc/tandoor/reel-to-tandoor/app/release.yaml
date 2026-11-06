@@ -1,0 +1,123 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app reel-to-tandoor
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: app-template
+      version: 5.3.0
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s-charts
+        namespace: flux-system
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      strategy: rollback
+      retries: 3
+  values:
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+        seccompProfile:
+          type: RuntimeDefault
+      # Saving the 40 s test reel took 19.5 s on kube5 and 32 s on the arm64 nodes.
+      affinity:
+        nodeAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              preference:
+                matchExpressions:
+                  - key: kubernetes.io/arch
+                    operator: In
+                    values:
+                      - amd64
+
+    controllers:
+      reel-to-tandoor:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          app:
+            image:
+              repository: ghcr.io/1solon/reel-to-tandoor
+              tag: 0.2.0@sha256:b8aff37ff0d6c8422a9a149554d51eff31bff8975811c45aeae558d431ee2dea
+            env:
+              TZ: ${TZ}
+              TANDOOR_URL: http://tandoor.tandoor.svc.cluster.local
+              # Tandoor's ALLOWED_HOSTS only accepts its public name.
+              TANDOOR_HOST_HEADER: recipes.${REMOTE_DOMAIN}
+              TANDOOR_PUBLIC_URL: https://recipes.${REMOTE_DOMAIN}
+              # Tandoor's "GLM-5.3 Flash (DGX Spark)" AI provider, the space default.
+              TANDOOR_AI_PROVIDER_ID: "34"
+            envFrom:
+              - secretRef:
+                  name: reel-to-tandoor-secret
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /healthz
+                    port: &port 8080
+                  periodSeconds: 10
+                  timeoutSeconds: 5
+                  failureThreshold: 3
+              readiness: *probes
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities:
+                drop:
+                  - ALL
+            # Measured 490 MiB after transcribing a 40 s reel with whisper.cpp small q8_0.
+            resources:
+              requests:
+                cpu: 50m
+                memory: 512Mi
+              limits:
+                memory: 2Gi
+
+    service:
+      app:
+        controller: *app
+        ports:
+          http:
+            port: *port
+
+    # Public so the iPhone Shortcut works off the home network; every request needs a per-user API key.
+    route:
+      app:
+        enabled: true
+        annotations:
+          external-dns.alpha.kubernetes.io/target: ipv4.${REMOTE_DOMAIN}
+        parentRefs:
+          - name: envoy-external
+            namespace: networking
+            sectionName: https
+        hostnames:
+          - reel-to-tandoor.${REMOTE_DOMAIN}
+        rules:
+          - backendRefs:
+              - name: *app
+                port: *port
+
+    persistence:
+      tmp:
+        type: emptyDir
+        advancedMounts:
+          reel-to-tandoor:
+            app:
+              - path: /tmp

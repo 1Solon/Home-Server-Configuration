@@ -68,6 +68,9 @@ spec:
               AI_BASE_URL: http://192.168.1.106:8888/v1
               AI_MODEL: GLM-5.3-Flash-EXL3
               FLAG_ALLOW_UNSAFE_AI_BASE_URL: "true"
+              # Search and page reading for role discovery. Self-hosted Firecrawl is keyless and searches through SearXNG.
+              WEB_ACCESS_PROVIDER: firecrawl
+              WEB_ACCESS_API_URL: http://firecrawl-api.ai.svc.cluster.local:3002
             envFrom: *envFrom
             # No liveness probe: /api/health also checks Postgres, and upstream advises against restarting on that.
             probes:

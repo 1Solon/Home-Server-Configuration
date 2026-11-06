@@ -5,3 +5,4 @@ kind: Kustomization
 resources:
   - ./namespace.yaml
   - ./job-ops/install.yaml
+  - ./reactive-resume/install.yaml

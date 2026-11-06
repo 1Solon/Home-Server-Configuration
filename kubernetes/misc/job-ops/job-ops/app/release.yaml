@@ -57,6 +57,7 @@ spec:
               LLM_PROVIDER: openai_compatible
               LLM_BASE_URL: http://192.168.1.106:8888/v1
               MODEL: GLM-5.3-Flash-EXL3
+              RXRESUME_URL: https://resume.${LOCAL_DOMAIN}
             envFrom:
               - secretRef:
                   name: job-ops-secret

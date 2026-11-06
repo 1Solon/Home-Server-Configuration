@@ -1,0 +1,147 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app reactive-resume
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: app-template
+      version: 5.3.0
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s-charts
+        namespace: flux-system
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      strategy: rollback
+      retries: 3
+  values:
+    defaultPodOptions:
+      # Running as the image's node user skips the entrypoint's root-only chown step.
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+        seccompProfile:
+          type: RuntimeDefault
+
+    controllers:
+      reactive-resume:
+        # Uploads live on an RWO volume, and upstream forbids old and new versions sharing a database mid-upgrade.
+        strategy: Recreate
+        annotations:
+          reloader.stakater.com/auto: "true"
+        initContainers:
+          init-db:
+            image:
+              repository: ghcr.io/home-operations/postgres-init
+              tag: 18@sha256:87627baaddb0cabed4ebe033e75038e5c7b6b081c18e86514c99067179a90719
+            envFrom: &envFrom
+              - secretRef:
+                  name: reactive-resume-secret
+        containers:
+          app:
+            image:
+              repository: ghcr.io/reactive-resume/reactive-resume
+              tag: v6.1.0@sha256:b158308cd898db021ecd0b41024dbf4caef0ac97917b6ec6006156598b2eba72
+            env:
+              TZ: ${TZ}
+              APP_URL: https://resume.${LOCAL_DOMAIN}
+              # Envoy's pods: without this every visitor shares one auth rate-limit bucket.
+              TRUSTED_PROXIES: 10.244.0.0/16
+              OAUTH_PROVIDER_NAME: Authentik
+              OAUTH_DISCOVERY_URL: https://sso.${REMOTE_DOMAIN}/application/o/reactive-resume/.well-known/openid-configuration
+              FLAG_DISABLE_EMAIL_AUTH: "true"
+              # Job Ops exports PDFs in batches, and upstream allows 5 PDF exports a minute per key.
+              FLAG_DISABLE_API_RATE_LIMIT: "true"
+              # GLM-5.3 Flash on the DGX Sparks. A shared provider replaces per-user AI settings.
+              AI_PROVIDER: openai-compatible
+              AI_BASE_URL: http://192.168.1.106:8888/v1
+              AI_MODEL: GLM-5.3-Flash-EXL3
+              FLAG_ALLOW_UNSAFE_AI_BASE_URL: "true"
+            envFrom: *envFrom
+            # No liveness probe: /api/health also checks Postgres, and upstream advises against restarting on that.
+            probes:
+              readiness:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /api/health
+                    port: &port 3000
+                  periodSeconds: 10
+                  timeoutSeconds: 6
+                  failureThreshold: 3
+              # Database migrations run before the server starts.
+              startup:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /api/health
+                    port: *port
+                  periodSeconds: 5
+                  timeoutSeconds: 6
+                  failureThreshold: 60
+            securityContext:
+              allowPrivilegeEscalation: false
+              capabilities:
+                drop:
+                  - ALL
+            resources:
+              requests:
+                cpu: 100m
+                memory: 512Mi
+              limits:
+                memory: 2Gi
+
+    service:
+      app:
+        controller: *app
+        ports:
+          http:
+            port: *port
+
+    route:
+      app:
+        enabled: true
+        annotations:
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/name: Reactive Resume
+          gethomepage.dev/description: Resume builder
+          gethomepage.dev/group: Applications
+          gethomepage.dev/icon: reactive-resume.png
+          gethomepage.dev/pod-selector: app.kubernetes.io/name=reactive-resume
+        parentRefs:
+          - name: envoy-internal
+            namespace: networking
+            sectionName: https
+        hostnames:
+          - resume.${LOCAL_DOMAIN}
+        rules:
+          - backendRefs:
+              - port: *port
+                name: *app
+
+    persistence:
+      data:
+        existingClaim: reactive-resume
+        advancedMounts:
+          reactive-resume:
+            app:
+              - path: /app/data
+      tmp:
+        type: emptyDir
+        advancedMounts:
+          reactive-resume:
+            app:
+              - path: /tmp

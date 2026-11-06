@@ -46,7 +46,7 @@ spec:
             dependsOn: init-config
             image:
               repository: nousresearch/hermes-agent
-              tag: v2026.9.24@sha256:fca358f12efd65bfaaca05884166f15c0e2788375ca30d77061ac1ebc96452b7
+              tag: v0.23.0@sha256:adb7890916de63245523492be8f68f9d2095fecbec4e2a6dab7960381f0fc002
             command:
               - /bin/bash
               - -c
@@ -113,16 +113,23 @@ spec:
                 # renovate: datasource=pypi depName=mnemosyne-memory
                 MNEMOSYNE_MEMORY=4.0.0
                 MNEMOSYNE_VENV="$P/mnemosyne"
-                if [ ! -x "$MNEMOSYNE_VENV/bin/python" ]; then
-                  uv venv --python /opt/hermes/.venv/bin/python "$MNEMOSYNE_VENV"
+                # The image keeps uv off PATH (as of v0.23.0), in a directory
+                # named for its version and architecture.
+                UV=$(echo /opt/hermes/tools/uv-*/uv)
+                # Rebuild the venv when the image's Python changes (3.13 to
+                # 3.14 by v0.23.0); packages built for the old one won't import.
+                PY_VERSION='import sys; print(sys.version_info[:2])'
+                if [ "$("$MNEMOSYNE_VENV/bin/python" -c "$PY_VERSION" 2>/dev/null)" != "$(/opt/hermes/.venv/bin/python -c "$PY_VERSION")" ]; then
+                  rm -rf "$MNEMOSYNE_VENV"
+                  "$UV" venv --python /opt/hermes/.venv/bin/python "$MNEMOSYNE_VENV"
                 fi
                 if ! "$MNEMOSYNE_VENV/bin/python" -c "import importlib.metadata as m; assert m.version('mnemosyne-hermes') == '$MNEMOSYNE_HERMES'; assert m.version('mnemosyne-memory') == '$MNEMOSYNE_MEMORY'" 2>/dev/null; then
-                  # The hermes-agent image quarantines PyPI uploads for 14
+                  # The hermes-agent image quarantines PyPI uploads for 3
                   # days (exclude-newer in its bundled pyproject.toml), so
-                  # fresh mnemosyne releases cannot resolve for two weeks.
+                  # fresh mnemosyne releases can't resolve straight away.
                   # Deliberately bypassed here: both packages are exact-pinned
                   # above, so the quarantine buys nothing for this install.
-                  UV_EXCLUDE_NEWER="0 days" uv pip install --python "$MNEMOSYNE_VENV/bin/python" --upgrade \
+                  UV_EXCLUDE_NEWER="0 days" "$UV" pip install --python "$MNEMOSYNE_VENV/bin/python" --upgrade \
                     "mnemosyne-hermes==$MNEMOSYNE_HERMES" \
                     "mnemosyne-memory[embeddings]==$MNEMOSYNE_MEMORY"
                 fi
@@ -137,7 +144,7 @@ spec:
           init-config:
             image:
               repository: nousresearch/hermes-agent
-              tag: &hermesTag v2026.9.24@sha256:fca358f12efd65bfaaca05884166f15c0e2788375ca30d77061ac1ebc96452b7
+              tag: &hermesTag v0.23.0@sha256:adb7890916de63245523492be8f68f9d2095fecbec4e2a6dab7960381f0fc002
             command:
               - /bin/bash
               - -c
@@ -209,7 +216,6 @@ spec:
               HERMES_DASHBOARD_PORT: &dashboardPort 9119
               HERMES_DASHBOARD_OIDC_ISSUER: https://sso.${REMOTE_DOMAIN}/application/o/hermes/
               HERMES_DASHBOARD_PUBLIC_URL: https://hermes.${LOCAL_DOMAIN}
-              AGENT_BROWSER_ARGS: "--no-sandbox,--disable-dev-shm-usage"
               FIRECRAWL_API_URL: http://firecrawl-api.ai.svc.cluster.local:3002
               SEARXNG_URL: http://searxng.ai.svc.cluster.local:8080
               QWEN_IMAGE_API_KEY: none

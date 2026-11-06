@@ -50,6 +50,11 @@ spec:
                             tag: 2.7.2@sha256:1b6d43c3c0f5d2888aa564d9daf29883212b79ad496f59f3c684c099eb1a57b9
                         env:
                             TZ: ${TZ}
+                            # GLM-5.3 Flash on the DGX Sparks; resources/sitecustomize.py adds the reasoning_effort it needs.
+                            AI_ALLOWED_URLS: http://192.168.1.106:8888/v1
+                            PYTHONPATH: /config/python
+                            # AI imports run inside the request, and the default 30 s kills them when the Sparks are busy.
+                            GUNICORN_TIMEOUT: "120"
                             ALLOWED_HOSTS: recipes.${REMOTE_DOMAIN}
                             CSRF_TRUSTED_ORIGINS: https://recipes.${REMOTE_DOMAIN}
                             COMMENT_PREF_DEFAULT: "1"
@@ -129,6 +134,15 @@ spec:
                               subPath: mediafiles
                             - path: /opt/recipes/staticfiles
                               subPath: staticfiles
+            sitecustomize:
+                type: configMap
+                name: tandoor-sitecustomize
+                advancedMounts:
+                    tandoor:
+                        app:
+                            - path: /config/python/sitecustomize.py
+                              subPath: sitecustomize.py
+                              readOnly: true
             tmpfs:
                 type: emptyDir
                 advancedMounts:

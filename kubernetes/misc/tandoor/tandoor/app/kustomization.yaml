@@ -6,3 +6,9 @@ resources:
   - ./externalsecret.yaml
   - ./pvc.yaml
   - ./release.yaml
+configMapGenerator:
+  - name: tandoor-sitecustomize
+    files:
+      - ./resources/sitecustomize.py
+generatorOptions:
+  disableNameSuffixHash: true

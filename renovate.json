@@ -46,6 +46,18 @@
       "allowedVersions": "<2.0.0"
     },
     {
+      "description": "hermes-agent moved from date tags (v2026.9.24) to semver (v0.23.0); ignore the old date tags, which sort higher",
+      "matchDatasources": ["docker"],
+      "matchPackageNames": ["nousresearch/hermes-agent"],
+      "allowedVersions": "!/^v\\d{4}\\./"
+    },
+    {
+      "description": "prompp briefly published a 0.8.10 build as 3.8.14, which stranded Renovate above every real release; its old 2.53.2-0.x.y tags embed the Prometheus version. Ignore Prometheus-style majors",
+      "matchDatasources": ["docker"],
+      "matchPackageNames": ["prompp/prompp", "mirror.gcr.io/prompp/prompp"],
+      "allowedVersions": "<2.0.0"
+    },
+    {
       "description": "Jellyfin changed from three-part versions to two-part versions in 12.0; exclude floating, nightly, and platform tags",
       "matchDatasources": ["docker"],
       "matchPackageNames": ["jellyfin/jellyfin"],

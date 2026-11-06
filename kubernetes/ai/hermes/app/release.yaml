@@ -229,6 +229,9 @@ spec:
               - name: dashboard
                 containerPort: *dashboardPort
                 protocol: TCP
+              - name: webapp
+                containerPort: &webappPort 9120
+                protocol: TCP
             probes:
               liveness:
                 enabled: true
@@ -275,6 +278,11 @@ spec:
         ports:
           http:
             port: 9119
+      webapp:
+        controller: *app
+        ports:
+          http:
+            port: *webappPort
 
     route:
       app:
@@ -295,6 +303,25 @@ spec:
         rules:
           - backendRefs:
               - identifier: dashboard
+                port: http
+      webapp:
+        enabled: true
+        annotations:
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/name: Hermes App
+          gethomepage.dev/description: Hermes Desktop workspace in the browser
+          gethomepage.dev/group: AI
+          gethomepage.dev/icon: https://cdn.jsdelivr.net/npm/@lobehub/icons-static-svg@latest/icons/hermesagent.svg
+          gethomepage.dev/pod-selector: app.kubernetes.io/name=hermes
+        parentRefs:
+          - name: envoy-internal
+            namespace: networking
+            sectionName: https
+        hostnames:
+          - "hermes-app.${LOCAL_DOMAIN}"
+        rules:
+          - backendRefs:
+              - identifier: webapp
                 port: http
 
     persistence:

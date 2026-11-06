@@ -32,10 +32,9 @@ spec:
               type: RuntimeDefault
           containers:
             - name: talos-backup
-              # A build from main rather than the v0.1.0-beta.3 release: that release
-              # predates AGE_RECIPIENT_PUBLIC_KEY, compression and working path-style
-              # S3, all of which this job relies on.
-              image: ghcr.io/siderolabs/talos-backup:v0.1.0-beta.3-10-gb9fd478@sha256:7fc186ff37a3137f470082cb609bf1dc3bcece13dd9a6421ec09cfdf4f33ae6c
+              # Needs v0.1.0 or later for AGE_RECIPIENT_PUBLIC_KEY, compression and
+              # working path-style S3.
+              image: ghcr.io/siderolabs/talos-backup:v0.1.0@sha256:3635df0be0862d71bba7a34dca3e7f7c790887f5c5d0129002191c4c2d92dd15
               command:
                 - /talos-backup
               workingDir: /tmp

@@ -102,11 +102,11 @@
       }
     },
     {
-      "description": "Mnemosyne Group: mnemosyne-hermes pins a minimum mnemosyne-memory, so both must upgrade together. The hermes-agent image quarantines PyPI uploads for 14 days, so only propose releases past that age",
+      "description": "Mnemosyne Group: mnemosyne-hermes pins a minimum mnemosyne-memory, so both must upgrade together. Wait as long as the hermes-agent image's own 3-day PyPI quarantine",
       "groupName": "Mnemosyne",
       "matchDatasources": ["pypi"],
       "matchPackageNames": ["mnemosyne-hermes", "mnemosyne-memory"],
-      "minimumReleaseAge": "14 days",
+      "minimumReleaseAge": "3 days",
       "group": {
         "commitMessageTopic": "{{{groupName}}} group"
       }

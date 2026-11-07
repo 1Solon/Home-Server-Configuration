@@ -12,6 +12,9 @@ providers:
     key_env: DGX_SPARK_API_KEY
     default_model: GLM-5.3-Flash-EXL3
     context_length: 1048576
+    models:
+      GLM-5.3-Flash-EXL3:
+        supports_vision: true
 auxiliary:
   vision:
     provider: dgx-spark
@@ -56,7 +59,10 @@ terminal:
     - /opt/terminal/profile.sh
 memory:
   provider: mnemosyne
-  memory_char_limit: 4000
+  # Both files go into every system prompt; on a 1M window behind the prompt cache this size is cheap. Both hit their
+  # caps on 2026-11-07 (memory 3,659/4,000, refusing writes; user 1,290/1,375).
+  memory_char_limit: 8000
+  user_char_limit: 3000
   auto_migrate: true
   auto_summarize:
     threshold: 50
@@ -64,6 +70,9 @@ approvals:
   destructive_slash_confirm: false
 compression:
   enabled: true
+  # The default 50% of the 1M window is ~524k. The Sparks share one ~1.09M-token window across 8 streams, and a
+  # cache miss at 500k is ~5 min of prefill (~1,750 tok/s), so compress well before that.
+  threshold_tokens: 262144
   codex_gpt55_autoraise: false
   codex_gpt55_autoraise_notice: false
 display:
@@ -72,8 +81,11 @@ display:
   show_reasoning: true
   skin: mono
 agent:
-  # GLM's template thinks at max when no effort is sent; the server accepts only low, high and max.
+  # GLM's template only knows low and high; anything else, or no effort, thinks at Max, which loops on this quant.
   reasoning_effort: high
+  # auto turns images into text descriptions whenever auxiliary.vision is set, so the main model never sees them.
+  # native hands them to GLM directly; set it back to auto before /model to a text-only model.
+  image_input_mode: native
 streaming:
   enabled: true
 security:
@@ -90,9 +102,11 @@ platform_toolsets:
     - file
     - image_gen
     - memory
+    - session_search
     - skills
     - terminal
     - todo
+    - video
     - web
   api_server:
     - browser
@@ -101,9 +115,11 @@ platform_toolsets:
     - file
     - image_gen
     - memory
+    - session_search
     - skills
     - terminal
     - todo
+    - video
     - web
   discord:
     - browser
@@ -112,8 +128,10 @@ platform_toolsets:
     - file
     - image_gen
     - memory
+    - session_search
     - skills
     - terminal
     - todo
+    - video
     - web
 _config_version: 46

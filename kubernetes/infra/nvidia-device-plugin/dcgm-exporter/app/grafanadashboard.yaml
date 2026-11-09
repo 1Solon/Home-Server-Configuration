@@ -9,4 +9,4 @@ spec:
   instanceSelector:
     matchLabels:
       dashboards: grafana
-  url: https://raw.githubusercontent.com/NVIDIA/dcgm-exporter/181290c399d46a9b905e083d0204348be63cb436/grafana/dcgm-exporter-dashboard.json
+  url: https://raw.githubusercontent.com/NVIDIA/dcgm-exporter/4e663a526c4624ad0e18ad816f09b7be2c5348a7/grafana/dcgm-exporter-dashboard.json

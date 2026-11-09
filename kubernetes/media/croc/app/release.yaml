@@ -40,7 +40,7 @@ spec:
           app:
             image:
               repository: docker.io/schollz/croc
-              tag: 11.6.4@sha256:03ca92bbb630ae5d70ce37b2f33f915e0a276df76d58a551a9a81985bf422612
+              tag: 11.6.5@sha256:f132512f29dbaf5c35a31aac369bf3358a0d3433294a43a45596864286c57a76
             command:
               - /bin/sh
               - -c

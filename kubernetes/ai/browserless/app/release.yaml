@@ -41,7 +41,7 @@ spec:
           app:
             image:
               repository: ghcr.io/browserless/chromium
-              tag: v2.59.0@sha256:ab62a8215f87b7252f6198dfc154f1546bc37dbda92d18106a679a6034548b45
+              tag: v2.61.0@sha256:bacd4022297429ff64f5e4d67b062263139a4fee4d5b49a480a022a072fb22d4
             env:
               TZ: ${TZ}
               PORT: &port 3000

@@ -6,7 +6,7 @@ metadata:
   name: postgres17
 spec:
   instances: 3
-  imageName: ghcr.io/cloudnative-pg/postgresql:17.11-standard-trixie@sha256:4d0aac315c4d8c3202252bd06fea83b16951cc57234a7b610eeaa382ff4482d0
+  imageName: ghcr.io/cloudnative-pg/postgresql:17.11-standard-trixie@sha256:b310491521ece4ec0f5a44008ac607352e96bff20883833d0acd833d80d26c5b
   primaryUpdateStrategy: unsupervised
   primaryUpdateMethod: switchover
   bootstrap:

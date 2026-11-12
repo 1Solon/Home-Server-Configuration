@@ -1,0 +1,35 @@
+---
+# GLM-5.3 Flash on the DGX Spark head, which runs outside the cluster, so the
+# Service has no selector and its endpoint is set by hand below. Plain HTTP
+# because the tailnet has no HTTPS certificates; the model has no API key, so
+# tailnet ACLs are the only access control.
+apiVersion: v1
+kind: Service
+metadata:
+  name: dgx-spark
+  annotations:
+    tailscale.com/hostname: dgx-spark
+spec:
+  type: LoadBalancer
+  loadBalancerClass: tailscale
+  ports:
+    - name: http
+      port: 8888
+      targetPort: 8888
+      protocol: TCP
+---
+apiVersion: discovery.k8s.io/v1
+kind: EndpointSlice
+metadata:
+  name: dgx-spark-1
+  labels:
+    kubernetes.io/service-name: dgx-spark
+    endpointslice.kubernetes.io/managed-by: flux
+addressType: IPv4
+ports:
+  - name: http
+    port: 8888
+    protocol: TCP
+endpoints:
+  - addresses:
+      - 192.168.1.106

@@ -5,6 +5,7 @@ kind: Kustomization
 resources:
 - namespace.yaml
 - ./browserless/install.yaml
+- ./dgx-spark/install.yaml
 - ./firecrawl/install.yaml
 - ./hermes/install.yaml
 - ./llmkube/install.yaml

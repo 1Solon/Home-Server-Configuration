@@ -32,7 +32,7 @@ spec:
           main:
             image:
               repository: ghcr.io/searxng/searxng
-              tag: 2026.11.12-de722ab1b@sha256:0b104e2e1117b0ca83a36f3ac6ecda7d9ee948ccea6ead74750a03e1b856229a
+              tag: 2026.11.14-a7128d5d1@sha256:eb8b09ffa83aebbe8b8d3ded23cfd224b2d3b01db4f3af9eb03876ef6def6dda
             env:
               SEARXNG_BASE_URL: https://search.local.solonsstuff.com
               SEARXNG_PORT: &port 8080

@@ -91,7 +91,7 @@ spec:
           app:
             image:
               repository: ghcr.io/leejet/stable-diffusion.cpp
-              tag: master-cuda@sha256:e6a7c4dc9c1ad02547fe06309dd3bfc4d8ba5d349674fb2a6da6d4818c61e54b
+              tag: master-cuda@sha256:946a6f2f834d49d851eb4a4aba5a0cf41778c2cf26d1a8a2ba24f7c863a73287
             command:
               - /sd-server
             args:

@@ -52,7 +52,7 @@ spec:
           app:
             image:
               repository: ghcr.io/reactive-resume/reactive-resume
-              tag: v6.1.1@sha256:3d6eacb7dca6f1bbafbf7a5be810ec3fb6cfe32732e831a11def9dc2eb8112d4
+              tag: v6.1.1@sha256:07de09351843eadafca4ceb1b6139d55827bd4f3b1759e55262eaad68d84616e
             env:
               TZ: ${TZ}
               APP_URL: https://resume.${LOCAL_DOMAIN}

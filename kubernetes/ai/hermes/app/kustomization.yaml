@@ -13,5 +13,7 @@ configMapGenerator:
       - ./resources/config.yaml
       - ./resources/SOUL.md
       - ./resources/profile.sh
+      - ./resources/github_app_token.py
+      - ./resources/gh
 generatorOptions:
   disableNameSuffixHash: true

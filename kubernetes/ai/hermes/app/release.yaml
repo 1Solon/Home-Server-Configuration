@@ -192,15 +192,11 @@ spec:
               HOMEBREW_CELLAR: /opt/data/.local/homebrew/Cellar
               HOMEBREW_PREFIX: /opt/data/.local/homebrew
               HOMEBREW_REPOSITORY: /opt/data/.local/homebrew
-              PATH: &path /opt/terminal/bin:/opt/hermes/bin:/opt/hermes/.venv/bin:/opt/data/.local/mnemosyne/bin:/opt/data/.local/bin:/opt/data/.local/go/bin:/opt/data/.local/homebrew/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+              PATH: &path /opt/hermes/bin:/opt/hermes/.venv/bin:/opt/data/.local/mnemosyne/bin:/opt/data/.local/bin:/opt/data/.local/go/bin:/opt/data/.local/homebrew/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
               # The terminal's login shell resets PATH from /etc/profile;
               # resources/profile.sh restores it from CONTAINER_PATH.
               CONTAINER_PATH: *path
               TERM: xterm-256color
-              # git over HTTPS signs in as Milton's GitHub App through the gh wrapper in /opt/terminal/bin.
-              GIT_CONFIG_COUNT: "1"
-              GIT_CONFIG_KEY_0: credential.https://github.com.helper
-              GIT_CONFIG_VALUE_0: "!gh auth git-credential"
               # Keep download caches off the data volume. They can be
               # refetched, so there's no point copying them three times and
               # backing them up. uv can't hardlink across volumes, so it copies.
@@ -346,19 +342,11 @@ spec:
       config-file:
         type: configMap
         name: hermes-config
-        # The gh wrapper has to be executable.
-        defaultMode: 0555
         advancedMounts:
           hermes:
             app:
               - path: /opt/terminal/profile.sh
                 subPath: profile.sh
-                readOnly: true
-              - path: /opt/terminal/github_app_token.py
-                subPath: github_app_token.py
-                readOnly: true
-              - path: /opt/terminal/bin/gh
-                subPath: gh
                 readOnly: true
             init-config:
               - path: /desired/config.yaml
@@ -368,7 +356,7 @@ spec:
                 subPath: SOUL.md
                 readOnly: true
 
-      # The GitHub App Milton acts as on GitHub; read by github_app_token.py.
+      # The GitHub App Milton acts as on GitHub. Milton keeps its own sign-in tooling on the data volume.
       github-app:
         type: secret
         name: hermes-github-app

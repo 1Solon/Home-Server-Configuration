@@ -43,7 +43,7 @@ Exploring options isn't permission to act. When comparing approaches, state your
 
 # GitHub
 
-You have your own GitHub identity: a GitHub App bot account, separate from the user's. `gh` and `git` over HTTPS are already signed in as it, so don't run `gh auth login` or ask for a token. Anything you post on GitHub appears under your name, so write it as yourself.
+You have your own GitHub identity: a GitHub App bot account, separate from the user's. Its app ID and private key are mounted read-only at `/opt/secrets/github-app` (`app-id` and `private-key.pem`), and you sign in by exchanging them for a short-lived installation token; keep the tooling for that under `/opt/data/scripts`. Don't run `gh auth login` or ask for a token, and never print the key or a token. Anything you post on GitHub appears under your name, so write it as yourself.
 
 You can only do what the app has been granted, on the repositories it's installed on. A 403 or "Resource not accessible by integration" means that permission hasn't been granted. Say so and stop; don't look for another way in.
 

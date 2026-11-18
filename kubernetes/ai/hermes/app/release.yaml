@@ -211,6 +211,10 @@ spec:
               API_SERVER_HOST: "0.0.0.0"
               API_SERVER_PORT: &apiPort 8642
               API_SERVER_CORS_ORIGINS: "https://hermes.${LOCAL_DOMAIN}"
+              # No WEBHOOK_SECRET: routes are made with `hermes webhook subscribe`, which gives each its own HMAC
+              # secret in /opt/data/webhook_subscriptions.json. A route without one is refused.
+              WEBHOOK_ENABLED: "true"
+              WEBHOOK_PORT: &webhookPort 8644
               HERMES_DASHBOARD: "true"
               HERMES_DASHBOARD_HOST: "0.0.0.0"
               HERMES_DASHBOARD_PORT: &dashboardPort 9119
@@ -234,6 +238,9 @@ spec:
                 protocol: TCP
               - name: webapp
                 containerPort: &webappPort 9120
+                protocol: TCP
+              - name: webhook
+                containerPort: *webhookPort
                 protocol: TCP
             probes:
               liveness:
@@ -286,6 +293,11 @@ spec:
         ports:
           http:
             port: *webappPort
+      webhook:
+        controller: *app
+        ports:
+          http:
+            port: *webhookPort
 
     route:
       app:
@@ -325,6 +337,26 @@ spec:
         rules:
           - backendRefs:
               - identifier: webapp
+                port: http
+      # Public so GitHub can deliver events; every route checks the sender's HMAC signature.
+      webhook:
+        enabled: true
+        annotations:
+          external-dns.alpha.kubernetes.io/target: ipv4.${REMOTE_DOMAIN}
+          gatus.home-operations.com/enabled: "false"
+        parentRefs:
+          - name: envoy-external
+            namespace: networking
+            sectionName: https
+        hostnames:
+          - "hermes-webhook.${REMOTE_DOMAIN}"
+        rules:
+          - matches:
+              - path:
+                  type: PathPrefix
+                  value: /webhooks/
+            backendRefs:
+              - identifier: webhook
                 port: http
 
     persistence:

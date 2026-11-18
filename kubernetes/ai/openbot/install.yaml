@@ -7,6 +7,8 @@ metadata:
   namespace: flux-system
 spec:
   dependsOn:
+    # Provides the hermes-read-all ClusterRole and the hermes-github-app Secret.
+    - name: hermes
     - name: miroir-config
       namespace: flux-system
   path: "./kubernetes/ai/openbot/app"

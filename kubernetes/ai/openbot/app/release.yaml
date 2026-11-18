@@ -24,6 +24,8 @@ spec:
       retries: 3
   values:
     defaultPodOptions:
+      # Cluster ops reads the Kubernetes API with this token for the health report.
+      automountServiceAccountToken: true
       # OpenBot stops its agents and closes its database before it exits.
       terminationGracePeriodSeconds: 60
       # amd64 is the only architecture upstream ships remote desktop for, and kube5 has the memory.
@@ -43,6 +45,8 @@ spec:
     controllers:
       openbot:
         strategy: Recreate
+        serviceAccount:
+          identifier: *app
         initContainers:
           # Talos ships user.max_user_namespaces at 0 and a pod can't set it through
           # securityContext.sysctls. This raises it for the whole node until the next reboot.
@@ -98,3 +102,18 @@ spec:
           openbot:
             app:
               - path: /dev/shm
+
+      # Milton's GitHub App key, from the Hermes app, so PR reviewer posts as milton-mla[bot].
+      # Every OpenBot agent runs as the same user and can read it.
+      github-app:
+        type: secret
+        name: hermes-github-app
+        defaultMode: 0440
+        advancedMounts:
+          openbot:
+            app:
+              - path: /opt/secrets/github-app
+                readOnly: true
+
+    serviceAccount:
+      openbot: {}

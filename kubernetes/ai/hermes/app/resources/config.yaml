@@ -53,6 +53,13 @@ webapp:
   host: 0.0.0.0
   port: 9120
   public_url: https://hermes-app.${LOCAL_DOMAIN}
+# Set here, not with WEBHOOK_ENABLED: `hermes webhook subscribe` only reads this file. No global secret, so every
+# route needs its own; subscribe generates one into /opt/data/webhook_subscriptions.json.
+platforms:
+  webhook:
+    enabled: true
+    extra:
+      port: 8644
 mcp_servers:
   toolhive:
     url: http://vmcp-mcp-gateway-internal.ai.svc.cluster.local:4483/mcp

@@ -211,10 +211,6 @@ spec:
               API_SERVER_HOST: "0.0.0.0"
               API_SERVER_PORT: &apiPort 8642
               API_SERVER_CORS_ORIGINS: "https://hermes.${LOCAL_DOMAIN}"
-              # No WEBHOOK_SECRET: routes are made with `hermes webhook subscribe`, which gives each its own HMAC
-              # secret in /opt/data/webhook_subscriptions.json. A route without one is refused.
-              WEBHOOK_ENABLED: "true"
-              WEBHOOK_PORT: &webhookPort 8644
               HERMES_DASHBOARD: "true"
               HERMES_DASHBOARD_HOST: "0.0.0.0"
               HERMES_DASHBOARD_PORT: &dashboardPort 9119
@@ -240,7 +236,7 @@ spec:
                 containerPort: &webappPort 9120
                 protocol: TCP
               - name: webhook
-                containerPort: *webhookPort
+                containerPort: &webhookPort 8644
                 protocol: TCP
             probes:
               liveness:

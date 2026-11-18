@@ -1,0 +1,64 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/monitoring.coreos.com/prometheusrule_v1.json
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: dcgm-exporter-rules
+spec:
+  groups:
+    # Replaces llmkube's gpu and gpuHealth alert groups, which still query the
+    # metric names dcgm-exporter dropped in 4.9.0.
+    - name: dcgm-exporter.rules
+      rules:
+        - alert: GPUMetricsMissing
+          expr: |-
+            absent(DCGM_FI_DEV_GPU_UTIL_RATIO)
+          for: 15m
+          annotations:
+            summary: >-
+              dcgm-exporter has reported no GPU utilisation for 15 minutes
+          labels:
+            severity: warning
+
+        - alert: GPUHighTemperature
+          expr: |-
+            DCGM_FI_DEV_GPU_TEMP_CELSIUS > 85
+          for: 2m
+          annotations:
+            summary: >-
+              GPU {{ $labels.gpu }} on {{ $labels.hostname }} is at {{ $value }}C
+          labels:
+            severity: critical
+
+        # Holds the last Xid seen, so this stays firing until the exporter or
+        # driver restarts. The windowed DCGM_EXP_XID_ERRORS_COUNT is not in the
+        # chart's default metric list.
+        - alert: GPUXidError
+          expr: |-
+            DCGM_FI_DEV_XID_ERROR > 0
+          for: 0m
+          annotations:
+            summary: >-
+              GPU {{ $labels.gpu }} on {{ $labels.hostname }} last reported Xid {{ $value }}
+          labels:
+            severity: critical
+
+        - alert: GPURowRemapFailure
+          expr: |-
+            DCGM_FI_DEV_ROW_REMAP_FAILED > 0
+          for: 0m
+          annotations:
+            summary: >-
+              GPU {{ $labels.gpu }} on {{ $labels.hostname }} failed to remap a bad memory row
+          labels:
+            severity: critical
+
+        - alert: GPUUncorrectableRowsRemapped
+          expr: |-
+            increase(DCGM_FI_DEV_ROW_REMAP_UNCORRECTABLE_TOTAL[1h]) > 0
+          for: 0m
+          annotations:
+            summary: >-
+              GPU {{ $labels.gpu }} on {{ $labels.hostname }} remapped a row after an uncorrectable memory error
+          labels:
+            severity: warning

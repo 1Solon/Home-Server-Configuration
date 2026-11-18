@@ -55,6 +55,14 @@ spec:
       prometheusRule:
         enabled: true
         namespace: observability
+        # Both groups hardcode the metric names dcgm-exporter dropped in
+        # 4.9.0 (as of chart 0.10.18), so GPUMetricsMissing fired constantly.
+        # GPU alerts live with dcgm-exporter instead.
+        rules:
+          gpu:
+            enabled: false
+          gpuHealth:
+            enabled: false
 
     # Enable llmkube's native remote-model downloader and cache plumbing.
     # InferenceServices can reuse the existing RWX NFS PVC with modelCache.claimName;

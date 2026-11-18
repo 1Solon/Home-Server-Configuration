@@ -1,0 +1,12 @@
+---
+# Trial: not backed up by kopiur. Holds the account session, provider sign-ins and agent workspaces.
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: openbot
+spec:
+  accessModes: [ReadWriteOnce]
+  storageClassName: miroir-replicated
+  resources:
+    requests:
+      storage: 20Gi

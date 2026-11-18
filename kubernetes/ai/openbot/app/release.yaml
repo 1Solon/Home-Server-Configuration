@@ -1,0 +1,100 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app openbot
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: app-template
+      version: 5.3.0
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s-charts
+        namespace: flux-system
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      strategy: rollback
+      retries: 3
+  values:
+    defaultPodOptions:
+      # OpenBot stops its agents and closes its database before it exits.
+      terminationGracePeriodSeconds: 60
+      # amd64 is the only architecture upstream ships remote desktop for, and kube5 has the memory.
+      nodeSelector:
+        kubernetes.io/hostname: kube5
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+        # RuntimeDefault refuses the user namespaces the Electron sandbox makes, and the container
+        # exits. Upstream ships a Docker profile for this and advises against Unconfined; it's used
+        # here to keep the trial out of the Talos machine config.
+        seccompProfile:
+          type: Unconfined
+
+    controllers:
+      openbot:
+        strategy: Recreate
+        initContainers:
+          # Talos ships user.max_user_namespaces at 0 and a pod can't set it through
+          # securityContext.sysctls. This raises it for the whole node until the next reboot.
+          enable-userns:
+            image:
+              repository: ghcr.io/nightly-labs/openbot
+              tag: &tag 0.72.0@sha256:516e7cf80e606c8437b6f363c1eb7c399ca20a8cae157237cc0c941246c61db7
+            command: [sh, -c, "echo 11255 > /proc/sys/user/max_user_namespaces"]
+            securityContext:
+              runAsUser: 0
+              runAsGroup: 0
+              privileged: true
+        containers:
+          app:
+            image:
+              repository: ghcr.io/nightly-labs/openbot
+              # Upgrades are one-way: an older OpenBot can't open a database written by a newer one.
+              tag: *tag
+            env:
+              TZ: "${TZ}"
+            # The container serves nothing; it only connects out to the OpenBot account service.
+            probes:
+              liveness:
+                enabled: false
+              readiness:
+                enabled: false
+              startup:
+                enabled: false
+            securityContext:
+              allowPrivilegeEscalation: false
+            resources:
+              requests:
+                cpu: 250m
+                memory: 1Gi
+              limits:
+                # OpenBot sizes its turn limit from this: 8 concurrent turns between 5 and 10 GiB.
+                memory: 6Gi
+
+    persistence:
+      data:
+        existingClaim: openbot
+        advancedMounts:
+          openbot:
+            app:
+              - path: /data
+
+      # Chromium falls back to the slower /tmp when /dev/shm is under 1 GiB.
+      shm:
+        type: emptyDir
+        medium: Memory
+        sizeLimit: 1Gi
+        advancedMounts:
+          openbot:
+            app:
+              - path: /dev/shm

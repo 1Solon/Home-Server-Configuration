@@ -56,12 +56,6 @@ spec:
                 # Keep one version per line so Renovate can find and bump them.
                 # renovate: datasource=github-releases depName=cli/cli
                 GH=2.105.0
-                # renovate: datasource=golang-version depName=go
-                GO=1.27.4
-                # Homebrew keeps itself up to date once installed, so this
-                # only picks the version for a fresh install.
-                # renovate: datasource=github-releases depName=Homebrew/brew
-                BREW=7.0.14
                 case "$(uname -m)" in
                   x86_64) A=amd64 ;;
                   aarch64|arm64) A=arm64 ;;
@@ -81,26 +75,6 @@ spec:
                   tar xOzf "/tmp/$G.tar.gz" "$G/bin/gh" >/tmp/gh
                   install -o 10000 -g 10000 -m 755 /tmp/gh "$P/bin/gh"
                   rm -f "/tmp/$G.tar.gz" /tmp/gh
-                fi
-
-                if [ "$(head -n1 "$P/go/VERSION" 2>/dev/null)" != "go$GO" ]; then
-                  T=go"$GO".linux-"$A".tar.gz
-                  curl -fsSLo "/tmp/$T" "https://dl.google.com/go/$T"
-                  echo "$(curl -fsSL "https://dl.google.com/go/$T.sha256")  /tmp/$T" | sha256sum -c -
-                  rm -rf "$P/.go"
-                  mkdir "$P/.go"
-                  tar xzf "/tmp/$T" -C "$P/.go" --strip-components=1
-                  rm -f "/tmp/$T"
-                  chown -R 10000:10000 "$P/.go"
-                  rm -rf "$P/go"
-                  mv "$P/.go" "$P/go"
-                fi
-
-                if [ ! -x "$P/homebrew/bin/brew" ]; then
-                  rm -rf "$P/.homebrew" "$P/homebrew"
-                  git clone -q --depth 1 --branch "$BREW" https://github.com/Homebrew/brew.git "$P/.homebrew"
-                  chown -R 10000:10000 "$P/.homebrew"
-                  mv "$P/.homebrew" "$P/homebrew"
                 fi
 
                 # Pin as a pair: mnemosyne-hermes declares a floor on
@@ -188,11 +162,7 @@ spec:
             env:
               TZ: "${TZ}"
               HERMES_HOME: /opt/data
-              GOPATH: /opt/data/go
-              HOMEBREW_CELLAR: /opt/data/.local/homebrew/Cellar
-              HOMEBREW_PREFIX: /opt/data/.local/homebrew
-              HOMEBREW_REPOSITORY: /opt/data/.local/homebrew
-              PATH: &path /opt/hermes/bin:/opt/hermes/.venv/bin:/opt/data/.local/mnemosyne/bin:/opt/data/.local/bin:/opt/data/.local/go/bin:/opt/data/.local/homebrew/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+              PATH: &path /opt/hermes/bin:/opt/hermes/.venv/bin:/opt/data/.local/mnemosyne/bin:/opt/data/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
               # The terminal's login shell resets PATH from /etc/profile;
               # resources/profile.sh restores it from CONTAINER_PATH.
               CONTAINER_PATH: *path

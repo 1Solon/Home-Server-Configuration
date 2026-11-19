@@ -53,30 +53,6 @@ spec:
               - |
                 set -euo pipefail
                 P=/opt/data/.local
-                # Keep one version per line so Renovate can find and bump them.
-                # renovate: datasource=github-releases depName=cli/cli
-                GH=2.105.0
-                case "$(uname -m)" in
-                  x86_64) A=amd64 ;;
-                  aarch64|arm64) A=arm64 ;;
-                  *) echo "unsupported architecture" >&2; exit 1 ;;
-                esac
-                mkdir -p "$P/bin"
-
-                # Reinstall whenever the installed version doesn't match the
-                # pin, and check every download against its published checksum.
-                INSTALLED_GH=$("$P/bin/gh" --version 2>/dev/null || true)
-                if [[ "$INSTALLED_GH" != "gh version $GH "* ]]; then
-                  G=gh_"$GH"_linux_"$A"
-                  C=gh_"$GH"_checksums.txt
-                  U="https://github.com/cli/cli/releases/download/v$GH"
-                  curl -fsSLo "/tmp/$G.tar.gz" "$U/$G.tar.gz"
-                  curl -fsSL "$U/$C" | awk -v f="$G.tar.gz" '$2 == f' | (cd /tmp && sha256sum -c -)
-                  tar xOzf "/tmp/$G.tar.gz" "$G/bin/gh" >/tmp/gh
-                  install -o 10000 -g 10000 -m 755 /tmp/gh "$P/bin/gh"
-                  rm -f "/tmp/$G.tar.gz" /tmp/gh
-                fi
-
                 # Pin as a pair: mnemosyne-hermes declares a floor on
                 # mnemosyne-memory, not an exact pin, so a free uv pick can
                 # land a broken combination (0.7.0-0.7.2 + 3.x failed every

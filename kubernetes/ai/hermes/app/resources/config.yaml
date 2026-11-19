@@ -123,6 +123,7 @@ platform_toolsets:
     - todo
     - video
     - web
+    - custodian
   api_server:
     - browser
     - clarify
@@ -136,6 +137,7 @@ platform_toolsets:
     - todo
     - video
     - web
+    - custodian
   discord:
     - browser
     - clarify
@@ -149,4 +151,10 @@ platform_toolsets:
     - todo
     - video
     - web
+    - custodian
+# Set here because init-config rewrites this file on every start, which undoes `hermes plugins enable`.
+plugins:
+  enabled:
+    - custodian
+  disabled: []
 _config_version: 46

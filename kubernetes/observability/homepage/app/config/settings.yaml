@@ -26,13 +26,13 @@ layout:
   Books:
     tab: Home
     style: row
-    columns: 2
+    columns: 4
     icon: mdi-book-open-page-variant
     useEqualHeights: true
   AI:
     tab: Home
     style: row
-    columns: 2
+    columns: 4
     icon: mdi-robot
     useEqualHeights: true
   Downloads:

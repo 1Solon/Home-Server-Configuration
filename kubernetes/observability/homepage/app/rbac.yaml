@@ -16,14 +16,6 @@ rules:
       - get
       - list
   - apiGroups:
-      - extensions
-      - networking.k8s.io
-    resources:
-      - ingresses
-    verbs:
-      - get
-      - list
-  - apiGroups:
       - metrics.k8s.io
     resources:
       - nodes
@@ -36,13 +28,6 @@ rules:
     resources:
       - customresourcedefinitions
       - customresourcedefinitions/status
-    verbs:
-      - get
-      - list
-  - apiGroups:
-      - traefik.io
-    resources:
-      - ingressroutes
     verbs:
       - get
       - list

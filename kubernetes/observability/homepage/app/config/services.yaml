@@ -72,6 +72,14 @@
             url: http://suwayomi.books.svc.cluster.local:4567
             category: 0
 
+- AI:
+    - DGX Spark:
+        icon: nvidia.png
+        href: http://192.168.1.106:5555/
+        description: sparkDash for the Spark pair
+        siteMonitor: http://192.168.1.106:5555/
+        statusStyle: basic
+
 - Downloads:
     - qBittorrent:
         icon: qbittorrent.png
@@ -89,7 +97,7 @@
     - JetKVM:
         icon: jetkvm.png
         href: http://192.168.1.19/
-        description: Proxmox KVM
+        description: TrueNAS host KVM
         siteMonitor: http://192.168.1.19/
         statusStyle: basic
 
@@ -109,26 +117,26 @@
 - Networking:
     - Unifi:
         icon: unifi.png
-        href: http://unifi.${LOCAL_DOMAIN}
+        href: https://unifi.${LOCAL_DOMAIN}
         description: Network Controller
         widget:
             type: unifi
-            url: https://unifi.local.solonsstuff.com
+            url: https://unifi.${LOCAL_DOMAIN}
             key: {{HOMEPAGE_VAR_UNIFI_TOKEN}}
 
 - Calendar:
     - Agenda:
         widget:
           type: calendar
-          view: agenda # optional - possible values monthly, agenda
-          maxEvents: 23 # optional - defaults to 10
-          integrations: # optional
-            - type: sonarr # active widget type that is currently enabled on homepage - possible values: radarr, sonarr>
-              service_group: Media # group name where widget exists
-              service_name: Sonarr # service name for that widget
-            - type: radarr # active widget type that is currently enabled on homepage - possible values: radarr, sonarr>
-              service_group: Media # group name where widget exists
-              service_name: Radarr # service name for that widget
+          view: agenda
+          maxEvents: 23
+          integrations:
+            - type: sonarr
+              service_group: Media
+              service_name: Sonarr
+            - type: radarr
+              service_group: Media
+              service_name: Radarr
 
 - Observability:
     - Grafana:

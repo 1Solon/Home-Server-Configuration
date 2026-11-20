@@ -84,7 +84,7 @@ spec:
         enabled: true
         annotations:
           gethomepage.dev/enabled: "true"
-          gethomepage.dev/name: cleanuparr
+          gethomepage.dev/name: Cleanuparr
           gethomepage.dev/description: Automated torrent cleanup
           gethomepage.dev/group: Applications
           gethomepage.dev/icon: cleanuperr.png

@@ -180,6 +180,13 @@ spec:
     route:
       app:
         enabled: true
+        annotations:
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/name: Qwen Image
+          gethomepage.dev/description: Image generation
+          gethomepage.dev/group: AI
+          gethomepage.dev/icon: mdi-image-auto-adjust
+          gethomepage.dev/pod-selector: app.kubernetes.io/name=qwen-image
         parentRefs:
           - name: envoy-internal
             namespace: networking

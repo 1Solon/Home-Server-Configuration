@@ -69,8 +69,6 @@ Selective tree of the current Kubernetes categories and applications; nested imp
     │   └── sonarr/
     ├── misc/
     │   ├── immich/
-    │   ├── job-ops/
-    │   ├── sure/
     │   ├── syncthing/
     │   ├── tandoor/
     │   └── zerobyte/
@@ -137,10 +135,7 @@ Selective tree of the current Kubernetes categories and applications; nested imp
 | [Sonarr](https://sonarr.tv) | Media Automation | Automated TV show download and management. |
 | [Homepage](https://github.com/gethomepage/homepage) | Dashboard | Customizable dashboard for services. |
 | [Immich](https://immich.app) | Photos | Self-hosted photo and video backup and management. |
-| [JobOps](https://github.com/DaKheera47/job-ops) | Job Search | Scrapes job boards, scores roles and tailors CVs. |
-| [Reactive Resume](https://github.com/Reactive-Resume/Reactive-Resume) | Resumes | Resume builder; Job Ops reads and renders resumes from it. |
 | [OtterWiki](https://github.com/redimp/otterwiki) | Wiki | Git-backed wiki; manifests live in `projects/colwiki`. |
-| [Sure](https://github.com/we-promise/sure) | Finance | Personal finance and account tracking. |
 | [Syncthing](https://syncthing.net) | Files | Continuous file synchronization. |
 | [Tandoor](https://github.com/TandoorRecipes/recipes) | Recipes | Recipe management and meal planning. |
 | [Zerobyte](https://github.com/nicotsx/zerobyte) | Backups | Web-based backup management. |

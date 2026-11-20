@@ -26,7 +26,7 @@ layout:
   Books:
     tab: Home
     style: row
-    columns: 4
+    columns: 2
     icon: mdi-book-open-page-variant
     useEqualHeights: true
   AI:
@@ -41,17 +41,17 @@ layout:
     columns: 1
     icon: mdi-download-circle
     useEqualHeights: true
+  Storage:
+    tab: Home
+    style: row
+    columns: 1
+    icon: mdi-desktop-tower
+    useEqualHeights: true
   Applications:
     tab: Home
     style: row
     columns: 3
     icon: mdi-server
-  Storage:
-    tab: Infrastructure
-    style: row
-    columns: 1
-    icon: mdi-desktop-tower
-    useEqualHeights: true
   Networking:
     tab: Infrastructure
     style: row

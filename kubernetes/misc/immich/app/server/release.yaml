@@ -49,6 +49,9 @@ spec:
               TZ: ${TZ}
               IMMICH_WORKERS_INCLUDE: api
               IMMICH_TELEMETRY_INCLUDE: all
+              # v3.4.2 answers every /metrics request with 400 on the default
+              # IPv6 bind (immich-app/immich#33466). Drop once #33488 is released.
+              IMMICH_HOST: 0.0.0.0
             envFrom:
               - configMapRef:
                   name: immich-configmap

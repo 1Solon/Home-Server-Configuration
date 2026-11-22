@@ -1,0 +1,129 @@
+---
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+permissions:
+  contents: read
+
+env:
+  FLATE_PATH: ./kubernetes
+  FLATE_NO_PROGRESS: "true"
+  # The cluster serves these but flate's defaults don't. Without them Cilium's ServiceMonitor check fails,
+  # app-template renders HTTPRoutes as v1alpha2 and prometheus-adapter's APIService as v1beta1.
+  FLATE_API_VERSIONS: monitoring.coreos.com/v1,gateway.networking.k8s.io/v1,gateway.networking.k8s.io/v1/HTTPRoute,apiregistration.k8s.io/v1
+  # renovate: datasource=docker depName=ghcr.io/siderolabs/kubelet
+  FLATE_KUBE_VERSION: v1.37.2
+  # renovate: datasource=github-releases depName=yannh/kubeconform
+  KUBECONFORM_VERSION: v0.8.0
+
+jobs:
+  flate:
+    name: Flate
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Setup flate
+        uses: home-operations/flate/action@4e07f351352d235a335e5a1f0a088eab7ec40997 # v0.8.0
+
+      - name: Test
+        run: flate test --base=
+
+  kubeconform:
+    name: Kubeconform
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Setup flate
+        uses: home-operations/flate/action@4e07f351352d235a335e5a1f0a088eab7ec40997 # v0.8.0
+
+      - name: Setup kubeconform
+        working-directory: ${{ runner.temp }}
+        run: |
+          base="https://github.com/yannh/kubeconform/releases/download/${KUBECONFORM_VERSION}"
+          curl -fsSLO "${base}/kubeconform-linux-amd64.tar.gz"
+          curl -fsSLO "${base}/CHECKSUMS"
+          grep ' kubeconform-linux-amd64.tar.gz$' CHECKSUMS | sha256sum -c -
+          tar xzf kubeconform-linux-amd64.tar.gz kubeconform
+          curl -fsSL -o openapi2jsonschema.py \
+            "https://raw.githubusercontent.com/yannh/kubeconform/${KUBECONFORM_VERSION}/scripts/openapi2jsonschema.py"
+          python3 -m venv venv
+          venv/bin/pip install --quiet pyyaml
+
+      - name: Render manifests and CRD schemas
+        run: |
+          flate build --base= > "${RUNNER_TEMP}/rendered.yaml"
+          flate build --base= --only-kinds CustomResourceDefinition > "${RUNNER_TEMP}/crds.yaml"
+          mkdir -p "${RUNNER_TEMP}/schemas"
+          cd "${RUNNER_TEMP}/schemas"
+          FILENAME_FORMAT='{fullgroup}-{kind}_{version}' \
+            "${RUNNER_TEMP}/venv/bin/python" "${RUNNER_TEMP}/openapi2jsonschema.py" "${RUNNER_TEMP}/crds.yaml" > /dev/null
+
+      # VirtualMCPServer's schema uses \p{...} regex classes that kubeconform can't compile.
+      - name: Validate
+        run: |
+          "${RUNNER_TEMP}/kubeconform" -strict -summary -output text \
+            -skip Secret,VirtualMCPServer \
+            -schema-location default \
+            -schema-location "${RUNNER_TEMP}/schemas/{{.Group}}-{{.ResourceKind}}_{{.ResourceAPIVersion}}.json" \
+            -schema-location 'https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/{{.Group}}/{{.ResourceKind}}_{{.ResourceAPIVersion}}.json' \
+            "${RUNNER_TEMP}/rendered.yaml"
+
+  image-platforms:
+    name: Image platforms
+    if: ${{ github.event_name == 'pull_request' }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      # HEAD is the PR merge commit, so HEAD^1 is the base branch it merges into.
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 2
+          persist-credentials: false
+
+      - name: Setup flate
+        uses: home-operations/flate/action@4e07f351352d235a335e5a1f0a088eab7ec40997 # v0.8.0
+
+      - name: Check image platforms
+        run: |
+          flate diff images --base HEAD^1 -o json > "${RUNNER_TEMP}/images.json"
+          .github/scripts/check-image-platforms.sh "${RUNNER_TEMP}/images.json" "${RUNNER_TEMP}/platforms.md"
+          if [[ -s "${RUNNER_TEMP}/platforms.md" ]]; then
+            cat "${RUNNER_TEMP}/platforms.md" >> "${GITHUB_STEP_SUMMARY}"
+            echo "PLATFORM_PROBLEMS=true" >> "${GITHUB_ENV}"
+          fi
+
+      - name: Comment image platforms
+        if: ${{ github.event.pull_request.head.repo.full_name == github.repository && env.PLATFORM_PROBLEMS == 'true' }}
+        uses: marocchino/sticky-pull-request-comment@5770ad5eb8f42dd2c4f34da00c94c5381e49af88 # v3.0.5
+        with:
+          header: image-platforms
+          path: ${{ runner.temp }}/platforms.md
+
+      - name: Remove resolved image platform comment
+        if: ${{ github.event.pull_request.head.repo.full_name == github.repository && env.PLATFORM_PROBLEMS != 'true' }}
+        uses: marocchino/sticky-pull-request-comment@5770ad5eb8f42dd2c4f34da00c94c5381e49af88 # v3.0.5
+        with:
+          header: image-platforms
+          delete: true

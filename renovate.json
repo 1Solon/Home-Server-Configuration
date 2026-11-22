@@ -3,13 +3,15 @@
     "config:recommended",
     "docker:enableMajor",
     "helpers:pinGitHubActionDigests",
-    ":automergeBranch",
     ":dependencyDashboard",
     ":disableRateLimiting",
     ":semanticCommits",
     ":reviewer(1Solon)"
   ],
-  "dependencyDashboard": true,
+  "automerge": true,
+  "automergeType": "pr",
+  "automergeStrategy": "squash",
+  "rebaseWhen": "conflicted",
   "ignorePaths": ["archive/**"],
   "suppressNotifications": ["prEditedNotification", "prIgnoreNotification"],
   "flux": {
@@ -124,13 +126,9 @@
       "enabled": false
     },
     {
-      "description": "Auto-merge GitHub Actions",
+      "description": "Give GitHub Actions releases 3 days to be pulled before proposing them",
       "matchManagers": ["github-actions"],
-      "automerge": true,
-      "automergeType": "branch",
-      "matchUpdateTypes": ["minor", "patch", "digest"],
-      "minimumReleaseAge": "3 days",
-      "ignoreTests": true
+      "minimumReleaseAge": "3 days"
     },
     {
       "matchUpdateTypes": ["major"],

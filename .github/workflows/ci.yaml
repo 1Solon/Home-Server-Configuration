@@ -87,8 +87,8 @@ jobs:
             -schema-location 'https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/{{.Group}}/{{.ResourceKind}}_{{.ResourceAPIVersion}}.json' \
             "${RUNNER_TEMP}/rendered.yaml"
 
-  diff:
-    name: Diff
+  image-platforms:
+    name: Image platforms
     if: ${{ github.event_name == 'pull_request' }}
     runs-on: ubuntu-latest
     permissions:
@@ -105,32 +105,6 @@ jobs:
       - name: Setup flate
         uses: home-operations/flate/action@4e07f351352d235a335e5a1f0a088eab7ec40997 # v0.8.0
 
-      - name: Diff rendered manifests
-        run: |
-          flate diff --base HEAD^1 -o github > "${RUNNER_TEMP}/diff.txt"
-          {
-            echo "### Rendered manifest diff"
-            echo
-            if [[ -s "${RUNNER_TEMP}/diff.txt" ]]; then
-              echo '```diff'
-              head -c 60000 "${RUNNER_TEMP}/diff.txt"
-              echo
-              echo '```'
-              if (( $(wc -c < "${RUNNER_TEMP}/diff.txt") > 60000 )); then
-                echo
-                echo "Truncated. The full diff is in the job summary of the **Diff** check."
-              fi
-            else
-              echo "No changes to rendered manifests."
-            fi
-          } > "${RUNNER_TEMP}/diff.md"
-          {
-            echo '```diff'
-            head -c 900000 "${RUNNER_TEMP}/diff.txt"
-            echo
-            echo '```'
-          } >> "${GITHUB_STEP_SUMMARY}"
-
       - name: Check image platforms
         run: |
           flate diff images --base HEAD^1 -o json > "${RUNNER_TEMP}/images.json"
@@ -139,13 +113,6 @@ jobs:
             cat "${RUNNER_TEMP}/platforms.md" >> "${GITHUB_STEP_SUMMARY}"
             echo "PLATFORM_PROBLEMS=true" >> "${GITHUB_ENV}"
           fi
-
-      - name: Comment diff
-        if: ${{ github.event.pull_request.head.repo.full_name == github.repository }}
-        uses: marocchino/sticky-pull-request-comment@5770ad5eb8f42dd2c4f34da00c94c5381e49af88 # v3.0.5
-        with:
-          header: flate-diff
-          path: ${{ runner.temp }}/diff.md
 
       - name: Comment image platforms
         if: ${{ github.event.pull_request.head.repo.full_name == github.repository && env.PLATFORM_PROBLEMS == 'true' }}

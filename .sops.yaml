@@ -1,0 +1,9 @@
+---
+# One age key for everything. talos-backup's AGE_RECIPIENT_PUBLIC_KEY is the
+# same recipient, so change both together.
+creation_rules:
+  - path_regex: talos/.+\.sops\.ya?ml$
+    age: age13arp4yu8k7s9ck59ryj4vzedkggkp8eph6hq9ukdtcpdvnf8f9uqypjty6
+  - path_regex: kubernetes/.+\.ya?ml$
+    encrypted_regex: ^(data|stringData)$
+    age: age13arp4yu8k7s9ck59ryj4vzedkggkp8eph6hq9ukdtcpdvnf8f9uqypjty6

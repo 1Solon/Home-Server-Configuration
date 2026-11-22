@@ -15,7 +15,7 @@ spec:
   interval: 30m
   retryInterval: 1m
   path: ./kubernetes/networking/tailscale/tailscale/app
-  prune: true # never should be deleted
+  prune: true
   sourceRef:
     kind: GitRepository
     name: flux-system
@@ -40,7 +40,7 @@ spec:
   interval: 30m
   retryInterval: 1m
   path: ./kubernetes/networking/tailscale/tailscale/config
-  prune: true # never should be deleted
+  prune: true
   sourceRef:
     kind: GitRepository
     name: flux-system

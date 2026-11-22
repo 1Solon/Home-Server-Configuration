@@ -15,7 +15,7 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   path: "./kubernetes/misc/immich/app/server"
-  prune: false
+  prune: true
   sourceRef:
     kind: GitRepository
     name: flux-system
@@ -45,7 +45,7 @@ spec:
     - name: miroir-config
       namespace: flux-system
   path: "./kubernetes/misc/immich/app/machine-learning"
-  prune: false
+  prune: true
   sourceRef:
     kind: GitRepository
     name: flux-system
@@ -73,7 +73,7 @@ spec:
   dependsOn:
     - name: immich-server
   path: "./kubernetes/misc/immich/app/microservices"
-  prune: false
+  prune: true
   sourceRef:
     kind: GitRepository
     name: flux-system

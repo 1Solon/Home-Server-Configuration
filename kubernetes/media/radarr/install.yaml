@@ -21,14 +21,10 @@ spec:
     - name: cloudnative-pg-cluster
       namespace: flux-system
   path: "./kubernetes/media/radarr/app"
-  prune: false
+  prune: true
   sourceRef:
     kind: GitRepository
     name: flux-system
-  decryption:
-    provider: sops
-    secretRef:
-      name: sops-age
   wait: true
   interval: 30m
   retryInterval: 1m

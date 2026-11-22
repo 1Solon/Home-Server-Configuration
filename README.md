@@ -14,8 +14,8 @@ _GitOps-managed Kubernetes cluster running on Talos Linux with Flux CD and Renov
 ![GitHub forks](https://img.shields.io/github/forks/1Solon/Home-Server-Configuration?style=for-the-badge)
 ![GitHub last commit](https://img.shields.io/github/last-commit/1Solon/Home-Server-Configuration?style=for-the-badge)
 
-![Kubernetes](https://img.shields.io/badge/kubernetes-v1.36.4-blue?style=for-the-badge&logo=kubernetes)
-![Talos](https://img.shields.io/badge/talos-v1.13.9-blue?style=for-the-badge&logo=talos)
+![Kubernetes](https://img.shields.io/badge/kubernetes-v1.37.2-blue?style=for-the-badge&logo=kubernetes)
+![Talos](https://img.shields.io/badge/talos-v1.14.6-blue?style=for-the-badge&logo=talos)
 ![Renovate](https://img.shields.io/badge/renovate-enabled-brightgreen?style=for-the-badge&logo=renovatebot)
 
 </div>
@@ -29,11 +29,15 @@ Selective tree of the current Kubernetes categories and applications; nested imp
 ├── archive/                         
 └── kubernetes/
     ├── ai/
+    │   ├── browserless/
+    │   ├── dgx-spark/
     │   ├── firecrawl/
     │   ├── hermes/
     │   ├── llmkube/
     │   ├── openwebui/
-    │   └── searxng/
+    │   ├── qwen-image/
+    │   ├── searxng/
+    │   └── toolhive/
     ├── books/
     │   ├── audiobookshelf/
     │   ├── bookorbit/
@@ -44,15 +48,17 @@ Selective tree of the current Kubernetes categories and applications; nested imp
     ├── components/                 
     │   ├── kopiur/
     │   └── kopiur-standalone/
-    ├── games/                      
     ├── infra/
     │   ├── descheduler/
+    │   ├── etcd-defrag/
     │   ├── flux/
+    │   ├── nic-watchdog/
     │   ├── node-feature-discovery/
     │   ├── nvidia-device-plugin/
     │   ├── reflector/
     │   ├── reloader/
     │   ├── spegel/
+    │   ├── talos-backup/
     │   └── tuppr/
     ├── media/
     │   ├── autobrr/
@@ -68,6 +74,7 @@ Selective tree of the current Kubernetes categories and applications; nested imp
     │   ├── recyclarr/
     │   └── sonarr/
     ├── misc/
+    │   ├── bifrost/
     │   ├── immich/
     │   ├── syncthing/
     │   ├── tandoor/
@@ -116,10 +123,14 @@ Selective tree of the current Kubernetes categories and applications; nested imp
 | [Kindle OPDS Proxy](https://github.com/chrisms150/kindle-opds-proxy) | Books | Kindle-friendly access to OPDS catalogs. |
 | [Shelfmark Lite](https://github.com/calibrain/shelfmark) | Books | Book search and download interface using Shelfmark's Lite image variant. |
 | [Suwayomi](https://github.com/Suwayomi/Suwayomi-Server) | Books | Manga reader server. |
+| [Browserless](https://github.com/browserless/browserless) | AI | Headless Chromium for Hermes' browser tool. |
+| DGX Spark | AI | Tailscale-exposed Service for the GLM model served by the DGX Sparks outside the cluster. |
 | [Firecrawl](https://github.com/firecrawl/firecrawl) | AI | Web crawling and extraction for AI-ready content. |
 | [Hermes](https://github.com/NousResearch/hermes-agent) | AI | Tool-using AI assistant with persistent memory. |
 | [LLMKube](https://github.com/defilantech/LLMKube) | AI | Kubernetes operator for local LLM inference. |
 | [Open WebUI](https://github.com/open-webui/open-webui) | AI | Web interface for AI models. |
+| [Qwen-Image](https://github.com/leejet/stable-diffusion.cpp) | AI | Local image generation and editing, served by stable-diffusion.cpp. |
+| [ToolHive](https://github.com/stacklok/toolhive) | AI | MCP gateway that aggregates the cluster's MCP servers behind one endpoint. |
 | [SearXNG](https://github.com/searxng/searxng) | Search | Privacy-respecting metasearch engine. |
 | [autobrr](https://github.com/autobrr/autobrr) | Media Automation | Automated release monitoring and download dispatch. |
 | [Bazarr](https://github.com/morpheus65535/bazarr) | Media Automation | Subtitle management for movies and TV shows. |
@@ -130,14 +141,17 @@ Selective tree of the current Kubernetes categories and applications; nested imp
 | [Seerr](https://github.com/seerr-team/seerr) | Media | Media discovery and request management; manifests remain in `media/jellyseer`. |
 | [Prowlarr](https://github.com/Prowlarr/Prowlarr) | Media Automation | Indexer manager and proxy. |
 | [qBittorrent](https://www.qbittorrent.org) | Media Automation | BitTorrent client with a web interface. |
+| [qui](https://github.com/autobrr/qui) | Media Automation | Alternative web interface for qBittorrent; manifests live in `media/qbittorrent`. |
 | [Radarr](https://radarr.video) | Media Automation | Automated movie download and management. |
 | [Recyclarr](https://github.com/recyclarr/recyclarr) | Media Automation | Quality profile and custom format synchronization for \*arr apps. |
 | [Sonarr](https://sonarr.tv) | Media Automation | Automated TV show download and management. |
+| [Bifrost](https://github.com/KartoffelChipss/bifrost) | Chat | Bridge that relays messages between Discord and Fluxer. |
 | [Homepage](https://github.com/gethomepage/homepage) | Dashboard | Customizable dashboard for services. |
 | [Immich](https://immich.app) | Photos | Self-hosted photo and video backup and management. |
 | [OtterWiki](https://github.com/redimp/otterwiki) | Wiki | Git-backed wiki; manifests live in `projects/colwiki`. |
 | [Syncthing](https://syncthing.net) | Files | Continuous file synchronization. |
 | [Tandoor](https://github.com/TandoorRecipes/recipes) | Recipes | Recipe management and meal planning. |
+| [reel-to-tandoor](https://github.com/1Solon/reel-to-tandoor) | Recipes | Saves Instagram reels to Tandoor as recipes; manifests live in `misc/tandoor`. |
 | [Zerobyte](https://github.com/nicotsx/zerobyte) | Backups | Web-based backup management. |
 
 ### Infrastructure
@@ -146,11 +160,14 @@ Selective tree of the current Kubernetes categories and applications; nested imp
 | --- | --- | --- |
 | [Flux CD](https://fluxcd.io) | GitOps | Continuous delivery for Kubernetes. |
 | [Descheduler](https://github.com/kubernetes-sigs/descheduler) | Node Management | Evicts pods according to policies so they can be rescheduled. |
+| etcd-defrag | Node Management | Scheduled etcd defragmentation through the Talos API. |
+| NIC watchdog | Node Management | Resets the Turing RK1 network card, or reboots the node, when it stops responding. |
 | [Node Feature Discovery](https://github.com/kubernetes-sigs/node-feature-discovery) | Node Management | Detects and labels node hardware features. |
 | [NVIDIA Device Plugin](https://github.com/NVIDIA/k8s-device-plugin) | Node Management | Exposes NVIDIA GPUs to Kubernetes workloads. |
 | [Reflector](https://github.com/emberstack/kubernetes-reflector) | Configuration | Mirrors ConfigMaps and Secrets across namespaces. |
 | [Reloader](https://github.com/stakater/Reloader) | Configuration | Triggers workload restarts on ConfigMap and Secret changes. |
 | [Spegel](https://github.com/spegel-org/spegel) | Images | Stateless cluster-local OCI registry mirror. |
+| [talos-backup](https://github.com/siderolabs/talos-backup) | Backups | Daily encrypted etcd snapshots to Garage. |
 | [Tuppr](https://github.com/home-operations/tuppr) | Upgrades | Coordinates Talos Linux and Kubernetes upgrades. |
 | [Cert-Manager](https://cert-manager.io) | Networking | Automated certificate management. |
 | [Cilium](https://cilium.io) | Networking | eBPF-based networking, security, and observability. |
@@ -196,6 +213,6 @@ The kube-prometheus-stack deployment uses the **Prom++** image. Its bundled Graf
 
 | Device                                                                                       | Count | OS Disk Size | Data Disk Size | Ram  | Operating System | Purpose             |
 | -------------------------------------------------------------------------------------------- | ----- | ------------ | -------------- | ---- | ---------------- | ------------------- |
-| [Turing RK1](https://turingpi.com/product/turing-rk1/?attribute_ram=16+GB)                   | 4     | 2TB NVMe     | -              | 16GB | Talos v1.13.9    | ARM64 Cluster Nodes |
+| [Turing RK1](https://turingpi.com/product/turing-rk1/?attribute_ram=16+GB)                   | 4     | 2TB NVMe     | -              | 16GB | Talos v1.14.6    | ARM64 Cluster Nodes |
 | [Turing Pi 2](https://turingpi.com/product/turing-pi-2-5/)                                   | 1     | -            | -              | -    | -                | Baseboard and KVM   |
-| [CWWK AMD-7940HS](https://www.amazon.com/CWWK-NAS-display-network-motherboard/dp/B0D5M2M3Y5) in a [SilverStone CS351](https://www.silverstonetek.com/en/product/info/computer-chassis/cs351/) | 1     | 1TB NVMe     | 8TB HDD (2x)   | 32GB | Talos v1.13.9    | x86_64 Cluster Node |
+| [CWWK AMD-7940HS](https://www.amazon.com/CWWK-NAS-display-network-motherboard/dp/B0D5M2M3Y5) in a [SilverStone CS351](https://www.silverstonetek.com/en/product/info/computer-chassis/cs351/) | 1     | 1TB NVMe     | 8TB HDD (2x)   | 32GB | TrueNAS, with Talos v1.14.6 as a VM | NAS and x86_64 Cluster Node |

@@ -19,7 +19,7 @@ spec:
     - name: miroir-config
       namespace: flux-system
   path: "./kubernetes/books/shelfmark/app"
-  prune: false
+  prune: true
   sourceRef:
     kind: GitRepository
     name: flux-system

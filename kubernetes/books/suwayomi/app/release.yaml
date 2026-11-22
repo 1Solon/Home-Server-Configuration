@@ -39,7 +39,7 @@ spec:
           app:
             image:
               repository: ghcr.io/suwayomi/suwayomi-server
-              tag: v2.4.2511@sha256:ccb0de45fc37c67c46b1a467611eb9f4e8364951b8796cdd796d4a66943c6f8d
+              tag: v2.4.2512@sha256:27dd1b51c0497b8ed4ed7c22f8564483990ce04b376cacb73eab419e80022b75
             env:
               TZ: ${TZ}
               BIND_PORT: &port 4567

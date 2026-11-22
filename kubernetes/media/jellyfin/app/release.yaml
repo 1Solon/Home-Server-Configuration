@@ -59,8 +59,6 @@ spec:
               readiness: *probes
               startup:
                 enabled: false
-            securityContext:
-              privleged: true # This is probably not good, but I need to do research on how to get hardware acceleration working without it
             resources:
               requests:
                 cpu: 100m

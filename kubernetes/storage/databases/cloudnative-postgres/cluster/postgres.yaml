@@ -1,0 +1,59 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/postgresql.cnpg.io/cluster_v1.json
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: postgres
+spec:
+  instances: 3
+  # VectorChord image so Immich gets vchord; it also covers everything the old
+  # postgres17 apps need (pg_trgm, unaccent, pgaudit).
+  imageName: ghcr.io/tensorchord/cloudnative-vectorchord:17.11@sha256:bb7eb8442f76b1e74911f28585019a77022911f8cfa2ddcfb166ea6af85abd09
+  primaryUpdateStrategy: unsupervised
+  primaryUpdateMethod: switchover
+  storage:
+    size: 20Gi
+    storageClass: miroir-replicated
+  # Physical copy of pgvector17 (Immich, BookOrbit) so vchord indexes come
+  # across intact. The postgres17 databases are added afterwards with
+  # pg_dump/pg_restore.
+  bootstrap:
+    recovery:
+      source: pgvector17
+      database: postgres
+  externalClusters:
+    - name: pgvector17
+      plugin:
+        name: barman-cloud.cloudnative-pg.io
+        parameters:
+          barmanObjectName: pgvector17
+          serverName: pgvector17-v3
+  superuserSecret:
+    name: cloudnative-pg-secret
+  enableSuperuserAccess: true
+  postgresql:
+    shared_preload_libraries:
+      - pgaudit
+      - vchord.so
+    parameters:
+      max_connections: "400"
+      max_locks_per_transaction: "128"
+      shared_buffers: 512MB
+  nodeMaintenanceWindow:
+    inProgress: false
+    reusePVC: true
+  resources:
+    requests:
+      cpu: 500m
+      memory: 1Gi
+    limits:
+      memory: 5Gi
+  monitoring:
+    enablePodMonitor: true
+  plugins:
+    - name: barman-cloud.cloudnative-pg.io
+      isWALArchiver: true
+      parameters:
+        barmanObjectName: postgres
+        # Bump the suffix whenever this cluster is rebuilt from its own backups.
+        serverName: postgres-v1

@@ -6,6 +6,7 @@ resources:
   - ./general.yaml
   - ./service.yaml
   - ./vector.yaml
+  - ./postgres.yaml
   - ./backup.yaml
   - ./prometheusrule.yaml
   - ./grafanadashboard.yaml

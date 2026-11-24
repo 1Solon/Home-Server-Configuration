@@ -104,6 +104,9 @@ spec:
                 touch /staging/.env /opt/data/.env
                 sed -i '/^[[:space:]]*API_SERVER_KEY[[:space:]]*=/d' /opt/data/.env
                 HERMES_HOME=/staging HOME=/staging /opt/hermes/.venv/bin/python -c 'from hermes_cli.config import migrate_config; migrate_config(interactive=False,quiet=False)'
+                # Made here so the bridge's subPath mounts aren't created root-owned by the kubelet.
+                mkdir -p /opt/data/obsidian /opt/data/.livesync-bridge/location_data
+                chown 10000:10000 /opt/data/obsidian /opt/data/.livesync-bridge /opt/data/.livesync-bridge/location_data
                 mkdir -p /opt/data/workspace
                 chown 0:0 /opt/data/workspace
                 chmod 750 /opt/data/workspace
@@ -168,6 +171,7 @@ spec:
               FIRECRAWL_API_URL: http://firecrawl-api.ai.svc.cluster.local:3002
               SEARXNG_URL: http://searxng.ai.svc.cluster.local:8080
               QWEN_IMAGE_API_KEY: none
+              OBSIDIAN_VAULT_PATH: /opt/data/obsidian
             envFrom:
               - secretRef:
                   name: *app
@@ -219,6 +223,71 @@ spec:
                 memory: 1Gi
               limits:
                 memory: 4Gi
+          # Keeps a decrypted copy of the Obsidian vault (Self-hosted LiveSync on CouchDB) at /opt/data/obsidian,
+          # in both directions. Upstream publishes no image, so this fetches the pinned source and installs its
+          # locked dependencies on start, which is all upstream's Dockerfile does.
+          obsidian-bridge:
+            image:
+              repository: denoland/deno
+              tag: 2.9.7@sha256:fa335acdf6b72106eda2cb6a8cb5f4187e7630e357467489db4b2e7352d5e432
+            command:
+              - /bin/sh
+              - -c
+              - |
+                set -eu
+                # https://github.com/vrtmrz/livesync-bridge has no releases; bump this commit by hand.
+                SHA=1c252305bbddcacd200b8560d3bb786afe0906e9
+                rm -rf /opt/bridge/app && mkdir -p /opt/bridge/app /opt/bridge/deno /opt/bridge/home /opt/bridge/tmp
+                # Deno localStorage, where the bridge records what it has synced. Kept on the data volume, because
+                # losing it means a full rescan; linked rather than mounted so DENO_DIR stays writable.
+                ln -sfn /state/location_data /opt/bridge/deno/location_data
+                cd /opt/bridge/app
+                deno eval "const r = await fetch('https://codeload.github.com/vrtmrz/livesync-bridge/tar.gz/$SHA'); if (!r.ok) throw new Error(r.statusText); await Deno.writeFile('/opt/bridge/src.tar.gz', new Uint8Array(await r.arrayBuffer()));"
+                tar -xzf /opt/bridge/src.tar.gz --strip-components=1 && rm /opt/bridge/src.tar.gz
+                deno install --frozen
+                exec deno task run
+            env:
+              HOME: /opt/bridge/home
+              TMPDIR: /opt/bridge/tmp
+              NO_COLOR: "1"
+              DENO_DIR: /opt/bridge/deno
+              LSB_CONFIG: /config/config.json
+              LSB_HEALTH_FILE: /opt/bridge/health.json
+            probes:
+              # The bridge rewrites this file every 10s; a stale one means a wedged event loop.
+              liveness:
+                enabled: true
+                custom: true
+                spec:
+                  exec:
+                    command: [sh, -c, 'test -n "$(find /opt/bridge/health.json -mmin -2)" && ! grep -q "\"restartWorthy\":true" /opt/bridge/health.json']
+                  periodSeconds: 30
+                  timeoutSeconds: 5
+                  failureThreshold: 4
+              startup:
+                enabled: true
+                custom: true
+                spec:
+                  exec:
+                    command: [sh, -c, 'test -n "$(find /opt/bridge/health.json -mmin -2)"']
+                  periodSeconds: 10
+                  timeoutSeconds: 5
+                  failureThreshold: 60
+            securityContext:
+              runAsUser: 10000
+              runAsGroup: 10000
+              runAsNonRoot: true
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities:
+                drop:
+                  - ALL
+            resources:
+              requests:
+                cpu: 20m
+                memory: 192Mi
+              limits:
+                memory: 1Gi
     service:
       app:
         controller: *app
@@ -312,6 +381,11 @@ spec:
               - path: /opt/data
             install-tools:
               - path: /opt/data
+            obsidian-bridge:
+              - path: /vault
+                subPath: obsidian
+              - path: /state
+                subPath: .livesync-bridge
 
       config-file:
         type: configMap
@@ -340,6 +414,24 @@ spec:
             app:
               - path: /opt/secrets/github-app
                 readOnly: true
+
+      obsidian-bridge-config:
+        type: secret
+        name: hermes-obsidian-bridge
+        defaultMode: 0440
+        advancedMounts:
+          hermes:
+            obsidian-bridge:
+              - path: /config
+                readOnly: true
+
+      # Deno's cache and the bridge source; refetched on every start.
+      obsidian-bridge:
+        type: emptyDir
+        advancedMounts:
+          hermes:
+            obsidian-bridge:
+              - path: /opt/bridge
 
       config-staging:
         type: emptyDir

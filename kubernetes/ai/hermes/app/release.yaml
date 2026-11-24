@@ -91,6 +91,9 @@ spec:
                 HERMES_HOME=/opt/data "$MNEMOSYNE_VENV/bin/mnemosyne-hermes" status
                 mkdir -p /opt/data/mnemosyne
                 chown -R 10000:10000 /opt/data/mnemosyne
+                # uv sits in a versioned directory off PATH; relink each start so the agent can `uv tool install`.
+                ln -sfn "$UV" /opt/data/.local/bin/uv
+                ln -sfn "$(dirname "$UV")/uvx" /opt/data/.local/bin/uvx
           init-config:
             image:
               repository: nousresearch/hermes-agent
@@ -152,6 +155,10 @@ spec:
               npm_config_cache: /opt/cache/npm
               UV_CACHE_DIR: /opt/cache/uv
               UV_LINK_MODE: copy
+              # Agent-installed tools persist on the data volume: `npm -g` and `uv tool` both land in
+              # /opt/data/.local/bin. Managed Python keeps uv tools working when the image's Python changes.
+              npm_config_prefix: /opt/data/.local
+              UV_PYTHON_PREFERENCE: only-managed
               MNEMOSYNE_HOME: /opt/data/mnemosyne
               # Summarise and extract facts through Hermes' auxiliary model.
               MNEMOSYNE_HOST_LLM_ENABLED: "true"

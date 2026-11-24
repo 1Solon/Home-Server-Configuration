@@ -47,7 +47,7 @@ spec:
                     app:
                         image:
                             repository: ghcr.io/tandoorrecipes/recipes
-                            tag: 2.7.6@sha256:6c467bf484044a0305ff39bed5badb48b58bb963d4276fc248e101921151895b
+                            tag: 2.7.7@sha256:b079e6348d13c4d53c34b150cedcc77a0f1b6d8397010027b24128e8ed71a91d
                         env:
                             TZ: ${TZ}
                             # GLM-5.3 Flash on the DGX Sparks; resources/sitecustomize.py adds the reasoning_effort it needs.

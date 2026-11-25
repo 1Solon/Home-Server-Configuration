@@ -47,7 +47,7 @@ spec:
           app:
             image:
               repository: kartoffelchipss/bifrost
-              tag: 1.7.5@sha256:769f4413d686dca76ec1d4cd480cfdefcd4bd8883564980a83a4cb57d832a7bc
+              tag: 1.7.6@sha256:126bfbcf408ca8adbfcc3c7ee54d8d3fc41c66a647a85e56a631417e2dd094d2
             env:
               TZ: "${TZ}"
               BF_COMMAND_PREFIX: "!b "

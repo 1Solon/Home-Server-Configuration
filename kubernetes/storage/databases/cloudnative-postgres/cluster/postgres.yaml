@@ -21,6 +21,11 @@ spec:
     recovery:
       source: pgvector17
       database: postgres
+      # The owner defaults to `postgres`, so without this every new primary
+      # overwrites the superuser password with the generated postgres-app one
+      # and the apps' postgres-init containers fail to log in.
+      secret:
+        name: cloudnative-pg-secret
   externalClusters:
     - name: pgvector17
       plugin:

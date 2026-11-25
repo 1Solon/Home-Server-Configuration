@@ -1,0 +1,41 @@
+---
+apiVersion: litellm.home-operations.com/v1alpha1
+kind: LiteLLMProxy
+metadata:
+  name: litellm
+spec:
+  image: ghcr.io/berriai/litellm-database:1.110.4@sha256:d8cd8c5b8bde7e3959b22f5adbd5492d5a12be143173ebb1c7a4f30d07028005
+  replicas: 1
+  envFrom:
+    - secretRef:
+        name: litellm-secret
+  env:
+    - name: TZ
+      value: ${TZ}
+    - name: LITELLM_MODE
+      value: PRODUCTION
+    - name: LITELLM_LOG
+      value: INFO
+  podAnnotations:
+    reloader.stakater.com/auto: "true"
+  route:
+    hostnames:
+      - litellm.${LOCAL_DOMAIN}
+    parentRefs:
+      - name: envoy-internal
+        namespace: networking
+        sectionName: https
+  generalSettings:
+    # Models come from LiteLLMModel resources; the database holds keys, teams
+    # and spend only.
+    store_model_in_db: false
+  litellmSettings:
+    drop_params: true
+    # GLM on the Sparks can think for several minutes on hard prompts.
+    request_timeout: 900
+  resources:
+    requests:
+      cpu: 100m
+      memory: 512Mi
+    limits:
+      memory: 2Gi

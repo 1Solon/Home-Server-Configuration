@@ -10,6 +10,14 @@ spec:
     apiKeyRef:
       name: litellm-secret
       key: ANTHROPIC_API_KEY
+    # Most OpenAI-format clients send no cache_control, so Anthropic would bill
+    # every prompt in full. Mark the system prompt and the latest message.
+    additional:
+      cache_control_injection_points:
+        - location: message
+          role: system
+        - location: message
+          index: -1
 ---
 apiVersion: litellm.home-operations.com/v1alpha1
 kind: LiteLLMModel
@@ -22,6 +30,14 @@ spec:
     apiKeyRef:
       name: litellm-secret
       key: ANTHROPIC_API_KEY
+    # Most OpenAI-format clients send no cache_control, so Anthropic would bill
+    # every prompt in full. Mark the system prompt and the latest message.
+    additional:
+      cache_control_injection_points:
+        - location: message
+          role: system
+        - location: message
+          index: -1
 ---
 apiVersion: litellm.home-operations.com/v1alpha1
 kind: LiteLLMModel
@@ -34,3 +50,11 @@ spec:
     apiKeyRef:
       name: litellm-secret
       key: ANTHROPIC_API_KEY
+    # Most OpenAI-format clients send no cache_control, so Anthropic would bill
+    # every prompt in full. Mark the system prompt and the latest message.
+    additional:
+      cache_control_injection_points:
+        - location: message
+          role: system
+        - location: message
+          index: -1

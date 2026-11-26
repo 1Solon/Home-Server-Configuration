@@ -9,6 +9,8 @@ spec:
   keyAlias: avrils-key
   # Created once with /user/new (alias Avril); the operator has no user resource.
   userID: avril
-  # Local model only, so it can't spend the Claude API credit.
+  # No Opus: it costs twice Sonnet against the Claude API credit.
   models:
     - glm-5.3-flash
+    - claude-sonnet-5-5
+    - claude-haiku-5-5

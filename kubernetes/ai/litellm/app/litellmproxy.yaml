@@ -5,7 +5,9 @@ metadata:
   name: litellm
 spec:
   image: ghcr.io/berriai/litellm-database:1.110.4@sha256:d8cd8c5b8bde7e3959b22f5adbd5492d5a12be143173ebb1c7a4f30d07028005
-  replicas: 1
+  # Hermes, Open WebUI and Tandoor all depend on it. Replicas share rate-limit
+  # and router state through Redis (routerSettings below).
+  replicas: 2
   # Lets the operator mint LiteLLMVirtualKeys; models still render to the file.
   apiAccess:
     masterKeyRef:
@@ -21,8 +23,38 @@ spec:
       value: PRODUCTION
     - name: LITELLM_LOG
       value: INFO
+    - name: REDIS_HOST
+      value: dragonfly.databases.svc.cluster.local
+    - name: REDIS_PORT
+      value: "6379"
+    # Authentik SSO for the UI. Users are matched to existing LiteLLM users by
+    # sso_user_id (the Authentik username); the Authentik app only admits the
+    # litellm-users group. No PROXY_BASE_URL, so the callback follows the host
+    # the browser used: litellm.${LOCAL_DOMAIN} on the LAN, http://litellm on
+    # the tailnet (all three are registered in Authentik).
+    - name: GENERIC_AUTHORIZATION_ENDPOINT
+      value: https://sso.${REMOTE_DOMAIN}/application/o/authorize/
+    - name: GENERIC_TOKEN_ENDPOINT
+      value: https://sso.${REMOTE_DOMAIN}/application/o/token/
+    - name: GENERIC_USERINFO_ENDPOINT
+      value: https://sso.${REMOTE_DOMAIN}/application/o/userinfo/
+    - name: GENERIC_SCOPE
+      value: openid email profile
+    # Trust Envoy's X-Forwarded-Proto so LAN callbacks are built as https.
+    - name: FORWARDED_ALLOW_IPS
+      value: "*"
   podAnnotations:
     reloader.stakater.com/auto: "true"
+  affinity:
+    podAntiAffinity:
+      preferredDuringSchedulingIgnoredDuringExecution:
+        - weight: 100
+          podAffinityTerm:
+            topologyKey: kubernetes.io/hostname
+            labelSelector:
+              matchLabels:
+                app.kubernetes.io/instance: litellm
+                app.kubernetes.io/managed-by: litellm-operator
   route:
     hostnames:
       - litellm.${LOCAL_DOMAIN}
@@ -30,14 +62,27 @@ spec:
       - name: envoy-internal
         namespace: networking
         sectionName: https
+  callbacks:
+    success:
+      - prometheus
+    failure:
+      - prometheus
   generalSettings:
     # Models come from LiteLLMModel resources; the database holds keys, teams
     # and spend only.
     store_model_in_db: false
+  routerSettings:
+    redis_host: os.environ/REDIS_HOST
+    redis_port: os.environ/REDIS_PORT
   litellmSettings:
     drop_params: true
     # GLM on the Sparks can think for several minutes on hard prompts.
     request_timeout: 900
+    # Scraped in-cluster by the ServiceMonitor.
+    require_auth_for_metrics_endpoint: false
+    # Anyone SSO creates gets read-only access, not key creation.
+    default_internal_user_params:
+      user_role: internal_user_viewer
   resources:
     requests:
       cpu: 100m

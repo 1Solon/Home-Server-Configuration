@@ -6,6 +6,8 @@ resources:
   - ./externalsecret.yaml
   - ./litellmproxy.yaml
   - ./tailscale-service.yaml
+  - ./servicemonitor.yaml
+  - ./grafanadashboard.yaml
   - ./virtualkeys/avrils-key.yaml
   - ./virtualkeys/chrisms-key.yaml
   - ./virtualkeys/hermes-key.yaml

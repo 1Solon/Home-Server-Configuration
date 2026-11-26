@@ -8,6 +8,9 @@ spec:
   selector:
     matchLabels:
       app: dragonfly
+  # The operator's Grafana dashboard selects instances by the app label.
+  podTargetLabels:
+    - app
   podMetricsEndpoints:
     - port: admin
       path: /metrics

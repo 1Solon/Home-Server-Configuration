@@ -1,0 +1,17 @@
+---
+# yaml-language-server: $schema=https://json.schemastore.org/kustomization
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+# Source: cloudnative-pg chart 0.29.2 cnpg-grafana-dashboard ConfigMap (cnp.json)
+# Source SHA-256: 3862fdee33fe49b08a1ffdd397a145213c8d15af104b9dfa56d74dcf8c1074ef
+# Local corrections: promxy stamps cluster="main" on every series, hiding the
+# CNPG cluster label, so $cluster comes from the pod name instead; the
+# expression datasource input is set to Grafana's fixed __expr__ uid.
+configMapGenerator:
+  - name: cloudnative-pg-dashboard
+    files:
+      - cnp.json
+generatorOptions:
+  disableNameSuffixHash: true
+  annotations:
+    kustomize.toolkit.fluxcd.io/substitute: disabled

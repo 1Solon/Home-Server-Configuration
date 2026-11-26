@@ -13,5 +13,5 @@ spec:
     - datasourceName: prometheus
       inputName: DS_PROMETHEUS
   configMapRef:
-    name: cnpg-grafana-dashboard
+    name: cloudnative-pg-dashboard
     key: cnp.json

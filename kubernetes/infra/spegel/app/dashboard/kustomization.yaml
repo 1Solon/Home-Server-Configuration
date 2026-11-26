@@ -4,7 +4,9 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 # Source: Spegel chart 0.7.4 monitoring/grafana-dashboard.json
 # Source SHA-256: 1959abad37cea350dac3377ebf7277dd83a68dd7f2a310275fd48109e9a28dbe
-# Local correction: use the existing pod variable instead of undefined instance.
+# Local corrections: use the existing pod variable instead of undefined
+# instance; chart 0.8 dropped this dashboard and replaced the image/content
+# digest gauges with spegel_advertised_keys (no registry label).
 configMapGenerator:
   - name: spegel-dashboard
     files:

@@ -145,7 +145,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "count(spegel_advertised_content_digests{pod=~\"$pod\"})",
+          "expr": "count(spegel_advertised_keys{pod=~\"$pod\"})",
           "hide": false,
           "legendFormat": "__auto",
           "range": true,
@@ -551,7 +551,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "max(rate(http_request_duration_seconds_bucket{pod=~\"$pod\"}[$__interval]))",
+          "expr": "max(rate(http_request_duration_seconds_bucket{pod=~\"$pod\"}[$__rate_interval]))",
           "format": "table",
           "instant": true,
           "legendFormat": "__auto",
@@ -675,7 +675,7 @@
           ],
           "show": false
         },
-        "frameIndex": 1,
+        "frameIndex": 0,
         "showHeader": true,
         "sortBy": []
       },
@@ -684,31 +684,17 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
-          },
-          "editorMode": "code",
-          "exemplar": false,
-          "expr": "spegel_advertised_image_digests{pod=~\"$pod\", registry=~\"$registry\"}",
-          "format": "table",
-          "instant": true,
-          "legendFormat": "__auto",
-          "range": false,
-          "refId": "A"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
             "uid": "${datasource}"
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "spegel_advertised_content_digests{pod=~\"$pod\", registry=~\"$registry\"} ",
+          "expr": "spegel_advertised_keys{pod=~\"$pod\"}",
           "format": "table",
           "hide": false,
           "instant": true,
           "legendFormat": "__auto",
           "range": false,
-          "refId": "B"
+          "refId": "A"
         }
       ],
       "transformations": [
@@ -717,30 +703,17 @@
           "options": {
             "include": {
               "names": [
-                "Value #A",
-                "Value #B",
-                "registry",
+                "Value",
                 "pod"
               ]
             }
           }
         },
         {
-          "id": "merge",
-          "options": {}
-        },
-        {
           "id": "renameByRegex",
           "options": {
-            "regex": "Value #A",
-            "renamePattern": "Container cache"
-          }
-        },
-        {
-          "id": "renameByRegex",
-          "options": {
-            "regex": "Value #B",
-            "renamePattern": "Layers cache"
+            "regex": "^Value$",
+            "renamePattern": "Keys advertised"
           }
         }
       ],
@@ -807,7 +780,8 @@
                 "value": 80
               }
             ]
-          }
+          },
+          "unit": "reqps"
         },
         "overrides": []
       },
@@ -840,15 +814,15 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "spegel_advertised_image_digests{pod=~\"$pod\", registry=~\"$registry\"}",
+          "expr": "sum by (pod, registry, cache) (rate(spegel_mirror_requests_total{pod=~\"$pod\", registry=~\"$registry\"}[$__rate_interval]))",
           "format": "time_series",
           "instant": false,
-          "legendFormat": "{{ pod }}: {{ registry }}",
+          "legendFormat": "{{ pod }}: {{ registry }} ({{ cache }})",
           "range": true,
           "refId": "A"
         }
       ],
-      "title": "Container Images Advertised ",
+      "title": "Mirror Requests",
       "transparent": true,
       "type": "timeseries"
     },
@@ -1106,15 +1080,15 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "spegel_advertised_content_digests{pod=~\"$pod\", registry=~\"$registry\"} ",
+          "expr": "spegel_advertised_keys{pod=~\"$pod\"}",
           "format": "time_series",
           "instant": false,
-          "legendFormat": "{{ pod }}: {{ registry }}",
+          "legendFormat": "{{ pod }}",
           "range": true,
           "refId": "A"
         }
       ],
-      "title": "Images Layer Advertised ",
+      "title": "Keys Advertised",
       "transparent": true,
       "type": "timeseries"
     },
@@ -1354,7 +1328,7 @@
           "type": "prometheus",
           "uid": "${DS_PROMETHEUS}"
         },
-        "definition": "label_values(spegel_advertised_content_digests,pod)",
+        "definition": "label_values(spegel_advertised_keys,pod)",
         "description": "",
         "includeAll": true,
         "label": "pod",
@@ -1363,7 +1337,7 @@
         "options": [],
         "query": {
           "qryType": 1,
-          "query": "label_values(spegel_advertised_content_digests,pod)",
+          "query": "label_values(spegel_advertised_keys,pod)",
           "refId": "PrometheusVariableQueryEditor-VariableQuery"
         },
         "refresh": 2,
@@ -1377,7 +1351,7 @@
           "type": "prometheus",
           "uid": "${datasource}"
         },
-        "definition": "label_values(spegel_advertised_content_digests,registry)",
+        "definition": "label_values(spegel_mirror_requests_total,registry)",
         "includeAll": true,
         "label": "registry",
         "multi": true,
@@ -1385,7 +1359,7 @@
         "options": [],
         "query": {
           "qryType": 1,
-          "query": "label_values(spegel_advertised_content_digests,registry)",
+          "query": "label_values(spegel_mirror_requests_total,registry)",
           "refId": "PrometheusVariableQueryEditor-VariableQuery"
         },
         "refresh": 2,

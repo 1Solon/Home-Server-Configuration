@@ -116,9 +116,16 @@ metadata:
   name: etcd
 spec:
   allowCrossNamespaceImport: true
+  # kube-prometheus-stack's own "etcd" dashboard lives in the observability
+  # folder; two dashboards with one title in one folder make the operator
+  # delete and recreate them on every resync.
+  folder: kube-system
   instanceSelector:
     matchLabels:
       dashboards: grafana
+  datasources:
+  - datasourceName: prometheus
+    inputName: DS_PROMETHEUS
   url: https://grafana.com/api/dashboards/22236/revisions/4/download
 ---
 # yaml-language-server: $schema=https://k8s-schemas.home-operations.com/grafana.integreatly.org/grafanadashboard_v1beta1.json

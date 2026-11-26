@@ -166,6 +166,12 @@ spec:
               resources:
                 requests:
                   storage: 55Gi
+    nodeExporter:
+      operatingSystems:
+        aix:
+          enabled: false
+        darwin:
+          enabled: false
     prometheus-node-exporter:
       fullnameOverride: node-exporter
   valuesFrom:

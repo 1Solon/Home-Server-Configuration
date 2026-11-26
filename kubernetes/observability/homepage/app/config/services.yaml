@@ -79,6 +79,13 @@
         description: sparkDash for the Spark pair
         siteMonitor: http://192.168.1.106:5555/
         statusStyle: basic
+    # The operator-managed HTTPRoute can't carry homepage annotations.
+    - LiteLLM:
+        icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/litellm.png
+        href: https://litellm.${LOCAL_DOMAIN}/ui
+        description: Gateway for the Sparks and Claude
+        siteMonitor: http://litellm.ai.svc.cluster.local:4000/health/liveliness
+        statusStyle: basic
 
 - Downloads:
     - qui:

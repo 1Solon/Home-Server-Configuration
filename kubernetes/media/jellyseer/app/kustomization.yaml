@@ -5,4 +5,5 @@ kind: Kustomization
 resources:
 - release.yaml
 - externalsecret.yaml
+- externalsecret-db.yaml
 - pvc.yaml

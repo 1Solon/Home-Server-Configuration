@@ -43,6 +43,20 @@ spec:
         annotations:
           reloader.stakater.com/auto: "true"
 
+        initContainers:
+          init-db:
+            image:
+              repository: ghcr.io/home-operations/postgres-init
+              tag: 19@sha256:b49e2f1f373d932ab41614633ac89fa506e5d21bb13cc18d9c96ca026e51f502
+            envFrom:
+              - secretRef:
+                  name: bifrost-db-secret
+            securityContext:
+              allowPrivilegeEscalation: false
+              capabilities:
+                drop:
+                  - ALL
+              readOnlyRootFilesystem: true
         containers:
           app:
             image:
@@ -51,7 +65,6 @@ spec:
             env:
               TZ: "${TZ}"
               BF_COMMAND_PREFIX: "!b "
-              BF_DB_DIALECT: sqlite
               BF_METRICS_PORT: &metricsPort 9091
               BF_ENABLE_WEB_DASHBOARD: "true"
               BF_WEB_PORT: &port 9092
@@ -59,6 +72,8 @@ spec:
             envFrom:
               - secretRef:
                   name: bifrost-secret
+              - secretRef:
+                  name: bifrost-db-secret
             probes:
               liveness: &probe
                 enabled: true

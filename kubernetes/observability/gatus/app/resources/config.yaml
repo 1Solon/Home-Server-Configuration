@@ -1,6 +1,7 @@
 ---
 metrics: true
 storage:
-  type: sqlite
-  path: /config/data.db
+  type: postgres
+  # Doubled dollar skips Flux substitution; Gatus expands the env var itself.
+  path: $${GATUS_POSTGRES_DSN}
 endpoints: []

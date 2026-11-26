@@ -37,6 +37,20 @@ spec:
       autobrr:
         annotations:
           reloader.stakater.com/auto: "true"
+        initContainers:
+          init-db:
+            image:
+              repository: ghcr.io/home-operations/postgres-init
+              tag: 19@sha256:b49e2f1f373d932ab41614633ac89fa506e5d21bb13cc18d9c96ca026e51f502
+            envFrom:
+              - secretRef:
+                  name: autobrr-db-secret
+            securityContext:
+              allowPrivilegeEscalation: false
+              capabilities:
+                drop:
+                  - ALL
+              readOnlyRootFilesystem: true
         containers:
           app:
             image:
@@ -53,6 +67,8 @@ spec:
             envFrom:
               - secretRef:
                   name: autobrr-secret
+              - secretRef:
+                  name: autobrr-db-secret
             probes:
               liveness:
                 enabled: true

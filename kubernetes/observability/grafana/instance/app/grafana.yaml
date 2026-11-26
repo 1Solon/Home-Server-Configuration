@@ -13,6 +13,12 @@ spec:
       check_for_plugin_updates: "false"
       feedback_links_enabled: "false"
       reporting_enabled: "false"
+    database:
+      type: postgres
+      host: postgres-rw.databases.svc.cluster.local:5432
+      name: grafana
+      user: grafana
+      ssl_mode: disable
     auth.generic_oauth:
       name: Authentik
       enabled: "true"
@@ -72,6 +78,11 @@ spec:
                     secretKeyRef:
                       name: grafana-secret
                       key: GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET
+                - name: GF_DATABASE_PASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      name: grafana-secret
+                      key: GF_DATABASE_PASSWORD
               securityContext:
                 allowPrivilegeEscalation: false
                 readOnlyRootFilesystem: true

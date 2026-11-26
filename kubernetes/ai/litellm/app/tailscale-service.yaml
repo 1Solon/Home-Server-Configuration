@@ -1,0 +1,21 @@
+---
+# Plain HTTP on the tailnet (no HTTPS certificates there); every request needs
+# a LiteLLM key. The operator's own Service can't take a loadBalancerClass.
+apiVersion: v1
+kind: Service
+metadata:
+  name: litellm-tailscale
+  annotations:
+    tailscale.com/hostname: litellm
+spec:
+  type: LoadBalancer
+  loadBalancerClass: tailscale
+  selector:
+    app.kubernetes.io/instance: litellm
+    app.kubernetes.io/managed-by: litellm-operator
+    app.kubernetes.io/name: litellm
+  ports:
+    - name: http
+      port: 80
+      targetPort: 4000
+      protocol: TCP

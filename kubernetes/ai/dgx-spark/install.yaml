@@ -6,9 +6,6 @@ metadata:
   name: &app dgx-spark
   namespace: flux-system
 spec:
-  dependsOn:
-    - name: tailscale
-      namespace: flux-system
   path: "./kubernetes/ai/dgx-spark/app"
   targetNamespace: ai
   prune: true

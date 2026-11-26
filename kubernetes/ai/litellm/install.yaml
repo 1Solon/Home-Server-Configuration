@@ -32,6 +32,8 @@ spec:
     - name: litellm-operator
     # Owns the litellm role and Database.
     - name: cloudnative-pg-cluster
+    # Provides the loadBalancerClass for the tailnet Service.
+    - name: tailscale
   targetNamespace: ai
   commonMetadata:
     labels:

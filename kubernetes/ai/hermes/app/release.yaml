@@ -320,13 +320,6 @@ spec:
     route:
       app:
         enabled: true
-        annotations:
-          gethomepage.dev/enabled: "true"
-          gethomepage.dev/name: Hermes
-          gethomepage.dev/description: Personal AI agent dashboard
-          gethomepage.dev/group: AI
-          gethomepage.dev/icon: https://cdn.jsdelivr.net/npm/@lobehub/icons-static-svg@1.104.0/icons/hermesagent.svg
-          gethomepage.dev/pod-selector: app.kubernetes.io/name=hermes
         parentRefs:
           - name: envoy-internal
             namespace: networking

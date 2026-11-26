@@ -137,6 +137,8 @@ spec:
     route:
       app:
         annotations:
+          gatus.home-operations.com/endpoint: |
+            url: http://autobrr.home-media.svc.cluster.local:80/
           gethomepage.dev/enabled: "true"
           gethomepage.dev/name: Autobrr
           gethomepage.dev/description: IRC Based Torrent Automation Tool

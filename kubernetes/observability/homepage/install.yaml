@@ -5,6 +5,8 @@ metadata:
   name: &app homepage
   namespace: flux-system
 spec:
+  components:
+    - ../../../components/ext-auth
   dependsOn:
     - name: external-secrets-stores
       namespace: secrets

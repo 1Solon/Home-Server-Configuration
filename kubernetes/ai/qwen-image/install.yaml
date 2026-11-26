@@ -6,6 +6,8 @@ metadata:
   name: &app qwen-image
   namespace: flux-system
 spec:
+  components:
+    - ../../../components/ext-auth
   dependsOn:
     - name: nvidia-device-plugin
     - name: miroir-config
@@ -25,6 +27,8 @@ spec:
     kind: GitRepository
     name: flux-system
   postBuild:
+    substitute:
+      APP: qwen-image
     substituteFrom:
       - kind: ConfigMap
         name: cluster-settings

@@ -72,6 +72,8 @@ spec:
       app:
         enabled: true
         annotations:
+          gatus.home-operations.com/endpoint: |
+            url: http://shelfmark.books.svc.cluster.local:8084/
           gethomepage.dev/enabled: "true"
           gethomepage.dev/name: Shelfmark
           gethomepage.dev/description: Book & Audiobook Downloader

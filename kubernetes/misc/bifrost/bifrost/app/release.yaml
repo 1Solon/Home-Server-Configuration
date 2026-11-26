@@ -119,6 +119,8 @@ spec:
     route:
       app:
         annotations:
+          gatus.home-operations.com/endpoint: |
+            url: http://bifrost.bifrost.svc.cluster.local:9092/
           gethomepage.dev/enabled: "true"
           gethomepage.dev/name: Bifrost
           gethomepage.dev/description: Discord <-> Fluxer bridge

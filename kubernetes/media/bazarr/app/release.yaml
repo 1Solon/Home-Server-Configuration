@@ -103,6 +103,8 @@ spec:
         hostnames:
           - "{{ .Release.Name }}.${LOCAL_DOMAIN}"
         annotations:
+          gatus.home-operations.com/endpoint: |
+            url: http://bazarr.home-media.svc.cluster.local:80/
           gethomepage.dev/enabled: "true"
           gethomepage.dev/name: Bazarr
           gethomepage.dev/description: Subtitle management system

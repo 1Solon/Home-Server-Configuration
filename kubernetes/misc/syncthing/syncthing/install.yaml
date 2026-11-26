@@ -5,6 +5,8 @@ metadata:
   name: &app syncthing
   namespace: flux-system
 spec:
+  components:
+    - ../../../../components/ext-auth
   path: "./kubernetes/misc/syncthing/syncthing/app"
   targetNamespace: syncthing
   prune: true
@@ -19,6 +21,8 @@ spec:
     kind: GitRepository
     name: flux-system
   postBuild:
+    substitute:
+      APP: syncthing
     substituteFrom:
       - kind: ConfigMap
         name: cluster-settings

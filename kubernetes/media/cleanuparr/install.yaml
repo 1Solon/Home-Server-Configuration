@@ -7,6 +7,7 @@ metadata:
 spec:
   components:
     - ../../../components/kopiur
+    - ../../../components/ext-auth
   targetNamespace: home-media
   commonMetadata:
     labels:
@@ -27,6 +28,7 @@ spec:
   timeout: 5m
   postBuild:
     substitute:
+      EXT_AUTH_TARGET: cleanuparr
       APP: cleanuparr-config
       KOPIUR_SOURCE_PVC: cleanuparr-config-kopiur-replacement
       KOPIUR_SCHEDULE: "51 1 * * *"

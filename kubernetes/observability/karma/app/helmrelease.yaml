@@ -74,6 +74,9 @@ spec:
               subPath: config
     route:
       app:
+        annotations:
+          gatus.home-operations.com/endpoint: |
+            url: http://karma.observability.svc.cluster.local:8080/
         hostnames: ["{{ .Release.Name }}.${LOCAL_DOMAIN}"]
         parentRefs:
         - name: envoy-internal

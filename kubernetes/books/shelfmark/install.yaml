@@ -7,6 +7,7 @@ metadata:
 spec:
   components:
     - ../../../components/kopiur
+    - ../../../components/ext-auth
   targetNamespace: books
   commonMetadata:
     labels:
@@ -29,6 +30,7 @@ spec:
   timeout: 5m
   postBuild:
     substitute:
+      EXT_AUTH_TARGET: shelfmark
       APP: shelfmark-config
       KOPIUR_SOURCE_PVC: shelfmark-config-kopiur-replacement
       KOPIUR_SCHEDULE: "33 1 * * *"

@@ -6,6 +6,8 @@ metadata:
   name: &app firecrawl
   namespace: flux-system
 spec:
+  components:
+    - ../../../components/ext-auth
   dependsOn:
     - name: dragonfly-cluster
     - name: searxng
@@ -25,6 +27,8 @@ spec:
     kind: GitRepository
     name: flux-system
   postBuild:
+    substitute:
+      APP: firecrawl
     substituteFrom:
       - kind: ConfigMap
         name: cluster-settings

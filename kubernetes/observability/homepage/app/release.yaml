@@ -68,6 +68,11 @@ spec:
 
     route:
       app:
+        annotations:
+          gatus.home-operations.com/endpoint: |
+            url: http://homepage.home-dashboard.svc.cluster.local:3000/
+            headers:
+              Host: homepage.${LOCAL_DOMAIN}
         enabled: true
         parentRefs:
           - name: envoy-internal

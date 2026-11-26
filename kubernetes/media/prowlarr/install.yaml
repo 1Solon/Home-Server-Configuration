@@ -5,6 +5,8 @@ metadata:
   name: prowlarr
   namespace: flux-system
 spec:
+  components:
+    - ../../../components/ext-auth
   dependsOn:
     - name: external-secrets-stores
       namespace: secrets
@@ -24,6 +26,8 @@ spec:
   retryInterval: 1m
   timeout: 5m
   postBuild:
+    substitute:
+      APP: prowlarr
     substituteFrom:
       - kind: ConfigMap
         name: cluster-settings

@@ -334,7 +334,7 @@ spec:
         enabled: true
         annotations:
           gethomepage.dev/enabled: "true"
-          gethomepage.dev/name: Hermes App
+          gethomepage.dev/name: Hermes
           gethomepage.dev/description: Hermes Desktop workspace in the browser
           gethomepage.dev/group: AI
           gethomepage.dev/icon: https://cdn.jsdelivr.net/npm/@lobehub/icons-static-svg@1.104.0/icons/hermesagent.svg

@@ -36,6 +36,15 @@ spec:
   superuserSecret:
     name: cloudnative-pg-secret
   enableSuperuserAccess: true
+  # For apps that can't run the postgres-init container (operator-managed
+  # pods); each has a Database in databases/.
+  managed:
+    roles:
+      - name: litellm
+        ensure: present
+        login: true
+        passwordSecret:
+          name: litellm-postgres-role
   postgresql:
     shared_preload_libraries:
       - pgaudit

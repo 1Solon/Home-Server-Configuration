@@ -1,0 +1,23 @@
+---
+apiVersion: litellm.home-operations.com/v1alpha1
+kind: LiteLLMModel
+metadata:
+  name: glm-5.3-flash
+spec:
+  modelName: glm-5.3-flash
+  params:
+    model: openai/GLM-5.3-Flash-EXL3
+    # kubernetes/ai/dgx-spark: a selectorless Service pointing at the Spark head.
+    apiBase: http://dgx-spark.ai.svc.cluster.local:8888/v1
+    # The engine has no auth and ignores this; the OpenAI client needs a value.
+    apiKeyRef:
+      name: litellm-secret
+      key: DGX_SPARK_API_KEY
+  info:
+    mode: chat
+    maxInputTokens: 1048576
+    supportsFunctionCalling: true
+    supportsVision: true
+    extra:
+      input_cost_per_token: 0
+      output_cost_per_token: 0

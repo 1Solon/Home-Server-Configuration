@@ -8,6 +8,7 @@ resources:
 - ./dgx-spark/install.yaml
 - ./firecrawl/install.yaml
 - ./hermes/install.yaml
+- ./litellm/install.yaml
 - ./llmkube/install.yaml
 - ./openwebui/install.yaml
 - ./qwen-image/install.yaml

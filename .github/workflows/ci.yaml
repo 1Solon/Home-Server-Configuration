@@ -23,7 +23,7 @@ env:
   # app-template renders HTTPRoutes as v1alpha2 and prometheus-adapter's APIService as v1beta1.
   FLATE_API_VERSIONS: monitoring.coreos.com/v1,gateway.networking.k8s.io/v1,gateway.networking.k8s.io/v1/HTTPRoute,apiregistration.k8s.io/v1
   # renovate: datasource=docker depName=ghcr.io/siderolabs/kubelet
-  FLATE_KUBE_VERSION: v1.37.2
+  FLATE_KUBE_VERSION: v1.37.3
   # renovate: datasource=github-releases depName=yannh/kubeconform
   KUBECONFORM_VERSION: v0.8.0
 

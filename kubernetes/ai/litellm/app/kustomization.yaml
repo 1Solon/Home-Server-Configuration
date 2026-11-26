@@ -6,6 +6,6 @@ resources:
   - ./externalsecret.yaml
   - ./litellmproxy.yaml
   - ./tailscale-service.yaml
-  - ./virtualkeys/tailnet-guest.yaml
+  - ./virtualkeys/avrils-key.yaml
   - ./models/glm-5.3-flash.yaml
   - ./models/claude.yaml

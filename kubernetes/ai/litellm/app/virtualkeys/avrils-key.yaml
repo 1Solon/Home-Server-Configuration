@@ -1,0 +1,12 @@
+---
+apiVersion: litellm.home-operations.com/v1alpha1
+kind: LiteLLMVirtualKey
+metadata:
+  name: avrils-key
+spec:
+  proxyRef: litellm
+  secretName: litellm-avrils-key
+  keyAlias: avrils-key
+  # Local model only, so it can't spend the Claude API credit.
+  models:
+    - glm-5.3-flash

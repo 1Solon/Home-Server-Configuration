@@ -135,8 +135,9 @@ spec:
           - identifier: gatus
     route:
       app:
-        # annotations:
-        #   gatus.home-operations.com/enabled: "false"
+        annotations:
+          gatus.home-operations.com/endpoint: |
+            url: http://gatus.observability.svc.cluster.local:8080/
         hostnames: ["gatus.${LOCAL_DOMAIN}"]
         parentRefs:
         - name: envoy-internal

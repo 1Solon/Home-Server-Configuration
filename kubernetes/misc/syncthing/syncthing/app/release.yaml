@@ -96,6 +96,8 @@ spec:
       main:
         enabled: true
         annotations:
+          gatus.home-operations.com/endpoint: |
+            url: http://syncthing-main.syncthing.svc.cluster.local:8384/
           gethomepage.dev/enabled: "true"
           gethomepage.dev/name: Syncthing
           gethomepage.dev/description: File Synchronization

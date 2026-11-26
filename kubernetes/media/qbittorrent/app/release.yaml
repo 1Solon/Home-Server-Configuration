@@ -224,6 +224,9 @@ spec:
 
     route:
       app:
+        annotations:
+          gatus.home-operations.com/endpoint: |
+            url: http://qbittorrent.home-media.svc.cluster.local:80/
         parentRefs:
           - name: envoy-internal
             namespace: networking

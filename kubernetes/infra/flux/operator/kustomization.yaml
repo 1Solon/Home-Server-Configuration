@@ -3,4 +3,5 @@ kind: Kustomization
 resources:
 - release.yaml
 - route.yaml
+- securitypolicy.yaml
 - grafanadashboard.yaml

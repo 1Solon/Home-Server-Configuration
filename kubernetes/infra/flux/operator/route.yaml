@@ -5,6 +5,8 @@ metadata:
   name: flux-operator
   namespace: flux-system
   annotations:
+    gatus.home-operations.com/endpoint: |
+      url: http://flux-operator.flux-system.svc.cluster.local:9080/
     gethomepage.dev/enabled: "true"
     gethomepage.dev/group: Applications
     gethomepage.dev/name: Flux Operator

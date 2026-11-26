@@ -81,6 +81,9 @@ spec:
       route:
         main:
           enabled: true
+          annotations:
+            gatus.home-operations.com/endpoint: |
+              url: http://kube-prometheus-stack-alertmanager.observability.svc.cluster.local:9093/
           hostnames: ["alertmanager.${LOCAL_DOMAIN}"]
           parentRefs:
           - name: envoy-internal
@@ -127,6 +130,9 @@ spec:
       route:
         main:
           enabled: true
+          annotations:
+            gatus.home-operations.com/endpoint: |
+              url: http://kube-prometheus-stack-prometheus.observability.svc.cluster.local:9090/
           hostnames: ["prometheus.${LOCAL_DOMAIN}"]
           parentRefs:
           - name: envoy-internal

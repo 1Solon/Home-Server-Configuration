@@ -91,6 +91,8 @@ spec:
       app:
         enabled: true
         annotations:
+          gatus.home-operations.com/endpoint: |
+            url: http://zerobyte.zerobyte.svc.cluster.local:4096/
           gethomepage.dev/enabled: "true"
           gethomepage.dev/name: Zerobyte
           gethomepage.dev/description: Backup automation with Restic

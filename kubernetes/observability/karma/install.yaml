@@ -5,6 +5,8 @@ metadata:
   name: &appname karma
   namespace: flux-system
 spec:
+  components:
+    - ../../../components/ext-auth
   dependsOn:
     - name: kube-prometheus-stack
   commonMetadata:
@@ -21,6 +23,8 @@ spec:
   timeout: 5m
   wait: true
   postBuild:
+    substitute:
+      APP: karma
     substituteFrom:
       - kind: ConfigMap
         name: cluster-settings

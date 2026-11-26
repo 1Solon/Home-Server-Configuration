@@ -6,6 +6,8 @@ metadata:
   name: &app searxng
   namespace: flux-system
 spec:
+  components:
+    - ../../../components/ext-auth
   dependsOn:
     - name: external-secrets-stores
       namespace: secrets
@@ -23,6 +25,8 @@ spec:
     kind: GitRepository
     name: flux-system
   postBuild:
+    substitute:
+      APP: searxng
     substituteFrom:
       - kind: ConfigMap
         name: cluster-settings

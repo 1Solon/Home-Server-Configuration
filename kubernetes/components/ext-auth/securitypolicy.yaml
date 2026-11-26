@@ -2,11 +2,13 @@
 # yaml-language-server: $schema=https://kube-schemas.pages.dev/gateway.envoyproxy.io/securitypolicy_v1alpha1.json
 # Authentik forward auth through the embedded outpost. Uses the domain-level
 # "forward-auth" provider, so routes need no /outpost.goauthentik.io rule. The
-# app's namespace must be listed in the authentik ReferenceGrant.
+# app's namespace must be listed in the authentik ReferenceGrant. Set
+# EXT_AUTH_TARGET when the route isn't named ${APP} (e.g. APP is a kopiur PVC).
+# Gatus can't log in, so protected routes point their Gatus probe at the Service.
 apiVersion: gateway.envoyproxy.io/v1alpha1
 kind: SecurityPolicy
 metadata:
-  name: ${APP}-ext-auth
+  name: ${EXT_AUTH_TARGET:=${APP}}-ext-auth
 spec:
   targetRefs:
     - group: gateway.networking.k8s.io

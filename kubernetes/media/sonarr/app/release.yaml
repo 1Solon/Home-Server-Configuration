@@ -93,6 +93,9 @@ spec:
     
     route:
       app:
+        annotations:
+          gatus.home-operations.com/endpoint: |
+            url: http://sonarr.home-media.svc.cluster.local:8080/
         enabled: true
         parentRefs:
           - name: envoy-internal

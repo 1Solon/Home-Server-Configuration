@@ -92,6 +92,9 @@ spec:
             port: *port
     route:
       app:
+        annotations:
+          gatus.home-operations.com/endpoint: |
+            url: http://qui.home-media.svc.cluster.local:80/
         hostnames: ["{{ .Release.Name }}.${LOCAL_DOMAIN}"]
         parentRefs:
           - name: envoy-internal

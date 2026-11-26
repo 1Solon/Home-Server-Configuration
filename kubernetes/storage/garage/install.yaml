@@ -36,6 +36,8 @@ metadata:
   name: &app garage-webui
   namespace: flux-system
 spec:
+  components:
+    - ../../../components/ext-auth
   path: ./kubernetes/storage/garage/webui
   prune: true
   dependsOn:
@@ -49,6 +51,8 @@ spec:
   timeout: 3m
   targetNamespace: garage
   postBuild:
+    substitute:
+      APP: garage-webui
     substituteFrom:
       - kind: ConfigMap
         name: cluster-settings

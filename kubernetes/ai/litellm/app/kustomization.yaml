@@ -7,5 +7,6 @@ resources:
   - ./litellmproxy.yaml
   - ./tailscale-service.yaml
   - ./virtualkeys/avrils-key.yaml
+  - ./virtualkeys/chrisms-key.yaml
   - ./models/glm-5.3-flash.yaml
   - ./models/claude.yaml

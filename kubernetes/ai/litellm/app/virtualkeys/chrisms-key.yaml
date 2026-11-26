@@ -1,0 +1,16 @@
+---
+apiVersion: litellm.home-operations.com/v1alpha1
+kind: LiteLLMVirtualKey
+metadata:
+  name: chrisms-key
+spec:
+  proxyRef: litellm
+  secretName: litellm-chrisms-key
+  keyAlias: chrisms-key
+  # Created once with /user/new; the operator has no user resource.
+  userID: chrisms
+  # No Opus: it costs twice Sonnet against the Claude API credit.
+  models:
+    - glm-5.3-flash
+    - claude-sonnet-5-5
+    - claude-haiku-5-5

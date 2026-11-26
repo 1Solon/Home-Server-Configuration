@@ -85,6 +85,8 @@ spec:
         enabled: true
         annotations:
           external-dns.alpha.kubernetes.io/target: ipv4.${REMOTE_DOMAIN}
+          gatus.home-operations.com/endpoint: |
+            url: https://obsidian-sync.${REMOTE_DOMAIN}/_up
         parentRefs:
           - name: envoy-external
             namespace: networking

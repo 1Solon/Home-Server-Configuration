@@ -1,12 +1,13 @@
 # Tandoor's AI calls send no reasoning_effort, and with thinking off (the Sparks' default)
-# GLM-5.3 Flash returns broken recipe JSON. Adds reasoning_effort to calls aimed at the Sparks.
+# GLM-5.3 Flash returns broken recipe JSON. Adds reasoning_effort to calls aimed at the Sparks
+# (through LiteLLM, which passes it on).
 # Patches litellm when it's first imported, because importing it up front adds ~6 s to every
 # manage.py run in boot.sh.
 import importlib.abc
 import importlib.util
 import sys
 
-SPARK_API_BASE = "http://192.168.1.106:8888/v1"
+SPARK_API_BASE = "http://litellm.ai.svc.cluster.local:4000/v1"
 
 
 def _patch(litellm):

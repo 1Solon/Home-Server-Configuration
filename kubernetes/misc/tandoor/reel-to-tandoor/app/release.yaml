@@ -59,7 +59,7 @@ spec:
               # Tandoor's ALLOWED_HOSTS only accepts its public name.
               TANDOOR_HOST_HEADER: recipes.${REMOTE_DOMAIN}
               TANDOOR_PUBLIC_URL: https://recipes.${REMOTE_DOMAIN}
-              # Tandoor's "GLM-5.3 Flash (DGX Spark)" AI provider, the space default.
+              # Tandoor's "GLM-5.3 Flash (LiteLLM)" AI provider, the space default.
               TANDOOR_AI_PROVIDER_ID: "34"
             envFrom:
               - secretRef:

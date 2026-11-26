@@ -75,6 +75,15 @@ spec:
               ENABLE_WEBSOCKET_SUPPORT: "true"
               WEBSOCKET_MANAGER: "redis"
               WEBSOCKET_REDIS_URL: redis://dragonfly.databases.svc.cluster.local:6379
+              OWUI_KEY_LITELLM:
+                valueFrom:
+                  secretKeyRef:
+                    name: litellm-open-webui-key
+                    key: key
+              # Same order as OPENAI_API_BASE_URLS; the first two come from envFrom.
+              OPENAI_API_KEYS:
+                value: "$(OWUI_KEY_OPENROUTER);$(OWUI_KEY_HERMES);$(OWUI_KEY_LITELLM)"
+                dependsOn: OWUI_KEY_LITELLM
             envFrom:
               - secretRef:
                   name: open-webui-secret

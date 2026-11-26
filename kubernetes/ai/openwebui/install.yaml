@@ -10,6 +10,7 @@ spec:
     - ../../../components/kopiur
   dependsOn:
     - name: firecrawl
+    - name: litellm
     - name: kopiur-repository-ai
       namespace: flux-system
     - name: external-secrets-stores

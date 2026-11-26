@@ -144,6 +144,11 @@ spec:
             env:
               TZ: "${TZ}"
               HERMES_HOME: /opt/data
+              LITELLM_API_KEY:
+                valueFrom:
+                  secretKeyRef:
+                    name: litellm-hermes-key
+                    key: key
               PATH: &path /opt/hermes/bin:/opt/hermes/.venv/bin:/opt/data/.local/mnemosyne/bin:/opt/data/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
               # The terminal's login shell resets PATH from /etc/profile;
               # resources/profile.sh restores it from CONTAINER_PATH.

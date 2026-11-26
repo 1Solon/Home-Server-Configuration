@@ -10,6 +10,7 @@ spec:
     - ../../../components/kopiur
   dependsOn:
     - name: firecrawl
+    - name: litellm
     - name: toolhive-config
     - name: kopiur-repository-ai
       namespace: flux-system

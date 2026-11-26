@@ -1,34 +1,34 @@
 ---
 group_sessions_per_user: true
 model:
-  provider: dgx-spark
-  default: GLM-5.3-Flash-EXL3
-# GLM-5.3 Flash on the two DGX Sparks (head 192.168.1.106, outside the cluster), falling back to the same model
-# hosted on OpenCode Go (OPENCODE_GO_API_KEY) when the Sparks are down.
+  provider: litellm
+  default: glm-5.3-flash
+# GLM-5.3 Flash on the two DGX Sparks via LiteLLM (key hermes-key), falling back to the same model hosted on
+# OpenCode Go (OPENCODE_GO_API_KEY) when the Sparks or LiteLLM are down.
 fallback_providers:
   - provider: opencode-go
     model: glm-5.3-flash
 providers:
-  dgx-spark:
-    name: DGX Sparks
-    base_url: http://192.168.1.106:8888/v1
-    key_env: DGX_SPARK_API_KEY
-    default_model: GLM-5.3-Flash-EXL3
+  litellm:
+    name: LiteLLM
+    base_url: http://litellm.ai.svc.cluster.local:4000/v1
+    key_env: LITELLM_API_KEY
+    default_model: glm-5.3-flash
     context_length: 1048576
     models:
-      GLM-5.3-Flash-EXL3:
+      glm-5.3-flash:
         supports_vision: true
 # A task pinned to a provider ignores fallback_providers and needs its own chain.
 auxiliary:
   vision:
-    provider: dgx-spark
-    model: GLM-5.3-Flash-EXL3
+    provider: litellm
+    model: glm-5.3-flash
     fallback_chain: &auxFallback
       - provider: opencode-go
         model: glm-5.3-flash
   curator:
-    provider: dgx-spark
-    model: GLM-5.3-Flash-EXL3
+    provider: litellm
+    model: glm-5.3-flash
     fallback_chain: *auxFallback
 image_gen:
   provider: openai

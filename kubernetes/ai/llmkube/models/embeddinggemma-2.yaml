@@ -26,10 +26,6 @@ apiVersion: inference.llmkube.dev/v1alpha1
 kind: InferenceService
 metadata:
   name: embeddinggemma-2
-  annotations:
-    # The LiteLLM operator's auto-registration ignores spec.mode and would
-    # register this as a chat model.
-    litellm.home-operations.com/mode: embedding
 spec:
   modelRef: embeddinggemma-2
   runtime: llamacpp

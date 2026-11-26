@@ -23,9 +23,6 @@ spec:
   values:
     controller:
       logLevel: info
-    # Registers each Ready LLMKube InferenceService as a LiteLLMModel.
-    llmkube:
-      autoRegister: true
     resources:
       requests:
         cpu: 25m

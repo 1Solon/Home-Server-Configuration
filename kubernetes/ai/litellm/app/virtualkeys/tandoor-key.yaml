@@ -1,0 +1,15 @@
+---
+apiVersion: litellm.home-operations.com/v1alpha1
+kind: LiteLLMVirtualKey
+metadata:
+  name: tandoor-key
+spec:
+  proxyRef: litellm
+  secretName: litellm-tandoor-key
+  keyAlias: tandoor-key
+  # Cluster apps share the LiteLLM user "cluster" (created once with /user/new).
+  userID: cluster
+  # Tandoor keeps this in its AI provider row (id 34), not an env var: if the
+  # key is ever re-minted, update the row too.
+  models:
+    - glm-5.3-flash

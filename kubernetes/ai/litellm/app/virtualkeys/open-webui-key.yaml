@@ -1,0 +1,13 @@
+---
+apiVersion: litellm.home-operations.com/v1alpha1
+kind: LiteLLMVirtualKey
+metadata:
+  name: open-webui-key
+spec:
+  proxyRef: litellm
+  secretName: litellm-open-webui-key
+  keyAlias: open-webui-key
+  # Cluster apps share the LiteLLM user "cluster" (created once with /user/new).
+  userID: cluster
+  models:
+    - glm-5.3-flash

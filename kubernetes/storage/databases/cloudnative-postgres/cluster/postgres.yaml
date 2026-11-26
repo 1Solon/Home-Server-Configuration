@@ -45,6 +45,11 @@ spec:
         login: true
         passwordSecret:
           name: litellm-postgres-role
+      - name: grafana
+        ensure: present
+        login: true
+        passwordSecret:
+          name: grafana-postgres-role
   postgresql:
     shared_preload_libraries:
       - pgaudit

@@ -5,6 +5,7 @@ resources:
   - ./objectstore.yaml
   - ./service.yaml
   - ./postgres.yaml
+  - ./databases/grafana.yaml
   - ./databases/litellm.yaml
   - ./backup.yaml
   - ./prometheusrule.yaml

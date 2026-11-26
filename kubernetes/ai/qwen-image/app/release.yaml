@@ -99,6 +99,10 @@ spec:
               - 0.0.0.0
               - --listen-port
               - "8080"
+              # sd-server 403s any Host that isn't localhost or an IP unless it's listed here
+              # (leejet/stable-diffusion.cpp#2367): the Envoy hostname and the Service name.
+              - --cors-origins
+              - https://qwen-image.${LOCAL_DOMAIN},http://qwen-image.ai.svc.cluster.local:8080
               - --diffusion-model
               - /models/qwen-image-2.1-turbo-Q4_K_M.gguf
               - --llm

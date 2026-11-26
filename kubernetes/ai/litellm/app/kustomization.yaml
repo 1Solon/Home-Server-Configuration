@@ -11,5 +11,6 @@ resources:
   - ./virtualkeys/hermes-key.yaml
   - ./virtualkeys/open-webui-key.yaml
   - ./virtualkeys/tandoor-key.yaml
+  - ./virtualkeys/toolhive-key.yaml
   - ./models/glm-5.3-flash.yaml
   - ./models/claude.yaml

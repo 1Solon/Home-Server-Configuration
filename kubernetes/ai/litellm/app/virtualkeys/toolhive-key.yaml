@@ -1,0 +1,14 @@
+---
+apiVersion: litellm.home-operations.com/v1alpha1
+kind: LiteLLMVirtualKey
+metadata:
+  name: toolhive-key
+spec:
+  proxyRef: litellm
+  secretName: litellm-toolhive-key
+  keyAlias: toolhive-key
+  # Cluster apps share the LiteLLM user "cluster" (created once with /user/new).
+  userID: cluster
+  # Auto-registered from the LLMKube InferenceService of the same name.
+  models:
+    - embeddinggemma-2

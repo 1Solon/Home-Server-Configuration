@@ -8,7 +8,7 @@ spec:
   instances: 3
   # VectorChord image so Immich gets vchord; it also covers everything the old
   # postgres17 apps need (pg_trgm, unaccent, pgaudit).
-  imageName: ghcr.io/tensorchord/cloudnative-vectorchord:17.11@sha256:bb7eb8442f76b1e74911f28585019a77022911f8cfa2ddcfb166ea6af85abd09
+  imageName: ghcr.io/tensorchord/cloudnative-vectorchord:18.6@sha256:c7672bc011351a587cc292a94aac7eeebb593ed2e120077bd9c9944c9467db93
   primaryUpdateStrategy: unsupervised
   primaryUpdateMethod: switchover
   storage:
@@ -69,5 +69,6 @@ spec:
       isWALArchiver: true
       parameters:
         barmanObjectName: postgres
-        # Bump the suffix whenever this cluster is rebuilt from its own backups.
-        serverName: postgres-v1
+        # Bump the suffix whenever this cluster is rebuilt from its own backups
+        # or upgraded to a new major version (pg_upgrade changes the system ID).
+        serverName: postgres-v2

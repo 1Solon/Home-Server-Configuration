@@ -3,29 +3,8 @@
 apiVersion: barmancloud.cnpg.io/v1
 kind: ObjectStore
 metadata:
-  name: postgres17
-spec:
-  retentionPolicy: 30d
-  configuration:
-    data:
-      compression: bzip2
-    wal:
-      compression: bzip2
-      maxParallel: 8
-    destinationPath: s3://cloudnative-pg/
-    endpointURL: https://s3.${LOCAL_DOMAIN}
-    s3Credentials:
-      accessKeyId:
-        name: cloudnative-pg-secret
-        key: aws-access-key-id
-      secretAccessKey:
-        name: cloudnative-pg-secret
-        key: aws-secret-access-key
----
-# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/barmancloud.cnpg.io/objectstore_v1.json
-apiVersion: barmancloud.cnpg.io/v1
-kind: ObjectStore
-metadata:
+  # Still referenced by postgres.yaml's bootstrap.recovery source; it holds
+  # the pgvector17 backups that cluster was built from.
   name: pgvector17
 spec:
   retentionPolicy: 30d

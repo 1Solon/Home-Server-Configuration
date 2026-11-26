@@ -31,14 +31,13 @@
   },
   "packageRules": [
     {
-      "description": "CNPG PostgreSQL major upgrades require a planned database migration, not an unattended image rollout",
+      "description": "CNPG PostgreSQL major upgrades need a planned outage and a serverName bump, so open the PR but never automerge it",
       "matchDatasources": ["docker"],
       "matchPackageNames": [
         "ghcr.io/cloudnative-pg/postgresql",
         "ghcr.io/tensorchord/cloudnative-vectorchord"
       ],
       "matchUpdateTypes": ["major"],
-      "dependencyDashboardApproval": true,
       "automerge": false
     },
     {

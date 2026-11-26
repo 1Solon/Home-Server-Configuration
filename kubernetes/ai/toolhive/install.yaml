@@ -53,8 +53,9 @@ spec:
     - name: toolhive
     # Gateway session storage.
     - name: dragonfly-cluster
-    # The optimizer's embedding backend.
+    # The optimizer's embedding backend and the LiteLLM key it uses.
     - name: llmkube-models
+    - name: litellm
   targetNamespace: ai
   commonMetadata:
     labels:

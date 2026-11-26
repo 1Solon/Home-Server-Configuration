@@ -6,6 +6,11 @@ metadata:
 spec:
   image: ghcr.io/berriai/litellm-database:1.110.4@sha256:d8cd8c5b8bde7e3959b22f5adbd5492d5a12be143173ebb1c7a4f30d07028005
   replicas: 1
+  # Lets the operator mint LiteLLMVirtualKeys; models still render to the file.
+  apiAccess:
+    masterKeyRef:
+      name: litellm-secret
+      key: LITELLM_MASTER_KEY
   envFrom:
     - secretRef:
         name: litellm-secret

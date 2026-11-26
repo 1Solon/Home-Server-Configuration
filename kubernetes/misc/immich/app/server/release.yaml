@@ -63,7 +63,7 @@ spec:
                 custom: true
                 spec:
                   httpGet:
-                    path: /server-info/ping
+                    path: /api/server/ping
                     port: &port 2283
                   initialDelaySeconds: 0
                   periodSeconds: 10
@@ -88,9 +88,10 @@ spec:
             resources:
               requests:
                 cpu: 10m
-                memory: 150Mi
+                memory: 512Mi
               limits:
-                memory: 500Mi
+                # Idles at 410-450Mi; OOMKilled at 500Mi on 2026-11-26 while browsing.
+                memory: 1536Mi
     defaultPodOptions:
       enableServiceLinks: false
       securityContext:

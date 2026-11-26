@@ -1,0 +1,27 @@
+---
+# sparkDash on the head polls both Sparks and exports host, GPU and network
+# metrics for each, labelled by unit (head/worker).
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/monitoring.coreos.com/scrapeconfig_v1alpha1.json
+apiVersion: monitoring.coreos.com/v1alpha1
+kind: ScrapeConfig
+metadata:
+  name: sparkdash
+spec:
+  jobName: sparkdash
+  staticConfigs:
+    - targets:
+        - 192.168.1.106:5555
+---
+# The serving engine only listens on the head; the worker runs its other rank.
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/monitoring.coreos.com/scrapeconfig_v1alpha1.json
+apiVersion: monitoring.coreos.com/v1alpha1
+kind: ScrapeConfig
+metadata:
+  name: tensorfold
+spec:
+  jobName: tensorfold
+  staticConfigs:
+    - targets:
+        - 192.168.1.106:8888
+      labels:
+        unit: head

@@ -1,19 +1,28 @@
 ---
-# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/source.toolkit.fluxcd.io/ocirepository_v1.json
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: OCIRepository
+metadata:
+  name: recyclarr
+spec:
+  interval: 30m
+  layerSelector:
+    mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
+    operation: copy
+  ref:
+    tag: 9.0.0
+  url: oci://ghcr.io/recyclarr/charts/recyclarr
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: &app recyclarr
+  name: recyclarr
 spec:
   interval: 1h
-  chart:
-    spec:
-      chart: app-template
-      version: 5.3.0
-      sourceRef:
-        kind: HelmRepository
-        name: bjw-s-charts
-        namespace: flux-system
+  chartRef:
+    kind: OCIRepository
+    name: recyclarr
   install:
     remediation:
       retries: 3
@@ -23,61 +32,33 @@ spec:
       strategy: rollback
       retries: 3
   values:
-    controllers:
-      recyclarr:
-        type: cronjob
-        cronjob:
-          schedule: "@daily"
-          timeZone: ${TZ}
-          concurrencyPolicy: Forbid
-          successfulJobsHistory: 1
-          failedJobsHistory: 1
-        containers:
-          app:
-            image:
-              repository: ghcr.io/recyclarr/recyclarr
-              tag: 8.8.1@sha256:3e9c41b9ec29bbf65fe846864058730d321a21f7695d8c0d9437b73e34d50ad9
-            args:
-              - sync
-            env:
-              RECYCLARR_DATA_DIR: /tmp
-            envFrom:
-              - secretRef:
-                  name: "{{ .Release.Name }}-secret"
-            resources:
-              requests:
-                cpu: 10m
-              limits:
-                memory: 128Mi
-            securityContext:
-              allowPrivilegeEscalation: false
-              readOnlyRootFilesystem: true
-              capabilities: { drop: ["ALL"] }
-    defaultPodOptions:
-      securityContext:
-        runAsNonRoot: true
-        runAsUser: 1000
-        runAsGroup: 1000
-        fsGroup: 1000
-        fsGroupChangePolicy: OnRootMismatch
+    apiKey:
+      existingSecret: recyclarr-api-key
+    configs:
+      existingConfigMap: recyclarr-configmap
+    settings:
+      content: |
+        server:
+          logging:
+            # VictoriaLogs collects stdout JSON logs; skip duplicate log files in the ephemeral data dir.
+            files: false
+    env:
+      - name: TZ
+        value: ${TZ}
+    envFrom:
+      - secretRef:
+          name: recyclarr-secret
     persistence:
-      config:
+      state:
         existingClaim: recyclarr-miroir
-      config-file:
-        type: configMap
-        name: "{{ .Release.Name }}-configmap"
-        globalMounts:
-          - path: /config/recyclarr.yaml
-            subPath: recyclarr.yaml
-            readOnly: true
-      tmpfs:
-        type: emptyDir
-        advancedMounts:
-          recyclarr:
-            app:
-              - path: /config/logs
-                subPath: logs
-              - path: /config/repositories
-                subPath: repositories
-              - path: /tmp
-                subPath: tmp
+    serviceMonitor:
+      enabled: true
+    deploymentAnnotations:
+      reloader.stakater.com/auto: "true"
+    resources:
+      requests:
+        cpu: 50m
+        memory: 256Mi
+      limits:
+        # Upstream measured ~280Mi peak for one Sonarr + one Radarr instance including guide cache.
+        memory: 512Mi

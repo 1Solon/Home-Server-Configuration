@@ -31,7 +31,7 @@ spec:
   runtime: llamacpp
   mode: embedding
   # Needs llama.cpp with gemma-embedding2 support (ggml-org/llama.cpp#30054).
-  image: ghcr.io/ggml-org/llama.cpp:server-cuda@sha256:c94503b4e7839fcacebc7fd04b7cef66376dc15a38e50e221e73871241a12982
+  image: ghcr.io/ggml-org/llama.cpp:server-cuda@sha256:a328222479b6f95db0ffc1a3c2410d0f9cfaf86303b0966beb3e0a29daad5e9c
   replicas: 1
   # 8192 tokens per slot, the model's native context.
   contextSize: 16384
